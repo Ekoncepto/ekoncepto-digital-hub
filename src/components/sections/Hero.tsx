@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MessageCircle } from "lucide-react";
+import heroImage from "@/assets/hero-visual.jpg";
 
 export const Hero = () => {
   return (
@@ -34,10 +35,11 @@ export const Hero = () => {
           </div>
           <div className="relative">
             <img
-              src="/lovable-uploads/7059a0c5-2915-4a36-882b-db582d33b14c.png"
-              alt="Ilustração de e-commerce e marketplaces"
+              src={heroImage}
+              alt="Ilustração abstrata verde com barras de crescimento representando marketplaces"
               className="w-full h-auto drop-shadow-xl"
               loading="lazy"
+              decoding="async"
             />
           </div>
         </div>
