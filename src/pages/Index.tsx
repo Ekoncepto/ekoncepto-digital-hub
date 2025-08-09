@@ -5,11 +5,11 @@ import { Services } from '@/components/sections/Services';
 import { Process } from '@/components/sections/Process';
 import { About } from '@/components/sections/About';
 import { ContactCTA } from '@/components/sections/ContactCTA';
+import { businessInfo, contactInfo, siteMetadata, socialLinks } from '@/config/site';
 
 const Index = () => {
-  const title = 'E-Koncepto | Consultoria de E-commerce para Marketplaces';
-  const description =
-    'Consultoria prática para lançar e escalar suas vendas em marketplaces como Mercado Livre, Amazon e Shopee.';
+  const title = `${businessInfo.name} | ${businessInfo.headline}`;
+  const description = businessInfo.tagline;
 
   return (
     <>
@@ -17,21 +17,28 @@ const Index = () => {
         title={title}
         description={description}
         canonical="/"
-        image="/images/logo.png"
+        image={`${siteMetadata.siteUrl}${businessInfo.logo}`}
         structuredData={{
           '@context': 'https://schema.org',
           '@type': 'Organization',
-          name: 'E-Koncepto',
-          url: '/',
-          logo: '/images/logo.png',
-          sameAs: ['https://ekoncepto.com/'],
-          description: description,
+          name: businessInfo.name,
+          url: siteMetadata.siteUrl,
+          logo: `${siteMetadata.siteUrl}${businessInfo.logo}`,
+          sameAs: socialLinks?.map(link => link.url) || [],
+          description: businessInfo.description,
         }}
       />
       <header className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b">
         <div className="container flex items-center justify-between h-16">
           <a href="#inicio" className="flex items-center gap-2">
-            <img src="/images/logo-icon.png" alt="Logo E-Koncepto" className="h-8 w-auto" />
+            <img
+              src={businessInfo.logo}
+              alt={`${businessInfo.name} - ${businessInfo.headline}`}
+              className="h-8 w-auto"
+              width={32}
+              height={32}
+              loading="eager"
+            />
           </a>
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <a href="#servicos" className="hover:text-primary transition-colors">
@@ -45,9 +52,10 @@ const Index = () => {
             </a>
           </nav>
           <a
-            href="https://wa.me/5511971630441?text=Ol%C3%A1%2C+vim+pelo+site+e+gostaria+de+mais+informa%C3%A7%C3%B5es."
+            href={`${contactInfo.whatsapp}?text=Ol%C3%A1%2C+vim+pelo+site+${encodeURIComponent(siteMetadata.siteUrl)}+e+gostaria+de+mais+informa%C3%A7%C3%B5es.`}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
+            aria-label="Falar no WhatsApp"
             className="hidden md:inline-block"
           >
             <Button variant="hero" size="sm">

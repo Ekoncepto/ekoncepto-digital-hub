@@ -1,4 +1,5 @@
-import aboutImage from "@/assets/about-hero.jpg";
+import aboutImage from '@/assets/about-hero.jpg';
+import { businessInfo } from '@/config/site';
 export const About = () => {
   return (
     <section id="sobre" className="py-14 md:py-20">
@@ -12,11 +13,10 @@ export const About = () => {
           />
         </div>
         <article>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Sobre a E-Koncepto</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Sobre a {businessInfo.name}</h2>
           <p className="text-muted-foreground leading-relaxed">
-            Somos uma consultoria especializada em marketplaces. Atuamos lado a lado com seu time, do lançamento à escala,
-            com foco em performance, informações acionáveis e execução constante. Em média, nossos clientes alcançam
-            crescimento acima de 70% nos primeiros 6 meses.
+            {businessInfo.about ||
+              'Somos uma consultoria especializada em marketplaces. Atuamos lado a lado com seu time, do lançamento à escala, com foco em performance, informações acionáveis e execução constante. Em média, nossos clientes alcançam crescimento acima de 70% nos primeiros 6 meses.'}
           </p>
         </article>
       </div>
