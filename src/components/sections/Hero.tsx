@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { Button } from '@/components/ui/button';
+import { ArrowRight, MessageCircle } from 'lucide-react';
 
 export const Hero = () => {
   return (
@@ -15,10 +15,15 @@ export const Hero = () => {
               Consultoria de E-commerce focada em Marketplaces
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-xl">
-              Lançamos e escalamos suas vendas em plataformas como Mercado Livre, Amazon e Shopee com uma consultoria mão na massa orientada a resultados.
+              Lançamos e escalamos suas vendas em plataformas como Mercado Livre, Amazon e Shopee
+              com uma consultoria mão na massa orientada a resultados.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href="https://wa.me/5511971630441?text=Ol%C3%A1%2C+vim+pelo+site+e+gostaria+de+mais+informa%C3%A7%C3%B5es." target="_blank" rel="noreferrer">
+              <a
+                href="https://wa.me/5511971630441?text=Ol%C3%A1%2C+vim+pelo+site+e+gostaria+de+mais+informa%C3%A7%C3%B5es."
+                target="_blank"
+                rel="noreferrer"
+              >
                 <Button variant="hero" size="lg" aria-label="Falar no WhatsApp">
                   Falar no WhatsApp
                   <MessageCircle className="ml-1" />
@@ -36,7 +41,7 @@ export const Hero = () => {
             <div className="relative">
               <div className="absolute -inset-6 rounded-full blur-2xl opacity-30 bg-[radial-gradient(circle_at_center,theme(colors.primary.DEFAULT),transparent_60%)]" />
               <img
-                src="/lovable-uploads/f698f66b-4895-4672-af46-0d5fe72fed82.png"
+                src="/images/hero-image.png"
                 alt="Símbolo da E-Koncepto — crescimento em marketplaces"
                 className="relative w-[380px] max-w-full h-auto"
                 loading="eager"
