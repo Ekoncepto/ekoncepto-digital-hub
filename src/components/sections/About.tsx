@@ -1,11 +1,12 @@
+import aboutImage from "@/assets/about-hero.jpg";
 export const About = () => {
   return (
     <section id="sobre" className="py-14 md:py-20">
       <div className="container grid md:grid-cols-2 gap-8 items-center">
         <div className="relative overflow-hidden rounded-xl shadow-lg">
           <img
-            src="/lovable-uploads/eb2c828e-adb4-4d47-a933-aac4e1976a89.png"
-            alt="Equipe trabalhando em consultoria de e-commerce"
+            src={aboutImage}
+            alt="Time analisando vendas em marketplaces em um notebook — consultoria E-Koncepto"
             className="w-full h-auto"
             loading="lazy"
           />
