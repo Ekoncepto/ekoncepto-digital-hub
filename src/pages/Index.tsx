@@ -16,11 +16,13 @@ const Index = () => {
         title={title}
         description={description}
         canonical="/"
+        image="/lovable-uploads/f698f66b-4895-4672-af46-0d5fe72fed82.png"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "Organization",
           name: "E-Koncepto",
           url: "/",
+          logo: "/lovable-uploads/f698f66b-4895-4672-af46-0d5fe72fed82.png",
           sameAs: [
             "https://ekoncepto.com/"
           ],
@@ -29,8 +31,8 @@ const Index = () => {
       />
       <header className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b">
         <div className="container flex items-center justify-between h-16">
-          <a href="#inicio" className="font-bold text-xl tracking-tight">
-            E-Koncepto
+          <a href="#inicio" className="flex items-center gap-2">
+            <img src="/lovable-uploads/d61216b9-4f63-49db-83d3-af66413ce813.png" alt="Logo E-Koncepto" className="h-8 w-auto" />
           </a>
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <a href="#servicos" className="hover:text-primary transition-colors">Serviços</a>
