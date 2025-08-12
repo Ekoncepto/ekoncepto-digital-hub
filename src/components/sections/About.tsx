@@ -1,15 +1,20 @@
-import aboutImage from '@/assets/about-hero.jpg';
 import { businessInfo } from '@/config/site';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
+
 export const About = () => {
   return (
     <section id="sobre" className="py-14 md:py-20">
       <div className="container grid md:grid-cols-2 gap-8 items-center">
         <div className="relative overflow-hidden rounded-xl shadow-lg">
-          <img
-            src={aboutImage}
+          <OptimizedImage
+            src="/images/about-hero.jpg"
             alt="Time analisando vendas em marketplaces em um notebook — consultoria E-Koncepto"
-            className="w-full h-auto"
-            loading="lazy"
+            widths={[320, 640, 960]} // Pass only the widths that were generated
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="w-full h-auto object-cover"
+            imgClassName="w-full h-auto object-cover"
+            width={960}
+            height={640}
           />
         </div>
         <article>

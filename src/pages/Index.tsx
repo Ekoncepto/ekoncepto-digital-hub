@@ -6,6 +6,7 @@ import { Process } from '@/components/sections/Process';
 import { About } from '@/components/sections/About';
 import { ContactCTA } from '@/components/sections/ContactCTA';
 import { businessInfo, contactInfo, siteMetadata, socialLinks } from '@/config/site';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 
 const Index = () => {
   const title = `${businessInfo.name} | ${businessInfo.headline}`;
@@ -32,12 +33,14 @@ const Index = () => {
         <div className="container flex items-center justify-between h-16">
           <a href="#inicio" className="flex items-center gap-2">
             <img
-              src={businessInfo.logo}
+              src="/images/logo.svg" // Use the original, un-resized image
               alt={`${businessInfo.name} - ${businessInfo.headline}`}
-              className="h-8 w-auto"
-              width={32}
-              height={32}
+              className="h-10 w-auto md:h-12"
+              width={48}
+              height={48}
               loading="eager"
+              decoding="async"
+              sizes="48px"
             />
           </a>
           <nav className="hidden md:flex items-center gap-6 text-sm">

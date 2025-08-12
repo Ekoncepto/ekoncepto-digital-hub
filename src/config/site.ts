@@ -42,7 +42,7 @@ export const businessInfo: BusinessInfo = {
     'Lançamos e escalamos suas vendas em plataformas como Mercado Livre, Amazon e Shopee com uma consultoria mão na massa orientada a resultados.',
   about:
     'Somos uma consultoria especializada em marketplaces. Atuamos lado a lado com seu time, do lançamento à escala, com foco em performance, informações acionáveis e execução constante. Em média, nossos clientes alcançam crescimento acima de 70% nos primeiros 6 meses.',
-  logo: '/images/logo.png',
+  logo: '/images/optimized/logo.webp', // Use the optimized WebP version for meta tags
   favicon: '/favicon.ico',
   processSteps: [
     {

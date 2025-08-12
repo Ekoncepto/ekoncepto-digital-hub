@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, MessageCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { contactInfo, businessInfo, siteMetadata } from '@/config/site';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
 
 export const Hero = () => {
   const [isClient, setIsClient] = useState(false);
@@ -47,25 +48,21 @@ export const Hero = () => {
           </div>
           <div className="relative flex justify-center" aria-hidden={!isClient}>
             <div className="relative">
-              <div
-                className="absolute -inset-6 rounded-full blur-2xl opacity-30 bg-[radial-gradient(circle_at_center,theme(colors.primary.DEFAULT),transparent_60%)]"
-                aria-hidden="true"
-              />
-              <div className="relative">
-                <img
+              <div className="relative z-10 w-full max-w-md rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-gray-800 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900">
+                <OptimizedImage
                   src="/images/hero-image.png"
-                  alt=""
-                  className="w-[380px] max-w-full h-auto"
-                  width="380"
-                  height="380"
-                  loading="eager"
+                  alt="Dashboard de análise de vendas em marketplaces"
+                  widths={[320, 640]} // Pass only the generated widths
+                  sizes="(max-width: 640px) 100vw, 50vw"
+                  imgClassName="w-full h-full object-cover"
+                  width={600}
+                  height={600}
+                  loading={isClient ? 'lazy' : 'eager'}
                   decoding="async"
-                  aria-hidden="true"
                 />
-                <div className="sr-only">
-                  Símbolo da E-Koncepto representando crescimento em marketplaces
-                </div>
               </div>
+              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-primary/10 rounded-2xl -z-10" />
+              <div className="absolute -top-6 -right-6 w-32 h-32 bg-accent/10 rounded-2xl -z-10" />
             </div>
           </div>
         </div>

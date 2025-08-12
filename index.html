@@ -3,26 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff">
     <title>E-Koncepto | Consultoria de E-commerce para Marketplaces</title>
     <meta name="description" content="Aumente suas vendas nos marketplaces com consultoria prática: lançamento de contas, otimização de anúncios e escalada de resultados." />
     <meta name="author" content="E-Koncepto" />
     <link rel="canonical" href="https://ekoncepto.com.br/" />
     
     <!-- Preconnect to external domains -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link rel="dns-prefetch" href="https://www.google-analytics.com">
-    <link rel="dns-prefetch" href="https://stats.g.doubleclick.net">
+    <link rel="preconnect" href="https://fonts.googleapis.com" as="font" type="font/woff2" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" as="font" type="font/woff2" crossorigin>
+    <link rel="preconnect" href="https://www.googletagmanager.com" as="script">
+    <link rel="preconnect" href="https://www.google-analytics.com" as="script">
     
     <!-- Preload critical resources -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="/images/logo.png" as="image" type="image/png">
-    <link rel="preload" href="/images/hero-image.png" as="image" type="image/png">
     
     <!-- Load non-critical CSS asynchronously -->
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    </noscript>
+    
+    <!-- Inline critical CSS -->
+    <style>
+      /* Critical CSS for above-the-fold content */
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+      
+      body {
+        margin: 0;
+        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      
+      /* Add any other critical styles here */
+    </style>
 
     <!-- Primary Meta Tags -->
     <meta name="title" content="E-Koncepto | Consultoria de E-commerce para Marketplaces">
@@ -67,7 +81,113 @@
     <!-- Vite will inject the script tag here -->
     <script type="module" src="/src/main.tsx"></script>
     
-    <!-- Preload font files -->
+    <!-- Preload critical font files -->
     <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLGT9Z1xlFQ.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Load React and ReactDOM first 
+    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js" crossorigin></script> 
+    -->
+    
+    <!-- Load our app script with defer 
+    <script type="module" src="/src/main.tsx" defer></script> -->
+    
+    <!-- Load non-critical resources after page load -->
+    <script>
+      // Load non-critical CSS asynchronously
+      function loadCSS(href) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+        link.media = 'print';
+        link.onload = () => { link.media = 'all'; };
+        document.head.appendChild(link);
+      }
+      
+      // Load non-critical JavaScript
+      function loadJS(src, callback) {
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        if (callback) script.onload = callback;
+        document.body.appendChild(script);
+      }
+      
+      // Load non-critical resources after the page has loaded
+      window.addEventListener('load', function() {
+        // Load any non-critical CSS
+        // loadCSS('path/to/non-critical.css');
+        
+        // Load any non-critical JS
+        // loadJS('path/to/non-critical.js');
+        
+        // Initialize lazy loading for images
+        if ('loading' in HTMLImageElement.prototype) {
+          // Native lazy loading is supported
+          const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+          lazyImages.forEach(img => {
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+          });
+        } else {
+          // Fallback for browsers that don't support native lazy loading
+          const script = document.createElement('script');
+          script.src = 'https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js';
+          script.onload = function() {
+            new LazyLoad({
+              elements_selector: 'img[data-src]',
+              threshold: 100
+            });
+          };
+          document.body.appendChild(script);
+        }
+      });
+      
+      // Check if fonts are already loaded
+      if (sessionStorage.fontsLoaded) {
+        document.documentElement.classList.add('fonts-loaded');
+      } else if ('fonts' in document) {
+        // Use the Font Loading API if available
+        document.fonts.ready.then(function() {
+          document.documentElement.classList.add('fonts-loaded');
+          sessionStorage.fontsLoaded = true;
+        }).catch(function() {
+          document.documentElement.classList.add('fonts-loaded-fallback');
+        });
+      } else {
+        // Fallback to FontFaceObserver
+        document.addEventListener('DOMContentLoaded', function() {
+          if (!window.FontFaceObserver) {
+            document.documentElement.classList.add('fonts-loaded-fallback');
+            return;
+          }
+          
+          const font = new FontFaceObserver('Poppins');
+          
+          Promise.race([
+            font.load(null, 3000), // 3s timeout
+            new Promise((_, reject) => setTimeout(reject, 3000)) // Reject after 3s
+          ]).then(function() {
+            document.documentElement.classList.add('fonts-loaded');
+            sessionStorage.fontsLoaded = true;
+          }).catch(function() {
+            document.documentElement.classList.add('fonts-loaded-fallback');
+          });
+        });
+      }
+    </script>
+    
+    <!-- Add a loading indicator for fonts -->
+    <style>
+      .loading {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      }
+      .fonts-loaded body {
+        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      }
+      .fonts-loaded-fallback body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      }
+    </style>
   </body>
 </html>
