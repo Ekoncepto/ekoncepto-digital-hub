@@ -1,8 +1,86 @@
+/* Base styles */
+:root {
+  --min-tap-target: 44px;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
 #root {
-  max-width: 1280px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding: 1rem;
+  text-align: left;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* Ensure all interactive elements are at least 44x44px */
+a,
+button,
+input[type='button'],
+input[type='submit'],
+input[type='reset'],
+input[type='file'] {
+  min-height: var(--min-tap-target);
+  min-width: var(--min-tap-target);
+  padding: 0.5rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  touch-action: manipulation;
+}
+
+/* Improve button and link touch targets */
+button,
+a {
+  position: relative;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+button:active,
+a:active {
+  opacity: 0.8;
+}
+
+/* Form elements */
+input,
+textarea,
+select {
+  font-size: 16px; /* Prevents iOS zoom on focus */
+  min-height: var(--min-tap-target);
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Responsive typography */
+html {
+  font-size: 16px;
+}
+
+@media screen and (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
 }
 
 .logo {

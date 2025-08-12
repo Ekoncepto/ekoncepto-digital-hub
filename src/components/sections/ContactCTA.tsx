@@ -1,5 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { MessageCircle } from "lucide-react";
+import { Button } from '@/components/ui/button';
+import { MessageCircle } from 'lucide-react';
+import { contactInfo, siteMetadata } from '@/config/site';
 
 export const ContactCTA = () => {
   return (
@@ -11,9 +12,10 @@ export const ContactCTA = () => {
         </p>
         <a
           className="inline-block mt-6"
-          href="https://wa.me/5511971630441?text=Ol%C3%A1%2C+vim+pelo+site+e+gostaria+de+mais+informa%C3%A7%C3%B5es."
+          href={`${contactInfo.whatsapp}?text=Ol%C3%A1%2C+vim+pelo+site+${encodeURIComponent(siteMetadata.siteUrl)}+e+gostaria+de+mais+informa%C3%A7%C3%B5es.`}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
+          aria-label="Falar com um especialista no WhatsApp"
         >
           <Button variant="hero" size="lg">
             Fale com um especialista

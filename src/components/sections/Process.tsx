@@ -1,19 +1,32 @@
+import { businessInfo } from '@/config/site';
+
+type ProcessStep = {
+  title: string;
+  description: string;
+};
+
 export const Process = () => {
-  const steps = [
-    { t: "Discovery", d: "Analisamos sua operação e oportunidades." },
-    { t: "Setup", d: "Estruturamos contas, catálogos e integrações." },
-    { t: "Lançamento", d: "Publicação e primeiros resultados." },
-    { t: "Otimização", d: "Ajustes em anúncios, preços e logística." },
-    { t: "Performance", d: "Campanhas e alavancas de tráfego." },
-    { t: "Escala", d: "+ canais, + sortimento e governança." },
+  // Default process steps if not defined in businessInfo
+  const defaultSteps: ProcessStep[] = [
+    { title: 'Discovery', description: 'Analisamos sua operação e oportunidades.' },
+    { title: 'Setup', description: 'Estruturamos contas, catálogos e integrações.' },
+    { title: 'Lançamento', description: 'Publicação e primeiros resultados.' },
+    { title: 'Otimização', description: 'Ajustes em anúncios, preços e logística.' },
+    { title: 'Performance', description: 'Campanhas e alavancas de tráfego.' },
+    { title: 'Escala', description: '+ canais, + sortimento e governança.' },
   ];
+
+  // Use process steps from businessInfo if available, otherwise use defaults
+  const steps = businessInfo.processSteps || defaultSteps;
 
   return (
     <section id="processo" className="py-14 md:py-20">
       <div className="container">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-3xl md:text-4xl font-bold">Como trabalhamos</h2>
-          <p className="text-muted-foreground mt-2">Um processo claro para tirar suas metas do papel.</p>
+          <p className="text-muted-foreground mt-2">
+            Um processo claro para tirar suas metas do papel.
+          </p>
         </div>
 
         <ol className="relative grid gap-8 md:grid-cols-6">
@@ -24,8 +37,8 @@ export const Process = () => {
                   {i + 1}
                 </span>
               </div>
-              <h3 className="mt-3 font-semibold">{s.t}</h3>
-              <p className="text-sm text-muted-foreground mt-1">{s.d}</p>
+              <h3 className="mt-3 font-semibold">{s.title}</h3>
+              <p className="text-sm text-muted-foreground mt-1">{s.description}</p>
             </li>
           ))}
         </ol>
