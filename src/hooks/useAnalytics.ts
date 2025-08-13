@@ -3,55 +3,62 @@ import { useLocation } from 'react-router-dom';
 
 // Initialize Google Analytics
 const initGA = (measurementId: string) => {
-  if (typeof window !== 'undefined' && !window.gtag) {
-    // Load Google Analytics script
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
-    document.head.appendChild(script);
+  try {
+    if (typeof window !== 'undefined' && !window.gtag) {
+      // Load Google Analytics script
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+      document.head.appendChild(script);
 
-    // Initialize gtag function
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function gtag(...args: unknown[]) {
-      window.dataLayer.push(args);
-    };
+      // Initialize gtag function
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function gtag(...args: unknown[]) {
+        window.dataLayer.push(args);
+      };
 
-    // Configure gtag
-    window.gtag('js', new Date());
-    window.gtag('config', measurementId, {
-      page_path: window.location.pathname,
-      send_page_view: false, // We'll handle page views manually
-    });
+      // Configure gtag
+      window.gtag('js', new Date());
+      window.gtag('config', measurementId, {
+        page_path: window.location.pathname,
+        send_page_view: false, // We'll handle page views manually
+      });
+    }
+  } catch (error) {
+    console.error('Failed to initialize Google Analytics', error);
   }
 };
 
-export const useAnalytics = (measurementId: string) => {
+export const useAnalytics = (measurementId?: string) => {
   const location = useLocation();
 
   useEffect(() => {
-    // Initialize GA if not already initialized
-    if (typeof window !== 'undefined' && !window.gtag) {
+    // Initialize GA if measurementId is provided and GA is not already initialized
+    if (measurementId && typeof window !== 'undefined' && !window.gtag) {
       initGA(measurementId);
     }
   }, [measurementId]);
 
   // Track page views on route change
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.gtag) {
+    if (measurementId && typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', 'page_view', {
         page_path: location.pathname + location.search + location.hash,
         page_title: document.title,
         page_location: window.location.href,
       });
     }
-  }, [location]);
+  }, [location, measurementId]);
 
   // Track custom events
-  const trackEvent = useCallback((action: string, params: Record<string, unknown>) => {
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', action, params);
-    }
-  }, []);
+  const trackEvent = useCallback(
+    (action: string, params: Record<string, unknown>) => {
+      if (measurementId && typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', action, params);
+      }
+    },
+    [measurementId]
+  );
 
   return { trackEvent };
 };
