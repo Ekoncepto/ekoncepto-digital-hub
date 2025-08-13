@@ -53,7 +53,7 @@ const MarketOverview = () => {
   return (
     <section id="mercado" className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4 sm:px-6">
-        <div className="text-center mb-12 md:mb-16" data-aos="fade-up" data-aos-duration="600">
+        <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
             Um mercado digital em <span className="text-brand">plena expansão.</span>
           </h2>
@@ -65,12 +65,7 @@ const MarketOverview = () => {
 
         <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-12">
           {/* Left Column - Text Content */}
-          <div
-            className="w-full lg:w-1/2"
-            data-aos="fade-right"
-            data-aos-duration="600"
-            data-aos-delay="100"
-          >
+          <div className="w-full lg:w-1/2">
             <div className="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
               <h3 className="text-2xl font-bold mb-4 text-gray-800">Crescimento Imparável</h3>
               <p className="text-gray-600 mb-6 leading-relaxed">
@@ -89,12 +84,7 @@ const MarketOverview = () => {
           </div>
 
           {/* Right Column - Progress Bars */}
-          <div
-            className="w-full lg:w-1/2"
-            data-aos="fade-left"
-            data-aos-duration="600"
-            data-aos-delay="200"
-          >
+          <div className="w-full lg:w-1/2">
             <div className="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 h-full">
               <h4 className="text-xl font-bold text-center mb-6 text-gray-800">
                 Penetração do E-commerce no Varejo Brasileiro
