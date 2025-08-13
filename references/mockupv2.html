@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ekoncepto - Aceleramos suas Vendas em Marketplaces</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Cor principal da marca */
+        .bg-brand-green { background-color: #94c83d; }
+        .text-brand-green { color: #94c83d; }
+        .border-brand-green { border-color: #94c83d; }
+        .ring-brand-green { --tw-ring-color: #94c83d; }
+        
+        /* Cor de fundo escura */
+        .bg-brand-dark { background-color: #2d3748; } /* cinza escuro */
+
+        /* Efeito de scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animação de entrada suave */
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- CABEÇALHO E NAVEGAÇÃO -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-gray-800">
+                E-<span class="text-brand-green">koncepto</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#mercado" class="text-gray-600 hover:text-brand-green transition">O Mercado</a>
+                <a href="#metodologia" class="text-gray-600 hover:text-brand-green transition">Metodologia</a>
+                <a href="#cases" class="text-gray-600 hover:text-brand-green transition">Cases de Sucesso</a>
+                <a href="#processo" class="text-gray-600 hover:text-brand-green transition">Nosso Processo</a>
+            </div>
+            <a href="#contato" class="hidden md:block bg-brand-green text-white font-bold py-2 px-4 rounded-lg hover:opacity-90 transition">
+                Fale com um Especialista
+            </a>
+            <button id="mobile-menu-button" class="md:hidden">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <!-- Menu Mobile -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4">
+            <a href="#mercado" class="block py-2 text-gray-600 hover:text-brand-green">O Mercado</a>
+            <a href="#metodologia" class="block py-2 text-gray-600 hover:text-brand-green">Metodologia</a>
+            <a href="#cases" class="block py-2 text-gray-600 hover:text-brand-green">Cases de Sucesso</a>
+            <a href="#processo" class="block py-2 text-gray-600 hover:text-brand-green">Nosso Processo</a>
+            <a href="#contato" class="block mt-2 bg-brand-green text-white font-bold py-2 px-4 rounded-lg text-center hover:opacity-90">Fale com um Especialista</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- 1. SEÇÃO PRINCIPAL (HERO) -->
+        <section class="bg-brand-dark text-white text-center py-20 md:py-32">
+            <div class="container mx-auto px-6 fade-in-up">
+                <h1 class="text-4xl md:text-6xl font-black leading-tight mb-4">Aceleramos suas vendas em marketplaces com <span class="text-brand-green">tecnologia e expertise.</span></h1>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-gray-300">Utilizamos dados, tecnologia própria e um time certificado para posicionar seus produtos e multiplicar seu faturamento.</p>
+                <div class="flex justify-center space-x-4">
+                    <a href="#contato" class="bg-brand-green text-white font-bold py-3 px-8 rounded-lg text-lg hover:opacity-90 transition">Quero vender mais</a>
+                    <a href="#cases" class="bg-gray-700 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-gray-600 transition">Veja nossos resultados</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOGOS DE MARKETPLACES -->
+        <div class="bg-gray-200 py-8">
+            <div class="container mx-auto px-6">
+                <p class="text-center text-gray-500 font-semibold mb-4">Especialistas nos maiores canais de venda do Brasil:</p>
+                <div class="flex justify-center items-center space-x-8 md:space-x-12 opacity-70">
+                    <img src="https://placehold.co/150x50/ffffff/cccccc?text=Mercado+Livre" alt="Logo do Mercado Livre" class="h-8 md:h-10">
+                    <img src="https://placehold.co/150x50/ffffff/cccccc?text=Amazon" alt="Logo da Amazon" class="h-8 md:h-10">
+                    <img src="https://placehold.co/150x50/ffffff/cccccc?text=Shopee" alt="Logo da Shopee" class="h-8 md:h-10">
+                    <img src="https://placehold.co/150x50/ffffff/cccccc?text=Magalu" alt="Logo da Magazine Luiza" class="h-8 md:h-10">
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. O CENÁRIO DIGITAL -->
+        <section id="mercado" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 fade-in-up">
+                    <h2 class="text-4xl font-bold mb-2">Um mercado digital em <span class="text-brand-green">plena expansão.</span></h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">O e-commerce não é mais o futuro, é o presente. Veja por que sua empresa precisa estar bem posicionada.</p>
+                </div>
+                <div class="flex flex-col md:flex-row items-center gap-12 fade-in-up">
+                    <div class="md:w-1/2">
+                        <h3 class="text-2xl font-bold mb-4">Crescimento Imparável</h3>
+                        <p class="text-gray-600 mb-6">Desde a pandemia, o e-commerce se tornou essencial. Empresas que não se posicionam de forma estratégica nos grandes marketplaces estão perdendo a maior fatia do mercado, que deve representar mais da metade de todo o varejo até 2029.</p>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="font-bold text-gray-700">Os marketplaces (Mercado Livre, Amazon, Shopee) já concentram mais de <span class="text-brand-green text-xl">75%</span> de todas as vendas online. É aqui que o seu cliente está.</p>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 w-full">
+                        <div class="bg-gray-50 p-6 rounded-lg shadow-lg">
+                            <h4 class="font-bold text-center mb-4">Penetração do E-commerce no Varejo Brasileiro</h4>
+                            <div class="space-y-3">
+                                <div class="flex items-center">
+                                    <span class="w-16 font-semibold">2019</span>
+                                    <div class="w-full bg-gray-300 rounded-full h-6"><div class="bg-brand-green h-6 rounded-full" style="width: 17%;"></div></div>
+                                    <span class="ml-2 font-bold">17%</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="w-16 font-semibold">2024</span>
+                                    <div class="w-full bg-gray-300 rounded-full h-6"><div class="bg-brand-green h-6 rounded-full" style="width: 43%;"></div></div>
+                                    <span class="ml-2 font-bold">43%</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="w-16 font-semibold">2029*</span>
+                                    <div class="w-full bg-gray-300 rounded-full h-6"><div class="bg-brand-green h-6 rounded-full" style="width: 54%;"></div></div>
+                                    <span class="ml-2 font-bold">54%</span>
+                                </div>
+                            </div>
+                            <p class="text-right text-sm text-gray-500 mt-2">*Projeção</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. NOSSA METODOLOGIA -->
+        <section id="metodologia" class="py-20 bg-gray-100">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 fade-in-up">
+                    <h2 class="text-4xl font-bold mb-2">Nossa Fórmula: <span class="text-brand-green">Visibilidade + Conversão = Vendas</span></h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">Não existe sorte, existe método. Dividimos nosso trabalho em dois pilares fundamentais que garantem o resultado.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-10 fade-in-up">
+                    <!-- Pilar Visibilidade -->
+                    <div class="bg-white p-8 rounded-lg shadow-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-brand-green/20 p-3 rounded-full mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-green"><path d="M10 10l-6 6"/><path d="M21 21l-6-6"/><path d="M9 6l6 6"/><path d="M3 3l6 6"/></svg>
+                            </div>
+                            <h3 class="text-3xl font-bold">Visibilidade (Algoritmo)</h3>
+                        </div>
+                        <p class="text-gray-600 mb-6">Fazemos seus produtos serem encontrados. Usamos tecnologia para entender o que os clientes buscam e posicionamos seus anúncios na frente da concorrência.</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start"><span class="text-brand-green font-bold mr-2">✔</span> <strong>Tecnologia Proprietária:</strong> Nosso "Scraper" analisa o mercado em tempo real, identificando palavras-chave, concorrentes e oportunidades.</li>
+                            <li class="flex items-start"><span class="text-brand-green font-bold mr-2">✔</span> <strong>Otimização Orgânica (SEO):</strong> Ajustamos seus anúncios para que o algoritmo dos marketplaces trabalhe a seu favor.</li>
+                            <li class="flex items-start"><span class="text-brand-green font-bold mr-2">✔</span> <strong>Gestão de Mídia Paga (ADS):</strong> Nosso time é certificado pelo Mercado Livre para otimizar seu investimento e maximizar o retorno.</li>
+                        </ul>
+                    </div>
+                    <!-- Pilar Conversão -->
+                    <div class="bg-white p-8 rounded-lg shadow-lg">
+                        <div class="flex items-center mb-4">
+                             <div class="bg-brand-green/20 p-3 rounded-full mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-green"><circle cx="12" cy="12" r="10"/><path d="M16 8l-8 8"/><path d="M8 8l8 8"/></svg>
+                            </div>
+                            <h3 class="text-3xl font-bold">Conversão (Compra)</h3>
+                        </div>
+                        <p class="text-gray-600 mb-6">Depois de ser visto, seu anúncio precisa convencer. Criamos uma experiência de compra irresistível que transforma cliques em vendas.</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start"><span class="text-brand-green font-bold mr-2">✔</span> <strong>Conteúdo de Alta Performance:</strong> Criamos títulos, descrições e imagens que quebram objeções e destacam os benefícios do seu produto.</li>
+                            <li class="flex items-start"><span class="text-brand-green font-bold mr-2">✔</span> <strong>Precificação Inteligente:</strong> Analisamos a concorrência para garantir que seu preço seja competitivo e lucrativo.</li>
+                            <li class="flex items-start"><span class="text-brand-green font-bold mr-2">✔</span> <strong>Criação de Ofertas Atrativas:</strong> Ajudamos a montar kits e promoções que aumentam o ticket médio e a taxa de conversão.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. CASES DE SUCESSO -->
+        <section id="cases" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 fade-in-up">
+                    <h2 class="text-4xl font-bold mb-2">Resultados que <span class="text-brand-green">falam por si.</span></h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Não prometemos, nós provamos. Veja o que nossa metodologia fez por alguns de nossos clientes.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 fade-in-up">
+                    <!-- Case 1 -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <img src="https://placehold.co/100x40/000000/FFFFFF?text=Fiolux" alt="Logo da Fiolux" class="mx-auto h-10 mb-4">
+                        <p class="text-xl font-bold text-gray-800">Crescimento de</p>
+                        <p class="text-4xl font-black text-brand-green my-2">+R$ 2 milhões/mês</p>
+                        <p class="text-gray-600">em vendas em apenas 4 meses.</p>
+                    </div>
+                    <!-- Case 2 -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <img src="https://placehold.co/100x40/000000/FFFFFF?text=Nevoni" alt="Logo da Nevoni" class="mx-auto h-10 mb-4">
+                        <p class="text-xl font-bold text-gray-800">De zero a</p>
+                        <p class="text-4xl font-black text-brand-green my-2">+R$ 152 mil/mês</p>
+                        <p class="text-gray-600">em 2 meses após o lançamento.</p>
+                    </div>
+                    <!-- Case 3 -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <img src="https://placehold.co/100x40/000000/FFFFFF?text=Futuca" alt="Logo da Futuca" class="mx-auto h-10 mb-4">
+                        <p class="text-xl font-bold text-gray-800">Aumento de</p>
+                        <p class="text-4xl font-black text-brand-green my-2">+89% no faturamento</p>
+                        <p class="text-gray-600">(+R$ 131 mil) em apenas 1 mês.</p>
+                    </div>
+                    <!-- Case 4 -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <img src="https://placehold.co/100x40/000000/FFFFFF?text=Neutral+Care" alt="Logo da Neutral Care" class="mx-auto h-10 mb-4">
+                        <p class="text-xl font-bold text-gray-800">Crescimento de</p>
+                        <p class="text-4xl font-black text-brand-green my-2">+239% em vendas</p>
+                        <p class="text-gray-600">(+R$ 96 mil) em 6 meses.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. NOSSO PROCESSO -->
+        <section id="processo" class="py-20 bg-brand-dark text-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 fade-in-up">
+                    <h2 class="text-4xl font-bold mb-2">Nossos <span class="text-brand-green">4 passos</span> para o sucesso.</h2>
+                    <p class="text-lg text-gray-300 max-w-2xl mx-auto">Temos um processo de trabalho transparente e organizado para garantir uma evolução acelerada e consistente.</p>
+                </div>
+                <div class="relative fade-in-up">
+                    <!-- Linha do tempo para Desktop -->
+                    <div class="hidden md:block border-l-2 border-brand-green absolute h-full top-0 left-1/2 -ml-px"></div>
+                    <div class="space-y-12 md:space-y-0">
+                        <!-- Passo 1 -->
+                        <div class="md:grid md:grid-cols-2 md:gap-8 items-center">
+                            <div class="md:text-right md:pr-8">
+                                <div class="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto md:ml-auto md:mr-0 mb-4">1</div>
+                                <h3 class="text-2xl font-bold mb-2">Onboarding e Diagnóstico</h3>
+                                <p class="text-gray-300">Entendemos a fundo seu negócio, produtos e metas. Alinhamos objetivos e liberamos os acessos para começar.</p>
+                            </div>
+                            <div class="hidden md:block"></div>
+                        </div>
+                        <!-- Passo 2 -->
+                        <div class="md:grid md:grid-cols-2 md:gap-8 items-center">
+                            <div class="hidden md:block"></div>
+                            <div class="md:pl-8">
+                                <div class="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto md:mr-auto md:ml-0 mb-4">2</div>
+                                <h3 class="text-2xl font-bold mb-2">Análise de Mercado</h3>
+                                <p class="text-gray-300">Nossa tecnologia entra em campo para mapear concorrentes, preços, palavras-chave e as melhores oportunidades para seus produtos.</p>
+                            </div>
+                        </div>
+                        <!-- Passo 3 -->
+                        <div class="md:grid md:grid-cols-2 md:gap-8 items-center">
+                            <div class="md:text-right md:pr-8">
+                                <div class="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto md:ml-auto md:mr-0 mb-4">3</div>
+                                <h3 class="text-2xl font-bold mb-2">Criação e Otimização</h3>
+                                <p class="text-gray-300">Executamos a estratégia: criamos conteúdo otimizado para SEO, gerenciamos o investimento em ADS e posicionamos seus anúncios.</p>
+                            </div>
+                            <div class="hidden md:block"></div>
+                        </div>
+                        <!-- Passo 4 -->
+                        <div class="md:grid md:grid-cols-2 md:gap-8 items-center">
+                            <div class="hidden md:block"></div>
+                            <div class="md:pl-8">
+                                <div class="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto md:mr-auto md:ml-0 mb-4">4</div>
+                                <h3 class="text-2xl font-bold mb-2">Reports e Acompanhamento</h3>
+                                <p class="text-gray-300">Você fica por dentro de tudo com relatórios mensais, reuniões quinzenais e suporte diário via WhatsApp com seu especialista.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. CONTATO -->
+        <section id="contato" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 fade-in-up">
+                    <h2 class="text-4xl font-bold mb-2">Pronto para <span class="text-brand-green">acelerar suas vendas?</span></h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Preencha o formulário e agende uma conversa sem compromisso. Vamos entender seu desafio e mostrar como a Ekoncepto pode ajudar seu negócio a decolar nos marketplaces.</p>
+                </div>
+                <div class="max-w-2xl mx-auto bg-gray-50 p-8 rounded-lg shadow-xl fade-in-up">
+                    <form>
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label for="name" class="block text-gray-700 font-semibold mb-2">Seu nome</label>
+                                <input type="text" id="name" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-gray-700 font-semibold mb-2">Seu e-mail</label>
+                                <input type="email" id="email" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green" required>
+                            </div>
+                        </div>
+                        <div class="mb-6">
+                            <label for="company" class="block text-gray-700 font-semibold mb-2">Nome da sua empresa</label>
+                            <input type="text" id="company" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green">
+                        </div>
+                        <div class="mb-6">
+                            <label for="message" class="block text-gray-700 font-semibold mb-2">Mensagem</label>
+                            <textarea id="message" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green" placeholder="Conte-nos um pouco sobre seu desafio..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-brand-green text-white font-bold py-4 px-8 rounded-lg text-lg hover:opacity-90 transition">Enviar e Agendar Conversa</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-dark text-gray-300 py-12">
+        <div class="container mx-auto px-6 text-center">
+            <div class="text-3xl font-bold mb-4">
+                E-<span class="text-brand-green">koncepto</span>
+            </div>
+            <p class="mb-4">Tecnologia e expertise para o sucesso do seu e-commerce.</p>
+            <p class="text-sm text-gray-500">&copy; 2025 Ekoncepto. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Script para o menu mobile
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Script para animação de scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section > div, section .grid > div').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

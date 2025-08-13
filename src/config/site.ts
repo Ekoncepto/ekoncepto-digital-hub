@@ -137,17 +137,55 @@ export const siteMetadata = {
 export const services = [
   {
     id: 'consultoria',
-    name: 'Consultoria Personalizada',
-    description: 'Estratégias personalizadas para alavancar suas vendas nos marketplaces.',
+    name: 'Estratégia de Marketplace',
+    description:
+      'Diagnóstico completo + plano de ação personalizado para alavancar suas vendas em 3 meses.',
+    icon: 'trending-up',
+    cta: 'Quero uma estratégia',
+    features: [
+      'Análise de concorrência',
+      'Plano de preciação',
+      'Roadmap de implementação',
+      'Métricas-chave de sucesso',
+    ],
   },
-  {
-    id: 'treinamento',
-    name: 'Treinamentos',
-    description: 'Capacitação para sua equipe dominar as melhores práticas de vendas online.',
-  },
+  /*{
+    id: 'gestao',
+    name: 'Gestão Completa',
+    description: 'Administração total das suas vendas nos principais marketplaces do Brasil.',
+    icon: 'bar-chart-2',
+    cta: 'Quero vender mais',
+    features: [
+      'Gestão de anúncios e estoque',
+      'Atendimento ao cliente',
+      'Relatórios semanais',
+      'Otimização contínua'
+    ]
+  },*/
   {
     id: 'implementacao',
-    name: 'Implementação Completa',
-    description: 'Da abertura da conta à otimização de anúncios, cuidamos de tudo para você.',
+    name: 'Implementação Rápida',
+    description: 'Sua loja operando em até 15 dias, do zero ao primeiro pedido.',
+    icon: 'zap',
+    cta: 'Quero começar',
+    features: [
+      'Abertura de contas',
+      'Cadastro de produtos',
+      'Configuração de logística',
+      'Treinamento da equipe',
+    ],
+  },
+  {
+    id: 'consultoria-avancada',
+    name: 'Consultoria Avançada',
+    description: 'Para quem já vende e quer escalar para o próximo nível.',
+    icon: 'rocket',
+    cta: 'Quero escalar',
+    features: [
+      'Análise de portfólio',
+      'Estratégia de expansão',
+      'Otimização de margens',
+      'Automações',
+    ],
   },
 ];

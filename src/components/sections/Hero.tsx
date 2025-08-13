@@ -1,68 +1,106 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, MessageCircle } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { contactInfo, businessInfo, siteMetadata } from '@/config/site';
-import { OptimizedImage } from '@/components/ui/OptimizedImage';
+import { useEffect } from 'react';
 
 export const Hero = () => {
-  const [isClient, setIsClient] = useState(false);
-
   useEffect(() => {
-    setIsClient(true);
+    // Add scroll reveal animation to marketplace logos
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-fade-in-up');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      }
+    );
+
+    const elements = document.querySelectorAll('.marketplace-logo');
+    elements.forEach(el => observer.observe(el));
+
+    return () => observer.disconnect();
   }, []);
+
   return (
-    <section id="inicio" className="relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none" aria-hidden>
-        <div className="absolute -top-40 -left-40 size-[600px] rounded-full blur-3xl opacity-25 bg-[radial-gradient(circle_at_center,theme(colors.primary.DEFAULT),transparent_60%)]" />
-        <div className="absolute -bottom-40 -right-40 size-[600px] rounded-full blur-3xl opacity-20 bg-[radial-gradient(circle_at_center,theme(colors.accent.DEFAULT),transparent_60%)]" />
-      </div>
-      <div className="container mx-auto py-20 md:py-28">
-        <div className="grid md:grid-cols-2 gap-10 items-center">
-          <div>
-            <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
-              {businessInfo.headline || 'Consultoria de E-commerce focada em Marketplaces'}
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-xl">
-              {businessInfo.tagline ||
-                'Lançamos e escalamos suas vendas em plataformas como Mercado Livre, Amazon e Shopee com uma consultoria mão na massa orientada a resultados.'}
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href={`${contactInfo.whatsapp}?text=Ol%C3%A1%2C+vim+pelo+site+${encodeURIComponent(siteMetadata.siteUrl)}+e+gostaria+de+mais+informa%C3%A7%C3%B5es.`}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Falar no WhatsApp"
-              >
-                <Button variant="hero" size="lg">
-                  Falar no WhatsApp
-                  <MessageCircle className="ml-1" />
-                </Button>
-              </a>
-              <a href="#servicos">
-                <Button variant="outline" size="lg">
-                  Conheça os serviços
-                  <ArrowRight className="ml-1" />
-                </Button>
-              </a>
-            </div>
+    <section className="bg-brand-dark text-white text-center py-16 md:py-24 lg:py-32 overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div
+          className="max-w-4xl mx-auto animate-fade-in-up"
+          data-aos="fade-up"
+          data-aos-duration="800"
+        >
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight mb-6">
+            Aceleramos suas vendas em marketplaces com{' '}
+            <span className="text-brand bg-clip-text text-transparent bg-gradient-to-r from-brand to-brand-light">
+              tecnologia e expertise.
+            </span>
+          </h1>
+
+          <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-gray-300">
+            Utilizamos dados, tecnologia própria e um time certificado para posicionar seus produtos
+            e multiplicar seu faturamento.
+          </p>
+
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
+            <a
+              href="#contato"
+              className="bg-brand hover:bg-brand/90 text-white font-bold py-3 px-6 sm:px-8 rounded-lg text-base sm:text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-brand/20"
+              data-aos="fade-up"
+              data-aos-delay="100"
+              data-aos-duration="600"
+            >
+              Quero vender mais
+            </a>
+            <a
+              href="#cases"
+              className="bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-6 sm:px-8 rounded-lg text-base sm:text-lg transition-all duration-300 transform hover:scale-105"
+              data-aos="fade-up"
+              data-aos-delay="150"
+              data-aos-duration="600"
+            >
+              Veja nossos resultados
+            </a>
           </div>
-          <div className="relative flex justify-center" aria-hidden={!isClient}>
-            <div className="relative">
-              <div className="relative z-10 w-full max-w-md rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-gray-800 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900">
-                <OptimizedImage
-                  src="/images/hero-image.png"
-                  alt="Dashboard de análise de vendas em marketplaces"
-                  widths={[320, 640]} // Pass only the generated widths
-                  sizes="(max-width: 640px) 100vw, 50vw"
-                  imgClassName="w-full h-full object-cover"
-                  width={600}
-                  height={600}
-                  loading={isClient ? 'lazy' : 'eager'}
-                  decoding="async"
-                />
-              </div>
-              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-primary/10 rounded-2xl -z-10" />
-              <div className="absolute -top-6 -right-6 w-32 h-32 bg-accent/10 rounded-2xl -z-10" />
+        </div>
+
+        {/* Marketplaces Logos */}
+        <div
+          className="bg-gray-800/50 py-8 mt-12 md:mt-16 rounded-xl backdrop-blur-sm"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        >
+          <div className="container mx-auto px-4">
+            <p className="text-center text-gray-300 font-medium mb-6 text-sm sm:text-base">
+              Especialistas nos maiores canais de venda do Brasil:
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 items-center justify-items-center">
+              {[
+                { src: '/images/marketplaces/mercado-livre.svg', alt: 'Mercado Livre' },
+                { src: '/images/marketplaces/amazon.svg', alt: 'Amazon' },
+                { src: '/images/marketplaces/shopee.svg', alt: 'Shopee' },
+                //{ src: "/images/marketplaces/magalu.svg", alt: "Magazine Luiza" },
+              ].map((marketplace, index) => (
+                <div
+                  key={marketplace.alt}
+                  className="marketplace-logo opacity-0 transform translate-y-4 hover:scale-110 transition-all duration-500 hover:opacity-100"
+                  style={{
+                    animationDelay: `${200 + index * 100}ms`,
+                  }}
+                >
+                  <img
+                    src={marketplace.src}
+                    alt={marketplace.alt}
+                    className="h-8 sm:h-10 md:h-12 w-auto grayscale hover:grayscale-0 transition-all duration-300"
+                    width={150}
+                    height={40}
+                    loading="lazy"
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -70,5 +108,3 @@ export const Hero = () => {
     </section>
   );
 };
-
-export default Hero;

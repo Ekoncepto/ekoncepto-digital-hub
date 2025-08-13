@@ -1,11 +1,14 @@
 /* Base styles */
 :root {
   --min-tap-target: 44px;
+  --animation-duration: 0.3s;
+  --animation-timing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
+  box-sizing: border-box;
 }
 
 html {
@@ -14,22 +17,93 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
 }
 
 #root {
-  max-width: 100%;
+  width: 100%;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 0;
   text-align: left;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+}
+
+/* Container for consistent max-width and padding */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Responsive typography */
+@media (min-width: 768px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+/* Animation classes */
+.fade-in-up {
+  animation: fadeInUp var(--animation-duration) var(--animation-timing) forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scroll reveal animations */
+[data-aos] {
+  opacity: 0;
+  transition: opacity 0.6s, transform 0.6s var(--animation-timing);
+}
+
+[data-aos].aos-animate {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hover effects */
+.hover-scale {
+  transition: transform 0.3s var(--animation-timing);
+}
+
+.hover-scale:hover {
+  transform: scale(1.03);
+}
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Ensure all interactive elements are at least 44x44px */
