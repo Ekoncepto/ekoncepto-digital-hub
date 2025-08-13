@@ -91,14 +91,16 @@ export const Hero = () => {
                     animationDelay: `${200 + index * 100}ms`,
                   }}
                 >
-                  <img
-                    src={marketplace.src}
-                    alt={marketplace.alt}
-                    className="h-8 sm:h-10 md:h-12 w-auto transition-all duration-300"
-                    width={150}
-                    height={40}
-                    loading="lazy"
-                  />
+                  <div className="bg-white/90 p-3 rounded-lg backdrop-blur-sm">
+                    <img
+                      src={marketplace.src}
+                      alt={marketplace.alt}
+                      className="h-8 sm:h-10 md:h-12 w-auto transition-all duration-300"
+                      width={150}
+                      height={40}
+                      loading="lazy"
+                    />
+                  </div>
                 </div>
               ))}
             </div>
