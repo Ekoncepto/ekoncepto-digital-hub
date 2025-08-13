@@ -106,10 +106,9 @@ export const externalLinks = {
 
 // Analytics and Tracking
 export const analytics = {
-  //TODO
-  googleAnalyticsId: 'G-XXXXXXXXXX', // Replace with actual GA4 ID
-  googleTagManagerId: 'GTM-XXXXXX', // If using GTM
-  facebookPixelId: 'XXXXXXXXXXXXXXX', // If using Facebook Pixel
+  googleAnalyticsId: import.meta.env.VITE_GA_MEASUREMENT_ID,
+  googleTagManagerId: import.meta.env.VITE_GTM_ID,
+  facebookPixelId: import.meta.env.VITE_FACEBOOK_PIXEL_ID,
 };
 
 // Site Metadata for SEO

@@ -79,7 +79,7 @@ export const Header = () => {
     >
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
-          <a href="#" className="text-2xl font-bold text-gray-800">
+          <a href="#" className="text-2xl font-bold text-gray-800" data-testid="logo">
             E-<span className="text-brand">koncepto</span>
           </a>
 
@@ -89,6 +89,7 @@ export const Header = () => {
               href="#mercado"
               onClick={e => handleNavClick(e, 'mercado')}
               className={`${activeSection === 'mercado' ? 'text-brand font-semibold' : 'text-gray-600'} hover:text-brand transition-colors duration-300`}
+              data-testid="nav-mercado"
             >
               O Mercado
             </a>
@@ -96,6 +97,7 @@ export const Header = () => {
               href="#metodologia"
               onClick={e => handleNavClick(e, 'metodologia')}
               className={`${activeSection === 'metodologia' ? 'text-brand font-semibold' : 'text-gray-600'} hover:text-brand transition-colors duration-300`}
+              data-testid="nav-metodologia"
             >
               Metodologia
             </a>
