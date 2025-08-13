@@ -206,16 +206,19 @@ export const Process = () => {
                 className={`relative group ${index < steps.length - 1 ? 'pb-8' : ''}`}
                 variants={itemVariants}
               >
-                <div
-                  className={`md:grid md:grid-cols-2 md:gap-12 items-center ${index % 2 === 0 ? '' : 'md:flex-row-reverse'}`}
-                >
-                  {/* Left side content */}
+                <div className="md:grid md:grid-cols-2 md:gap-x-16">
                   <div
-                    className={`md:relative z-10 ${step.position === 'left' ? 'md:text-right md:pr-8' : 'md:pl-8'}`}
+                    className={`md:relative ${
+                      step.position === 'right'
+                        ? 'md:col-start-2 md:text-left'
+                        : 'md:col-start-1 md:text-right'
+                    }`}
                   >
                     {/* Step number and icon */}
                     <div
-                      className={`relative inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-brand to-brand-dark shadow-lg mb-6 group-hover:scale-110 transition-transform duration-300 ${step.position === 'left' ? 'md:ml-auto' : 'md:mr-auto'}`}
+                      className={`relative inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-brand to-brand-dark shadow-lg mb-6 group-hover:scale-110 transition-transform duration-300 ${
+                        step.position === 'left' ? 'md:ml-auto' : 'md:mr-auto'
+                      }`}
                     >
                       <div className="absolute inset-0 rounded-full bg-white/10 backdrop-blur-sm group-hover:bg-white/20 transition-colors duration-300"></div>
                       <div className="relative z-10 text-2xl font-bold text-white">{step.icon}</div>
