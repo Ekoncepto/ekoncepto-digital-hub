@@ -6,6 +6,7 @@ import { Hero } from '@/components/sections/Hero';
 import { Footer } from '@/components/sections/Footer';
 import { businessInfo, siteMetadata, socialLinks } from '@/config/site';
 import PageLoader from '@/components/common/PageLoader';
+import ErrorBoundary from '@/components/common/ErrorBoundary';
 
 // Lazy-loaded sections
 const MarketOverview = lazy(() => import('@/components/sections/MarketOverview'));
@@ -23,8 +24,8 @@ const LazySection = ({ children }: { children: React.ReactNode }) => {
   });
 
   return (
-    <div ref={ref} style={{ minHeight: '100vh' }}>
-      {inView ? <Suspense fallback={<PageLoader />}>{children}</Suspense> : <PageLoader />}
+    <div ref={ref} style={{ minHeight: '50vh' }}>
+      {inView ? <Suspense fallback={<PageLoader />}>{children}</Suspense> : null}
     </div>
   );
 };
@@ -54,27 +55,41 @@ const Index = () => {
 
       <main>
         <Hero />
-        <LazySection>
-          <MarketOverview />
-        </LazySection>
-        <LazySection>
-          <Methodology />
-        </LazySection>
-        <LazySection>
-          <SuccessCases />
-        </LazySection>
-        <LazySection>
-          <Services />
-        </LazySection>
-        <LazySection>
-          <Process />
-        </LazySection>
-        <LazySection>
-          <About />
-        </LazySection>
-        <LazySection>
-          <ContactCTA />
-        </LazySection>
+        <ErrorBoundary>
+          <LazySection>
+            <MarketOverview />
+          </LazySection>
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <LazySection>
+            <Methodology />
+          </LazySection>
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <LazySection>
+            <SuccessCases />
+          </LazySection>
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <LazySection>
+            <Services />
+          </LazySection>
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <LazySection>
+            <Process />
+          </LazySection>
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <LazySection>
+            <About />
+          </LazySection>
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <LazySection>
+            <ContactCTA />
+          </LazySection>
+        </ErrorBoundary>
       </main>
 
       <Footer />

@@ -27,6 +27,7 @@ const securityHeaders = {
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => ({
+  base: './', // Use relative paths for assets
   server: {
     host: '::',
     port: 8080,
