@@ -105,7 +105,7 @@ export const About = () => {
           >
             <div className="relative rounded-2xl overflow-hidden shadow-xl">
               <OptimizedImage
-                src="/images/team-meeting.jpg"
+                src="/images/about-hero.jpg"
                 alt="Time da E-Koncepto em reunião de planejamento estratégico"
                 widths={[640, 768, 1024]}
                 sizes="(max-width: 1024px) 100vw, 50vw"

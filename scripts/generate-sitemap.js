@@ -18,7 +18,7 @@ const routes = [
 // Create sitemap
 async function generateSitemap() {
   const smStream = new SitemapStream({
-    hostname: 'https://ekoncepto.com.br',
+    hostname: 'https://ekoncepto.com',
     lastmodDateOnly: true,
   });
 

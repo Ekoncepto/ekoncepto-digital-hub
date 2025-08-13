@@ -42,7 +42,7 @@ export const businessInfo: BusinessInfo = {
     'Lançamos e escalamos suas vendas em plataformas como Mercado Livre, Amazon e Shopee com uma consultoria mão na massa orientada a resultados.',
   about:
     'Somos uma consultoria especializada em marketplaces. Atuamos lado a lado com seu time, do lançamento à escala, com foco em performance, informações acionáveis e execução constante. Em média, nossos clientes alcançam crescimento acima de 70% nos primeiros 6 meses.',
-  logo: '/images/optimized/logo.webp', // Use the optimized WebP version for meta tags
+  logo: '/images/logo.svg', // Use the original SVG logo
   favicon: '/favicon.ico',
   processSteps: [
     {
@@ -106,10 +106,9 @@ export const externalLinks = {
 
 // Analytics and Tracking
 export const analytics = {
-  //TODO
-  googleAnalyticsId: 'G-XXXXXXXXXX', // Replace with actual GA4 ID
-  googleTagManagerId: 'GTM-XXXXXX', // If using GTM
-  facebookPixelId: 'XXXXXXXXXXXXXXX', // If using Facebook Pixel
+  googleAnalyticsId: import.meta.env.VITE_GA_MEASUREMENT_ID,
+  googleTagManagerId: import.meta.env.VITE_GTM_ID,
+  facebookPixelId: import.meta.env.VITE_FACEBOOK_PIXEL_ID,
 };
 
 // Site Metadata for SEO

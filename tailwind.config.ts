@@ -51,7 +51,7 @@ export default {
     extend: {
       colors: {
         brand: {
-          DEFAULT: '#87c325',
+          DEFAULT: '#6a9a1e', // Darkened for better contrast
           dark: '#2d3748',
           light: '#94c83d',
         },

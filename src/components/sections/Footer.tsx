@@ -128,7 +128,7 @@ export const Footer = () => {
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.6, delay: 0.1 * (index + 1) }}
             >
-              <h3 className="text-white font-semibold text-lg mb-4">{section.title}</h3>
+              <h4 className="text-white font-semibold text-lg mb-4">{section.title}</h4>
               <ul className="space-y-3">
                 {section.links.map(link => (
                   <li key={link.name}>
@@ -151,7 +151,7 @@ export const Footer = () => {
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <h3 className="text-white font-semibold text-lg mb-4">Newsletter</h3>
+            <h4 className="text-white font-semibold text-lg mb-4">Newsletter</h4>
             <p className="text-gray-400 mb-4">
               Assine nossa newsletter para receber novidades e dicas.
             </p>
