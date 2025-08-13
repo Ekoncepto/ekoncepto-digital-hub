@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Target, MousePointerClick } from 'lucide-react';
 
 const MethodologyItem = ({ children }: { children: React.ReactNode }) => (
   <motion.li
@@ -37,25 +38,7 @@ const pillars = [
   {
     id: 'visibilidade',
     title: 'Visibilidade (Algoritmo)',
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <circle cx="10" cy="10" r="7" />
-        <path d="M15 15L21 21" />
-        <line x1="8" y1="7" x2="8" y2="13" />
-        <line x1="10" y1="5" x2="10" y2="13" />
-        <line x1="13" y1="9" x2="13" y2="13" />
-      </svg>
-    ),
+    icon: <Target className="h-6 w-6" />,
     description:
       'Fazemos seus produtos serem encontrados. Usamos tecnologia para entender o que os clientes buscam e posicionamos seus anúncios na frente da concorrência.',
     items: [
@@ -67,23 +50,7 @@ const pillars = [
   {
     id: 'conversao',
     title: 'Conversão (Compra)',
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <path d="M16 10a4 4 0 0 1-8 0"></path>
-      </svg>
-    ),
+    icon: <MousePointerClick className="h-6 w-6" />,
     description:
       'Depois de ser visto, seu anúncio precisa convencer. Criamos uma experiência de compra irresistível que transforma cliques em vendas.',
     items: [
