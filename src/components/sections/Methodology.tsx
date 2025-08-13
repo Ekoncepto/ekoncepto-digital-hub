@@ -1,8 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const MethodologyItem = ({ children }: { children: React.ReactNode }) => (
-  <li className="flex items-start">
-    <div className="h-5 w-5 flex-shrink-0 mt-1 mr-3 bg-brand/10 rounded-full p-0.5">
+  <motion.li
+    className="flex items-start group/li"
+    initial={{ opacity: 0, x: -10 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true, margin: '-50px' }}
+    whileHover={{ x: 4 }}
+    transition={{
+      duration: 0.3,
+      x: { type: 'spring', stiffness: 300, damping: 20 },
+    }}
+  >
+    <motion.div
+      className="h-5 w-5 flex-shrink-0 mt-1 mr-3 bg-brand/10 rounded-full p-0.5 group-hover/li:bg-brand/20 transition-colors duration-200"
+      whileHover={{ scale: 1.1 }}
+    >
       <svg
         className="h-4 w-4 text-brand mt-0.5"
         fill="none"
@@ -12,9 +26,11 @@ const MethodologyItem = ({ children }: { children: React.ReactNode }) => (
       >
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
       </svg>
-    </div>
-    <span className="text-gray-700">{children}</span>
-  </li>
+    </motion.div>
+    <span className="text-gray-700 group-hover/li:text-gray-900 transition-colors duration-200">
+      {children}
+    </span>
+  </motion.li>
 );
 
 const pillars = [
@@ -96,7 +112,13 @@ export const Methodology = () => {
   return (
     <section id="metodologia" className="py-16 md:py-24 bg-gray-50">
       <div className="container mx-auto px-4 sm:px-6">
-        <div className="text-center mb-12 md:mb-16">
+        <motion.div
+          className="text-center mb-12 md:mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
             Nossa Fórmula:{' '}
             <span className="bg-gradient-to-r from-brand to-brand-light bg-clip-text text-transparent">
@@ -107,10 +129,13 @@ export const Methodology = () => {
             Não existe sorte, existe método. Dividimos nosso trabalho em dois pilares fundamentais
             que garantem o resultado.
           </p>
-        </div>
+        </motion.div>
 
         {/* Mobile Tabs */}
-        <div className="md:hidden mb-8 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div
+          className="md:hidden mb-8
+         bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
+        >
           {pillars.map(pillar => (
             <div key={pillar.id} className="border-b last:border-b-0">
               <button
@@ -141,45 +166,76 @@ export const Methodology = () => {
                   />
                 </svg>
               </button>
-              {activePillar === pillar.id && (
-                <div className="overflow-hidden">
-                  <div className="p-5 pt-0">
-                    <p className="text-gray-600 mb-6">{pillar.description}</p>
-                    <ul className="space-y-3">
-                      {pillar.items.map((item, index) => (
-                        <MethodologyItem key={index}>{item}</MethodologyItem>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              )}
+              <AnimatePresence>
+                {activePillar === pillar.id && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="p-5 pt-0">
+                      <p className="text-gray-600 mb-6">{pillar.description}</p>
+                      <ul className="space-y-3">
+                        {pillar.items.map((item, index) => (
+                          <MethodologyItem key={index}>{item}</MethodologyItem>
+                        ))}
+                      </ul>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ))}
         </div>
 
         {/* Desktop Grid */}
         <div className="hidden md:grid md:grid-cols-2 gap-8 lg:gap-10">
-          {pillars.map(pillar => (
-            <div
+          {pillars.map((pillar, index) => (
+            <motion.div
               key={pillar.id}
               className="group bg-white p-8 rounded-xl border border-gray-100 hover:shadow-lg transition-all duration-300 h-full flex flex-col relative overflow-hidden"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.4, delay: index * 0.1, ease: [0.4, 0, 0.2, 1] }}
+              whileHover={{
+                y: -8,
+                boxShadow:
+                  '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+              }}
+              whileTap={{ scale: 0.98 }}
             >
               <div className="flex items-center mb-6">
                 <div className="bg-brand/5 group-hover:bg-brand/10 p-3 rounded-xl mr-4 transition-all duration-300 group-hover:scale-110">
-                  <div className="text-brand">{pillar.icon}</div>
+                  <motion.div
+                    className="text-brand"
+                    whileHover={{ rotate: 5, scale: 1.1 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                  >
+                    {pillar.icon}
+                  </motion.div>
                 </div>
                 <h3 className="text-2xl font-bold text-gray-800 group-hover:text-brand transition-colors duration-300">
                   {pillar.title}
                   <span className="absolute inset-0 w-full h-1 bg-gradient-to-r from-brand/0 via-brand/30 to-brand/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -bottom-px left-0"></span>
                 </h3>
               </div>
-              <p className="text-gray-600 mb-6 flex-grow">{pillar.description}</p>
+              <motion.p
+                className="text-gray-600 mb-6 flex-grow"
+                initial={{ opacity: 0.9 }}
+                whileHover={{ opacity: 1 }}
+                transition={{ duration: 0.2 }}
+              >
+                {pillar.description}
+              </motion.p>
               <ul className="space-y-3">
                 {pillar.items.map((item, itemIndex) => (
                   <MethodologyItem key={itemIndex}>{item}</MethodologyItem>
                 ))}
               </ul>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

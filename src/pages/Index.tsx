@@ -10,12 +10,22 @@ import ErrorBoundary from '@/components/common/ErrorBoundary';
 
 // Lazy-loaded sections
 const MarketOverview = lazy(() => import('@/components/sections/MarketOverview'));
-const Methodology = lazy(() => import('@/components/sections/Methodology'));
+const Methodology = lazy(() =>
+  import('@/components/sections/Methodology').then(module => ({ default: module.Methodology }))
+);
 const SuccessCases = lazy(() => import('@/components/sections/SuccessCases'));
-const Services = lazy(() => import('@/components/sections/Services'));
-const Process = lazy(() => import('@/components/sections/Process'));
-const About = lazy(() => import('@/components/sections/About'));
-const ContactCTA = lazy(() => import('@/components/sections/ContactCTA'));
+const Services = lazy(() =>
+  import('@/components/sections/Services').then(module => ({ default: module.Services }))
+);
+const Process = lazy(() =>
+  import('@/components/sections/Process').then(module => ({ default: module.Process }))
+);
+const About = lazy(() =>
+  import('@/components/sections/About').then(module => ({ default: module.About }))
+);
+const ContactCTA = lazy(() =>
+  import('@/components/sections/ContactCTA').then(module => ({ default: module.ContactCTA }))
+);
 
 const LazySection = ({ children }: { children: React.ReactNode }) => {
   const { ref, inView } = useInView({
