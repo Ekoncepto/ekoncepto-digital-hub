@@ -23,22 +23,22 @@ async function optimizeImage() {
     for (const width of widths) {
       const outputFilename = `about-${width}w`;
       const inputPath = path.join(inputDir, imageName);
-      
+
       // Generate WebP
       await sharp(inputPath)
         .resize({ width, withoutEnlargement: true })
         .webp({ quality: 80, effort: 6 })
         .toFile(path.join(outputDir, `${outputFilename}.webp`));
-      
+
       // Generate fallback JPEG
       await sharp(inputPath)
         .resize({ width, withoutEnlargement: true })
         .jpeg({ quality: 80, mozjpeg: true })
         .toFile(path.join(outputDir, `${outputFilename}.jpg`));
-      
+
       console.log(`Generated: ${outputFilename}.webp and ${outputFilename}.jpg`);
     }
-    
+
     console.log('Image optimization complete!');
   } catch (error) {
     console.error('Error optimizing images:', error);

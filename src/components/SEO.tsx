@@ -124,7 +124,10 @@ export const SEO = ({
     });
     if (image) upsertMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: image });
 
-    if (canonical) upsertLink('canonical', canonical);
+    if (canonical) {
+      const canonicalUrl = new URL(canonical, siteMetadata.siteUrl).href;
+      upsertLink('canonical', canonicalUrl);
+    }
 
     // Structured Data
     const schemas = [
