@@ -1,4 +1,4 @@
-import { businessInfo, contactInfo } from '@/config/site';
+import { businessInfo, externalLinks } from '@/config/site';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { motion } from 'framer-motion';
 import { Check, BarChart, Users, Zap, Award, Quote } from 'lucide-react';
@@ -151,16 +151,21 @@ export const About = () => {
             </ul>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-primary hover:bg-primary/90">
-                Fale com um especialista
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-primary text-primary hover:bg-primary/5"
-              >
-                Conheça nossa metodologia
-              </Button>
+              <a href={externalLinks.whatsapp} target="_blank" rel="noopener noreferrer">
+                <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
+                  <span>Fale com um especialista</span>
+                </Button>
+              </a>
+              <a href="#metodologia">
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="border-primary text-primary hover:bg-primary/5"
+                >
+                  <span>Conheça nossa metodologia</span>
+                </Button>
+              </a>
             </div>
           </motion.div>
         </div>
