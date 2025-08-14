@@ -1,5 +1,4 @@
-import React, { Suspense, lazy } from 'react';
-import { useInView } from 'react-intersection-observer';
+import React, { Suspense } from 'react';
 import SEO from '@/components/SEO';
 import { Header } from '@/components/sections/Header';
 import { Hero } from '@/components/sections/Hero';
@@ -68,33 +67,23 @@ const Index = () => {
 
       <main>
         <Hero />
-        <ErrorBoundary>
-          <LazySection>
+        <Suspense fallback={<PageLoader />}>
+          <ErrorBoundary>
             <MarketOverview />
-          </LazySection>
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <LazySection>
+          </ErrorBoundary>
+          <ErrorBoundary>
             <Methodology />
-          </LazySection>
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <LazySection>
+          </ErrorBoundary>
+          <ErrorBoundary>
             <SuccessCases />
-          </LazySection>
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <LazySection>
+          </ErrorBoundary>
+          <ErrorBoundary>
             <Services />
-          </LazySection>
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <LazySection>
+          </ErrorBoundary>
+          <ErrorBoundary>
             <Process />
-          </LazySection>
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <LazySection>
+          </ErrorBoundary>
+          <ErrorBoundary>
             <About />
           </LazySection>
         </ErrorBoundary>
@@ -106,8 +95,8 @@ const Index = () => {
         <ErrorBoundary>
           <LazySection>
             <ContactCTA />
-          </LazySection>
-        </ErrorBoundary>
+          </ErrorBoundary>
+        </Suspense>
       </main>
 
       <Footer />
