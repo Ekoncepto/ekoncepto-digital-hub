@@ -107,7 +107,7 @@ export const About = () => {
               <OptimizedImage
                 src="/images/timeReuniao.jpeg"
                 alt="Time da E-Koncepto em reunião de planejamento estratégico"
-                widths={[640, 768, 1024]}
+                widths={[320, 640, 960]}
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="w-full h-auto"
                 imgClassName="w-full h-auto"

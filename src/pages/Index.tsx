@@ -91,7 +91,9 @@ const Index = () => {
           </LazySection>
         </ErrorBoundary>
         <ErrorBoundary>
-          <About />
+          <LazySection>
+            <About />
+          </LazySection>
         </ErrorBoundary>
         <ErrorBoundary>
           <LazySection>
