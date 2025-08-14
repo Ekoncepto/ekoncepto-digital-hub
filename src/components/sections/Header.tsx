@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
+import { Link, useLocation } from 'react-router-dom';
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const observer = useRef<IntersectionObserver | null>(null);
+  const location = useLocation();
 
   // --- Effects for scroll detection and active section observation ---
   useEffect(() => {
@@ -53,6 +55,7 @@ export const Header = () => {
     { href: '#mercado', label: 'Mercado', id: 'mercado' },
     { href: '#metodologia', label: 'Metodologia', id: 'metodologia' },
     { href: '#cases', label: 'Cases', id: 'cases' },
+    { to: '/solucoes', label: 'Soluções', id: 'solucoes' },
     { href: '#servicos', label: 'Serviços', id: 'servicos' },
     { href: '#processo', label: 'Processo', id: 'processo' },
     { href: '#about', label: 'Sobre', id: 'about' },
@@ -83,18 +86,28 @@ export const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex min-w-0 flex-grow items-center justify-end space-x-4 lg:space-x-6 xl:space-x-8">
-            {navLinks.map(link => (
-              <a
-                key={link.id}
-                href={link.href}
-                data-testid={`nav-${link.id}`}
-                className={`text-sm font-medium transition-colors duration-300 ${
-                  activeSection === link.id ? 'text-brand' : 'text-gray-600 hover:text-brand'
-                }`}
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map(link => {
+              const isActive = link.to ? location.pathname === link.to : activeSection === link.id;
+              const commonProps = {
+                key: link.id,
+                'data-testid': `nav-${link.id}`,
+                className: `text-sm font-medium transition-colors duration-300 ${
+                  isActive ? 'text-brand' : 'text-gray-600 hover:text-brand'
+                }`,
+              };
+              if (link.to) {
+                return (
+                  <Link to={link.to} {...commonProps}>
+                    {link.label}
+                  </Link>
+                );
+              }
+              return (
+                <a href={link.href} {...commonProps}>
+                  {link.label}
+                </a>
+              );
+            })}
             <Button asChild size="sm">
               <a href="#contato">Fale Conosco</a>
             </Button>
@@ -128,20 +141,31 @@ export const Header = () => {
         }`}
       >
         <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-          {navLinks.map(link => (
-            <a
-              key={link.id}
-              href={link.href}
-              onClick={closeMobileMenu}
-              className={`block rounded-md px-3 py-2 text-base font-medium transition-colors duration-300 ${
-                activeSection === link.id
+          {navLinks.map(link => {
+            const isActive = link.to ? location.pathname === link.to : activeSection === link.id;
+            const commonProps = {
+              key: link.id,
+              onClick: closeMobileMenu,
+              className: `block rounded-md px-3 py-2 text-base font-medium transition-colors duration-300 ${
+                isActive
                   ? 'bg-brand/10 text-brand'
                   : 'text-foreground hover:bg-gray-50 hover:text-brand'
-              }`}
-            >
-              {link.label}
-            </a>
-          ))}
+              }`,
+            };
+
+            if (link.to) {
+              return (
+                <Link to={link.to} {...commonProps}>
+                  {link.label}
+                </Link>
+              );
+            }
+            return (
+              <a href={link.href} {...commonProps}>
+                {link.label}
+              </a>
+            );
+          })}
         </div>
         <div className="border-t border-gray-200 px-2 pt-3 pb-3">
           <Button asChild className="w-full">

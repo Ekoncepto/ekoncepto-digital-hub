@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { Header } from './Header';
 
 // Mock IntersectionObserver
@@ -17,14 +18,22 @@ describe('Header', () => {
   });
 
   it('should render the logo and desktop navigation', () => {
-    render(<Header />);
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    );
     expect(screen.getByTestId('logo')).toBeInTheDocument();
     expect(screen.getByTestId('nav-mercado')).toBeInTheDocument();
     expect(screen.getByTestId('nav-metodologia')).toBeInTheDocument();
   });
 
   it('should toggle the mobile menu on button click', () => {
-    render(<Header />);
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    );
     const mobileMenuButton = screen.getByLabelText(/toggle menu/i);
     const mobileMenu = screen.getByTestId('mobile-menu');
 

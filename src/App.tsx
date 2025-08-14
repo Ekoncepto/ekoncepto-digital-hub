@@ -8,6 +8,9 @@ import { useAnalytics } from './hooks/useAnalytics';
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import FloatingWhatsAppButton from './components/common/FloatingWhatsAppButton';
+import { landingPageRoutes } from './pages/landing/routes';
+import LandingIndexPage from './pages/LandingIndex';
+import ThankYouPage from './pages/ThankYou';
 
 const queryClient = new QueryClient();
 
@@ -36,6 +39,9 @@ const App = () => (
         <Analytics />
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/solucoes" element={<LandingIndexPage />} />
+          <Route path="/obrigado" element={<ThankYouPage />} />
+          {landingPageRoutes}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
