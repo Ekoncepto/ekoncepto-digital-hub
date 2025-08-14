@@ -6,6 +6,7 @@ import { Footer } from '@/components/sections/Footer';
 import { businessInfo, siteMetadata, socialLinks } from '@/config/site';
 import PageLoader from '@/components/common/PageLoader';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
+import { lazy } from 'react';
 
 // Lazy-loaded sections
 const MarketOverview = lazy(() => import('@/components/sections/MarketOverview'));
@@ -28,19 +29,6 @@ const ContactCTA = lazy(() =>
 const Faq = lazy(() =>
   import('@/components/sections/Faq').then(module => ({ default: module.Faq }))
 );
-
-const LazySection = ({ children }: { children: React.ReactNode }) => {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    rootMargin: '200px 0px',
-  });
-
-  return (
-    <div ref={ref} style={{ minHeight: '50vh' }}>
-      {inView ? <Suspense fallback={<PageLoader />}>{children}</Suspense> : null}
-    </div>
-  );
-};
 
 const Index = () => {
   const title = `${businessInfo.name} | ${businessInfo.headline}`;
@@ -85,15 +73,11 @@ const Index = () => {
           </ErrorBoundary>
           <ErrorBoundary>
             <About />
-          </LazySection>
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <LazySection>
+          </ErrorBoundary>
+          <ErrorBoundary>
             <Faq />
-          </LazySection>
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <LazySection>
+          </ErrorBoundary>
+          <ErrorBoundary>
             <ContactCTA />
           </ErrorBoundary>
         </Suspense>

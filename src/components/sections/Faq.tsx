@@ -11,7 +11,7 @@ const faqItems = [
   {
     question: 'O que vocês fazem de verdade?',
     answer:
-      'Nós turbinamos suas vendas nos marketplaces: otimizamos anúncios, gerenciamos campanhas de mídia, ajustamos preços, cuidamos da operação e acompanhamos os resultados de perto para aumentar seu faturamento.',
+      'Nós turbinamos suas vendas nos marketplaces: otimizamos anúncios, gerenciamos campanhas de mídia, recomendamos preços, cuidamos da operação e acompanhamos os resultados de perto para aumentar seu faturamento.',
   },
   {
     question: 'Onde vocês atuam?',
@@ -21,7 +21,7 @@ const faqItems = [
   {
     question: 'Quanto tempo até ver resultado?',
     answer:
-      'Os primeiros sinais de melhora costumam aparecer entre 2 e 4 semanas. Um crescimento mais consolidado e expressivo geralmente é observado em um período de 2 a 3 meses.',
+      'Os primeiros sinais de melhora costumam aparecer entre 2 e 4 semanas. Um crescimento mais consolidado e expressivo geralmente é observado a partir de 6 meses, que é o período ideal para otimização completa dos anúncios e estratégias.',
   },
   {
     question: 'Como é a forma de cobrança?',
@@ -46,7 +46,7 @@ const faqItems = [
   {
     question: 'E os anúncios pagos?',
     answer:
-      'Sim, como serviço opcional, gerenciamos todo o seu investimento em mídia paga (Product Ads). Cuidamos da estratégia, segmentação e criativos para garantir o melhor retorno sobre o investimento (ROAS) em cada canal. Este serviço é contratado à parte, de acordo com as necessidades do seu negócio.',
+      'Sim, como serviço opcional, gerenciamos todo o seu investimento em mídia paga, incluindo Product Ads e estratégias de funil completo, de acordo com a necessidade do seu negócio. Cuidamos da estratégia, segmentação e criativos para garantir o melhor retorno sobre o investimento (ROAS) em cada canal. Este serviço é contratado à parte, com um plano personalizado para o seu negócio.',
   },
 ];
 
