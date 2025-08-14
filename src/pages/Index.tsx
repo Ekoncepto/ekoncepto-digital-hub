@@ -7,14 +7,24 @@ import { businessInfo, siteMetadata, socialLinks } from '@/config/site';
 import PageLoader from '@/components/common/PageLoader';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
 
-// Import sections directly
-import MarketOverview from '@/components/sections/MarketOverview';
-import { Methodology } from '@/components/sections/Methodology';
-import SuccessCases from '@/components/sections/SuccessCases';
-import { Services } from '@/components/sections/Services';
-import { Process } from '@/components/sections/Process';
-import { About } from '@/components/sections/About';
-import { ContactCTA } from '@/components/sections/ContactCTA';
+// Lazy load sections for better performance
+const MarketOverview = React.lazy(() => import('@/components/sections/MarketOverview'));
+const Methodology = React.lazy(() =>
+  import('@/components/sections/Methodology').then(module => ({ default: module.Methodology }))
+);
+const SuccessCases = React.lazy(() => import('@/components/sections/SuccessCases'));
+const Services = React.lazy(() =>
+  import('@/components/sections/Services').then(module => ({ default: module.Services }))
+);
+const Process = React.lazy(() =>
+  import('@/components/sections/Process').then(module => ({ default: module.Process }))
+);
+const About = React.lazy(() =>
+  import('@/components/sections/About').then(module => ({ default: module.About }))
+);
+const ContactCTA = React.lazy(() =>
+  import('@/components/sections/ContactCTA').then(module => ({ default: module.ContactCTA }))
+);
 
 const Index = () => {
   const title = `${businessInfo.name} | ${businessInfo.headline}`;

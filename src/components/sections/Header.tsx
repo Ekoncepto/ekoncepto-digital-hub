@@ -68,13 +68,18 @@ export const Header = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <a href="#" aria-label="E-koncepto Home" data-testid="logo">
-              <img
-                src="/images/ekoncepto-logo.svg"
-                alt="E-koncepto Logo"
-                className="h-8 w-auto"
-                width="245"
-                height="32"
-              />
+              <picture>
+                <source srcSet="/images/optimized/ekoncepto-logo.webp" type="image/webp" />
+                <source srcSet="/images/optimized/ekoncepto-logo.png" type="image/png" />
+                <img
+                  src="/images/ekoncepto-logo.svg"
+                  alt="E-koncepto Logo"
+                  className="h-8 w-auto"
+                  width="245"
+                  height="32"
+                  fetchPriority="high"
+                />
+              </picture>
             </a>
           </div>
 
@@ -86,9 +91,7 @@ export const Header = () => {
                 href={link.href}
                 data-testid={`nav-${link.id}`}
                 className={`text-sm font-medium transition-colors duration-300 ${
-                  activeSection === link.id
-                    ? 'text-brand'
-                    : 'text-gray-600 hover:text-brand'
+                  activeSection === link.id ? 'text-brand' : 'text-gray-600 hover:text-brand'
                 }`}
               >
                 {link.label}
@@ -106,12 +109,7 @@ export const Header = () => {
               aria-label="Toggle menu"
               className="inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-brand focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand"
             >
-              <svg
-                className="h-6 w-6"
-                stroke="currentColor"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
+              <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -140,7 +138,7 @@ export const Header = () => {
               className={`block rounded-md px-3 py-2 text-base font-medium transition-colors duration-300 ${
                 activeSection === link.id
                   ? 'bg-brand/10 text-brand'
-                  : 'text-gray-700 hover:bg-gray-50 hover:text-brand'
+                  : 'text-foreground hover:bg-gray-50 hover:text-brand'
               }`}
             >
               {link.label}
