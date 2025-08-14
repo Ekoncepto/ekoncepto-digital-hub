@@ -26,6 +26,9 @@ const About = lazy(() =>
 const ContactCTA = lazy(() =>
   import('@/components/sections/ContactCTA').then(module => ({ default: module.ContactCTA }))
 );
+const Faq = lazy(() =>
+  import('@/components/sections/Faq').then(module => ({ default: module.Faq }))
+);
 
 const LazySection = ({ children }: { children: React.ReactNode }) => {
   const { ref, inView } = useInView({
@@ -93,6 +96,11 @@ const Index = () => {
         <ErrorBoundary>
           <LazySection>
             <About />
+          </LazySection>
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <LazySection>
+            <Faq />
           </LazySection>
         </ErrorBoundary>
         <ErrorBoundary>
