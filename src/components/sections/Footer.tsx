@@ -70,7 +70,7 @@ export const Footer = () => {
       links: [
         { name: contactInfo.email, href: 'mailto:' + contactInfo.email },
         { name: contactInfo.phone, href: 'tel:+' + contactInfo.whatsapp },
-        { name: contactInfo.address, href: '#' },
+        { name: contactInfo.address, href: '' },
       ],
     },
   ];
