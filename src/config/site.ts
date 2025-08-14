@@ -97,7 +97,7 @@ export const socialLinks: SocialLink[] = [
 
 // External Links
 export const externalLinks = {
-  whatsapp: `https://wa.me/5511971630441?text=Olá! Gostaria de mais informações sobre a consultoria.`, // Replace with actual WhatsApp number
+  whatsapp: `https://wa.me/${contactInfo.whatsapp}?text=Olá! Gostaria de mais informações sobre a consultoria.`, // Replace with actual WhatsApp number
   //googleMaps: 'https://goo.gl/maps/example',
   privacyPolicy: '/politica-de-privacidade',
   termsOfService: '/termos-de-uso',
