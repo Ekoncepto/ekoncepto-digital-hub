@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { services } from '@/config/site';
+import { externalLinks, services } from '@/config/site';
 import { ArrowRight, BarChart2, Rocket, Zap, TrendingUp, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -77,15 +77,22 @@ export const Services = () => {
                         </li>
                       ))}
                     </ul>
-
-                    <Button
-                      className="mt-auto w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
-                      variant="outline"
-                      size="lg"
+                    <a
+                      className="inline-block mt-6"
+                      href={externalLinks.whatsapp}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Falar com um especialista no WhatsApp"
                     >
-                      {service.cta}
-                      <ArrowRight className="ml-2 size-4 group-hover:translate-x-1 transition-transform" />
-                    </Button>
+                      <Button
+                        className="mt-auto w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+                        variant="outline"
+                        size="lg"
+                      >
+                        {service.cta}
+                        <ArrowRight className="ml-2 size-4 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                    </a>
                   </div>
                 </Card>
               </motion.div>
@@ -101,10 +108,18 @@ export const Services = () => {
           transition={{ delay: 0.3 }}
         >
           <p className="text-muted-foreground mb-6">Não encontrou o que procura?</p>
-          <Button size="lg" className="bg-primary hover:bg-primary/90">
-            Fale com nosso time
-            <ArrowRight className="ml-2 size-4" />
-          </Button>
+          <a
+            className="inline-block mt-6"
+            href={externalLinks.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Falar com um especialista no WhatsApp"
+          >
+            <Button size="lg" className="bg-primary hover:bg-primary/90">
+              Fale com nosso time
+              <ArrowRight className="ml-2 size-4" />
+            </Button>
+          </a>
         </motion.div>
       </div>
     </section>
