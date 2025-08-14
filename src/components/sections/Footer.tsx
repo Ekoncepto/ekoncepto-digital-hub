@@ -56,7 +56,7 @@ export const Footer = () => {
     {
       title: 'Navegação',
       links: [
-        { name: 'Início', href: '#hero' },
+        { name: 'Início', href: '#' },
         { name: 'O Mercado', href: '#mercado' },
         { name: 'Metodologia', href: '#metodologia' },
         { name: 'Cases de Sucesso', href: '#cases' },

@@ -125,8 +125,8 @@ export const Process = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
+        staggerChildren: 0.5,
+        delayChildren: 0,
       },
     },
   };
@@ -137,7 +137,7 @@ export const Process = () => {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6,
+        duration: 0.5,
         ease: [0.4, 0, 0.2, 1],
       },
     },
@@ -149,7 +149,7 @@ export const Process = () => {
       scaleY: 1,
       opacity: 1,
       transition: {
-        duration: 1,
+        duration: 0.3,
         ease: [0.4, 0, 0.2, 1],
       },
     },
@@ -171,7 +171,7 @@ export const Process = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.3 }}
         >
           <span className="inline-block text-brand font-semibold text-sm uppercase tracking-wider mb-3">
             Nosso Processo
