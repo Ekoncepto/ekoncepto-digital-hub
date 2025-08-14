@@ -80,7 +80,7 @@ export const Header = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
           <a href="#" data-testid="logo">
-            <img src="/images/logo.svg" alt="E-koncepto Logo" className="h-8 w-auto" />
+            <img src="/images/ekoncepto-logo.svg" alt="E-koncepto Logo" className="h-8 w-auto" />
           </a>
 
           {/* Desktop Navigation */}
