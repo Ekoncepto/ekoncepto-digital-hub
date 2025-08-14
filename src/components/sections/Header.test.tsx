@@ -26,12 +26,12 @@ describe('Header', () => {
   it('should toggle the mobile menu on button click', () => {
     render(<Header />);
     const mobileMenuButton = screen.getByLabelText(/toggle menu/i);
-    const mobileMenu = mobileMenuButton.parentElement?.nextElementSibling;
+    const mobileMenu = screen.getByTestId('mobile-menu');
 
     expect(mobileMenu).toHaveClass('max-h-0');
 
     fireEvent.click(mobileMenuButton);
-    expect(mobileMenu).toHaveClass('max-h-96');
+    expect(mobileMenu).toHaveClass('max-h-screen');
 
     fireEvent.click(mobileMenuButton);
     expect(mobileMenu).toHaveClass('max-h-0');
