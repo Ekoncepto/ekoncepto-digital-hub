@@ -69,8 +69,6 @@ export const Header = () => {
           <div className="flex-shrink-0">
             <a href="#" aria-label="E-koncepto Home" data-testid="logo">
               <picture>
-                <source srcSet="/images/optimized/ekoncepto-logo.webp" type="image/webp" />
-                <source srcSet="/images/optimized/ekoncepto-logo.png" type="image/png" />
                 <img
                   src="/images/ekoncepto-logo.svg"
                   alt="E-koncepto Logo"
