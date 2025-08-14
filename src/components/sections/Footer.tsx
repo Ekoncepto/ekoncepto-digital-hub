@@ -55,11 +55,12 @@ export const Footer = () => {
     {
       title: 'Navegação',
       links: [
-        { name: 'Início', href: '#inicio' },
+        { name: 'Início', href: '#hero' },
         { name: 'O Mercado', href: '#mercado' },
         { name: 'Metodologia', href: '#metodologia' },
-        { name: 'Cases de Sucesso', href: '#casos-de-sucesso' },
-        { name: 'Processo', href: '#processo' },
+        { name: 'Cases de Sucesso', href: '#cases' },
+        { name: 'Serviços', href: '#servicos' },
+        { name: 'Nosso Processo', href: '#processo' },
         { name: 'Sobre Nós', href: '#about' },
       ],
     },
