@@ -64,7 +64,7 @@ export const Header = () => {
       className={`sticky top-0 z-50 bg-white transition-shadow duration-300 ${isScrolled ? 'shadow-lg' : ''}`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between">
+        <div className="flex h-20 items-center justify-between gap-4 sm:gap-8">
           {/* Logo */}
           <div className="flex-shrink-0">
             <a href="#" aria-label="E-koncepto Home" data-testid="logo">
@@ -77,7 +77,7 @@ export const Header = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex flex-grow items-center justify-end space-x-4 lg:space-x-6 xl:space-x-8">
+          <nav className="hidden lg:flex min-w-0 flex-grow items-center justify-end space-x-4 lg:space-x-6 xl:space-x-8">
             {navLinks.map(link => (
               <a
                 key={link.id}
@@ -98,7 +98,7 @@ export const Header = () => {
           </nav>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <button
               onClick={toggleMobileMenu}
               aria-label="Toggle menu"
@@ -125,7 +125,7 @@ export const Header = () => {
       {/* Mobile Menu */}
       <div
         data-testid="mobile-menu"
-        className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`lg:hidden transition-all duration-300 ease-in-out overflow-hidden ${
           mobileMenuOpen ? 'max-h-screen' : 'max-h-0'
         }`}
       >
