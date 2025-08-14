@@ -72,6 +72,8 @@ export const Header = () => {
                 src="/images/ekoncepto-logo.svg"
                 alt="E-koncepto Logo"
                 className="h-8 w-auto"
+                width="245"
+                height="32"
               />
             </a>
           </div>

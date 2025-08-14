@@ -96,8 +96,8 @@ export const Hero = () => {
                       src={marketplace.src}
                       alt={marketplace.alt}
                       className="h-8 sm:h-10 md:h-12 w-auto transition-all duration-300"
-                      width={150}
-                      height={40}
+                      width={marketplace.alt === 'Mercado Livre' ? 134 : marketplace.alt === 'Amazon' ? 100 : 82}
+                      height={marketplace.alt === 'Mercado Livre' ? 42 : marketplace.alt === 'Amazon' ? 33 : 26}
                       loading="lazy"
                     />
                   </div>

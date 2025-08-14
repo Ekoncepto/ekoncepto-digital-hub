@@ -70,7 +70,7 @@ export const Footer = () => {
       links: [
         { name: contactInfo.email, href: 'mailto:' + contactInfo.email },
         { name: contactInfo.phone, href: 'tel:+' + contactInfo.whatsapp },
-        { name: contactInfo.address, href: '' },
+        { name: contactInfo.address, href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contactInfo.address)}` },
       ],
     },
   ];
@@ -92,6 +92,8 @@ export const Footer = () => {
                 src="/images/ekoncepto-logo branco.svg"
                 alt="E-Koncepto"
                 className="h-8 w-auto"
+                width="245"
+                height="32"
               />
             </motion.div>
             <motion.p
@@ -135,7 +137,7 @@ export const Footer = () => {
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.6, delay: 0.1 * (index + 1) }}
             >
-              <h4 className="text-white font-semibold text-lg mb-4">{section.title}</h4>
+              <h3 className="text-white font-semibold text-lg mb-4">{section.title}</h3>
               <ul className="space-y-3">
                 {section.links.map(link => (
                   <li key={link.name}>
@@ -158,7 +160,7 @@ export const Footer = () => {
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <h4 className="text-white font-semibold text-lg mb-4">Newsletter</h4>
+            <h3 className="text-white font-semibold text-lg mb-4">Newsletter</h3>
             <p className="text-gray-400 mb-4">
               Assine nossa newsletter para receber novidades e dicas.
             </p>
