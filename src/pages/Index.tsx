@@ -66,9 +66,6 @@ const Index = () => {
       <main>
         <Hero />
         <ErrorBoundary>
-          <About />
-        </ErrorBoundary>
-        <ErrorBoundary>
           <LazySection>
             <MarketOverview />
           </LazySection>
@@ -91,6 +88,11 @@ const Index = () => {
         <ErrorBoundary>
           <LazySection>
             <Process />
+          </LazySection>
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <LazySection>
+            <About />
           </LazySection>
         </ErrorBoundary>
         <ErrorBoundary>
