@@ -127,7 +127,7 @@ export const Header = () => {
       {/* Mobile Menu */}
       <div
         data-testid="mobile-menu"
-        className={`lg:hidden transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`lg:hidden bg-white transition-all duration-300 ease-in-out overflow-hidden ${
           mobileMenuOpen ? 'max-h-screen' : 'max-h-0'
         }`}
       >
