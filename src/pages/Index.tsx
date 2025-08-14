@@ -1,5 +1,4 @@
-import React, { Suspense, lazy } from 'react';
-import { useInView } from 'react-intersection-observer';
+import React, { Suspense } from 'react';
 import SEO from '@/components/SEO';
 import { Header } from '@/components/sections/Header';
 import { Hero } from '@/components/sections/Hero';
@@ -8,37 +7,14 @@ import { businessInfo, siteMetadata, socialLinks } from '@/config/site';
 import PageLoader from '@/components/common/PageLoader';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
 
-// Lazy-loaded sections
-const MarketOverview = lazy(() => import('@/components/sections/MarketOverview'));
-const Methodology = lazy(() =>
-  import('@/components/sections/Methodology').then(module => ({ default: module.Methodology }))
-);
-const SuccessCases = lazy(() => import('@/components/sections/SuccessCases'));
-const Services = lazy(() =>
-  import('@/components/sections/Services').then(module => ({ default: module.Services }))
-);
-const Process = lazy(() =>
-  import('@/components/sections/Process').then(module => ({ default: module.Process }))
-);
-const About = lazy(() =>
-  import('@/components/sections/About').then(module => ({ default: module.About }))
-);
-const ContactCTA = lazy(() =>
-  import('@/components/sections/ContactCTA').then(module => ({ default: module.ContactCTA }))
-);
-
-const LazySection = ({ children }: { children: React.ReactNode }) => {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    rootMargin: '200px 0px',
-  });
-
-  return (
-    <div ref={ref} style={{ minHeight: '50vh' }}>
-      {inView ? <Suspense fallback={<PageLoader />}>{children}</Suspense> : null}
-    </div>
-  );
-};
+// Import sections directly
+import MarketOverview from '@/components/sections/MarketOverview';
+import { Methodology } from '@/components/sections/Methodology';
+import SuccessCases from '@/components/sections/SuccessCases';
+import { Services } from '@/components/sections/Services';
+import { Process } from '@/components/sections/Process';
+import { About } from '@/components/sections/About';
+import { ContactCTA } from '@/components/sections/ContactCTA';
 
 const Index = () => {
   const title = `${businessInfo.name} | ${businessInfo.headline}`;
@@ -65,41 +41,29 @@ const Index = () => {
 
       <main>
         <Hero />
-        <ErrorBoundary>
-          <LazySection>
+        <Suspense fallback={<PageLoader />}>
+          <ErrorBoundary>
             <MarketOverview />
-          </LazySection>
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <LazySection>
+          </ErrorBoundary>
+          <ErrorBoundary>
             <Methodology />
-          </LazySection>
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <LazySection>
+          </ErrorBoundary>
+          <ErrorBoundary>
             <SuccessCases />
-          </LazySection>
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <LazySection>
+          </ErrorBoundary>
+          <ErrorBoundary>
             <Services />
-          </LazySection>
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <LazySection>
+          </ErrorBoundary>
+          <ErrorBoundary>
             <Process />
-          </LazySection>
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <LazySection>
+          </ErrorBoundary>
+          <ErrorBoundary>
             <About />
-          </LazySection>
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <LazySection>
+          </ErrorBoundary>
+          <ErrorBoundary>
             <ContactCTA />
-          </LazySection>
-        </ErrorBoundary>
+          </ErrorBoundary>
+        </Suspense>
       </main>
 
       <Footer />

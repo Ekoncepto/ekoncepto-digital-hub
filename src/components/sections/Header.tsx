@@ -2,24 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { businessInfo, contactInfo } from '@/config/site';
 
-// Smooth scroll to element with offset for fixed header
-const scrollTo = (id: string, retries = 5) => {
-  const element = document.getElementById(id);
-
-  if (element) {
-    const headerOffset = 100; // Adjust based on your header height
-    const elementPosition = element.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: 'smooth',
-    });
-  } else if (retries > 0) {
-    setTimeout(() => scrollTo(id, retries - 1), 100); // Wait 100ms and try again
-  }
-};
-
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -58,9 +40,9 @@ export const Header = () => {
   }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
-    e.preventDefault();
+    // e.preventDefault();
     setMobileMenuOpen(false);
-    scrollTo(sectionId);
+    // scrollTo(sectionId);
   };
 
   useEffect(() => {
