@@ -28,7 +28,7 @@ const ConsultoriaDeVendasOnlinePage = () => {
           <Card className="w-full max-w-md mx-auto">
             <CardHeader>
               <CardTitle className="text-center text-2xl">Pedir proposta</CardTitle>
-            </Header>
+            </CardHeader>
             <CardContent>
               <LandingPageForm />
             </CardContent>

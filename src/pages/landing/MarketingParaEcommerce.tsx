@@ -28,7 +28,7 @@ const MarketingParaEcommercePage = () => {
           <Card className="w-full max-w-md mx-auto">
             <CardHeader>
               <CardTitle className="text-center text-2xl">Baixar agora</CardTitle>
-            </Header>
+            </CardHeader>
             <CardContent>
               <LandingPageForm />
             </CardContent>
