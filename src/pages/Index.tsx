@@ -6,6 +6,7 @@ import { Footer } from '@/components/sections/Footer';
 import { businessInfo, siteMetadata, socialLinks } from '@/config/site';
 import PageLoader from '@/components/common/PageLoader';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
+import { lazy } from 'react';
 
 // Lazy load sections for better performance
 const MarketOverview = React.lazy(() => import('@/components/sections/MarketOverview'));
@@ -24,6 +25,9 @@ const About = React.lazy(() =>
 );
 const ContactCTA = React.lazy(() =>
   import('@/components/sections/ContactCTA').then(module => ({ default: module.ContactCTA }))
+);
+const Faq = React.lazy(() =>
+  import('@/components/sections/Faq').then(module => ({ default: module.Faq }))
 );
 
 const Index = () => {
@@ -69,6 +73,9 @@ const Index = () => {
           </ErrorBoundary>
           <ErrorBoundary>
             <About />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <Faq />
           </ErrorBoundary>
           <ErrorBoundary>
             <ContactCTA />
