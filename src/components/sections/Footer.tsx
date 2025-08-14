@@ -85,7 +85,11 @@ export const Footer = () => {
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.6 }}
             >
-              E-<span className="text-brand">koncepto</span>
+              <img
+                src="/images/ekoncepto-logo branco.svg"
+                alt="E-Koncepto"
+                className="h-8 w-auto"
+              />
             </motion.div>
             <motion.p
               className="text-gray-400"

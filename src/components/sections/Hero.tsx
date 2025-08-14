@@ -91,7 +91,7 @@ export const Hero = () => {
                     animationDelay: `${200 + index * 100}ms`,
                   }}
                 >
-                  <div className="bg-white/90 p-3 rounded-lg backdrop-blur-sm">
+                  <div className="bg-white/90 p-5 rounded-lg backdrop-blur-sm">
                     <img
                       src={marketplace.src}
                       alt={marketplace.alt}
