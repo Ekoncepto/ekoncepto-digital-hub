@@ -60,6 +60,7 @@ export const Footer = () => {
         { name: 'Metodologia', href: '#metodologia' },
         { name: 'Cases de Sucesso', href: '#casos-de-sucesso' },
         { name: 'Processo', href: '#processo' },
+        { name: 'Sobre Nós', href: '#about' },
       ],
     },
     {
