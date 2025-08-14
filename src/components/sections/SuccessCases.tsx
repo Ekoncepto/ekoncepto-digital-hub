@@ -125,7 +125,7 @@ const SuccessCases = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 sm:gap-8">
           {cases.map(caseItem => (
             <motion.div
               key={caseItem.id}
