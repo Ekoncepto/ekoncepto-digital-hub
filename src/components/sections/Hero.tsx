@@ -26,7 +26,7 @@ export const Hero = () => {
   }, []);
 
   return (
-    <section className="bg-brand-dark text-white text-center py-16 md:py-24 lg:py-32 overflow-hidden">
+    <section className="bg-brand-dark text-white text-center py-16 md:py-24 lg:py-32">
       <div className="container mx-auto px-4 sm:px-6">
         <div
           className="max-w-4xl mx-auto animate-fade-in-up"
