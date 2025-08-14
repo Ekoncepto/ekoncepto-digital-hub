@@ -79,8 +79,8 @@ export const Header = () => {
     >
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
-          <a href="#" className="text-2xl font-bold text-gray-800" data-testid="logo">
-            E-<span className="text-brand">koncepto</span>
+          <a href="#" data-testid="logo">
+            <img src="/images/ekoncepto-logo.svg" alt="E-koncepto Logo" className="h-8 w-auto" />
           </a>
 
           {/* Desktop Navigation */}
