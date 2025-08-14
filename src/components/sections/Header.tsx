@@ -3,8 +3,9 @@ import { Button } from '@/components/ui/button';
 import { businessInfo, contactInfo } from '@/config/site';
 
 // Smooth scroll to element with offset for fixed header
-const scrollTo = (id: string) => {
+const scrollTo = (id: string, retries = 5) => {
   const element = document.getElementById(id);
+
   if (element) {
     const headerOffset = 100; // Adjust based on your header height
     const elementPosition = element.getBoundingClientRect().top;
@@ -14,6 +15,8 @@ const scrollTo = (id: string) => {
       top: offsetPosition,
       behavior: 'smooth',
     });
+  } else if (retries > 0) {
+    setTimeout(() => scrollTo(id, retries - 1), 100); // Wait 100ms and try again
   }
 };
 
@@ -25,7 +28,7 @@ export const Header = () => {
 
   // Set up intersection observer to detect active section
   useEffect(() => {
-    const sections = ['hero', 'mercado', 'metodologia', 'cases', 'processo', 'contato'];
+    const sections = ['hero', 'mercado', 'metodologia', 'about', 'cases', 'processo', 'contato'];
 
     observer.current = new IntersectionObserver(
       entries => {
@@ -84,7 +87,7 @@ export const Header = () => {
           </a>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-2 lg:space-x-4">
             <a
               href="#mercado"
               onClick={e => handleNavClick(e, 'mercado')}
@@ -100,6 +103,14 @@ export const Header = () => {
               data-testid="nav-metodologia"
             >
               Metodologia
+            </a>
+            <a
+              href="#about"
+              onClick={e => handleNavClick(e, 'about')}
+              className={`${activeSection === 'about' ? 'text-brand font-semibold' : 'text-gray-600'} hover:text-brand transition-colors duration-300`}
+              data-testid="nav-about"
+            >
+              Sobre Nós
             </a>
             <a
               href="#cases"
@@ -164,6 +175,13 @@ export const Header = () => {
               onClick={e => handleNavClick(e, 'metodologia')}
             >
               Metodologia
+            </a>
+            <a
+              href="#about"
+              className={`block py-3 px-6 ${activeSection === 'about' ? 'bg-brand/10 text-brand font-semibold' : 'text-gray-600 hover:bg-gray-50'} rounded-lg transition-colors duration-300`}
+              onClick={e => handleNavClick(e, 'about')}
+            >
+              Sobre Nós
             </a>
             <a
               href="#cases"
