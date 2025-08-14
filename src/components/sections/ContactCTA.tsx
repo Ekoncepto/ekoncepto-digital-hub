@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { MessageCircle } from 'lucide-react';
-import { contactInfo, siteMetadata } from '@/config/site';
+import { externalLinks } from '@/config/site';
 
 export const ContactCTA = () => {
   return (
@@ -12,7 +12,7 @@ export const ContactCTA = () => {
         </p>
         <a
           className="inline-block mt-6"
-          href={`${contactInfo.whatsapp}?text=Ol%C3%A1%2C+vim+pelo+site+${encodeURIComponent(siteMetadata.siteUrl)}+e+gostaria+de+mais+informa%C3%A7%C3%B5es.`}
+          href={externalLinks.whatsapp}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Falar com um especialista no WhatsApp"
