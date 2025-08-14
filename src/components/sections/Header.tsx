@@ -1,21 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { businessInfo, contactInfo } from '@/config/site';
-
-// Smooth scroll to element with offset for fixed header
-const scrollTo = (id: string) => {
-  const element = document.getElementById(id);
-  if (element) {
-    const headerOffset = 100; // Adjust based on your header height
-    const elementPosition = element.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: 'smooth',
-    });
-  }
-};
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -23,10 +7,26 @@ export const Header = () => {
   const [activeSection, setActiveSection] = useState('');
   const observer = useRef<IntersectionObserver | null>(null);
 
-  // Set up intersection observer to detect active section
+  // --- Effects for scroll detection and active section observation ---
   useEffect(() => {
-    const sections = ['hero', 'mercado', 'metodologia', 'cases', 'processo', 'contato'];
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
+  useEffect(() => {
+    const sections = [
+      'hero',
+      'mercado',
+      'metodologia',
+      'cases',
+      'servicos',
+      'processo',
+      'about',
+      'contato',
+    ];
     observer.current = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
@@ -35,159 +35,122 @@ export const Header = () => {
           }
         });
       },
-      {
-        threshold: 0.5,
-        rootMargin: '-100px 0px -50% 0px',
-      }
+      { threshold: 0.5, rootMargin: '-100px 0px -50% 0px' }
     );
-
-    // Observe all sections
-    sections.forEach(section => {
-      const element = document.getElementById(section);
+    sections.forEach(id => {
+      const element = document.getElementById(id);
       if (element) observer.current?.observe(element);
     });
-
-    return () => {
-      if (observer.current) {
-        observer.current.disconnect();
-      }
-    };
+    return () => observer.current?.disconnect();
   }, []);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
-    e.preventDefault();
-    setMobileMenuOpen(false);
-    scrollTo(sectionId);
-  };
+  // --- Handlers ---
+  const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
+  const closeMobileMenu = () => setMobileMenuOpen(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
+  // --- Data for Navigation Links ---
+  const navLinks = [
+    { href: '#mercado', label: 'Mercado', id: 'mercado' },
+    { href: '#metodologia', label: 'Metodologia', id: 'metodologia' },
+    { href: '#cases', label: 'Cases', id: 'cases' },
+    { href: '#servicos', label: 'Serviços', id: 'servicos' },
+    { href: '#processo', label: 'Processo', id: 'processo' },
+    { href: '#about', label: 'Sobre', id: 'about' },
+  ];
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
-
+  // --- Render ---
   return (
     <header
-      className={`sticky top-0 z-50 bg-white transition-shadow ${isScrolled ? 'shadow-md' : ''}`}
+      className={`sticky top-0 z-50 bg-white transition-shadow duration-300 ${isScrolled ? 'shadow-lg' : ''}`}
     >
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex justify-between items-center">
-          <a href="#" data-testid="logo">
-            <img src="/images/ekoncepto-logo.svg" alt="E-koncepto Logo" className="h-8 w-auto" />
-          </a>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex h-20 items-center justify-between gap-4 sm:gap-8">
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <a href="#" aria-label="E-koncepto Home" data-testid="logo">
+              <img
+                src="/images/ekoncepto-logo.svg"
+                alt="E-koncepto Logo"
+                className="h-8 w-auto"
+              />
+            </a>
+          </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <a
-              href="#mercado"
-              onClick={e => handleNavClick(e, 'mercado')}
-              className={`${activeSection === 'mercado' ? 'text-brand font-semibold' : 'text-gray-600'} hover:text-brand transition-colors duration-300`}
-              data-testid="nav-mercado"
-            >
-              O Mercado
-            </a>
-            <a
-              href="#metodologia"
-              onClick={e => handleNavClick(e, 'metodologia')}
-              className={`${activeSection === 'metodologia' ? 'text-brand font-semibold' : 'text-gray-600'} hover:text-brand transition-colors duration-300`}
-              data-testid="nav-metodologia"
-            >
-              Metodologia
-            </a>
-            <a
-              href="#cases"
-              onClick={e => handleNavClick(e, 'cases')}
-              className={`${activeSection === 'cases' ? 'text-brand font-semibold' : 'text-gray-600'} hover:text-brand transition-colors duration-300`}
-            >
-              Cases de Sucesso
-            </a>
-            <a
-              href="#processo"
-              onClick={e => handleNavClick(e, 'processo')}
-              className={`${activeSection === 'processo' ? 'text-brand font-semibold' : 'text-gray-600'} hover:text-brand transition-colors duration-300`}
-            >
-              Nosso Processo
-            </a>
-            <Button
-              asChild
-              className="bg-brand hover:bg-brand/90 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
-            >
+          <nav className="hidden lg:flex min-w-0 flex-grow items-center justify-end space-x-4 lg:space-x-6 xl:space-x-8">
+            {navLinks.map(link => (
               <a
-                href="#contato"
-                onClick={e => handleNavClick(e, 'contato')}
-                className={`${activeSection === 'contato' ? 'bg-brand/90' : ''}`}
+                key={link.id}
+                href={link.href}
+                data-testid={`nav-${link.id}`}
+                className={`text-sm font-medium transition-colors duration-300 ${
+                  activeSection === link.id
+                    ? 'text-brand'
+                    : 'text-gray-600 hover:text-brand'
+                }`}
               >
-                Fale com um Especialista
+                {link.label}
               </a>
+            ))}
+            <Button asChild size="sm">
+              <a href="#contato">Fale Conosco</a>
             </Button>
           </nav>
 
           {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-gray-600"
-            onClick={toggleMobileMenu}
-            aria-label="Toggle menu"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16m-7 6h7"
-              />
-            </svg>
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        <div
-          className={`md:hidden mt-4 transition-all duration-300 ease-in-out overflow-hidden ${mobileMenuOpen ? 'max-h-96' : 'max-h-0'}`}
-        >
-          <div className="flex flex-col space-y-2 py-4">
-            <a
-              href="#mercado"
-              className={`block py-3 px-6 ${activeSection === 'mercado' ? 'bg-brand/10 text-brand font-semibold' : 'text-gray-600 hover:bg-gray-50'} rounded-lg transition-colors duration-300`}
-              onClick={e => handleNavClick(e, 'mercado')}
+          <div className="lg:hidden">
+            <button
+              onClick={toggleMobileMenu}
+              aria-label="Toggle menu"
+              className="inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-brand focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand"
             >
-              O Mercado
-            </a>
-            <a
-              href="#metodologia"
-              className={`block py-3 px-6 ${activeSection === 'metodologia' ? 'bg-brand/10 text-brand font-semibold' : 'text-gray-600 hover:bg-gray-50'} rounded-lg transition-colors duration-300`}
-              onClick={e => handleNavClick(e, 'metodologia')}
-            >
-              Metodologia
-            </a>
-            <a
-              href="#cases"
-              className={`block py-3 px-6 ${activeSection === 'cases' ? 'bg-brand/10 text-brand font-semibold' : 'text-gray-600 hover:bg-gray-50'} rounded-lg transition-colors duration-300`}
-              onClick={e => handleNavClick(e, 'cases')}
-            >
-              Cases de Sucesso
-            </a>
-            <a
-              href="#processo"
-              className={`block py-3 px-6 ${activeSection === 'processo' ? 'bg-brand/10 text-brand font-semibold' : 'text-gray-600 hover:bg-gray-50'} rounded-lg transition-colors duration-300`}
-              onClick={e => handleNavClick(e, 'processo')}
-            >
-              Nosso Processo
-            </a>
-            <Button
-              asChild
-              className={`w-full font-bold py-3 rounded-lg transition-all duration-300 ${activeSection === 'contato' ? 'bg-brand/90' : 'bg-brand hover:bg-brand/90'}`}
-            >
-              <a href="#contato" onClick={e => handleNavClick(e, 'contato')}>
-                Fale com um Especialista
-              </a>
-            </Button>
+              <svg
+                className="h-6 w-6"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d={mobileMenuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16m-7 6h7'}
+                />
+              </svg>
+            </button>
           </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <div
+        data-testid="mobile-menu"
+        className={`lg:hidden transition-all duration-300 ease-in-out overflow-hidden ${
+          mobileMenuOpen ? 'max-h-screen' : 'max-h-0'
+        }`}
+      >
+        <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
+          {navLinks.map(link => (
+            <a
+              key={link.id}
+              href={link.href}
+              onClick={closeMobileMenu}
+              className={`block rounded-md px-3 py-2 text-base font-medium transition-colors duration-300 ${
+                activeSection === link.id
+                  ? 'bg-brand/10 text-brand'
+                  : 'text-gray-700 hover:bg-gray-50 hover:text-brand'
+              }`}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+        <div className="border-t border-gray-200 px-2 pt-3 pb-3">
+          <Button asChild className="w-full">
+            <a href="#contato" onClick={closeMobileMenu}>
+              Fale Conosco
+            </a>
+          </Button>
         </div>
       </div>
     </header>

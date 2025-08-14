@@ -11,9 +11,6 @@ mockIntersectionObserver.mockReturnValue({
 });
 vi.stubGlobal('IntersectionObserver', mockIntersectionObserver);
 
-// Mock window.scrollTo
-window.scrollTo = vi.fn();
-
 describe('Header', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -29,27 +26,14 @@ describe('Header', () => {
   it('should toggle the mobile menu on button click', () => {
     render(<Header />);
     const mobileMenuButton = screen.getByLabelText(/toggle menu/i);
-    const mobileMenu = mobileMenuButton.parentElement?.nextElementSibling;
+    const mobileMenu = screen.getByTestId('mobile-menu');
 
     expect(mobileMenu).toHaveClass('max-h-0');
 
     fireEvent.click(mobileMenuButton);
-    expect(mobileMenu).toHaveClass('max-h-96');
+    expect(mobileMenu).toHaveClass('max-h-screen');
 
     fireEvent.click(mobileMenuButton);
     expect(mobileMenu).toHaveClass('max-h-0');
-  });
-
-  it('should call scrollTo when a navigation link is clicked', () => {
-    const metodologiaSection = document.createElement('div');
-    metodologiaSection.id = 'metodologia';
-    document.body.appendChild(metodologiaSection);
-
-    render(<Header />);
-    const metodologiaLink = screen.getByTestId('nav-metodologia');
-    fireEvent.click(metodologiaLink);
-    expect(window.scrollTo).toHaveBeenCalled();
-
-    document.body.removeChild(metodologiaSection);
   });
 });

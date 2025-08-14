@@ -50,7 +50,7 @@ export const About = () => {
   };
 
   return (
-    <section id="sobre" className="py-16 md:py-24 bg-white">
+    <section id="about" className="py-16 md:py-24 bg-white">
       <div className="container">
         <motion.div
           className="text-center max-w-4xl mx-auto mb-16"
