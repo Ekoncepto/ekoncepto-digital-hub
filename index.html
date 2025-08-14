@@ -7,7 +7,9 @@
     <title>E-Koncepto | Consultoria de E-commerce para Marketplaces</title>
     <meta name="description" content="Aumente suas vendas nos marketplaces com consultoria prática: lançamento de contas, otimização de anúncios e escalada de resultados." />
     <meta name="author" content="E-Koncepto" />
-    <link rel="canonical" href="https://ekoncepto.com.br/" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com" as="font" type="font/woff2" crossorigin>
@@ -77,6 +79,17 @@
     <div id="root"></div>
     <!-- Vite will inject the script tag here -->
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then(registration => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }, err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+        });
+      }
+    </script>
     
     <!-- Preload critical font files -->
     <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v23/pxiEyp8kv8JHgFVrJJfecnFHGPc.woff2" as="font" type="font/woff2" crossorigin>

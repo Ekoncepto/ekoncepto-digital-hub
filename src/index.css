@@ -10,7 +10,7 @@ All colors MUST be HSL.
 :root {
     /* Base surfaces */
     --background: 0 0% 100%;
-    --foreground: 220 25% 15%;
+    --foreground: 220 25% 10%;
 
     --card: 0 0% 100%;
     --card-foreground: 220 25% 15%;
@@ -26,7 +26,7 @@ All colors MUST be HSL.
     --secondary-foreground: 141 60% 20%;
 
     --muted: 210 28% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted-foreground: 215 16% 40%;
 
     --accent: 96 65% 55%; /* lime accent */
     --accent-foreground: 141 60% 15%;
