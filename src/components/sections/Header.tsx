@@ -1,11 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
+import { Link, useLocation } from 'react-router-dom';
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const observer = useRef<IntersectionObserver | null>(null);
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   // --- Effects for scroll detection and active section observation ---
   useEffect(() => {
@@ -67,7 +70,7 @@ export const Header = () => {
         <div className="flex h-20 items-center justify-between gap-4 sm:gap-8">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a href="#" aria-label="E-koncepto Home" data-testid="logo">
+            <Link to="/" aria-label="E-koncepto Home" data-testid="logo">
               <picture>
                 <img
                   src="/images/ekoncepto-logo.svg"
@@ -78,7 +81,7 @@ export const Header = () => {
                   fetchPriority="high"
                 />
               </picture>
-            </a>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
@@ -86,7 +89,7 @@ export const Header = () => {
             {navLinks.map(link => (
               <a
                 key={link.id}
-                href={link.href}
+                href={isHomePage ? link.href : `/${link.href}`}
                 data-testid={`nav-${link.id}`}
                 className={`text-sm font-medium transition-colors duration-300 ${
                   activeSection === link.id ? 'text-brand' : 'text-gray-600 hover:text-brand'
@@ -131,7 +134,7 @@ export const Header = () => {
           {navLinks.map(link => (
             <a
               key={link.id}
-              href={link.href}
+              href={isHomePage ? link.href : `/${link.href}`}
               onClick={closeMobileMenu}
               className={`block rounded-md px-3 py-2 text-base font-medium transition-colors duration-300 ${
                 activeSection === link.id

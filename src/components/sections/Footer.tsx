@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { contactInfo } from '@/config/site';
 
 export const Footer = () => {
@@ -63,6 +64,7 @@ export const Footer = () => {
         { name: 'Serviços', href: '#servicos' },
         { name: 'Processo', href: '#processo' },
         { name: 'Sobre', href: '#about' },
+        { name: 'Conteúdos', to: '/conteudos' },
       ],
     },
     {
@@ -141,12 +143,21 @@ export const Footer = () => {
               <ul className="space-y-3">
                 {section.links.map(link => (
                   <li key={link.name}>
-                    <a
-                      href={link.href}
-                      className="text-gray-400 hover:text-brand transition-colors duration-300"
-                    >
-                      {link.name}
-                    </a>
+                    {link.to ? (
+                      <Link
+                        to={link.to}
+                        className="text-gray-400 hover:text-brand transition-colors duration-300"
+                      >
+                        {link.name}
+                      </Link>
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="text-gray-400 hover:text-brand transition-colors duration-300"
+                      >
+                        {link.name}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
