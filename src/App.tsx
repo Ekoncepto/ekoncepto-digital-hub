@@ -2,9 +2,10 @@ import { Toaster } from '@/components/ui/toaster';
 import { Toaster as Sonner } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAnalytics } from './hooks/useAnalytics';
+import ScrollToTop from './components/common/ScrollToTop';
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import FloatingWhatsAppButton from './components/common/FloatingWhatsAppButton';
@@ -36,10 +37,12 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <Analytics />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/conteudos" element={<LandingIndexPage />} />
+          <Route path="/conteudo" element={<Navigate to="/conteudos" replace />} />
           <Route path="/obrigado" element={<ThankYouPage />} />
           {landingPageRoutes}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
