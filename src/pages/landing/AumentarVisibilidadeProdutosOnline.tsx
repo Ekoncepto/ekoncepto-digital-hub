@@ -62,7 +62,7 @@ const AumentarVisibilidadeProdutosOnlinePage = () => {
                 <CardTitle className="text-center text-2xl">Receber Checklist</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm />
+                <LandingPageForm redirectPath="/downloads/checklist-visibilidade" />
               </CardContent>
             </Card>
           </div>

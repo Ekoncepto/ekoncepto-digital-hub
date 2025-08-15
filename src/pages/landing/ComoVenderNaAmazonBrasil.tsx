@@ -62,7 +62,7 @@ const ComoVenderNaAmazonBrasilPage = () => {
                 <CardTitle className="text-center text-2xl">Baixar Checklist Gratuito</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm />
+                <LandingPageForm redirectPath="/downloads/guia-amazon" />
               </CardContent>
             </Card>
           </div>

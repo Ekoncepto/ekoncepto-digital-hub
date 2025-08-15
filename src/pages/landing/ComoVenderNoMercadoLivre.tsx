@@ -62,7 +62,7 @@ const ComoVenderNoMercadoLivrePage = () => {
                 <CardTitle className="text-center text-2xl">Baixar Guia Gratuito</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm />
+                <LandingPageForm redirectPath="/downloads/guia-mercado-livre" />
               </CardContent>
             </Card>
           </div>

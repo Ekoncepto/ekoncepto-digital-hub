@@ -62,7 +62,7 @@ const MagaluAdsProdutosPatrocinadosPage = () => {
                 <CardTitle className="text-center text-2xl">Receber Checklist Gratuito</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm />
+                <LandingPageForm redirectPath="/downloads/checklist-magalu" />
               </CardContent>
             </Card>
           </div>

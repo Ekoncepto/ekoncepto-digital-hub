@@ -12,6 +12,14 @@ import FloatingWhatsAppButton from './components/common/FloatingWhatsAppButton';
 import { landingPageRoutes } from './pages/landing/routes';
 import LandingIndexPage from './pages/LandingIndex';
 import ThankYouPage from './pages/ThankYou';
+import GuiaMercadoLivreDownloadPage from './pages/downloads/GuiaMercadoLivre';
+import ChecklistMagaluDownloadPage from './pages/downloads/ChecklistMagalu';
+import GuiaShopeeDownloadPage from './pages/downloads/GuiaShopee';
+import GuiaFbaDownloadPage from './pages/downloads/GuiaFba';
+import GuiaAmazonDownloadPage from './pages/downloads/GuiaAmazon';
+import WhitepaperMarketingDownloadPage from './pages/downloads/WhitepaperMarketing';
+import ChecklistVisibilidadeDownloadPage from './pages/downloads/ChecklistVisibilidade';
+import ComparativoMarketplacesDownloadPage from './pages/downloads/ComparativoMarketplaces';
 
 const queryClient = new QueryClient();
 
@@ -44,6 +52,14 @@ const App = () => (
           <Route path="/conteudos" element={<LandingIndexPage />} />
           <Route path="/conteudo" element={<Navigate to="/conteudos" replace />} />
           <Route path="/obrigado" element={<ThankYouPage />} />
+          <Route path="/downloads/guia-mercado-livre" element={<GuiaMercadoLivreDownloadPage />} />
+          <Route path="/downloads/checklist-magalu" element={<ChecklistMagaluDownloadPage />} />
+          <Route path="/downloads/guia-shopee" element={<GuiaShopeeDownloadPage />} />
+          <Route path="/downloads/guia-fba" element={<GuiaFbaDownloadPage />} />
+          <Route path="/downloads/guia-amazon" element={<GuiaAmazonDownloadPage />} />
+          <Route path="/downloads/whitepaper-marketing" element={<WhitepaperMarketingDownloadPage />} />
+          <Route path="/downloads/checklist-visibilidade" element={<ChecklistVisibilidadeDownloadPage />} />
+          <Route path="/downloads/comparativo-marketplaces" element={<ComparativoMarketplacesDownloadPage />} />
           {landingPageRoutes}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

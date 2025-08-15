@@ -62,7 +62,7 @@ const ComoVenderNaShopeePage = () => {
                 <CardTitle className="text-center text-2xl">Baixar Guia Shopee</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm />
+                <LandingPageForm redirectPath="/downloads/guia-shopee" />
               </CardContent>
             </Card>
           </div>

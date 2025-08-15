@@ -62,7 +62,7 @@ const MaioresMarketplacesDoBrasilPage = () => {
                 <CardTitle className="text-center text-2xl">Baixar Comparativo</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm />
+                <LandingPageForm redirectPath="/downloads/comparativo-marketplaces" />
               </CardContent>
             </Card>
           </div>

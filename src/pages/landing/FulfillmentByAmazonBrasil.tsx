@@ -62,7 +62,7 @@ const FulfillmentByAmazonBrasilPage = () => {
                 <CardTitle className="text-center text-2xl">Entenda o Passo a Passo</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm />
+                <LandingPageForm redirectPath="/downloads/guia-fba" />
               </CardContent>
             </Card>
           </div>

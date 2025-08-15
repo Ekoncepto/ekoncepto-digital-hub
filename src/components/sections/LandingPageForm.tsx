@@ -38,7 +38,11 @@ const formSchema = z.object({
   }),
 });
 
-export function LandingPageForm() {
+interface LandingPageFormProps {
+  redirectPath?: string;
+}
+
+export function LandingPageForm({ redirectPath = "/obrigado" }: LandingPageFormProps) {
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -51,7 +55,7 @@ export function LandingPageForm() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    navigate("/obrigado");
+    navigate(redirectPath);
   }
 
   return (

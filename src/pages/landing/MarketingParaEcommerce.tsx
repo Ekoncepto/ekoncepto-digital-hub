@@ -62,7 +62,7 @@ const MarketingParaEcommercePage = () => {
                 <CardTitle className="text-center text-2xl">Baixar Whitepaper Agora</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm />
+                <LandingPageForm redirectPath="/downloads/whitepaper-marketing" />
               </CardContent>
             </Card>
           </div>
