@@ -20,25 +20,28 @@ const AmazonSeoPage = () => {
         </header>
 
         <section className="mb-16">
-          <h2 className="text-3xl font-bold tracking-tighter mb-6">O que é Amazon SEO?</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-6">O que é Amazon SEO e Como Funciona o Algoritmo A9?</h2>
           <div className="space-y-4 text-lg text-muted-foreground">
             <p>
-              <strong>Amazon SEO</strong> é o processo de otimização das suas páginas de produto (listagens) para que elas apareçam nas primeiras posições dos resultados de busca da Amazon. Diferente do Google, o motor de busca da Amazon, conhecido como A9, tem um único objetivo: vender. Portanto, os fatores de ranqueamento são todos focados em conversão.
+              <strong>Amazon SEO</strong> (Search Engine Optimization) é o processo de otimização contínua das suas páginas de produto (também conhecidas como listagens ou ASINs) para que elas apareçam nas primeiras posições dos resultados de busca da Amazon para palavras-chave relevantes. Diferente do Google, que busca organizar a informação mundial, o motor de busca da Amazon, conhecido como A9, tem um único e implacável objetivo: vender produtos. Portanto, todos os seus fatores de ranqueamento são direta ou indiretamente focados em maximizar a conversão.
             </p>
             <p>
-              Isso inclui a relevância das palavras-chave no título e na descrição, a qualidade das imagens, o preço do produto, as avaliações dos clientes e, crucialmente, o histórico de vendas. Uma boa estratégia de Amazon SEO garante que seus produtos sejam encontrados pelos clientes certos e os convence a comprar.
+              O algoritmo A9 analisa dois grandes grupos de fatores. O primeiro são os <strong>fatores de relevância</strong>, que dizem ao algoritmo sobre o que é o seu produto. Isso inclui a otimização de palavras-chave no título, nos bullet points, na descrição e nos termos de busca de backend. O segundo grupo são os <strong>fatores de performance</strong>, que provam ao algoritmo que seu produto vende bem. Isso inclui o histórico de vendas, a taxa de conversão, as avaliações dos clientes e a qualidade das imagens. Uma boa estratégia de Amazon SEO equilibra esses dois pilares para garantir que seus produtos não apenas sejam encontrados, mas que também convençam o cliente a comprar.
             </p>
           </div>
         </section>
 
         <section className="mb-16">
-          <h2 className="text-3xl font-bold tracking-tighter mb-6">O Desafio de Ranqueamento no A9</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-6">O Desafio de Ranquear Bem no Algoritmo A9</h2>
           <div className="space-y-4 text-lg text-muted-foreground">
             <p>
-              O algoritmo A9 é um ciclo que se retroalimenta: para ranquear bem, você precisa de vendas; mas para ter vendas, você precisa ranquear bem. Romper esse ciclo é o maior desafio. Muitos vendedores se concentram apenas em palavras-chave e esquecem que fatores de performance, como a taxa de conversão e a satisfação do cliente, são igualmente importantes.
+              O grande desafio do <strong>Amazon SEO</strong> está no ciclo que o algoritmo A9 cria: para ranquear bem e ter visibilidade, você precisa de um bom histórico de vendas; mas para ter vendas, você precisa de visibilidade e ranquear bem. Romper esse ciclo vicioso é a principal dificuldade para produtos novos ou com baixo desempenho. Muitos vendedores cometem o erro de se concentrar apenas em encher a listagem de palavras-chave (fatores de relevância) e esquecem que os fatores de performance, como a taxa de conversão e a satisfação do cliente, são igualmente, se não mais, importantes para o sucesso a longo prazo.
             </p>
             <p>
-              Fazer uma pesquisa de palavras-chave eficaz, escrever títulos e descrições que sejam ao mesmo tempo otimizados para o algoritmo e persuasivos para o cliente, e gerenciar os fatores de performance da conta é um trabalho contínuo e complexo.
+              Além disso, a pesquisa de palavras-chave para a Amazon é diferente da do Google. É preciso usar ferramentas específicas e pensar como o comprador busca dentro da plataforma. Escrever títulos e descrições que sejam ao mesmo tempo otimizados para o algoritmo e persuasivos para o ser humano é uma arte. Gerenciar todos os fatores de performance da conta, como o tempo de envio e a qualidade do atendimento, também impacta o seu SEO, tornando o trabalho de otimização contínuo e multifacetado.
+            </p>
+             <p>
+              Sem uma estratégia integrada, que combine SEO on-page com ações para impulsionar as vendas iniciais (como publicidade ou promoções), é muito difícil ganhar tração e superar concorrentes já estabelecidos.
             </p>
           </div>
         </section>
@@ -47,10 +50,10 @@ const AmazonSeoPage = () => {
           <h2 className="text-3xl font-bold tracking-tighter mb-4">Receba uma Auditoria Gratuita de Amazon SEO</h2>
           <div className="space-y-4 text-lg text-muted-foreground max-w-3xl mx-auto">
             <p>
-              Nossos especialistas em <strong>Amazon SEO</strong> sabem exatamente o que o algoritmo A9 procura. Com nossa auditoria gratuita, analisamos sua listagem e apontamos as oportunidades de otimização.
+              Nossos especialistas em <strong>Amazon SEO</strong> sabem exatamente o que o algoritmo A9 procura e como equilibrar os fatores de relevância e performance. Com nossa auditoria gratuita, nós analisamos em detalhes a sua listagem, seus concorrentes e sua performance atual para apontar as oportunidades de otimização mais impactantes.
             </p>
             <p>
-              Descubra como pequenas mudanças podem gerar um grande impacto no seu ranqueamento e, consequentemente, nas suas vendas.
+              Você receberá um diagnóstico claro, sem custo, mostrando como pequenas e grandes mudanças podem afetar seu ranqueamento e, consequentemente, suas vendas. Deixe-nos mostrar o caminho para a primeira página.
             </p>
           </div>
           <div className="mt-8">

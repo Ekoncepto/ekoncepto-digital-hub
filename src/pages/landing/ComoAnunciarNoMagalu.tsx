@@ -19,37 +19,40 @@ const ComoAnunciarNoMagaluPage = () => {
         </header>
 
         <section className="mb-16">
-          <h2 className="text-3xl font-bold tracking-tighter mb-6">O Potencial do Magalu Ads</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-6">O Potencial do Magalu Ads para Seus Produtos</h2>
           <div className="space-y-4 text-lg text-muted-foreground">
             <p>
-              <strong>Anunciar no Magalu</strong> através da plataforma Magalu Ads é uma das formas mais eficazes de ganhar destaque em um dos maiores varejistas do Brasil. A ferramenta de produtos patrocinados permite que seus produtos apareçam em posições privilegiadas, alcançando milhões de consumidores no momento exato da decisão de compra.
+              <strong>Anunciar no Magalu</strong> através da sua plataforma de publicidade, o Magalu Ads, é uma das formas mais diretas e eficazes de ganhar destaque em um dos maiores e mais queridos varejistas do Brasil. A ferramenta de produtos patrocinados foi desenhada para permitir que seus produtos apareçam em posições privilegiadas dentro do site e do aplicativo, alcançando milhões de consumidores no exato momento em que eles estão pesquisando e decidindo a compra.
             </p>
             <p>
-              As campanhas podem ser configuradas de forma rápida, com controle total sobre o orçamento e com relatórios que ajudam a medir a eficácia de cada anúncio, tornando o Magalu Ads uma peça fundamental na estratégia de quem vende na plataforma.
+              As campanhas podem ser configuradas de forma rápida e intuitiva, com um controle total sobre o orçamento diário e o custo por clique (CPC). Isso significa que você só paga quando um cliente interessado clica para ver seu produto. Com relatórios claros que ajudam a medir a eficácia de cada anúncio, o Magalu Ads se torna uma peça fundamental na estratégia de marketing e vendas de qualquer vendedor que queira crescer na plataforma.
             </p>
           </div>
         </section>
 
         <section className="mb-16">
-          <h2 className="text-3xl font-bold tracking-tighter mb-6">Desafios Comuns ao Anunciar</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-6">Desafios Comuns e Como Evitá-los ao Anunciar no Magalu</h2>
           <div className="space-y-4 text-lg text-muted-foreground">
             <p>
-              Apesar da interface amigável, muitos vendedores não conseguem extrair o máximo da ferramenta. Um dos principais desafios é a <strong>escolha dos produtos certos</strong> para anunciar. Promover itens com baixa margem de lucro ou pouca atratividade pode levar a um retorno sobre o investimento negativo.
+              Apesar da interface amigável do Magalu Ads, muitos vendedores não conseguem extrair o máximo de performance da ferramenta. Um dos principais desafios é a <strong>escolha estratégica dos produtos certos</strong> para anunciar. Promover itens com baixa margem de lucro, pouca atratividade visual ou baixo nível de estoque pode levar a um retorno sobre o investimento (ROI) negativo e a uma campanha fracassada.
             </p>
             <p>
-              Outra dificuldade é a <strong>otimização dos lances</strong>. Sem um acompanhamento constante e uma estratégia clara, é fácil pagar caro por cliques que não convertem ou perder visibilidade para concorrentes que gerenciam suas campanhas de forma mais profissional.
+              Outra dificuldade comum é a <strong>otimização dos lances e do orçamento</strong>. Sem um acompanhamento constante e uma estratégia clara, é fácil pagar caro demais por cliques que não convertem em vendas, ou, ao contrário, definir um lance tão baixo que seus anúncios simplesmente não aparecem para o público. A falta de uma análise de performance regular impede a otimização e a escala das campanhas.
+            </p>
+             <p>
+              Muitos vendedores simplesmente "ativam" a campanha e esperam o melhor, sem realizar os ajustes finos que são necessários para competir de forma profissional e garantir a lucratividade do investimento em publicidade.
             </p>
           </div>
         </section>
 
         <section className="bg-muted rounded-lg p-8 text-center">
-          <h2 className="text-3xl font-bold tracking-tighter mb-4">Aprenda na Prática com Nosso Tutorial em Vídeo</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-4">Aprenda na Prática com Nosso Tutorial em Vídeo Gratuito</h2>
           <div className="space-y-4 text-lg text-muted-foreground max-w-3xl mx-auto">
             <p>
-              Para desmistificar o processo de <strong>como anunciar no Magalu</strong>, criamos um tutorial em vídeo completo e direto ao ponto. Nele, mostramos o passo a passo da criação de uma campanha, desde a escolha dos produtos até a análise dos resultados.
+              Para desmistificar o processo de <strong>como anunciar no Magalu</strong> e ajudar você a evitar esses erros, nós criamos um tutorial em vídeo completo, prático e direto ao ponto. Nele, nosso especialista mostra o passo a passo da criação de uma campanha de sucesso, desde a escolha dos produtos e a configuração do orçamento até a análise dos primeiros resultados.
             </p>
             <p>
-              Assista agora e comece a criar anúncios que realmente convertem.
+              Assista agora, gratuitamente, e comece a criar anúncios que realmente convertem e impulsionam suas vendas no Magazine Luiza.
             </p>
           </div>
           <div className="mt-8">

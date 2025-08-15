@@ -20,25 +20,28 @@ const ConsultoriaDeVendasOnlinePage = () => {
         </header>
 
         <section className="mb-16">
-          <h2 className="text-3xl font-bold tracking-tighter mb-6">O que é uma Consultoria de Vendas Online?</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-6">O que é e Como Funciona uma Consultoria de Vendas Online?</h2>
           <div className="space-y-4 text-lg text-muted-foreground">
             <p>
-              Uma <strong>consultoria de vendas online</strong> é um serviço onde especialistas em e-commerce analisam seu negócio e criam um plano estratégico personalizado para acelerar seu crescimento. Diferente de uma agência que executa as tarefas, o consultor atua como um mentor e estrategista, capacitando você e sua equipe a tomarem as melhores decisões.
+              Uma <strong>consultoria de vendas online</strong> é um serviço onde especialistas em e-commerce e marketing digital analisam profundamente o seu negócio e criam um plano estratégico personalizado para acelerar seu crescimento. Diferente de uma agência que executa as tarefas do dia a dia, o consultor atua como um mentor e estrategista, oferecendo um diagnóstico preciso e um roadmap claro, capacitando você e sua equipe a tomarem as melhores decisões para o futuro do negócio.
             </p>
             <p>
-              O trabalho envolve uma análise 360° da sua operação: desde a plataforma de e-commerce e a experiência do usuário até as estratégias de marketing digital (SEO, tráfego pago, e-mail marketing) e a performance nos canais de venda, como os marketplaces.
+              O trabalho envolve uma análise 360° da sua operação de vendas online. Isso pode incluir a otimização da sua plataforma de e-commerce (loja própria), a melhoria da experiência do usuário (UX), a definição de estratégias de marketing digital (como SEO, tráfego pago, e-mail marketing e redes sociais) e a otimização da sua performance em canais de venda externos, como os marketplaces. O foco é identificar os maiores gargalos e as maiores oportunidades de crescimento.
             </p>
           </div>
         </section>
 
         <section className="mb-16">
-          <h2 className="text-3xl font-bold tracking-tighter mb-6">O Desafio da Falta de Foco e Direção</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-6">O Desafio da Falta de Foco e da Sobrecarga de Opções</h2>
           <div className="space-y-4 text-lg text-muted-foreground">
             <p>
-              O universo do e-commerce é repleto de possibilidades, e essa é também sua maior armadilha. Muitos gestores de lojas online se sentem perdidos, sem saber em qual estratégia focar. Devo investir mais em redes sociais ou em Google Ads? Devo expandir para um novo marketplace ou otimizar minha loja própria? A falta de um diagnóstico claro e de um plano de prioridades leva ao desperdício de tempo e dinheiro.
+              O universo do e-commerce é repleto de possibilidades, e essa é também a sua maior armadilha. Muitos gestores de lojas online se sentem constantemente sobrecarregados e perdidos, sem saber em qual estratégia focar. Devo investir mais em Instagram ou em Google Ads? Devo expandir para um novo marketplace ou focar em otimizar a taxa de conversão da minha loja própria? A falta de um diagnóstico claro e de um plano de prioridades leva ao desperdício de tempo, energia e, principalmente, dinheiro.
             </p>
             <p>
-              Sem um parceiro experiente, a empresa corre o risco de caminhar em círculos, testando táticas aleatórias sem nunca construir uma estratégia de crescimento sólida e sustentável.
+              Sem um parceiro experiente para oferecer uma visão externa e estratégica, a empresa corre o risco de caminhar em círculos, testando táticas aleatórias que leem em blogs ou veem concorrentes fazendo, sem nunca construir uma estratégia de crescimento sólida, coesa e sustentável a longo prazo. A operação fica estagnada, e a sensação de estar sempre "correndo atrás da máquina" é constante.
+            </p>
+             <p>
+              Essa falta de direção não só impede o crescimento, como também desmotiva a equipe e o empreendedor, que não conseguem ver o resultado de seus esforços.
             </p>
           </div>
         </section>
@@ -47,10 +50,10 @@ const ConsultoriaDeVendasOnlinePage = () => {
           <h2 className="text-3xl font-bold tracking-tighter mb-4">Ganhe Clareza e Direção com Nossas Sessões Estratégicas</h2>
           <div className="space-y-4 text-lg text-muted-foreground max-w-3xl mx-auto">
             <p>
-              Nossa <strong>consultoria de vendas online</strong> é entregue em sessões estratégicas, focadas em resolver seus maiores gargalos e destravar seu potencial de crescimento. Nós não entregamos um relatório genérico; nós construímos junto com você um plano de ação prático.
+              Nossa <strong>consultoria de vendas online</strong> é entregue em sessões estratégicas, intensivas e focadas em resolver seus maiores gargalos para destravar seu potencial de crescimento. Nós não entregamos um relatório genérico de 100 páginas que ficará na gaveta. Nós construímos junto com você um plano de ação prático, com prioridades claras e metas mensuráveis.
             </p>
             <p>
-              Peça uma proposta e descubra como podemos ajudar seu e-commerce a vender mais.
+              Peça uma proposta e descubra como nossa expertise pode trazer a clareza e a direção que seu e-commerce precisa para vender mais e de forma mais inteligente.
             </p>
           </div>
           <div className="mt-8">

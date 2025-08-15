@@ -20,37 +20,40 @@ const FulfillmentByAmazonBrasilPage = () => {
         </header>
 
         <section className="mb-16">
-          <h2 className="text-3xl font-bold tracking-tighter mb-6">O que é o Amazon FBA?</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-6">O que é o Amazon FBA e Como Ele Transforma sua Loja?</h2>
           <div className="space-y-4 text-lg text-muted-foreground">
             <p>
-              O <strong>Fulfillment by Amazon (FBA)</strong> é o programa de logística da Amazon no qual você, vendedor, envia seus produtos para os centros de distribuição da Amazon. A partir daí, a Amazon cuida de todo o resto: armazenamento do estoque, embalagem e envio de cada pedido, além do atendimento ao cliente e do processamento de devoluções.
+              O <strong>Fulfillment by Amazon (FBA)</strong> é o renomado programa de logística da Amazon, onde você, como vendedor, envia seus produtos para os modernos centros de distribuição da Amazon. A partir do momento em que seu estoque chega lá, a Amazon assume toda a complexa operação logística: eles armazenam seu estoque de forma segura, e quando um pedido é realizado, eles separam, embalam e enviam o produto para o cliente final. Além disso, a Amazon gerencia todo o atendimento ao cliente relacionado à entrega e também processa eventuais devoluções.
             </p>
             <p>
-              Ao aderir ao FBA, seus produtos se tornam elegíveis para o selo <strong>Amazon Prime</strong>, o que significa frete rápido e grátis para milhões de assinantes. Isso aumenta drasticamente a atratividade e a visibilidade de suas ofertas.
+              O maior benefício de aderir ao FBA é que seus produtos se tornam elegíveis para o selo <strong>Amazon Prime</strong>. Isso significa que milhões de assinantes Prime verão suas ofertas com a promessa de frete rápido e, muitas vezes, gratuito. Esse selo é um poderoso fator de conversão, pois gera uma enorme confiança no comprador e aumenta drasticamente a atratividade e a visibilidade de seus anúncios, sendo um critério de desempate fundamental para ganhar o Buy Box.
             </p>
           </div>
         </section>
 
         <section className="mb-16">
-          <h2 className="text-3xl font-bold tracking-tighter mb-6">Os Desafios da Logística Própria e do FBA</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-6">Os Desafios da Logística Própria vs. a Complexidade do FBA</h2>
           <div className="space-y-4 text-lg text-muted-foreground">
             <p>
-              Gerenciar a própria logística é um dos maiores desafios do e-commerce. Exige espaço para armazenamento, mão de obra para embalagem, contratos com transportadoras e um sistema eficiente para controle de envios e devoluções. Qualquer falha nesse processo pode gerar atrasos, reclamações e avaliações negativas, prejudicando sua reputação.
+              Gerenciar a própria logística (modelo FBM - Fulfillment by Merchant) é um dos maiores desafios do e-commerce. Exige um investimento significativo em espaço para armazenamento, mão de obra para embalagem, negociação de contratos com transportadoras e um sistema de gestão eficiente para controle de envios e devoluções. Qualquer falha nesse processo — um atraso no envio, um produto mal embalado — pode gerar reclamações, avaliações negativas e danos irreparáveis à sua reputação como vendedor.
             </p>
             <p>
-              Por outro lado, aderir ao FBA também tem seus desafios. É preciso entender as regras de preparação e envio de produtos para os centros da Amazon, gerenciar o nível de estoque para evitar custos de armazenamento de longa duração e garantir que seus produtos tenham um bom giro de vendas para justificar o investimento no programa.
+              Por outro lado, aderir ao <strong>Fulfillment by Amazon Brasil</strong> também tem seus próprios desafios e complexidades. Não se trata apenas de enviar os produtos. É preciso seguir regras rígidas de preparação, etiquetagem e envio de produtos para os centros da Amazon. Além disso, uma gestão de estoque ineficiente pode levar a custos inesperados de armazenamento de longa duração para produtos com baixo giro. Garantir que seus produtos tenham uma boa performance de vendas para justificar o investimento no programa é crucial.
+            </p>
+             <p>
+              Muitos vendedores se sentem intimidados por esse processo inicial de configuração e pela necessidade de um planejamento de estoque mais rigoroso, e acabam não aproveitando os benefícios do programa.
             </p>
           </div>
         </section>
 
         <section className="bg-muted rounded-lg p-8 text-center">
-          <h2 className="text-3xl font-bold tracking-tighter mb-4">Descomplique o FBA com Nosso Guia Ilustrado</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-4">Descomplique o FBA com Nosso Guia Ilustrado e Completo</h2>
           <div className="space-y-4 text-lg text-muted-foreground max-w-3xl mx-auto">
             <p>
-              Para ajudar você a aproveitar todos os benefícios do <strong>Fulfillment by Amazon Brasil</strong> sem dores de cabeça, criamos um guia ilustrado completo.
+              Para ajudar você a aproveitar todos os benefícios do <strong>Fulfillment by Amazon Brasil</strong> sem as dores de cabeça da implementação, nós criamos um guia ilustrado completo e fácil de entender.
             </p>
             <p>
-              Nele, você encontrará o passo a passo detalhado, desde a preparação dos seus produtos até o envio para a Amazon e a gestão do seu estoque. Baixe agora e entenda como usar a logística mais poderosa do mundo a seu favor.
+              Nele, você encontrará o passo a passo detalhado de todo o processo, desde a preparação e etiquetagem dos seus produtos até o agendamento e envio para os centros de distribuição da Amazon, além de dicas para uma gestão de estoque eficiente. Baixe agora e entenda como usar a logística mais poderosa do mundo a seu favor.
             </p>
           </div>
           <div className="mt-8">

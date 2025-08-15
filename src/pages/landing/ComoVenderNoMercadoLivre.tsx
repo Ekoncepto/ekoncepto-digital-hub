@@ -23,22 +23,25 @@ const ComoVenderNoMercadoLivrePage = () => {
           <h2 className="text-3xl font-bold tracking-tighter mb-6">Como Vender no Mercado Livre: O Básico para Começar</h2>
           <div className="space-y-4 text-lg text-muted-foreground">
             <p>
-              Vender no Mercado Livre é o primeiro passo para muitos empreendedores que desejam entrar no e-commerce. Como a maior plataforma de marketplace da América Latina, o Mercado Livre oferece uma audiência gigantesca e uma infraestrutura completa de pagamentos e logística. O processo inicial envolve criar uma conta, escolher entre os tipos de anúncio (Gratuito, Clássico e Premium), e cadastrar seus produtos com fotos de qualidade e descrições detalhadas.
+              Vender no Mercado Livre é o primeiro passo para muitos empreendedores que desejam entrar no e-commerce. Como a maior plataforma de marketplace da América Latina, o Mercado Livre oferece uma audiência gigantesca e uma infraestrutura completa de pagamentos e logística. O processo inicial envolve criar uma conta de vendedor, um passo simples, mas que já exige atenção aos detalhes para garantir que seu perfil seja profissional e confiável desde o início. Em seguida, é preciso escolher entre os tipos de anúncio — Gratuito, Clássico e Premium —, cada um com suas taxas e benefícios de exposição, uma decisão que impacta diretamente sua margem de lucro.
             </p>
             <p>
-              Entender a estrutura da plataforma, como o sistema de reputação (o termômetro de cores) e as ferramentas como o Mercado Envios e Mercado Pago, é fundamental. Cada elemento foi desenhado para criar um ambiente seguro tanto para compradores quanto para vendedores, e dominar essas ferramentas é o que diferencia um vendedor amador de um profissional.
+              Após a configuração inicial, o próximo passo é cadastrar seus produtos. Isso vai além de simplesmente preencher campos; é a sua primeira oportunidade de convencer o cliente. Fotos de alta qualidade, de diferentes ângulos, e descrições detalhadas e otimizadas com palavras-chave são cruciais. Além disso, entender a estrutura da plataforma, como o sistema de reputação (o termômetro de cores) e as ferramentas como o Mercado Envios e Mercado Pago, é fundamental. Cada elemento foi desenhado para criar um ambiente seguro tanto para compradores quanto para vendedores, e dominar essas ferramentas é o que diferencia um vendedor amador de um profissional de sucesso.
             </p>
           </div>
         </section>
 
         <section className="mb-16">
-          <h2 className="text-3xl font-bold tracking-tighter mb-6">Os Desafios de um Vendedor Iniciante</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-6">Os Desafios Reais de um Vendedor Iniciante</h2>
           <div className="space-y-4 text-lg text-muted-foreground">
             <p>
-              Apesar da aparente simplicidade, muitos novos vendedores encontram dificuldades. A primeira é a <strong>concorrência</strong>. Com tantos produtos similares, como fazer o seu anúncio se destacar? Outro ponto é a <strong>precificação</strong>: calcular corretamente as taxas de comissão de cada tipo de anúncio e o custo do frete para garantir sua margem de lucro pode ser confuso.
+              Apesar da aparente simplicidade, a jornada de um novo vendedor no Mercado Livre é repleta de desafios. A primeira e mais intimidante barreira é a <strong>concorrência</strong>. Com milhões de vendedores e produtos similares, como fazer o seu anúncio se destacar na multidão e ser escolhido pelo cliente? Outro ponto crítico é a <strong>precificação estratégica</strong>. Calcular corretamente as taxas de comissão de cada tipo de anúncio, o custo do frete (e se vale a pena oferecer frete grátis) para garantir sua margem de lucro pode ser um quebra-cabeça complexo e desanimador.
             </p>
             <p>
-              Além disso, construir uma boa reputação do zero é um grande desafio. As primeiras vendas são as mais difíceis, e um único feedback negativo pode impactar sua credibilidade. Gerenciar o estoque, responder rapidamente às perguntas e garantir um envio ágil são tarefas que exigem organização e conhecimento da plataforma.
+              Além dos números, há o desafio de construir uma <strong>boa reputação</strong> do zero. O termômetro de reputação do Mercado Livre é implacável. As primeiras vendas são as mais difíceis, e um único feedback negativo ou um atraso no envio pode impactar sua credibilidade por meses. Manter um alto padrão de atendimento, respondendo rapidamente às perguntas, gerenciando o estoque para evitar vendas canceladas e garantindo um envio ágil são tarefas que exigem uma organização e um conhecimento da plataforma que muitos iniciantes subestimam.
+            </p>
+             <p>
+              Por fim, há a constante necessidade de se manter atualizado. O Mercado Livre está sempre mudando, com novas políticas, ferramentas e atualizações no algoritmo. O que funcionava há seis meses pode não funcionar hoje, e essa necessidade de aprendizado contínuo pode ser exaustiva para quem está focado em gerir o próprio negócio.
             </p>
           </div>
         </section>
@@ -47,10 +50,10 @@ const ComoVenderNoMercadoLivrePage = () => {
           <h2 className="text-3xl font-bold tracking-tighter mb-4">Seu Atalho para o Sucesso: Baixe Nosso Guia Gratuito</h2>
           <div className="space-y-4 text-lg text-muted-foreground max-w-3xl mx-auto">
             <p>
-              Para ajudar você a superar esses desafios, criamos um material completo. Nosso e-book "Guia Definitivo: Como Vender no Mercado Livre" e o checklist que o acompanha são o recurso que você precisa para começar com o pé direito.
+              Sabemos que começar pode ser assustador. Para ajudar você a superar esses desafios e acelerar sua jornada, criamos um material completo e prático. Nosso e-book "Guia Definitivo: Como Vender no Mercado Livre" e o checklist que o acompanha são o recurso que você precisa para começar com o pé direito, com confiança e estratégia.
             </p>
             <p>
-              Compilamos todo o nosso conhecimento em um passo a passo prático para você evitar os erros mais comuns e acelerar seus primeiros resultados.
+              Compilamos todo o nosso conhecimento e experiência em um passo a passo claro e objetivo para você evitar os erros mais comuns e focar no que realmente importa: fazer suas primeiras vendas e construir uma operação lucrativa.
             </p>
           </div>
           <div className="mt-8">

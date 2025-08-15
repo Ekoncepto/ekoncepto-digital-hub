@@ -19,25 +19,28 @@ const PrecificacaoDinamicaPage = () => {
         </header>
 
         <section className="mb-16">
-          <h2 className="text-3xl font-bold tracking-tighter mb-6">O que é Precificação Dinâmica?</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-6">O que é Precificação Dinâmica e Como Ela Funciona?</h2>
           <div className="space-y-4 text-lg text-muted-foreground">
             <p>
-              A <strong>precificação dinâmica</strong>, também conhecida como "dynamic pricing", é uma estratégia onde os preços de produtos ou serviços são ajustados em tempo real com base em diferentes variáveis. Em vez de um preço fixo, o valor flutua de acordo com a demanda do mercado, o nível de estoque, os preços da concorrência, o dia da semana e até mesmo o comportamento de navegação do usuário.
+              A <strong>precificação dinâmica</strong>, também conhecida como "dynamic pricing", é uma estratégia avançada de gestão de preços onde os valores de produtos ou serviços são ajustados em tempo real com base em um conjunto de variáveis predefinidas. Em vez de um preço fixo e estático, o valor de um produto pode flutuar ao longo do dia, da semana ou do mês, de acordo com fatores como a demanda do mercado, o nível de estoque, os preços da concorrência, o dia da semana, a sazonalidade e até mesmo o comportamento de navegação do usuário.
             </p>
             <p>
-              Grandes players do e-commerce, como a Amazon, utilizam essa estratégia para otimizar constantemente suas vendas e margens. O objetivo é encontrar o preço ideal para cada momento, vendendo mais caro quando a demanda é alta e mais barato para liquidar o estoque ou competir de forma agressiva quando necessário.
+              Grandes players do e-commerce global, como a Amazon, utilizam essa estratégia de forma massiva para otimizar constantemente suas vendas e margens. O objetivo final é encontrar o "preço perfeito" para cada momento específico: vender mais caro quando a demanda está alta e a concorrência baixa, e mais barato para liquidar o estoque, para ser agressivo em uma promoção ou para competir de forma inteligente quando necessário. É a aplicação de inteligência de dados diretamente no preço do seu produto.
             </p>
           </div>
         </section>
 
         <section className="mb-16">
-          <h2 className="text-3xl font-bold tracking-tighter mb-6">A Dificuldade de Implementar Sem a Ferramenta Certa</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-6">O Desafio de Implementar Sem a Ferramenta Certa</h2>
           <div className="space-y-4 text-lg text-muted-foreground">
             <p>
-              Para a maioria dos vendedores, implementar uma estratégia de precificação dinâmica manualmente é praticamente impossível. O volume de dados a serem analisados é imenso: monitorar dezenas de concorrentes, cruzar com seu próprio nível de estoque e aplicar as mudanças de preço em tempo hábil exige uma dedicação que desvia o foco do negócio principal.
+              Para a esmagadora maioria dos vendedores, implementar uma estratégia de precificação dinâmica de forma manual é praticamente impossível. O volume de dados que precisa ser coletado e analisado é imenso: monitorar os preços de dezenas de concorrentes para centenas de produtos, cruzar essa informação com seu próprio nível de estoque e suas metas de lucro, e aplicar as mudanças de preço em tempo hábil exige uma dedicação que desvia o foco do negócio principal.
             </p>
             <p>
-              Sem automação, o processo é lento, sujeito a erros e incapaz de reagir com a velocidade que o mercado exige. O resultado é a perda de vendas quando seu preço está muito alto e a perda de margem quando está muito baixo.
+              Sem o uso de automação e de uma ferramenta robusta, o processo se torna lento, impreciso e, pior, sujeito a erros humanos que podem custar caro. A incapacidade de reagir com a velocidade que o mercado online exige significa, invariavelmente, a perda de vendas quando seu preço está muito alto e a perda de margem de lucro quando está desnecessariamente baixo.
+            </p>
+             <p>
+              Muitos vendedores acabam desistindo da ideia, mantendo seus preços estáticos e deixando uma quantidade significativa de dinheiro na mesa, simplesmente por não terem acesso à tecnologia correta para competir de igual para igual.
             </p>
           </div>
         </section>
@@ -46,10 +49,10 @@ const PrecificacaoDinamicaPage = () => {
           <h2 className="text-3xl font-bold tracking-tighter mb-4">Simule seu ROI com Nossa Ferramenta Interativa</h2>
           <div className="space-y-4 text-lg text-muted-foreground max-w-3xl mx-auto">
             <p>
-              Quer ver o poder da precificação dinâmica na prática? Desenvolvemos uma ferramenta interativa que permite simular o impacto de pequenos ajustes de preço no seu faturamento e margem de lucro.
+              Quer ver o poder da <strong>precificação dinâmica</strong> na prática, sem compromisso? Desenvolvemos uma ferramenta interativa que permite a você simular o impacto de pequenos e grandes ajustes de preço no seu faturamento e, mais importante, na sua margem de lucro.
             </p>
             <p>
-              Veja em tempo real como uma estratégia de preços inteligente pode transformar seus resultados.
+              Use nosso slider de preços e margem e veja em tempo real como uma estratégia de preços inteligente e automatizada pode transformar seus resultados e aumentar sua competitividade.
             </p>
           </div>
           <div className="mt-8">
