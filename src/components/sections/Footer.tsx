@@ -1,10 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { contactInfo } from '@/config/site';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   const socialLinks = [
     {
@@ -152,7 +154,7 @@ export const Footer = () => {
                       </Link>
                     ) : (
                       <a
-                        href={link.href}
+                        href={link.href && isHomePage ? link.href : `/${link.href}`}
                         className="text-gray-400 hover:text-brand transition-colors duration-300"
                       >
                         {link.name}
