@@ -154,7 +154,7 @@ export const Footer = () => {
                       </Link>
                     ) : (
                       <a
-                        href={link.href && isHomePage ? link.href : `/${link.href}`}
+                        href={link.href?.startsWith('#') && !isHomePage ? `/${link.href}` : link.href}
                         className="text-gray-400 hover:text-brand transition-colors duration-300"
                       >
                         {link.name}
