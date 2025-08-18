@@ -78,7 +78,7 @@ export const Header = () => {
                   className="h-8 w-auto"
                   width="245"
                   height="32"
-                  fetchPriority="high"
+                  fetchpriority="high"
                 />
               </picture>
             </Link>
@@ -87,19 +87,19 @@ export const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex min-w-0 flex-grow items-center justify-end space-x-4 lg:space-x-6 xl:space-x-8">
             {navLinks.map(link => (
-              <a
+              <Link
                 key={link.id}
-                href={isHomePage ? link.href : `/${link.href}`}
+                to={isHomePage ? link.href : `/${link.href}`}
                 data-testid={`nav-${link.id}`}
                 className={`text-sm font-medium transition-colors duration-300 ${
                   activeSection === link.id ? 'text-brand' : 'text-gray-600 hover:text-brand'
                 }`}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
             <Button asChild size="sm">
-              <a href="#contato">Fale Conosco</a>
+              <Link to={isHomePage ? "#contato" : "/#contato"}>Fale Conosco</Link>
             </Button>
           </nav>
 
@@ -132,9 +132,9 @@ export const Header = () => {
       >
         <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
           {navLinks.map(link => (
-            <a
+            <Link
               key={link.id}
-              href={isHomePage ? link.href : `/${link.href}`}
+              to={isHomePage ? link.href : `/${link.href}`}
               onClick={closeMobileMenu}
               className={`block rounded-md px-3 py-2 text-base font-medium transition-colors duration-300 ${
                 activeSection === link.id
@@ -143,14 +143,14 @@ export const Header = () => {
               }`}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </div>
         <div className="border-t border-gray-200 px-2 pt-3 pb-3">
           <Button asChild className="w-full">
-            <a href="#contato" onClick={closeMobileMenu}>
+            <Link to={isHomePage ? "#contato" : "/#contato"} onClick={closeMobileMenu}>
               Fale Conosco
-            </a>
+            </Link>
           </Button>
         </div>
       </div>
