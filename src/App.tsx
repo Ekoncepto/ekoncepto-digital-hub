@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAnalytics } from './hooks/useAnalytics';
-import ScrollToTop from './components/common/ScrollToTop';
+import ScrollManager from './components/common/ScrollManager';
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import FloatingWhatsAppButton from './components/common/FloatingWhatsAppButton';
@@ -45,7 +45,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <ScrollToTop />
+        <ScrollManager />
         <Analytics />
         <Routes>
           <Route path="/" element={<Index />} />

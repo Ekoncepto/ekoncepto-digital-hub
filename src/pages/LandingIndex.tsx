@@ -76,7 +76,11 @@ const LandingIndexPage = () => {
                         <CardDescription>{page.description}</CardDescription>
                       </CardContent>
                       <div className="p-6 pt-0">
-                        <Link to={`/landing/${page.slug}`} className="font-semibold text-brand hover:underline flex items-center">
+                        <Link
+                          to={`/landing/${page.slug}`}
+                          className="font-semibold text-brand hover:underline flex items-center"
+                          data-testid={`link-${page.slug}`}
+                        >
                           Ler mais <ArrowRight className="ml-2 h-4 w-4" />
                         </Link>
                       </div>
