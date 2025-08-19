@@ -213,18 +213,18 @@ export const Footer = () => {
             &copy; {currentYear} Ekoncepto. Todos os direitos reservados.
           </p>
           <div className="flex space-x-6">
-            <a
-              href="#"
+            <Link
+              to="/termos-de-uso"
               className="text-sm text-gray-400 hover:text-brand transition-colors duration-300"
             >
               Termos de Uso
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="/politica-de-privacidade"
               className="text-sm text-gray-400 hover:text-brand transition-colors duration-300"
             >
               Política de Privacidade
-            </a>
+            </Link>
           </div>
         </motion.div>
       </div>

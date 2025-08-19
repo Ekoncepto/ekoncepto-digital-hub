@@ -20,6 +20,8 @@ import GuiaAmazonDownloadPage from './pages/downloads/GuiaAmazon';
 import WhitepaperMarketingDownloadPage from './pages/downloads/WhitepaperMarketing';
 import ChecklistVisibilidadeDownloadPage from './pages/downloads/ChecklistVisibilidade';
 import ComparativoMarketplacesDownloadPage from './pages/downloads/ComparativoMarketplaces';
+import TermosDeUsoPage from './pages/TermosDeUso';
+import PoliticaDePrivacidadePage from './pages/PoliticaDePrivacidade';
 
 const queryClient = new QueryClient();
 
@@ -60,6 +62,8 @@ const App = () => (
           <Route path="/downloads/whitepaper-marketing" element={<WhitepaperMarketingDownloadPage />} />
           <Route path="/downloads/checklist-visibilidade" element={<ChecklistVisibilidadeDownloadPage />} />
           <Route path="/downloads/comparativo-marketplaces" element={<ComparativoMarketplacesDownloadPage />} />
+          <Route path="/termos-de-uso" element={<TermosDeUsoPage />} />
+          <Route path="/politica-de-privacidade" element={<PoliticaDePrivacidadePage />} />
           {landingPageRoutes}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
