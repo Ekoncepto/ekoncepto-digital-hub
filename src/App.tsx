@@ -2,12 +2,24 @@ import { Toaster } from '@/components/ui/toaster';
 import { Toaster as Sonner } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAnalytics } from './hooks/useAnalytics';
+import ScrollManager from './components/common/ScrollManager';
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import FloatingWhatsAppButton from './components/common/FloatingWhatsAppButton';
+import { landingPageRoutes } from './pages/landing/routes';
+import LandingIndexPage from './pages/LandingIndex';
+import ThankYouPage from './pages/ThankYou';
+import GuiaMercadoLivreDownloadPage from './pages/downloads/GuiaMercadoLivre';
+import ChecklistMagaluDownloadPage from './pages/downloads/ChecklistMagalu';
+import GuiaShopeeDownloadPage from './pages/downloads/GuiaShopee';
+import GuiaFbaDownloadPage from './pages/downloads/GuiaFba';
+import GuiaAmazonDownloadPage from './pages/downloads/GuiaAmazon';
+import WhitepaperMarketingDownloadPage from './pages/downloads/WhitepaperMarketing';
+import ChecklistVisibilidadeDownloadPage from './pages/downloads/ChecklistVisibilidade';
+import ComparativoMarketplacesDownloadPage from './pages/downloads/ComparativoMarketplaces';
 
 const queryClient = new QueryClient();
 
@@ -33,9 +45,22 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollManager />
         <Analytics />
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/conteudos" element={<LandingIndexPage />} />
+          <Route path="/conteudo" element={<Navigate to="/conteudos" replace />} />
+          <Route path="/obrigado" element={<ThankYouPage />} />
+          <Route path="/downloads/guia-mercado-livre" element={<GuiaMercadoLivreDownloadPage />} />
+          <Route path="/downloads/checklist-magalu" element={<ChecklistMagaluDownloadPage />} />
+          <Route path="/downloads/guia-shopee" element={<GuiaShopeeDownloadPage />} />
+          <Route path="/downloads/guia-fba" element={<GuiaFbaDownloadPage />} />
+          <Route path="/downloads/guia-amazon" element={<GuiaAmazonDownloadPage />} />
+          <Route path="/downloads/whitepaper-marketing" element={<WhitepaperMarketingDownloadPage />} />
+          <Route path="/downloads/checklist-visibilidade" element={<ChecklistVisibilidadeDownloadPage />} />
+          <Route path="/downloads/comparativo-marketplaces" element={<ComparativoMarketplacesDownloadPage />} />
+          {landingPageRoutes}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

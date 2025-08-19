@@ -1,9 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
 import { contactInfo } from '@/config/site';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   const socialLinks = [
     {
@@ -56,13 +59,14 @@ export const Footer = () => {
     {
       title: 'Navegação',
       links: [
-        { name: 'Início', href: '#' },
+        { name: 'Início', to: '/' },
         { name: 'Mercado', href: '#mercado' },
         { name: 'Metodologia', href: '#metodologia' },
         { name: 'Cases', href: '#cases' },
         { name: 'Serviços', href: '#servicos' },
         { name: 'Processo', href: '#processo' },
         { name: 'Sobre', href: '#about' },
+        { name: 'Conteúdos', to: '/conteudos' },
       ],
     },
     {
@@ -139,16 +143,32 @@ export const Footer = () => {
             >
               <h3 className="text-white font-semibold text-lg mb-4">{section.title}</h3>
               <ul className="space-y-3">
-                {section.links.map(link => (
-                  <li key={link.name}>
-                    <a
-                      href={link.href}
-                      className="text-gray-400 hover:text-brand transition-colors duration-300"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
+                {section.links.map(link => {
+                  const isInternalHash = link.href && link.href.startsWith('#');
+                  const isExternal = link.href && (link.href.startsWith('mailto:') || link.href.startsWith('tel:') || link.href.startsWith('https:'));
+
+                  return (
+                    <li key={link.name}>
+                      {link.to || isInternalHash ? (
+                        <Link
+                          to={link.to || (isHomePage ? link.href : `/${link.href}`)}
+                          className="text-gray-400 hover:text-brand transition-colors duration-300"
+                        >
+                          {link.name}
+                        </Link>
+                      ) : (
+                        <a
+                          href={link.href}
+                          className="text-gray-400 hover:text-brand transition-colors duration-300"
+                          target={isExternal ? '_blank' : undefined}
+                          rel={isExternal ? 'noopener noreferrer' : undefined}
+                        >
+                          {link.name}
+                        </a>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </motion.div>
           ))}
