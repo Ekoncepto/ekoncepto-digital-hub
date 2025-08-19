@@ -19,7 +19,7 @@ All colors MUST be HSL.
     --popover-foreground: 220 25% 15%;
 
     /* Brand - vibrant green identity */
-    --primary: 141 60% 40%; /* brand green */
+    --primary: 151 100% 50%; /* brand green */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 141 35% 94%;
