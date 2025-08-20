@@ -26,7 +26,7 @@ export const Hero = () => {
   }, []);
 
   return (
-    <section className="bg-brand-dark text-white text-center py-16 md:py-24 lg:py-32">
+    <section className="bg-gray-900 text-white text-center py-16 md:py-24 lg:py-32">
       <div className="container mx-auto px-4 sm:px-6">
         <div
           className="max-w-4xl mx-auto animate-fade-in-up"
@@ -35,7 +35,7 @@ export const Hero = () => {
         >
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight mb-6">
             Aceleramos suas vendas em marketplaces com{' '}
-            <span className="text-brand bg-clip-text text-transparent bg-gradient-to-r from-brand to-brand-light">
+            <span className="text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
               tecnologia e expertise.
             </span>
           </h1>
@@ -48,7 +48,7 @@ export const Hero = () => {
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
             <a
               href="#contato"
-              className="bg-brand hover:bg-brand/90 text-white font-bold py-3 px-6 sm:px-8 rounded-lg text-base sm:text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-brand/20"
+              className="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-6 sm:px-8 rounded-lg text-base sm:text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary/20"
               data-aos="fade-up"
               data-aos-delay="100"
               data-aos-duration="600"

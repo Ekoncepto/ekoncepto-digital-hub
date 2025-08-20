@@ -122,7 +122,7 @@ export const Footer = () => {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-brand transition-colors duration-300"
+                  className="text-gray-400 hover:text-primary transition-colors duration-300"
                   aria-label={social.name}
                 >
                   <span className="sr-only">{social.name}</span>
@@ -152,14 +152,14 @@ export const Footer = () => {
                       {link.to || isInternalHash ? (
                         <Link
                           to={link.to || (isHomePage ? link.href : `/${link.href}`)}
-                          className="text-gray-400 hover:text-brand transition-colors duration-300"
+                          className="text-gray-400 hover:text-primary transition-colors duration-300"
                         >
                           {link.name}
                         </Link>
                       ) : (
                         <a
                           href={link.href}
-                          className="text-gray-400 hover:text-brand transition-colors duration-300"
+                          className="text-gray-400 hover:text-primary transition-colors duration-300"
                           target={isExternal ? '_blank' : undefined}
                           rel={isExternal ? 'noopener noreferrer' : undefined}
                         >
@@ -188,12 +188,12 @@ export const Footer = () => {
               <input
                 type="email"
                 placeholder="Seu e-mail"
-                className="bg-gray-700 text-white px-4 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-brand w-full"
+                className="bg-gray-700 text-white px-4 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary w-full"
                 aria-label="Seu e-mail"
               />
               <button
                 type="submit"
-                className="bg-brand text-white px-4 py-2 rounded-r-md hover:bg-brand/90 transition-colors duration-300 font-medium"
+                className="bg-primary text-white px-4 py-2 rounded-r-md hover:bg-primary/90 transition-colors duration-300 font-medium"
               >
                 Assinar
               </button>
@@ -215,13 +215,13 @@ export const Footer = () => {
           <div className="flex space-x-6">
             <a
               href="#"
-              className="text-sm text-gray-400 hover:text-brand transition-colors duration-300"
+              className="text-sm text-gray-400 hover:text-primary transition-colors duration-300"
             >
               Termos de Uso
             </a>
             <a
               href="#"
-              className="text-sm text-gray-400 hover:text-brand transition-colors duration-300"
+              className="text-sm text-gray-400 hover:text-primary transition-colors duration-300"
             >
               Política de Privacidade
             </a>

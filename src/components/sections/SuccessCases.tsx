@@ -17,7 +17,7 @@ interface SuccessCase {
 }
 
 const SectorIcon = ({ sector }: { sector: string }) => {
-  const iconClass = 'w-6 h-6 text-brand';
+  const iconClass = 'w-6 h-6 text-primary';
 
   switch (sector) {
     case 'equipamentos-hospitalares':
@@ -115,7 +115,7 @@ const SuccessCases = () => {
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
             Resultados que{' '}
-            <span className="bg-gradient-to-r from-brand to-brand-light bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               falam por si.
             </span>
           </h2>
@@ -150,10 +150,10 @@ const SuccessCases = () => {
                   : {}
               }
             >
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand to-brand-light"></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary"></div>
 
               <div className="relative z-10 h-full flex flex-col items-center">
-                <div className="w-16 h-16 bg-brand/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-brand/10 transition-colors duration-300">
+                <div className="w-16 h-16 bg-primary/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-primary/10 transition-colors duration-300">
                   <SectorIcon sector={caseItem.sector} />
                 </div>
 

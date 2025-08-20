@@ -144,7 +144,7 @@ export const About = () => {
             <ul className="space-y-3 mb-8">
               {features.map((feature, index) => (
                 <li key={index} className="flex items-start">
-                  <Check className="size-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <Check className="size-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
                   <span>{feature}</span>
                 </li>
               ))}
