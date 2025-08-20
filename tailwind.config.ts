@@ -50,11 +50,6 @@ export default {
     },
     extend: {
       colors: {
-        brand: {
-          DEFAULT: '#5a8219', // Darkened for better contrast
-          dark: '#2d3748',
-          light: '#94c83d',
-        },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

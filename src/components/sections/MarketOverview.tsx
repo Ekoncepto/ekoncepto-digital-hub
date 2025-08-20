@@ -55,7 +55,7 @@ const MarketOverview = () => {
       <div className="container mx-auto px-4 sm:px-6">
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            Um mercado digital em <span className="text-brand">plena expansão.</span>
+            Um mercado digital em <span className="text-primary">plena expansão.</span>
           </h2>
           <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
             O e-commerce não é mais o futuro, é o presente. Veja por que sua empresa precisa estar
@@ -73,10 +73,10 @@ const MarketOverview = () => {
                 de forma estratégica nos grandes marketplaces estão perdendo a maior fatia do
                 mercado, que deve representar mais da metade de todo o varejo até 2029.
               </p>
-              <div className="bg-brand/5 border-l-4 border-brand p-4 rounded-r-lg">
+              <div className="bg-primary/5 border-l-4 border-primary p-4 rounded-r-lg">
                 <p className="font-medium text-gray-800">
                   Os marketplaces (Mercado Livre, Amazon, Shopee) já concentram mais de{' '}
-                  <span className="text-brand font-bold text-xl">75%</span> de todas as vendas
+                  <span className="text-primary font-bold text-xl">75%</span> de todas as vendas
                   online. É aqui que o seu cliente está.
                 </p>
               </div>
@@ -95,7 +95,7 @@ const MarketOverview = () => {
                     <div className="flex justify-between items-center mb-1">
                       <span className="font-medium text-gray-700">{item.year}</span>
                       <div className="flex items-center">
-                        <span className="font-bold text-brand">{item.percentage}</span>
+                        <span className="font-bold text-primary">{item.percentage}</span>
                         {item.isProjection && (
                           <span className="text-xs text-gray-500 ml-1">projeção</span>
                         )}
@@ -105,7 +105,7 @@ const MarketOverview = () => {
                       <div
                         ref={el => (progressBarsRef.current[index] = el)}
                         data-width={item.width}
-                        className="bg-gradient-to-r from-brand to-brand-light h-2.5 rounded-full transition-all duration-1000 ease-out"
+                        className="bg-gradient-to-r from-primary to-secondary h-2.5 rounded-full transition-all duration-1000 ease-out"
                         style={{ width: 0 }}
                       />
                     </div>
