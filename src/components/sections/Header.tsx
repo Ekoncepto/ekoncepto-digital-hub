@@ -92,7 +92,7 @@ export const Header = () => {
                 to={isHomePage ? link.href : `/${link.href}`}
                 data-testid={`nav-${link.id}`}
                 className={`text-sm font-medium transition-colors duration-300 ${
-                  activeSection === link.id ? 'text-brand' : 'text-gray-600 hover:text-brand'
+                  activeSection === link.id ? 'text-primary' : 'text-gray-600 hover:text-primary'
                 }`}
               >
                 {link.label}
@@ -117,7 +117,7 @@ export const Header = () => {
             <button
               onClick={toggleMobileMenu}
               aria-label="Toggle menu"
-              className="inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-brand focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand"
+              className="inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-primary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
             >
               <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                 <path
@@ -147,8 +147,8 @@ export const Header = () => {
               onClick={closeMobileMenu}
               className={`block rounded-md px-3 py-2 text-base font-medium transition-colors duration-300 ${
                 activeSection === link.id
-                  ? 'bg-brand/10 text-brand'
-                  : 'text-foreground hover:bg-gray-50 hover:text-brand'
+                  ? 'bg-primary/10 text-primary'
+                  : 'text-foreground hover:bg-gray-50 hover:text-primary'
               }`}
             >
               {link.label}

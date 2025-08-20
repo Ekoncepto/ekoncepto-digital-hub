@@ -15,11 +15,11 @@ const MethodologyItem = ({ children }: { children: React.ReactNode }) => (
     }}
   >
     <motion.div
-      className="h-5 w-5 flex-shrink-0 mt-1 mr-3 bg-brand/10 rounded-full p-0.5 group-hover/li:bg-brand/20 transition-colors duration-200"
+      className="h-5 w-5 flex-shrink-0 mt-1 mr-3 bg-primary/10 rounded-full p-0.5 group-hover/li:bg-primary/20 transition-colors duration-200"
       whileHover={{ scale: 1.1 }}
     >
       <svg
-        className="h-4 w-4 text-brand mt-0.5"
+        className="h-4 w-4 text-primary mt-0.5"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -88,7 +88,7 @@ export const Methodology = () => {
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
             Nossa Fórmula:{' '}
-            <span className="bg-gradient-to-r from-brand to-brand-light bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               Visibilidade + Conversão = Vendas
             </span>
           </h2>
@@ -112,8 +112,8 @@ export const Methodology = () => {
                 }`}
               >
                 <div className="flex items-center">
-                  <div className="bg-brand/10 p-2 rounded-lg mr-4">
-                    <div className="text-brand">{pillar.icon}</div>
+                  <div className="bg-primary/10 p-2 rounded-lg mr-4">
+                    <div className="text-primary">{pillar.icon}</div>
                   </div>
                   <h3 className="text-lg font-bold">{pillar.title}</h3>
                 </div>
@@ -175,18 +175,18 @@ export const Methodology = () => {
               whileTap={{ scale: 0.98 }}
             >
               <div className="flex items-center mb-6">
-                <div className="bg-brand/5 group-hover:bg-brand/10 p-3 rounded-xl mr-4 transition-all duration-300 group-hover:scale-110">
+                <div className="bg-primary/5 group-hover:bg-primary/10 p-3 rounded-xl mr-4 transition-all duration-300 group-hover:scale-110">
                   <motion.div
-                    className="text-brand"
+                    className="text-primary"
                     whileHover={{ rotate: 5, scale: 1.1 }}
                     transition={{ type: 'spring', stiffness: 300 }}
                   >
                     {pillar.icon}
                   </motion.div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-800 group-hover:text-brand transition-colors duration-300">
+                <h3 className="text-2xl font-bold text-gray-800 group-hover:text-primary transition-colors duration-300">
                   {pillar.title}
-                  <span className="absolute inset-0 w-full h-1 bg-gradient-to-r from-brand/0 via-brand/30 to-brand/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -bottom-px left-0"></span>
+                  <span className="absolute inset-0 w-full h-1 bg-gradient-to-r from-primary/0 via-primary/30 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -bottom-px left-0"></span>
                 </h3>
               </div>
               <motion.p
