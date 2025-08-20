@@ -98,6 +98,15 @@ export const Header = () => {
                 {link.label}
               </Link>
             ))}
+            <Link
+              to="/conteudos"
+              data-testid="nav-conteudo"
+              className={`text-sm font-medium transition-colors duration-300 ${
+                location.pathname === '/conteudos' ? 'text-brand' : 'text-gray-600 hover:text-brand'
+              }`}
+            >
+              Conteúdo
+            </Link>
             <Button asChild size="sm">
               <Link to={isHomePage ? "#contato" : "/#contato"}>Fale Conosco</Link>
             </Button>
@@ -145,6 +154,17 @@ export const Header = () => {
               {link.label}
             </Link>
           ))}
+          <Link
+            to="/conteudos"
+            onClick={closeMobileMenu}
+            className={`block rounded-md px-3 py-2 text-base font-medium transition-colors duration-300 ${
+              location.pathname === '/conteudos'
+                ? 'bg-brand/10 text-brand'
+                : 'text-foreground hover:bg-gray-50 hover:text-brand'
+            }`}
+          >
+            Conteúdo
+          </Link>
         </div>
         <div className="border-t border-gray-200 px-2 pt-3 pb-3">
           <Button asChild className="w-full">
