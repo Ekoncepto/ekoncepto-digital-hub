@@ -7,7 +7,7 @@ All colors MUST be HSL.
 */
 
 @layer base {
-:root {
+  :root {
     /* Base surfaces */
     --background: 0 0% 100%;
     --foreground: 220 25% 10%;
@@ -56,9 +56,28 @@ All colors MUST be HSL.
     --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.3);
   }
 
-}
+  .dark-header {
+    --background: 220 25% 10%;
+    --foreground: 0 0% 98%;
+    --card: 220 25% 10%;
+    --card-foreground: 0 0% 98%;
+    --popover: 220 25% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 151 88% 49%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 146 31% 57%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 215 16% 40%;
+    --muted-foreground: 210 28% 96%;
+    --accent: 49 41% 46%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 4 46% 53%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 215 16% 40%;
+    --input: 215 16% 40%;
+    --ring: 151 88% 49%;
+  }
 
-@layer base {
   * {
     @apply border-border;
   }

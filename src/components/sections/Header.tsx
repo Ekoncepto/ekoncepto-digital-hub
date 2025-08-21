@@ -64,7 +64,7 @@ export const Header = () => {
   // --- Render ---
   return (
     <header
-      className={`sticky top-0 z-50 bg-white transition-shadow duration-300 ${isScrolled ? 'shadow-lg' : ''}`}
+      className={`dark-header sticky top-0 z-50 bg-background transition-shadow duration-300 ${isScrolled ? 'shadow-lg shadow-slate-500' : ''}`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between gap-4 sm:gap-8">
@@ -73,7 +73,7 @@ export const Header = () => {
             <Link to="/" aria-label="E-koncepto Home" data-testid="logo">
               <picture>
                 <img
-                  src="/images/ekoncepto-logo.svg"
+                  src="/images/ekoncepto-logo branco.svg"
                   alt="E-koncepto Logo"
                   className="h-8 w-auto"
                   width="245"
@@ -92,7 +92,9 @@ export const Header = () => {
                 to={isHomePage ? link.href : `/${link.href}`}
                 data-testid={`nav-${link.id}`}
                 className={`text-sm font-medium transition-colors duration-300 ${
-                  activeSection === link.id ? 'text-primary' : 'text-gray-600 hover:text-primary'
+                  activeSection === link.id
+                    ? 'text-primary'
+                    : 'text-muted-foreground hover:text-primary'
                 }`}
               >
                 {link.label}
@@ -102,13 +104,15 @@ export const Header = () => {
               to="/conteudos"
               data-testid="nav-conteudo"
               className={`text-sm font-medium transition-colors duration-300 ${
-                location.pathname === '/conteudos' ? 'text-brand' : 'text-gray-600 hover:text-brand'
+                location.pathname === '/conteudos'
+                  ? 'text-primary'
+                  : 'text-muted-foreground hover:text-primary'
               }`}
             >
               Conteúdo
             </Link>
             <Button asChild size="sm">
-              <Link to={isHomePage ? "#contato" : "/#contato"}>Fale Conosco</Link>
+              <Link to={isHomePage ? '#contato' : '/#contato'}>Fale Conosco</Link>
             </Button>
           </nav>
 
@@ -117,7 +121,7 @@ export const Header = () => {
             <button
               onClick={toggleMobileMenu}
               aria-label="Toggle menu"
-              className="inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-primary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+              className="inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-muted hover:text-primary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
             >
               <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                 <path
@@ -135,7 +139,7 @@ export const Header = () => {
       {/* Mobile Menu */}
       <div
         data-testid="mobile-menu"
-        className={`lg:hidden bg-white transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`lg:hidden bg-background transition-all duration-300 ease-in-out overflow-hidden ${
           mobileMenuOpen ? 'max-h-screen' : 'max-h-0'
         }`}
       >
@@ -148,7 +152,7 @@ export const Header = () => {
               className={`block rounded-md px-3 py-2 text-base font-medium transition-colors duration-300 ${
                 activeSection === link.id
                   ? 'bg-primary/10 text-primary'
-                  : 'text-foreground hover:bg-gray-50 hover:text-primary'
+                  : 'text-foreground hover:bg-muted hover:text-primary'
               }`}
             >
               {link.label}
@@ -159,16 +163,16 @@ export const Header = () => {
             onClick={closeMobileMenu}
             className={`block rounded-md px-3 py-2 text-base font-medium transition-colors duration-300 ${
               location.pathname === '/conteudos'
-                ? 'bg-brand/10 text-brand'
-                : 'text-foreground hover:bg-gray-50 hover:text-brand'
+                ? 'bg-primary/10 text-primary'
+                : 'text-foreground hover:bg-muted hover:text-primary'
             }`}
           >
             Conteúdo
           </Link>
         </div>
-        <div className="border-t border-gray-200 px-2 pt-3 pb-3">
+        <div className="border-t border-border px-2 pt-3 pb-3">
           <Button asChild className="w-full">
-            <Link to={isHomePage ? "#contato" : "/#contato"} onClick={closeMobileMenu}>
+            <Link to={isHomePage ? '#contato' : '/#contato'} onClick={closeMobileMenu}>
               Fale Conosco
             </Link>
           </Button>
