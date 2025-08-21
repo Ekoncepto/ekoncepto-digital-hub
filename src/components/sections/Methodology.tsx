@@ -88,9 +88,7 @@ export const Methodology = () => {
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
             Nossa Fórmula:{' '}
-            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Visibilidade + Conversão = Vendas
-            </span>
+            <span className="text-primary">Visibilidade + Conversão = Vendas</span>
           </h2>
           <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
             Não existe sorte, existe método. Dividimos nosso trabalho em dois pilares fundamentais
