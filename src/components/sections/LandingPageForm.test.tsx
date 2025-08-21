@@ -20,6 +20,16 @@ vi.mock('react-router-dom', async () => {
 describe('LandingPageForm', () => {
   beforeEach(() => {
     mockedNavigate.mockClear();
+    global.fetch = vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({}),
+      } as Response)
+    );
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('should submit the form and navigate to the default /obrigado page', async () => {

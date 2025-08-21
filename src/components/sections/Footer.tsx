@@ -184,9 +184,11 @@ export const Footer = () => {
             <p className="text-gray-400 mb-4">
               Assine nossa newsletter para receber novidades e dicas.
             </p>
-            <form className="flex">
+            <form name="newsletter" method="POST" data-netlify="true" className="flex">
+              <input type="hidden" name="form-name" value="newsletter" />
               <input
                 type="email"
+                name="email"
                 placeholder="Seu e-mail"
                 className="bg-gray-700 text-white px-4 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary w-full"
                 aria-label="Seu e-mail"
