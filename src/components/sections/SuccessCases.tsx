@@ -114,10 +114,7 @@ const SuccessCases = () => {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            Resultados que{' '}
-            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              falam por si.
-            </span>
+            Resultados que <span className="text-primary">falam por si.</span>
           </h2>
           <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
             Não prometemos, nós provamos. Veja o que nossa metodologia fez por alguns de nossos

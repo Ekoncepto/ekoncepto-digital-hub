@@ -161,7 +161,7 @@ export const About = () => {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="border-primary text-primary hover:bg-primary/5"
+                  className="border-gray-900 text-gray-900 hover:bg-gray-200"
                 >
                   <span>Conheça nossa metodologia</span>
                 </Button>
