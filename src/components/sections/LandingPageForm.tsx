@@ -53,23 +53,10 @@ export function LandingPageForm({ redirectPath = "/obrigado" }: LandingPageFormP
     },
   });
 
-  const encode = (data: Record<string, unknown>) => {
-    return Object.keys(data)
-      .map(
-        (key) =>
-          `${encodeURIComponent(key)}=${encodeURIComponent(String(data[key]))}`
-      )
-      .join("&");
-  };
-
   function onSubmit(values: z.infer<typeof formSchema>) {
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encode({ "form-name": "landingpage", ...values }),
-    })
-      .then(() => navigate(redirectPath))
-      .catch((error) => alert(error));
+    // The form submission is handled by the 'action' attribute,
+    // but we can still log the values or perform other actions here.
+    console.log("Form values:", values);
   }
 
   return (
@@ -77,6 +64,8 @@ export function LandingPageForm({ redirectPath = "/obrigado" }: LandingPageFormP
       <form
         name="landingpage"
         onSubmit={form.handleSubmit(onSubmit)}
+        action={redirectPath}
+        method="POST"
         data-netlify="true"
         className="space-y-8"
       >
