@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { Header } from './Header';
+import { externalLinks } from '@/config/site';
 
 // Mock IntersectionObserver
 const mockIntersectionObserver = vi.fn();
@@ -47,14 +48,18 @@ describe('Header', () => {
       // The key is that it navigates correctly.
       expect(within(desktopNav).getByTestId('nav-mercado')).toHaveAttribute('href', expect.stringMatching(/#mercado/));
       expect(within(desktopNav).getByTestId('nav-servicos')).toHaveAttribute('href', expect.stringMatching(/#servicos/));
-      expect(within(desktopNav).getByRole('link', { name: /fale conosco/i })).toHaveAttribute('href', expect.stringMatching(/#contato/));
+      const faleConoscoLink = within(desktopNav).getByRole('link', { name: /fale conosco/i });
+      expect(faleConoscoLink).toHaveAttribute('href', externalLinks.whatsapp);
+      expect(faleConoscoLink).toHaveAttribute('target', '_blank');
     });
 
     it('should have correct hash links on mobile menu', () => {
       const mobileMenu = screen.getByTestId('mobile-menu');
       expect(within(mobileMenu).getByRole('link', { name: 'Mercado' })).toHaveAttribute('href', expect.stringMatching(/#mercado/));
       expect(within(mobileMenu).getByRole('link', { name: 'Serviços' })).toHaveAttribute('href', expect.stringMatching(/#servicos/));
-      expect(within(mobileMenu).getByRole('link', { name: /fale conosco/i })).toHaveAttribute('href', expect.stringMatching(/#contato/));
+      const faleConoscoLink = within(mobileMenu).getByRole('link', { name: /fale conosco/i });
+      expect(faleConoscoLink).toHaveAttribute('href', externalLinks.whatsapp);
+      expect(faleConoscoLink).toHaveAttribute('target', '_blank');
     });
   });
 
@@ -67,14 +72,18 @@ describe('Header', () => {
       const desktopNav = screen.getByRole('navigation');
       expect(within(desktopNav).getByTestId('nav-mercado')).toHaveAttribute('href', '/#mercado');
       expect(within(desktopNav).getByTestId('nav-servicos')).toHaveAttribute('href', '/#servicos');
-      expect(within(desktopNav).getByRole('link', { name: /fale conosco/i })).toHaveAttribute('href', '/#contato');
+      const faleConoscoLink = within(desktopNav).getByRole('link', { name: /fale conosco/i });
+      expect(faleConoscoLink).toHaveAttribute('href', externalLinks.whatsapp);
+      expect(faleConoscoLink).toHaveAttribute('target', '_blank');
     });
 
     it('should have correct links pointing back to homepage sections on mobile', () => {
       const mobileMenu = screen.getByTestId('mobile-menu');
       expect(within(mobileMenu).getByRole('link', { name: 'Mercado' })).toHaveAttribute('href', '/#mercado');
       expect(within(mobileMenu).getByRole('link', { name: 'Serviços' })).toHaveAttribute('href', '/#servicos');
-      expect(within(mobileMenu).getByRole('link', { name: /fale conosco/i })).toHaveAttribute('href', '/#contato');
+      const faleConoscoLink = within(mobileMenu).getByRole('link', { name: /fale conosco/i });
+      expect(faleConoscoLink).toHaveAttribute('href', externalLinks.whatsapp);
+      expect(faleConoscoLink).toHaveAttribute('target', '_blank');
     });
   });
 });
