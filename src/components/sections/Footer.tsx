@@ -1,11 +1,27 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { contactInfo } from '@/config/site';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const myForm = event.currentTarget;
+    const formData = new FormData(myForm);
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(formData as any).toString(),
+    })
+      .then(() => navigate('/obrigado-newsletter'))
+      .catch((error) => alert(error));
+  };
   const isHomePage = location.pathname === '/';
 
   const socialLinks = [
@@ -184,7 +200,7 @@ export const Footer = () => {
             <p className="text-gray-400 mb-4">
               Assine nossa newsletter para receber novidades e dicas.
             </p>
-            <form name="newsletter" method="POST" data-netlify="true" action="/obrigado-newsletter" className="flex">
+            <form name="newsletter" data-netlify="true" onSubmit={handleSubmit} className="flex">
               <input type="hidden" name="form-name" value="newsletter" />
               <input
                 type="email"
