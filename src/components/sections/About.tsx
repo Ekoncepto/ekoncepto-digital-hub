@@ -144,7 +144,7 @@ export const About = () => {
             <ul className="space-y-3 mb-8">
               {features.map((feature, index) => (
                 <li key={index} className="flex items-start">
-                  <Check className="size-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <Check className="size-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
                   <span>{feature}</span>
                 </li>
               ))}
@@ -161,7 +161,7 @@ export const About = () => {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="border-primary text-primary hover:bg-primary/5"
+                  className="border-gray-900 text-gray-900 hover:bg-gray-200"
                 >
                   <span>Conheça nossa metodologia</span>
                 </Button>

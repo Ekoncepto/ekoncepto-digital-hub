@@ -1,11 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
+import { Link, useLocation } from 'react-router-dom';
+import { externalLinks } from '@/config/site';
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const observer = useRef<IntersectionObserver | null>(null);
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   // --- Effects for scroll detection and active section observation ---
   useEffect(() => {
@@ -61,43 +65,67 @@ export const Header = () => {
   // --- Render ---
   return (
     <header
-      className={`sticky top-0 z-50 bg-white transition-shadow duration-300 ${isScrolled ? 'shadow-lg' : ''}`}
+      className={`dark-header sticky top-0 z-50 bg-background transition-shadow duration-300 ${isScrolled ? 'shadow-lg shadow-slate-500' : ''}`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between gap-4 sm:gap-8">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a href="#" aria-label="E-koncepto Home" data-testid="logo">
+            <Link to="/" aria-label="E-koncepto Home" data-testid="logo">
               <picture>
                 <img
-                  src="/images/ekoncepto-logo.svg"
+                  src="/images/ekoncepto-logo branco.svg"
                   alt="E-koncepto Logo"
                   className="h-8 w-auto"
                   width="245"
                   height="32"
-                  fetchPriority="high"
+                  fetchpriority="high"
                 />
               </picture>
-            </a>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex min-w-0 flex-grow items-center justify-end space-x-4 lg:space-x-6 xl:space-x-8">
             {navLinks.map(link => (
-              <a
+              <Link
                 key={link.id}
-                href={link.href}
+                to={isHomePage ? link.href : `/${link.href}`}
                 data-testid={`nav-${link.id}`}
                 className={`text-sm font-medium transition-colors duration-300 ${
-                  activeSection === link.id ? 'text-brand' : 'text-gray-600 hover:text-brand'
+                  activeSection === link.id
+                    ? 'text-primary'
+                    : 'text-muted-foreground hover:text-primary'
                 }`}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
-            <Button asChild size="sm">
-              <a href="#contato">Fale Conosco</a>
-            </Button>
+            <Link
+              to="/conteudos"
+              data-testid="nav-conteudo"
+              className={`text-sm font-medium transition-colors duration-300 ${
+                location.pathname === '/conteudos'
+                  ? 'text-primary'
+                  : 'text-muted-foreground hover:text-primary'
+              }`}
+            >
+              Conteúdo
+            </Link>
+            <a
+              href={externalLinks.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block"
+            >
+              <Button
+                size="sm"
+                variant="hero"
+                className="py-3 px-6 sm:px-8 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary/20"
+              >
+                Fale Conosco
+              </Button>
+            </a>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -105,7 +133,7 @@ export const Header = () => {
             <button
               onClick={toggleMobileMenu}
               aria-label="Toggle menu"
-              className="inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-brand focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand"
+              className="inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-muted hover:text-primary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
             >
               <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                 <path
@@ -123,32 +151,52 @@ export const Header = () => {
       {/* Mobile Menu */}
       <div
         data-testid="mobile-menu"
-        className={`lg:hidden bg-white transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`lg:hidden bg-background transition-all duration-300 ease-in-out overflow-hidden ${
           mobileMenuOpen ? 'max-h-screen' : 'max-h-0'
         }`}
       >
         <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
           {navLinks.map(link => (
-            <a
+            <Link
               key={link.id}
-              href={link.href}
+              to={isHomePage ? link.href : `/${link.href}`}
               onClick={closeMobileMenu}
               className={`block rounded-md px-3 py-2 text-base font-medium transition-colors duration-300 ${
                 activeSection === link.id
-                  ? 'bg-brand/10 text-brand'
-                  : 'text-foreground hover:bg-gray-50 hover:text-brand'
+                  ? 'bg-primary/10 text-primary'
+                  : 'text-foreground hover:bg-muted hover:text-primary'
               }`}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
+          <Link
+            to="/conteudos"
+            onClick={closeMobileMenu}
+            className={`block rounded-md px-3 py-2 text-base font-medium transition-colors duration-300 ${
+              location.pathname === '/conteudos'
+                ? 'bg-primary/10 text-primary'
+                : 'text-foreground hover:bg-muted hover:text-primary'
+            }`}
+          >
+            Conteúdo
+          </Link>
         </div>
-        <div className="border-t border-gray-200 px-2 pt-3 pb-3">
-          <Button asChild className="w-full">
-            <a href="#contato" onClick={closeMobileMenu}>
+        <div className="border-t border-border px-2 pt-3 pb-3">
+          <a
+            href={externalLinks.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full"
+            onClick={closeMobileMenu}
+          >
+            <Button
+              variant="hero"
+              className="w-full py-3 px-6 sm:px-8 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary/20"
+            >
               Fale Conosco
-            </a>
-          </Button>
+            </Button>
+          </a>
         </div>
       </div>
     </header>

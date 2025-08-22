@@ -39,7 +39,7 @@ export const Services = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <Badge className="mb-4 bg-primary/10 text-primary hover:bg-primary/20">
+          <Badge className="mb-4 bg-primary text-primary-foreground hover:bg-primary/90">
             Nossos Serviços
           </Badge>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
@@ -72,7 +72,7 @@ export const Services = () => {
                     <ul className="space-y-2 mb-6">
                       {service.features.map((feature, index) => (
                         <li key={index} className="flex items-start">
-                          <Check className="size-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                          <Check className="size-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
                           <span className="text-sm">{feature}</span>
                         </li>
                       ))}

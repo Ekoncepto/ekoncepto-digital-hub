@@ -1,9 +1,28 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { contactInfo } from '@/config/site';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const myForm = event.currentTarget;
+    const formData = new FormData(myForm);
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(formData as any).toString(),
+    })
+      .then(() => navigate('/obrigado-newsletter'))
+      .catch((error) => alert(error));
+  };
+  const isHomePage = location.pathname === '/';
 
   const socialLinks = [
     {
@@ -29,19 +48,6 @@ export const Footer = () => {
       ),
     },
     {
-      name: 'Facebook',
-      url: 'https://facebook.com/ekoncepto',
-      icon: (
-        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path
-            fillRule="evenodd"
-            d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-    },
-    {
       name: 'WhatsApp',
       url: 'https://wa.me/' + contactInfo.whatsapp,
       icon: (
@@ -56,13 +62,14 @@ export const Footer = () => {
     {
       title: 'Navegação',
       links: [
-        { name: 'Início', href: '#' },
+        { name: 'Início', to: '/' },
         { name: 'Mercado', href: '#mercado' },
         { name: 'Metodologia', href: '#metodologia' },
         { name: 'Cases', href: '#cases' },
         { name: 'Serviços', href: '#servicos' },
         { name: 'Processo', href: '#processo' },
         { name: 'Sobre', href: '#about' },
+        { name: 'Conteúdos', to: '/conteudos' },
       ],
     },
     {
@@ -118,7 +125,7 @@ export const Footer = () => {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-brand transition-colors duration-300"
+                  className="text-gray-400 hover:text-primary transition-colors duration-300"
                   aria-label={social.name}
                 >
                   <span className="sr-only">{social.name}</span>
@@ -139,16 +146,32 @@ export const Footer = () => {
             >
               <h3 className="text-white font-semibold text-lg mb-4">{section.title}</h3>
               <ul className="space-y-3">
-                {section.links.map(link => (
-                  <li key={link.name}>
-                    <a
-                      href={link.href}
-                      className="text-gray-400 hover:text-brand transition-colors duration-300"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
+                {section.links.map(link => {
+                  const isInternalHash = link.href && link.href.startsWith('#');
+                  const isExternal = link.href && (link.href.startsWith('mailto:') || link.href.startsWith('tel:') || link.href.startsWith('https:'));
+
+                  return (
+                    <li key={link.name}>
+                      {link.to || isInternalHash ? (
+                        <Link
+                          to={link.to || (isHomePage ? link.href : `/${link.href}`)}
+                          className="text-gray-400 hover:text-primary transition-colors duration-300"
+                        >
+                          {link.name}
+                        </Link>
+                      ) : (
+                        <a
+                          href={link.href}
+                          className="text-gray-400 hover:text-primary transition-colors duration-300"
+                          target={isExternal ? '_blank' : undefined}
+                          rel={isExternal ? 'noopener noreferrer' : undefined}
+                        >
+                          {link.name}
+                        </a>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </motion.div>
           ))}
@@ -164,16 +187,18 @@ export const Footer = () => {
             <p className="text-gray-400 mb-4">
               Assine nossa newsletter para receber novidades e dicas.
             </p>
-            <form className="flex">
+            <form name="newsletter" data-netlify="true" onSubmit={handleSubmit} className="flex">
+              <input type="hidden" name="form-name" value="newsletter" />
               <input
                 type="email"
+                name="email"
                 placeholder="Seu e-mail"
-                className="bg-gray-700 text-white px-4 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-brand w-full"
+                className="bg-gray-700 text-white px-4 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary w-full"
                 aria-label="Seu e-mail"
               />
               <button
                 type="submit"
-                className="bg-brand text-white px-4 py-2 rounded-r-md hover:bg-brand/90 transition-colors duration-300 font-medium"
+                className="bg-primary text-white px-4 py-2 rounded-r-md hover:bg-primary/90 transition-colors duration-300 font-medium"
               >
                 Assinar
               </button>
@@ -193,18 +218,18 @@ export const Footer = () => {
             &copy; {currentYear} Ekoncepto. Todos os direitos reservados.
           </p>
           <div className="flex space-x-6">
-            <a
-              href="#"
+            <Link
+              to="/termos-de-uso"
               className="text-sm text-gray-400 hover:text-brand transition-colors duration-300"
             >
               Termos de Uso
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="/politica-de-privacidade"
               className="text-sm text-gray-400 hover:text-brand transition-colors duration-300"
             >
               Política de Privacidade
-            </a>
+            </Link>
           </div>
         </motion.div>
       </div>
