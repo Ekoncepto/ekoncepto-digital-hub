@@ -91,8 +91,7 @@ export const Hero = () => {
               >
                 <div className="bg-white/90 p-5 rounded-lg backdrop-blur-sm">
                   <img
-                    src="/placeholder.svg"
-                    data-src={marketplace.src}
+                    src={marketplace.src}
                     alt={marketplace.alt}
                     className="h-8 sm:h-10 md:h-12 w-auto transition-all duration-300"
                     width={
@@ -109,7 +108,6 @@ export const Hero = () => {
                           ? 33
                           : 26
                     }
-                    loading="lazy"
                   />
                 </div>
               </div>

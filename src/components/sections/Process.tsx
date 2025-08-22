@@ -73,13 +73,13 @@ export const Process = () => {
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.5 }}
         >
-          <span className="inline-block text-brand font-semibold text-sm uppercase tracking-wider mb-2">
+          <span className="inline-block text-primary font-semibold text-sm uppercase tracking-wider mb-2">
             Nosso Processo
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
-            Como a <span className="text-brand">Ekoncepto</span> Transforma seu Negócio
+            Como a <span className="text-primary">Ekoncepto</span> Transforma seu Negócio
           </h2>
-          <div className="w-20 h-1 bg-brand mx-auto mt-4 mb-4"></div>
+          <div className="w-20 h-1 bg-primary mx-auto mt-4 mb-4"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Seguimos um processo de 4 passos, desenhado para garantir transparência, eficiência e
             resultados mensuráveis para sua empresa.
@@ -96,12 +96,12 @@ export const Process = () => {
           {steps.map((step) => (
             <motion.div
               key={step.number}
-              className="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center text-center border-t-4 border-brand-light"
+              className="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center text-center border-t-4 border-primary"
               variants={itemVariants}
             >
               <div className="relative mb-6">
-                <div className="absolute -inset-2 bg-brand/10 rounded-full animate-pulse"></div>
-                <div className="relative flex items-center justify-center w-20 h-20 bg-gradient-to-br from-brand to-green-400 text-white rounded-full shadow-lg">
+                <div className="absolute -inset-2 bg-primary/10 rounded-full animate-pulse"></div>
+                <div className="relative flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary to-green-400 text-white rounded-full shadow-lg">
                   {step.icon}
                 </div>
                 <div className="absolute -top-2 -right-2 w-8 h-8 bg-gray-900 text-white text-sm font-bold rounded-full flex items-center justify-center border-2 border-white">
