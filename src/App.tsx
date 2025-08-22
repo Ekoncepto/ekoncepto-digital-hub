@@ -3,9 +3,10 @@ import { Toaster as Sonner } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { useAnalytics } from './hooks/useAnalytics';
 import ScrollManager from './components/common/ScrollManager';
+import PageLoader from './components/common/PageLoader';
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import FloatingWhatsAppButton from './components/common/FloatingWhatsAppButton';
@@ -49,17 +50,38 @@ export const AppRoutes = () => (
     <Route path="/conteudo" element={<Navigate to="/conteudos" replace />} />
     <Route path="/obrigado" element={<ThankYouPage />} />
     <Route path="/obrigado-newsletter" element={<ObrigadoNewsletterPage />} />
-    <Route path="/downloads/guia-mercado-livre" element={<GuiaMercadoLivreDownloadPage />} />
-    <Route path="/downloads/checklist-magalu" element={<ChecklistMagaluDownloadPage />} />
+    <Route
+      path="/downloads/guia-mercado-livre"
+      element={<GuiaMercadoLivreDownloadPage />}
+    />
+    <Route
+      path="/downloads/checklist-magalu"
+      element={<ChecklistMagaluDownloadPage />}
+    />
     <Route path="/downloads/guia-shopee" element={<GuiaShopeeDownloadPage />} />
     <Route path="/downloads/guia-fba" element={<GuiaFbaDownloadPage />} />
     <Route path="/downloads/guia-amazon" element={<GuiaAmazonDownloadPage />} />
-    <Route path="/downloads/whitepaper-marketing" element={<WhitepaperMarketingDownloadPage />} />
-    <Route path="/downloads/checklist-visibilidade" element={<ChecklistVisibilidadeDownloadPage />} />
-    <Route path="/downloads/comparativo-marketplaces" element={<ComparativoMarketplacesDownloadPage />} />
+    <Route
+      path="/downloads/whitepaper-marketing"
+      element={<WhitepaperMarketingDownloadPage />}
+    />
+    <Route
+      path="/downloads/checklist-visibilidade"
+      element={<ChecklistVisibilidadeDownloadPage />}
+    />
+    <Route
+      path="/downloads/comparativo-marketplaces"
+      element={<ComparativoMarketplacesDownloadPage />}
+    />
     <Route path="/termos-de-uso" element={<TermosDeUsoPage />} />
     <Route path="/politica-de-privacidade" element={<PoliticaDePrivacidadePage />} />
-    {landingPageRoutes}
+    {landingPageRoutes.map((route, index) => (
+      <Route
+        key={index}
+        path={route.props.path}
+        element={<Suspense fallback={<PageLoader />}>{route.props.element}</Suspense>}
+      />
+    ))}
     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
     <Route path="*" element={<NotFound />} />
   </Routes>
@@ -81,3 +103,4 @@ const App = () => (
 );
 
 export default App;
+
