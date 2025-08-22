@@ -29,19 +29,28 @@ const initGA = (measurementId: string) => {
   }
 };
 
+const isInvalidGAId = (id?: string): boolean => {
+  if (!id || id.toUpperCase().includes('G-XXXXXXXXXX')) {
+    return true;
+  }
+  return false;
+};
+
 export const useAnalytics = (measurementId?: string) => {
   const location = useLocation();
 
   useEffect(() => {
-    // Initialize GA if measurementId is provided and GA is not already initialized
-    if (measurementId && typeof window !== 'undefined' && !window.gtag) {
-      initGA(measurementId);
+    // Initialize GA if measurementId is provided, valid, and GA is not already initialized
+    const isValid = !isInvalidGAId(measurementId);
+    if (isValid && typeof window !== 'undefined' && !window.gtag) {
+      initGA(measurementId as string);
     }
   }, [measurementId]);
 
   // Track page views on route change
   useEffect(() => {
-    if (measurementId && typeof window !== 'undefined' && window.gtag) {
+    const isValid = !isInvalidGAId(measurementId);
+    if (isValid && typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', 'page_view', {
         page_path: location.pathname + location.search + location.hash,
         page_title: document.title,
@@ -53,7 +62,8 @@ export const useAnalytics = (measurementId?: string) => {
   // Track custom events
   const trackEvent = useCallback(
     (action: string, params: Record<string, unknown>) => {
-      if (measurementId && typeof window !== 'undefined' && window.gtag) {
+      const isValid = !isInvalidGAId(measurementId);
+      if (isValid && typeof window !== 'undefined' && window.gtag) {
         window.gtag('event', action, params);
       }
     },
