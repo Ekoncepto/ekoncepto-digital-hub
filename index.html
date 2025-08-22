@@ -77,6 +77,28 @@
 
   <body>
     <div id="root"></div>
+
+    <!-- Netlify dummy forms -->
+    <form name="landingpage" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="text" name="company" />
+      <select name="sellsOnMarketplace">
+        <option value="yes">Sim</option>
+        <option value="no">Não</option>
+      </select>
+      <select name="revenue">
+        <option value="0-10k">Até R$10.000</option>
+        <option value="10k-50k">R$10.001 - R$50.000</option>
+        <option value="50k-100k">R$50.001 - R$100.000</option>
+        <option value="100k-500k">R$100.001 - R$500.000</option>
+        <option value="500k+">Acima de R$500.000</option>
+      </select>
+    </form>
+    <form name="newsletter" method="POST" data-netlify="true" action="/obrigado-newsletter" hidden>
+      <input type="hidden" name="form-name" value="newsletter" />
+      <input type="email" name="email" />
+    </form>
+
     <!-- Vite will inject the script tag here -->
     <script type="module" src="/src/main.tsx"></script>
     <script>

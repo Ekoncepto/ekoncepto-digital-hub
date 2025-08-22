@@ -53,14 +53,34 @@ export function LandingPageForm({ redirectPath = "/obrigado" }: LandingPageFormP
     },
   });
 
+  const encode = (data: Record<string, unknown>) => {
+    return Object.keys(data)
+      .map(
+        (key) =>
+          `${encodeURIComponent(key)}=${encodeURIComponent(String(data[key]))}`
+      )
+      .join("&");
+  };
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    navigate(redirectPath);
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: encode({ "form-name": "landingpage", ...values }),
+    })
+      .then(() => navigate(redirectPath))
+      .catch((error) => alert(error));
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        name="landingpage"
+        onSubmit={form.handleSubmit(onSubmit)}
+        data-netlify="true"
+        className="space-y-8"
+      >
+        <input type="hidden" name="form-name" value="landingpage" />
         <FormField
           control={form.control}
           name="name"

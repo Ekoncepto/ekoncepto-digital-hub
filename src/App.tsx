@@ -12,6 +12,7 @@ import FloatingWhatsAppButton from './components/common/FloatingWhatsAppButton';
 import { landingPageRoutes } from './pages/landing/routes';
 import LandingIndexPage from './pages/LandingIndex';
 import ThankYouPage from './pages/ThankYou';
+import ObrigadoNewsletterPage from './pages/ObrigadoNewsletter';
 import GuiaMercadoLivreDownloadPage from './pages/downloads/GuiaMercadoLivre';
 import ChecklistMagaluDownloadPage from './pages/downloads/ChecklistMagalu';
 import GuiaShopeeDownloadPage from './pages/downloads/GuiaShopee';
@@ -54,6 +55,7 @@ const App = () => (
           <Route path="/conteudos" element={<LandingIndexPage />} />
           <Route path="/conteudo" element={<Navigate to="/conteudos" replace />} />
           <Route path="/obrigado" element={<ThankYouPage />} />
+          <Route path="/obrigado-newsletter" element={<ObrigadoNewsletterPage />} />
           <Route path="/downloads/guia-mercado-livre" element={<GuiaMercadoLivreDownloadPage />} />
           <Route path="/downloads/checklist-magalu" element={<ChecklistMagaluDownloadPage />} />
           <Route path="/downloads/guia-shopee" element={<GuiaShopeeDownloadPage />} />
