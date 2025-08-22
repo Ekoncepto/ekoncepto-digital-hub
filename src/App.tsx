@@ -42,6 +42,29 @@ const Analytics = () => {
   return null;
 };
 
+export const AppRoutes = () => (
+  <Routes>
+    <Route path="/" element={<Index />} />
+    <Route path="/conteudos" element={<LandingIndexPage />} />
+    <Route path="/conteudo" element={<Navigate to="/conteudos" replace />} />
+    <Route path="/obrigado" element={<ThankYouPage />} />
+    <Route path="/obrigado-newsletter" element={<ObrigadoNewsletterPage />} />
+    <Route path="/downloads/guia-mercado-livre" element={<GuiaMercadoLivreDownloadPage />} />
+    <Route path="/downloads/checklist-magalu" element={<ChecklistMagaluDownloadPage />} />
+    <Route path="/downloads/guia-shopee" element={<GuiaShopeeDownloadPage />} />
+    <Route path="/downloads/guia-fba" element={<GuiaFbaDownloadPage />} />
+    <Route path="/downloads/guia-amazon" element={<GuiaAmazonDownloadPage />} />
+    <Route path="/downloads/whitepaper-marketing" element={<WhitepaperMarketingDownloadPage />} />
+    <Route path="/downloads/checklist-visibilidade" element={<ChecklistVisibilidadeDownloadPage />} />
+    <Route path="/downloads/comparativo-marketplaces" element={<ComparativoMarketplacesDownloadPage />} />
+    <Route path="/termos-de-uso" element={<TermosDeUsoPage />} />
+    <Route path="/politica-de-privacidade" element={<PoliticaDePrivacidadePage />} />
+    {landingPageRoutes}
+    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+    <Route path="*" element={<NotFound />} />
+  </Routes>
+);
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -50,26 +73,7 @@ const App = () => (
       <BrowserRouter>
         <ScrollManager />
         <Analytics />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/conteudos" element={<LandingIndexPage />} />
-          <Route path="/conteudo" element={<Navigate to="/conteudos" replace />} />
-          <Route path="/obrigado" element={<ThankYouPage />} />
-          <Route path="/obrigado-newsletter" element={<ObrigadoNewsletterPage />} />
-          <Route path="/downloads/guia-mercado-livre" element={<GuiaMercadoLivreDownloadPage />} />
-          <Route path="/downloads/checklist-magalu" element={<ChecklistMagaluDownloadPage />} />
-          <Route path="/downloads/guia-shopee" element={<GuiaShopeeDownloadPage />} />
-          <Route path="/downloads/guia-fba" element={<GuiaFbaDownloadPage />} />
-          <Route path="/downloads/guia-amazon" element={<GuiaAmazonDownloadPage />} />
-          <Route path="/downloads/whitepaper-marketing" element={<WhitepaperMarketingDownloadPage />} />
-          <Route path="/downloads/checklist-visibilidade" element={<ChecklistVisibilidadeDownloadPage />} />
-          <Route path="/downloads/comparativo-marketplaces" element={<ComparativoMarketplacesDownloadPage />} />
-          <Route path="/termos-de-uso" element={<TermosDeUsoPage />} />
-          <Route path="/politica-de-privacidade" element={<PoliticaDePrivacidadePage />} />
-          {landingPageRoutes}
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AppRoutes />
         <FloatingWhatsAppButton />
       </BrowserRouter>
     </TooltipProvider>

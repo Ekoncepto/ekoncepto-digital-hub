@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -45,6 +45,7 @@ import GuiaFbaDownloadPage from '@/pages/downloads/GuiaFba';
 import GuiaMercadoLivreDownloadPage from '@/pages/downloads/GuiaMercadoLivre';
 import GuiaShopeeDownloadPage from '@/pages/downloads/GuiaShopee';
 import WhitepaperMarketingDownloadPage from '@/pages/downloads/WhitepaperMarketing';
+import { AppRoutes } from '@/App';
 
 
 const queryClient = new QueryClient();
@@ -112,4 +113,16 @@ describe('Page Rendering Smoke Tests', () => {
       expect(true).toBe(true);
     });
   });
+
+  it('should render a landing page when navigating to a deep link', () => {
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter initialEntries={['/landing/como-vender-na-shopee']}>
+            <AppRoutes />
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
+
+    expect(screen.getByText('Guia Completo: Como Vender na Shopee em 2024')).toBeInTheDocument();
+    });
 });
