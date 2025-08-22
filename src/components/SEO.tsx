@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { siteMetadata, businessInfo, contactInfo, socialLinks } from '@/config/site';
+import { faqItems } from '@/config/faq';
 
 interface SEOProps {
   title: string;
@@ -54,15 +55,8 @@ const localBusinessSchema = {
   url: siteMetadata.siteUrl,
   telephone: contactInfo.phone.replace(/\D/g, ''),
   email: contactInfo.email,
-  priceRange: '$$',
+  priceRange: '$$$',
   description: siteMetadata.description,
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'São Paulo',
-    addressRegion: 'SP',
-    addressCountry: 'BR',
-    // Add more specific address details if available
-  },
   openingHoursSpecification: {
     '@type': 'OpeningHoursSpecification',
     dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
@@ -72,27 +66,90 @@ const localBusinessSchema = {
   sameAs: socialLinks.map(link => link.url),
 };
 
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  url: siteMetadata.siteUrl,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${siteMetadata.siteUrl}/search?q={search_term_string}`,
+    'query-input': 'required name=search_term_string',
+  },
+};
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'Quais marketplaces vocês atendem?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Atendemos os principais marketplaces do Brasil, incluindo Mercado Livre, Amazon, Shopee, Magazine Luiza, Americanas e outros.',
-      },
+  mainEntity: faqItems.map(item => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
     },
-    {
-      '@type': 'Question',
-      name: 'Como funciona o processo de consultoria?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Nosso processo começa com uma análise detalhada do seu negócio, seguida por um plano personalizado de ação. Trabalhamos lado a lado com você para implementar as estratégias e otimizar seus resultados.',
+  })),
+};
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'Consultoria de E-commerce',
+  provider: {
+    '@type': 'Organization',
+    name: businessInfo.name,
+  },
+  areaServed: {
+    '@type': 'Country',
+    name: 'BR',
+  },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Serviços de Consultoria',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Consultoria de E-commerce',
+        },
       },
-    },
-  ],
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Otimização de Anúncios em Marketplaces',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Gestão de Mídia Paga (Product Ads)',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Precificação e Monitoramento de Anúncios',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Gestão da Operação em Marketplaces',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Análise de Resultados e Faturamento',
+        },
+      },
+    ],
+  },
 };
 
 export const SEO = ({
@@ -133,7 +190,9 @@ export const SEO = ({
     const schemas = [
       { id: 'jsonld-organization', data: structuredData },
       { id: 'jsonld-localbusiness', data: localBusinessSchema },
+      { id: 'jsonld-website', data: websiteSchema },
       { id: 'jsonld-faq', data: faqSchema },
+      { id: 'jsonld-service', data: serviceSchema },
     ];
 
     schemas.forEach(({ id, data }) => {
