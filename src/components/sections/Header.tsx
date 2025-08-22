@@ -115,7 +115,7 @@ export const Header = () => {
               asChild
               size="sm"
               variant="hero"
-              className="font-bold py-3 px-6 sm:px-8 text-base sm:text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary/20"
+              className="py-3 px-6 sm:px-8 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary/20"
             >
               <Link to={isHomePage ? '#contato' : '/#contato'}>Fale Conosco</Link>
             </Button>
@@ -179,7 +179,7 @@ export const Header = () => {
           <Button
             asChild
             variant="hero"
-            className="w-full font-bold py-3 px-6 sm:px-8 text-base sm:text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary/20"
+            className="w-full py-3 px-6 sm:px-8 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary/20"
           >
             <Link to={isHomePage ? '#contato' : '/#contato'} onClick={closeMobileMenu}>
               Fale Conosco
