@@ -1,5 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { motion, useInView, useAnimation } from 'framer-motion';
+import { ClipboardList, Search, Target, BarChart2, ChevronDown } from 'lucide-react';
+import * as Accordion from '@radix-ui/react-accordion';
 
 type ProcessStep = {
   number: number;
@@ -17,22 +19,7 @@ export const Process = () => {
       description:
         'Entendemos a fundo seu negócio, produtos e metas. Alinhamos objetivos e liberamos os acessos para começar.',
       position: 'left',
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-          <circle cx="12" cy="7" r="4" />
-        </svg>
-      ),
+      icon: <ClipboardList className="w-10 h-10 text-brand" />,
     },
     {
       number: 2,
@@ -40,22 +27,7 @@ export const Process = () => {
       description:
         'Nossa tecnologia entra em campo para mapear concorrentes, preços, palavras-chave e as melhores oportunidades para seus produtos.',
       position: 'right',
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
-          <path d="M21 3v5h-5" />
-        </svg>
-      ),
+      icon: <Search className="w-10 h-10 text-brand" />,
     },
     {
       number: 3,
@@ -63,28 +35,7 @@ export const Process = () => {
       description:
         'Executamos a estratégia: criamos conteúdo otimizado para SEO, gerenciamos o investimento em ADS e posicionamos seus anúncios.',
       position: 'left',
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M12 2v4" />
-          <path d="M12 18v4" />
-          <path d="M4.93 4.93l2.83 2.83" />
-          <path d="M16.24 16.24l2.83 2.83" />
-          <path d="M2 12h4" />
-          <path d="M18 12h4" />
-          <path d="M4.93 19.07l2.83-2.83" />
-          <path d="M16.24 7.76l2.83-2.83" />
-        </svg>
-      ),
+      icon: <Target className="w-10 h-10 text-brand" />,
     },
     {
       number: 4,
@@ -92,21 +43,7 @@ export const Process = () => {
       description:
         'Você fica por dentro de tudo com relatórios mensais, reuniões quinzenais e suporte diário via WhatsApp com seu especialista.',
       position: 'right',
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-        </svg>
-      ),
+      icon: <BarChart2 className="w-10 h-10 text-brand" />,
     },
   ];
 
@@ -125,19 +62,19 @@ export const Process = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.5,
+        staggerChildren: 0.3,
         delayChildren: 0,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.5,
+        duration: 0.4,
         ease: [0.4, 0, 0.2, 1],
       },
     },
@@ -149,8 +86,8 @@ export const Process = () => {
       scaleY: 1,
       opacity: 1,
       transition: {
-        duration: 0.3,
-        ease: [0.4, 0, 0.2, 1],
+        duration: 0.8,
+        ease: 'easeOut',
       },
     },
   };
@@ -158,7 +95,7 @@ export const Process = () => {
   return (
     <section
       id="processo"
-      className="py-20 bg-gradient-to-b from-gray-900 to-gray-800 text-white relative overflow-hidden"
+      className="py-20 bg-gray-900 text-white relative overflow-hidden"
     >
       {/* Decorative elements */}
       <div className="absolute inset-0 opacity-5">
@@ -199,60 +136,48 @@ export const Process = () => {
             variants={lineVariants}
           />
 
-          <div className="space-y-20 md:space-y-24">
+          <Accordion.Root type="single" collapsible className="space-y-8">
             {steps.map((step, index) => (
-              <motion.div
-                key={step.number}
-                className={`relative group ${index < steps.length - 1 ? 'pb-8' : ''}`}
-                variants={itemVariants}
-              >
-                <div className="md:grid md:grid-cols-2 md:gap-x-16">
-                  <div
-                    className={`md:relative ${
-                      step.position === 'right'
-                        ? 'md:col-start-2 md:text-left'
-                        : 'md:col-start-1 md:text-right'
-                    }`}
-                  >
-                    {/* Step number and icon */}
-                    <div
-                      className={`relative inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-brand to-brand-dark shadow-lg mb-6 group-hover:scale-110 transition-transform duration-300 ${
-                        step.position === 'left' ? 'md:ml-auto' : 'md:mr-auto'
-                      }`}
-                    >
-                      <div className="absolute inset-0 rounded-full bg-white/10 backdrop-blur-sm group-hover:bg-white/20 transition-colors duration-300"></div>
-                      <div className="relative z-10 text-2xl font-bold text-white">{step.icon}</div>
-                      <div className="absolute -bottom-2 -right-2 bg-brand text-white text-sm font-bold w-8 h-8 rounded-full flex items-center justify-center">
-                        {step.number}
-                      </div>
-                    </div>
-
-                    <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-brand transition-colors duration-300">
-                      {step.title}
-                    </h3>
-                    <p className="text-gray-300 group-hover:text-gray-100 transition-colors duration-300">
-                      {step.description}
-                    </p>
-                  </div>
-
-                  {/* Desktop connector line */}
-                  <div className="hidden md:block">
-                    <div
-                      className={`h-0.5 bg-gradient-to-r ${step.position === 'left' ? 'from-brand/30 to-transparent' : 'from-transparent to-brand/30'} w-full`}
-                    ></div>
-                  </div>
-
-                  {/* Right side content (empty for desktop) */}
-                  <div className="hidden md:block"></div>
-                </div>
-
-                {/* Mobile connector line */}
-                {index < steps.length - 1 && (
-                  <div className="md:hidden absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0.5 h-8 bg-gradient-to-b from-brand/50 to-transparent"></div>
-                )}
+              <motion.div key={step.number} variants={itemVariants}>
+                <Accordion.Item
+                  value={`item-${index}`}
+                  className="border-b border-white/10"
+                >
+                  <Accordion.Header>
+                    <Accordion.Trigger className="w-full text-left group">
+                      <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        className="flex items-center gap-6 p-6 bg-white/5 rounded-t-lg"
+                      >
+                        <div className="relative">
+                          <div className="relative flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-brand to-brand-dark shadow-lg">
+                            <div className="absolute inset-0 rounded-full bg-white/10 backdrop-blur-sm"></div>
+                            <div className="relative z-10">{step.icon}</div>
+                          </div>
+                          <div className="absolute -bottom-1 -right-1 bg-brand text-white text-sm font-bold w-6 h-6 rounded-full flex items-center justify-center">
+                            {step.number}
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-xl font-bold text-white">
+                            {step.title}
+                          </h3>
+                        </div>
+                        <ChevronDown className="w-6 h-6 text-white/50 transform transition-transform duration-300 group-data-[state=open]:rotate-180" />
+                      </motion.div>
+                    </Accordion.Trigger>
+                  </Accordion.Header>
+                  <Accordion.Content className="p-6 bg-black/20 rounded-b-lg">
+                    <ul className="list-disc list-inside space-y-2 text-gray-300">
+                      {step.description.split('. ').map((point, i) =>
+                        point ? <li key={i}>{point}.</li> : null
+                      )}
+                    </ul>
+                  </Accordion.Content>
+                </Accordion.Item>
               </motion.div>
             ))}
-          </div>
+          </Accordion.Root>
 
           {/* Animated dots on the timeline */}
           <div className="hidden md:block absolute left-1/2 -ml-1.5 top-0 w-3 h-full">
