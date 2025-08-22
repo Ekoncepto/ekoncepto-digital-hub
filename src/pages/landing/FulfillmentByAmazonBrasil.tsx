@@ -47,22 +47,19 @@ const FulfillmentByAmazonBrasilPage = () => {
         </section>
 
         <section className="bg-muted rounded-lg p-8 text-center">
-          <h2 className="text-3xl font-bold tracking-tighter mb-4">Descomplique o FBA com Nosso Guia Ilustrado e Completo</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-4">Em Breve: Guia Completo</h2>
           <div className="space-y-4 text-lg text-muted-foreground max-w-3xl mx-auto">
             <p>
-              Para ajudar você a aproveitar todos os benefícios do <strong>Fulfillment by Amazon Brasil</strong> sem as dores de cabeça da implementação, nós criamos um guia ilustrado completo e fácil de entender.
-            </p>
-            <p>
-              Nele, você encontrará o passo a passo detalhado de todo o processo, desde a preparação e etiquetagem dos seus produtos até o agendamento e envio para os centros de distribuição da Amazon, além de dicas para uma gestão de estoque eficiente. Baixe agora e entenda como usar a logística mais poderosa do mundo a seu favor.
+              Nosso guia ilustrado sobre o Amazon FBA está sendo finalizado por nossos especialistas e estará disponível para download em breve. Deixe seu e-mail com a gente para ser o primeiro a saber!
             </p>
           </div>
           <div className="mt-8">
             <Card className="w-full max-w-md mx-auto">
               <CardHeader>
-                <CardTitle className="text-center text-2xl">Entenda o Passo a Passo</CardTitle>
+                <CardTitle className="text-center text-2xl">Seja o primeiro a saber</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm redirectPath="/downloads/guia-fba" />
+                <LandingPageForm redirectPath="/obrigado-newsletter" />
               </CardContent>
             </Card>
           </div>

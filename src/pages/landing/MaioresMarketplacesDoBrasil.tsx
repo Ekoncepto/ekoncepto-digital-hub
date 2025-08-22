@@ -47,22 +47,19 @@ const MaioresMarketplacesDoBrasilPage = () => {
         </section>
 
         <section className="bg-muted rounded-lg p-8 text-center">
-          <h2 className="text-3xl font-bold tracking-tighter mb-4">Baixe Nosso Comparativo Exclusivo e Tome Decisões Inteligentes</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-4">Em Breve: Comparativo Completo</h2>
           <div className="space-y-4 text-lg text-muted-foreground max-w-3xl mx-auto">
             <p>
-              Para ajudar você a tomar a melhor decisão para o seu negócio, nossa equipe de especialistas compilou uma análise completa e detalhada dos <strong>maiores marketplaces do Brasil</strong> em um PDF comparativo, exclusivo e gratuito.
-            </p>
-            <p>
-              Nele, você encontrará dados sobre o perfil do público, as principais categorias de cada um, os prós e contras de vender em cada plataforma, e um resumo das taxas e modelos de negócio, tudo em um formato claro e fácil de entender para que você possa fazer uma escolha estratégica.
+              Nossa análise comparativa dos maiores marketplaces do Brasil está sendo finalizada por nossos especialistas e estará disponível para download em breve. Deixe seu e-mail com a gente para ser o primeiro a saber!
             </p>
           </div>
           <div className="mt-8">
             <Card className="w-full max-w-md mx-auto">
               <CardHeader>
-                <CardTitle className="text-center text-2xl">Baixar Comparativo</CardTitle>
+                <CardTitle className="text-center text-2xl">Seja o primeiro a saber</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm redirectPath="/downloads/comparativo-marketplaces" />
+                <LandingPageForm redirectPath="/obrigado-newsletter" />
               </CardContent>
             </Card>
           </div>

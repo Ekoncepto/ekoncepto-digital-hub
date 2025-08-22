@@ -22,9 +22,15 @@ describe('LandingIndexPage', () => {
     // Check for a specific landing page title within a card
     expect(screen.getByText('Guia definitivo: como vender no Mercado Livre e lucrar mais')).toBeInTheDocument();
 
-    // Find the link using the new data-testid and check its href
-    const link = screen.getByTestId('link-como-vender-no-mercado-livre');
-    expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute('href', '/landing/como-vender-no-mercado-livre');
+    // Check for a disabled link
+    const comingSoonElement = screen.getByTestId('coming-soon-como-vender-no-mercado-livre');
+    expect(comingSoonElement).toBeInTheDocument();
+    expect(comingSoonElement).toHaveTextContent('Em breve');
+    expect(screen.queryByTestId('link-como-vender-no-mercado-livre')).not.toBeInTheDocument();
+
+    // Check for an active link to ensure they are still rendering
+    const activeLink = screen.getByTestId('link-vender-no-marketplace');
+    expect(activeLink).toBeInTheDocument();
+    expect(activeLink).toHaveAttribute('href', '/landing/vender-no-marketplace');
   });
 });

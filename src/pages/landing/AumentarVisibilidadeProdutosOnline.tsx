@@ -47,22 +47,19 @@ const AumentarVisibilidadeProdutosOnlinePage = () => {
         </section>
 
         <section className="bg-muted rounded-lg p-8 text-center">
-          <h2 className="text-3xl font-bold tracking-tighter mb-4">Seu Checklist Prático para Visibilidade Máxima</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-4">Em Breve: Checklist Completo</h2>
           <div className="space-y-4 text-lg text-muted-foreground max-w-3xl mx-auto">
             <p>
-              Para ajudar você a navegar neste desafio e a criar uma estratégia de visibilidade mais eficaz, nós criamos um checklist prático e direto ao ponto. Ele reúne as principais técnicas de SEO e Ads que você pode começar a aplicar hoje mesmo para aumentar a visibilidade dos seus produtos.
-            </p>
-            <p>
-              Receba o checklist gratuitamente em seu e-mail e comece a aplicar as estratégias que vão colocar seus produtos na frente dos clientes certos, nos canais certos.
+              Nosso checklist com técnicas de SEO e Ads para aumentar a visibilidade dos seus produtos está sendo finalizado por nossos especialistas e estará disponível para download em breve. Deixe seu e-mail com a gente para ser o primeiro a saber!
             </p>
           </div>
           <div className="mt-8">
             <Card className="w-full max-w-md mx-auto">
               <CardHeader>
-                <CardTitle className="text-center text-2xl">Receber Checklist</CardTitle>
+                <CardTitle className="text-center text-2xl">Seja o primeiro a saber</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm redirectPath="/downloads/checklist-visibilidade" />
+                <LandingPageForm redirectPath="/obrigado-newsletter" />
               </CardContent>
             </Card>
           </div>
