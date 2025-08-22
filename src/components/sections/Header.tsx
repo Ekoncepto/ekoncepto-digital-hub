@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Link, useLocation } from 'react-router-dom';
+import { externalLinks } from '@/config/site';
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -111,14 +112,20 @@ export const Header = () => {
             >
               Conteúdo
             </Link>
-            <Button
-              asChild
-              size="sm"
-              variant="hero"
-              className="py-3 px-6 sm:px-8 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary/20"
+            <a
+              href={externalLinks.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block"
             >
-              <Link to={isHomePage ? '#contato' : '/#contato'}>Fale Conosco</Link>
-            </Button>
+              <Button
+                size="sm"
+                variant="hero"
+                className="py-3 px-6 sm:px-8 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary/20"
+              >
+                Fale Conosco
+              </Button>
+            </a>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -176,15 +183,20 @@ export const Header = () => {
           </Link>
         </div>
         <div className="border-t border-border px-2 pt-3 pb-3">
-          <Button
-            asChild
-            variant="hero"
-            className="w-full py-3 px-6 sm:px-8 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary/20"
+          <a
+            href={externalLinks.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full"
+            onClick={closeMobileMenu}
           >
-            <Link to={isHomePage ? '#contato' : '/#contato'} onClick={closeMobileMenu}>
+            <Button
+              variant="hero"
+              className="w-full py-3 px-6 sm:px-8 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary/20"
+            >
               Fale Conosco
-            </Link>
-          </Button>
+            </Button>
+          </a>
         </div>
       </div>
     </header>
