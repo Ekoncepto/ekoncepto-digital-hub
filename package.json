@@ -101,6 +101,10 @@
     ],
     "*.{json,css,md}": [
       "prettier --write"
+    ],
+    "{src/App.tsx,src/pages/landing/routes.tsx}": [
+      "npm run generate-sitemap",
+      "git add public/sitemap.xml"
     ]
   }
 }
