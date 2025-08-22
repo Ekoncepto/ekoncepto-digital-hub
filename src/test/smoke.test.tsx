@@ -46,6 +46,7 @@ import GuiaMercadoLivreDownloadPage from '@/pages/downloads/GuiaMercadoLivre';
 import GuiaShopeeDownloadPage from '@/pages/downloads/GuiaShopee';
 import WhitepaperMarketingDownloadPage from '@/pages/downloads/WhitepaperMarketing';
 import { AppRoutes } from '@/App';
+import { Suspense } from 'react';
 
 
 const queryClient = new QueryClient();
@@ -114,15 +115,17 @@ describe('Page Rendering Smoke Tests', () => {
     });
   });
 
-  it('should render a landing page when navigating to a deep link', () => {
+  it('should render a landing page when navigating to a deep link', async () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter initialEntries={['/landing/como-vender-na-shopee']}>
+          <Suspense fallback={<div>Loading...</div>}>
             <AppRoutes />
+          </Suspense>
         </MemoryRouter>
       </QueryClientProvider>
     );
 
-    expect(screen.getByText('Guia Completo: Como Vender na Shopee em 2024')).toBeInTheDocument();
-    });
+    expect(await screen.findByText('Guia Completo: Como Vender na Shopee em 2024')).toBeInTheDocument();
+  });
 });

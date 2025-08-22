@@ -43,15 +43,8 @@ const Analytics = () => {
   return null;
 };
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <ScrollManager />
-        <Analytics />
-        <Routes>
+export const AppRoutes = () => (
+  <Routes>
     <Route path="/" element={<Index />} />
     <Route path="/conteudos" element={<LandingIndexPage />} />
     <Route path="/conteudo" element={<Navigate to="/conteudos" replace />} />
@@ -82,17 +75,27 @@ const App = () => (
     />
     <Route path="/termos-de-uso" element={<TermosDeUsoPage />} />
     <Route path="/politica-de-privacidade" element={<PoliticaDePrivacidadePage />} />
-    <Route
-      path="/landing/*"
-      element={
-        <Suspense fallback={<PageLoader />}>
-          <Routes>{landingPageRoutes}</Routes>
-        </Suspense>
-      }
-    />
+    {landingPageRoutes.map((route, index) => (
+      <Route
+        key={index}
+        path={route.props.path}
+        element={<Suspense fallback={<PageLoader />}>{route.props.element}</Suspense>}
+      />
+    ))}
     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
     <Route path="*" element={<NotFound />} />
   </Routes>
+);
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <ScrollManager />
+        <Analytics />
+        <AppRoutes />
         <FloatingWhatsAppButton />
       </BrowserRouter>
     </TooltipProvider>
