@@ -7,13 +7,22 @@ const ScrollManager = () => {
   useEffect(() => {
     if (hash) {
       const id = hash.replace('#', '');
-      const element = document.getElementById(id);
-      if (element) {
-        // Use a timeout to ensure the element is available after the page transition
-        setTimeout(() => {
+
+      // Polling mechanism to find the element
+      const maxAttempts = 20; // 20 * 100ms = 2 seconds
+      let attempts = 0;
+
+      const intervalId = setInterval(() => {
+        const element = document.getElementById(id);
+        if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      }
+          clearInterval(intervalId);
+        } else if (attempts >= maxAttempts) {
+          clearInterval(intervalId);
+        }
+        attempts++;
+      }, 100);
+
     } else {
       window.scrollTo(0, 0);
     }
