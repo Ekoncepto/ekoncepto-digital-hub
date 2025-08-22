@@ -1,11 +1,11 @@
-import React, { useRef, useEffect } from 'react';
-import { motion, useInView, useAnimation } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Briefcase, Search, Rocket, TrendingUp } from 'lucide-react';
 
 type ProcessStep = {
   number: number;
   title: string;
   description: string;
-  position: 'left' | 'right';
   icon: React.ReactNode;
 };
 
@@ -15,269 +15,103 @@ export const Process = () => {
       number: 1,
       title: 'Onboarding e Diagnóstico',
       description:
-        'Entendemos a fundo seu negócio, produtos e metas. Alinhamos objetivos e liberamos os acessos para começar.',
-      position: 'left',
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-          <circle cx="12" cy="7" r="4" />
-        </svg>
-      ),
+        'Entendemos a fundo seu negócio, produtos e metas para um início de projeto alinhado e eficaz.',
+      icon: <Briefcase className="w-10 h-10" />,
     },
     {
       number: 2,
       title: 'Análise de Mercado',
       description:
-        'Nossa tecnologia entra em campo para mapear concorrentes, preços, palavras-chave e as melhores oportunidades para seus produtos.',
-      position: 'right',
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
-          <path d="M21 3v5h-5" />
-        </svg>
-      ),
+        'Mapeamos concorrentes, preços e palavras-chave para identificar as melhores oportunidades para seus produtos.',
+      icon: <Search className="w-10 h-10" />,
     },
     {
       number: 3,
       title: 'Criação e Otimização',
       description:
-        'Executamos a estratégia: criamos conteúdo otimizado para SEO, gerenciamos o investimento em ADS e posicionamos seus anúncios.',
-      position: 'left',
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M12 2v4" />
-          <path d="M12 18v4" />
-          <path d="M4.93 4.93l2.83 2.83" />
-          <path d="M16.24 16.24l2.83 2.83" />
-          <path d="M2 12h4" />
-          <path d="M18 12h4" />
-          <path d="M4.93 19.07l2.83-2.83" />
-          <path d="M16.24 7.76l2.83-2.83" />
-        </svg>
-      ),
+        'Executamos a estratégia com conteúdo otimizado para SEO e gerenciamento de ADS para posicionar seus anúncios.',
+      icon: <Rocket className="w-10 h-10" />,
     },
     {
       number: 4,
       title: 'Reports e Acompanhamento',
       description:
-        'Você fica por dentro de tudo com relatórios mensais, reuniões quinzenais e suporte diário via WhatsApp com seu especialista.',
-      position: 'right',
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-        </svg>
-      ),
+        'Relatórios mensais, reuniões quinzenais e suporte diário via WhatsApp para mantê-lo sempre informado.',
+      icon: <TrendingUp className="w-10 h-10" />,
     },
   ];
-
-  const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { once: true, amount: 0.3 });
-  const controls = useAnimation();
-
-  useEffect(() => {
-    if (isInView) {
-      controls.start('visible');
-    }
-  }, [isInView, controls]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.5,
-        delayChildren: 0,
+        staggerChildren: 0.2,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.5,
-        ease: [0.4, 0, 0.2, 1],
-      },
-    },
-  };
-
-  const lineVariants = {
-    hidden: { scaleY: 0, opacity: 0 },
-    visible: {
-      scaleY: 1,
-      opacity: 1,
-      transition: {
-        duration: 0.3,
-        ease: [0.4, 0, 0.2, 1],
+        duration: 0.4,
+        ease: 'easeOut',
       },
     },
   };
 
   return (
-    <section
-      id="processo"
-      className="py-20 bg-gradient-to-b from-gray-900 to-gray-800 text-white relative overflow-hidden"
-    >
-      {/* Decorative elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4yIj48cGF0aCBkPSJNMjEgM2E5IDkgMCAwMS05IDkgOSA5IDAgMDEtOS05IDkgOSAwIDAxOS05IDkgOSAwIDAxOSA5em0tOSA5YTkgOSAwIDAwOSA5IDkgOSAwIDAwOS05IDkgOSAwIDAwLTktOXoiLz48L2c+PC9nPjwvc3ZnPg==')]" />
-      </div>
-
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+    <section id="processo" className="py-20 sm:py-24 bg-gray-50 text-gray-800">
+      <div className="container mx-auto px-4 sm:px-6">
         <motion.div
-          className="text-center mb-16 md:mb-20"
+          className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.3 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.5 }}
         >
-          <span className="inline-block text-brand font-semibold text-sm uppercase tracking-wider mb-3">
+          <span className="inline-block text-brand font-semibold text-sm uppercase tracking-wider mb-2">
             Nosso Processo
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            Nossos <span className="text-brand">4 passos</span> para o sucesso.
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+            Como a <span className="text-brand">Ekoncepto</span> Transforma seu Negócio
           </h2>
-          <div className="w-20 h-1 bg-brand mx-auto my-6"></div>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-            Temos um processo de trabalho transparente e organizado para garantir uma evolução
-            acelerada e consistente.
+          <div className="w-20 h-1 bg-brand mx-auto mt-4 mb-4"></div>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            Seguimos um processo de 4 passos, desenhado para garantir transparência, eficiência e
+            resultados mensuráveis para sua empresa.
           </p>
         </motion.div>
 
         <motion.div
-          className="relative"
-          ref={containerRef}
-          initial="hidden"
-          animate={controls}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
           variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
         >
-          {/* Animated timeline line - Desktop */}
-          <motion.div
-            className="hidden md:block absolute h-full top-0 left-1/2 -ml-px w-0.5 bg-gradient-to-b from-brand via-brand/50 to-brand/0"
-            variants={lineVariants}
-          />
-
-          <div className="space-y-20 md:space-y-24">
-            {steps.map((step, index) => (
-              <motion.div
-                key={step.number}
-                className={`relative group ${index < steps.length - 1 ? 'pb-8' : ''}`}
-                variants={itemVariants}
-              >
-                <div className="md:grid md:grid-cols-2 md:gap-x-16">
-                  <div
-                    className={`md:relative ${
-                      step.position === 'right'
-                        ? 'md:col-start-2 md:text-left'
-                        : 'md:col-start-1 md:text-right'
-                    }`}
-                  >
-                    {/* Step number and icon */}
-                    <div
-                      className={`relative inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-brand to-brand-dark shadow-lg mb-6 group-hover:scale-110 transition-transform duration-300 ${
-                        step.position === 'left' ? 'md:ml-auto' : 'md:mr-auto'
-                      }`}
-                    >
-                      <div className="absolute inset-0 rounded-full bg-white/10 backdrop-blur-sm group-hover:bg-white/20 transition-colors duration-300"></div>
-                      <div className="relative z-10 text-2xl font-bold text-white">{step.icon}</div>
-                      <div className="absolute -bottom-2 -right-2 bg-brand text-white text-sm font-bold w-8 h-8 rounded-full flex items-center justify-center">
-                        {step.number}
-                      </div>
-                    </div>
-
-                    <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-brand transition-colors duration-300">
-                      {step.title}
-                    </h3>
-                    <p className="text-gray-300 group-hover:text-gray-100 transition-colors duration-300">
-                      {step.description}
-                    </p>
-                  </div>
-
-                  {/* Desktop connector line */}
-                  <div className="hidden md:block">
-                    <div
-                      className={`h-0.5 bg-gradient-to-r ${step.position === 'left' ? 'from-brand/30 to-transparent' : 'from-transparent to-brand/30'} w-full`}
-                    ></div>
-                  </div>
-
-                  {/* Right side content (empty for desktop) */}
-                  <div className="hidden md:block"></div>
+          {steps.map((step) => (
+            <motion.div
+              key={step.number}
+              className="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center text-center border-t-4 border-brand-light"
+              variants={itemVariants}
+            >
+              <div className="relative mb-6">
+                <div className="absolute -inset-2 bg-brand/10 rounded-full animate-pulse"></div>
+                <div className="relative flex items-center justify-center w-20 h-20 bg-gradient-to-br from-brand to-green-400 text-white rounded-full shadow-lg">
+                  {step.icon}
                 </div>
-
-                {/* Mobile connector line */}
-                {index < steps.length - 1 && (
-                  <div className="md:hidden absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0.5 h-8 bg-gradient-to-b from-brand/50 to-transparent"></div>
-                )}
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Animated dots on the timeline */}
-          <div className="hidden md:block absolute left-1/2 -ml-1.5 top-0 w-3 h-full">
-            {steps.map((_, index) => (
-              <motion.div
-                key={index}
-                className="absolute left-0 w-3 h-3 rounded-full bg-brand"
-                initial={{ y: -20, opacity: 0 }}
-                animate={controls}
-                variants={{
-                  hidden: { y: -20, opacity: 0 },
-                  visible: {
-                    y: 0,
-                    opacity: 1,
-                    transition: {
-                      delay: 0.3 + index * 0.2,
-                      duration: 0.6,
-                      ease: [0.4, 0, 0.2, 1],
-                    },
-                  },
-                }}
-                style={{ top: `${index * 24 + 10}%` }}
-              />
-            ))}
-          </div>
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-gray-900 text-white text-sm font-bold rounded-full flex items-center justify-center border-2 border-white">
+                  {step.number}
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">{step.title}</h3>
+              <p className="text-gray-600 leading-relaxed">{step.description}</p>
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </section>
