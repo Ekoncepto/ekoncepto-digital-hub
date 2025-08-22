@@ -112,7 +112,7 @@ export const Header = () => {
               Conteúdo
             </Link>
             <Button asChild size="sm">
-              <Link to={isHomePage ? '#contato' : '/#contato'}>Fale Conosco</Link>
+              <Link to={isHomePage ? '#contato' : '/#contato'} className="text-primary-foreground">Fale Conosco</Link>
             </Button>
           </nav>
 
@@ -172,7 +172,7 @@ export const Header = () => {
         </div>
         <div className="border-t border-border px-2 pt-3 pb-3">
           <Button asChild className="w-full">
-            <Link to={isHomePage ? '#contato' : '/#contato'} onClick={closeMobileMenu}>
+            <Link to={isHomePage ? '#contato' : '/#contato'} className="text-primary-foreground" onClick={closeMobileMenu}>
               Fale Conosco
             </Link>
           </Button>
