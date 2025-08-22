@@ -1,5 +1,6 @@
 import LandingPage from "./LandingPage";
-import { Button } from "@/components/ui/button";
+import { LandingPageForm } from "@/components/sections/LandingPageForm";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const ComoAnunciarNoMagaluPage = () => {
   return (
@@ -46,19 +47,21 @@ const ComoAnunciarNoMagaluPage = () => {
         </section>
 
         <section className="bg-muted rounded-lg p-8 text-center">
-          <h2 className="text-3xl font-bold tracking-tighter mb-4">Aprenda na Prática com Nosso Tutorial em Vídeo Gratuito</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-4">Em Breve: Tutorial em Vídeo</h2>
           <div className="space-y-4 text-lg text-muted-foreground max-w-3xl mx-auto">
             <p>
-              Para desmistificar o processo de <strong>como anunciar no Magalu</strong> e ajudar você a evitar esses erros, nós criamos um tutorial em vídeo completo, prático e direto ao ponto. Nele, nosso especialista mostra o passo a passo da criação de uma campanha de sucesso, desde a escolha dos produtos e a configuração do orçamento até a análise dos primeiros resultados.
-            </p>
-            <p>
-              Assista agora, gratuitamente, e comece a criar anúncios que realmente convertem e impulsionam suas vendas no Magazine Luiza.
+              Nosso tutorial em vídeo sobre como anunciar no Magalu está sendo finalizado por nossos especialistas e estará disponível em breve. Deixe seu e-mail com a gente para ser o primeiro a saber!
             </p>
           </div>
           <div className="mt-8">
-            <Button asChild size="lg">
-              <a href="#" target="_blank" rel="noopener noreferrer">Assistir Tutorial</a>
-            </Button>
+            <Card className="w-full max-w-md mx-auto">
+              <CardHeader>
+                <CardTitle className="text-center text-2xl">Seja o primeiro a saber</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <LandingPageForm redirectPath="/obrigado-newsletter" />
+              </CardContent>
+            </Card>
           </div>
         </section>
       </div>

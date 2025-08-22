@@ -5,6 +5,17 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
+const disabledSlugs = [
+  'como-vender-no-mercado-livre',
+  'como-vender-na-shopee',
+  'como-vender-na-amazon-brasil',
+  'fulfillment-by-amazon-brasil',
+  'marketing-para-ecommerce',
+  'maiores-marketplaces-do-brasil',
+  'aumentar-visibilidade-produtos-online',
+  'como-anunciar-no-magalu',
+];
+
 const landingPageCategories = {
   "Guias para Iniciantes": [
     { slug: 'como-vender-no-mercado-livre', title: 'Guia definitivo: como vender no Mercado Livre e lucrar mais', description: 'Conteúdo educacional para iniciantes que desejam começar a vender no Mercado Livre.' },
@@ -76,13 +87,22 @@ const LandingIndexPage = () => {
                         <CardDescription>{page.description}</CardDescription>
                       </CardContent>
                       <div className="p-6 pt-0">
-                        <Link
-                          to={`/landing/${page.slug}`}
-                          className="font-semibold text-brand hover:underline flex items-center"
-                          data-testid={`link-${page.slug}`}
-                        >
-                          Ler mais <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
+                        {disabledSlugs.includes(page.slug) ? (
+                          <div
+                            className="font-semibold text-muted-foreground flex items-center"
+                            data-testid={`coming-soon-${page.slug}`}
+                          >
+                            Em breve
+                          </div>
+                        ) : (
+                          <Link
+                            to={`/landing/${page.slug}`}
+                            className="font-semibold text-brand hover:underline flex items-center"
+                            data-testid={`link-${page.slug}`}
+                          >
+                            Ler mais <ArrowRight className="ml-2 h-4 w-4" />
+                          </Link>
+                        )}
                       </div>
                     </Card>
                   ))}

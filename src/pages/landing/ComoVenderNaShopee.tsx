@@ -47,22 +47,19 @@ const ComoVenderNaShopeePage = () => {
         </section>
 
         <section className="bg-muted rounded-lg p-8 text-center">
-          <h2 className="text-3xl font-bold tracking-tighter mb-4">Tudo o que Você Precisa para Começar, em um só Lugar</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-4">Em Breve: Guia Completo</h2>
           <div className="space-y-4 text-lg text-muted-foreground max-w-3xl mx-auto">
             <p>
-              Para facilitar sua jornada e encurtar sua curva de aprendizado, compilamos nosso conhecimento e experiência em um guia completo sobre <strong>como vender na Shopee</strong>. Nosso material educacional, que inclui um e-book detalhado e um vídeo com o passo a passo, foi criado para levar você do zero à sua primeira venda de forma estruturada.
-            </p>
-            <p>
-              Pare de procurar informações soltas e desencontradas. Baixe nosso guia gratuito e comece a vender na Shopee da maneira certa, com estratégia e confiança.
+              Nosso guia completo sobre como vender na Shopee está sendo finalizado por nossos especialistas e estará disponível para download em breve. Deixe seu e-mail com a gente para ser o primeiro a saber!
             </p>
           </div>
           <div className="mt-8">
             <Card className="w-full max-w-md mx-auto">
               <CardHeader>
-                <CardTitle className="text-center text-2xl">Baixar Guia Shopee</CardTitle>
+                <CardTitle className="text-center text-2xl">Seja o primeiro a saber</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm redirectPath="/downloads/guia-shopee" />
+                <LandingPageForm redirectPath="/obrigado-newsletter" />
               </CardContent>
             </Card>
           </div>

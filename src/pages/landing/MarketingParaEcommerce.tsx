@@ -47,22 +47,19 @@ const MarketingParaEcommercePage = () => {
         </section>
 
         <section className="bg-muted rounded-lg p-8 text-center">
-          <h2 className="text-3xl font-bold tracking-tighter mb-4">Aprenda a Integrar Estratégias: Baixe nosso Whitepaper Gratuito</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-4">Em Breve: Whitepaper Completo</h2>
           <div className="space-y-4 text-lg text-muted-foreground max-w-3xl mx-auto">
             <p>
-              Para ajudar você a construir uma estratégia de <strong>marketing para e-commerce</strong> que seja verdadeiramente eficaz e orientada a dados, nossa equipe de especialistas preparou um whitepaper completo e aprofundado sobre estratégias integradas.
-            </p>
-            <p>
-              Nele, você aprenderá como combinar diferentes canais para potencializar seus resultados, como mensurar o ROI de forma mais inteligente e como construir uma máquina de vendas previsível e escalável para o seu negócio.
+              Nosso whitepaper sobre estratégias de marketing integradas está sendo finalizado por nossos especialistas e estará disponível para download em breve. Deixe seu e-mail com a gente para ser o primeiro a saber!
             </p>
           </div>
           <div className="mt-8">
             <Card className="w-full max-w-md mx-auto">
               <CardHeader>
-                <CardTitle className="text-center text-2xl">Baixar Whitepaper Agora</CardTitle>
+                <CardTitle className="text-center text-2xl">Seja o primeiro a saber</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm redirectPath="/downloads/whitepaper-marketing" />
+                <LandingPageForm redirectPath="/obrigado-newsletter" />
               </CardContent>
             </Card>
           </div>

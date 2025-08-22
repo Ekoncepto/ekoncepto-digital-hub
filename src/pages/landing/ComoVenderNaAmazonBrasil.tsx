@@ -47,22 +47,19 @@ const ComoVenderNaAmazonBrasilPage = () => {
         </section>
 
         <section className="bg-muted rounded-lg p-8 text-center">
-          <h2 className="text-3xl font-bold tracking-tighter mb-4">Seu Checklist para Começar com Total Segurança</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-4">Em Breve: Guia Completo</h2>
           <div className="space-y-4 text-lg text-muted-foreground max-w-3xl mx-auto">
             <p>
-              Para garantir que sua jornada de <strong>como vender na Amazon Brasil</strong> comece da forma mais suave e segura possível, nós criamos um e-book detalhado e um checklist prático. Nosso material cobre tudo o que você precisa saber, desde o processo de cadastro até as melhores práticas para criar suas primeiras listagens e gerenciar a saúde da sua conta.
-            </p>
-            <p>
-              Evite os erros mais comuns que a maioria dos iniciantes comete e acelere seu caminho para o sucesso na Amazon. Baixe nosso material gratuito agora e comece a vender com confiança.
+              Nosso guia prático sobre como vender na Amazon Brasil está sendo finalizado por nossos especialistas e estará disponível para download em breve. Deixe seu e-mail com a gente para ser o primeiro a saber!
             </p>
           </div>
           <div className="mt-8">
             <Card className="w-full max-w-md mx-auto">
               <CardHeader>
-                <CardTitle className="text-center text-2xl">Baixar Checklist Gratuito</CardTitle>
+                <CardTitle className="text-center text-2xl">Seja o primeiro a saber</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm redirectPath="/downloads/guia-amazon" />
+                <LandingPageForm redirectPath="/obrigado-newsletter" />
               </CardContent>
             </Card>
           </div>

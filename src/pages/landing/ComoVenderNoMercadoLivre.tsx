@@ -47,22 +47,19 @@ const ComoVenderNoMercadoLivrePage = () => {
         </section>
 
         <section className="bg-muted rounded-lg p-8 text-center">
-          <h2 className="text-3xl font-bold tracking-tighter mb-4">Seu Atalho para o Sucesso: Baixe Nosso Guia Gratuito</h2>
+          <h2 className="text-3xl font-bold tracking-tighter mb-4">Em Breve: Guia Completo</h2>
           <div className="space-y-4 text-lg text-muted-foreground max-w-3xl mx-auto">
             <p>
-              Sabemos que começar pode ser assustador. Para ajudar você a superar esses desafios e acelerar sua jornada, criamos um material completo e prático. Nosso e-book "Guia Definitivo: Como Vender no Mercado Livre" e o checklist que o acompanha são o recurso que você precisa para começar com o pé direito, com confiança e estratégia.
-            </p>
-            <p>
-              Compilamos todo o nosso conhecimento e experiência em um passo a passo claro e objetivo para você evitar os erros mais comuns e focar no que realmente importa: fazer suas primeiras vendas e construir uma operação lucrativa.
+              Nosso e-book "Guia Definitivo: Como Vender no Mercado Livre" está sendo finalizado por nossos especialistas e estará disponível para download em breve. Deixe seu e-mail com a gente para ser o primeiro a saber!
             </p>
           </div>
           <div className="mt-8">
             <Card className="w-full max-w-md mx-auto">
               <CardHeader>
-                <CardTitle className="text-center text-2xl">Baixar Guia Gratuito</CardTitle>
+                <CardTitle className="text-center text-2xl">Seja o primeiro a saber</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm redirectPath="/downloads/guia-mercado-livre" />
+                <LandingPageForm redirectPath="/obrigado-newsletter" />
               </CardContent>
             </Card>
           </div>
