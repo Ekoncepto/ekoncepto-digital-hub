@@ -56,17 +56,39 @@ const App = () => (
           <Route path="/conteudo" element={<Navigate to="/conteudos" replace />} />
           <Route path="/obrigado" element={<ThankYouPage />} />
           <Route path="/obrigado-newsletter" element={<ObrigadoNewsletterPage />} />
-          <Route path="/downloads/guia-mercado-livre" element={<GuiaMercadoLivreDownloadPage />} />
-          <Route path="/downloads/checklist-magalu" element={<ChecklistMagaluDownloadPage />} />
+          <Route
+            path="/downloads/guia-mercado-livre"
+            element={<GuiaMercadoLivreDownloadPage />}
+          />
+          <Route
+            path="/downloads/checklist-magalu"
+            element={<ChecklistMagaluDownloadPage />}
+          />
           <Route path="/downloads/guia-shopee" element={<GuiaShopeeDownloadPage />} />
           <Route path="/downloads/guia-fba" element={<GuiaFbaDownloadPage />} />
           <Route path="/downloads/guia-amazon" element={<GuiaAmazonDownloadPage />} />
-          <Route path="/downloads/whitepaper-marketing" element={<WhitepaperMarketingDownloadPage />} />
-          <Route path="/downloads/checklist-visibilidade" element={<ChecklistVisibilidadeDownloadPage />} />
-          <Route path="/downloads/comparativo-marketplaces" element={<ComparativoMarketplacesDownloadPage />} />
+          <Route
+            path="/downloads/whitepaper-marketing"
+            element={<WhitepaperMarketingDownloadPage />}
+          />
+          <Route
+            path="/downloads/checklist-visibilidade"
+            element={<ChecklistVisibilidadeDownloadPage />}
+          />
+          <Route
+            path="/downloads/comparativo-marketplaces"
+            element={<ComparativoMarketplacesDownloadPage />}
+          />
           <Route path="/termos-de-uso" element={<TermosDeUsoPage />} />
           <Route path="/politica-de-privacidade" element={<PoliticaDePrivacidadePage />} />
-          {landingPageRoutes}
+          <Route
+            path="/landing/*"
+            element={
+              <Suspense fallback={<PageLoader />}>
+                <Routes>{landingPageRoutes}</Routes>
+              </Suspense>
+            }
+          />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

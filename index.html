@@ -12,18 +12,14 @@
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
     
     <!-- Preconnect to external domains -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" as="font" type="font/woff2" crossorigin>
-    <link rel="preconnect" href="https://fonts.gstatic.com" as="font" type="font/woff2" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com" as="script">
     <link rel="preconnect" href="https://www.google-analytics.com" as="script">
   
-    <!-- Preload the main font stylesheet -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-
-    <!-- Load non-critical CSS asynchronously -->
-    <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    </noscript>
+    <!-- Preload the main font files -->
+    <link rel="preload" href="/fonts/Poppins-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+    <link rel="preload" href="/fonts/Poppins-Medium.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+    <link rel="preload" href="/fonts/Poppins-SemiBold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+    <link rel="preload" href="/fonts/Poppins-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
     
     <!-- Inline critical CSS -->
     <style>
