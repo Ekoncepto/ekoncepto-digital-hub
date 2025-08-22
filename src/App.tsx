@@ -43,8 +43,15 @@ const Analytics = () => {
   return null;
 };
 
-export const AppRoutes = () => (
-  <Routes>
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <ScrollManager />
+        <Analytics />
+        <Routes>
     <Route path="/" element={<Index />} />
     <Route path="/conteudos" element={<LandingIndexPage />} />
     <Route path="/conteudo" element={<Navigate to="/conteudos" replace />} />
@@ -86,17 +93,6 @@ export const AppRoutes = () => (
     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
     <Route path="*" element={<NotFound />} />
   </Routes>
-);
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <ScrollManager />
-        <Analytics />
-        <AppRoutes />
         <FloatingWhatsAppButton />
       </BrowserRouter>
     </TooltipProvider>
@@ -104,3 +100,4 @@ const App = () => (
 );
 
 export default App;
+
