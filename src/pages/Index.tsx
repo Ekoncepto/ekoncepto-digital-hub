@@ -40,7 +40,6 @@ const Index = () => {
         title={title}
         description={description}
         canonical="/"
-        }}
       />
       <Header />
 
