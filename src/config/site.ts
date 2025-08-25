@@ -29,7 +29,9 @@ type BusinessInfo = {
   tagline: string;
   about: string;
   logo: string;
+  square_logo: string;
   favicon: string;
+  vatId?: string;
   processSteps?: ProcessStep[];
 };
 
@@ -45,6 +47,7 @@ export const businessInfo: BusinessInfo = {
   logo: '/images/ekoncepto-logo.svg', // Use the original SVG logo
   square_logo: '/images/logo.svg',
   favicon: '/favicon.ico',
+  vatId: '52.170.930/0001-97',
   processSteps: [
     {
       title: 'Discovery',
@@ -130,6 +133,33 @@ export const siteMetadata = {
     'shopee',
     'otimização',
     'anúncios',
+  ],
+};
+
+// SEO-specific configuration for structured data
+type OpeningHoursSpecification = {
+  dayOfWeek: string[];
+  opens: string;
+  closes: string;
+};
+
+type SeoConfig = {
+  contactType: string;
+  availableLanguage: string[];
+  areaServed: string;
+  openingHours: OpeningHoursSpecification[];
+};
+
+export const seoConfig: SeoConfig = {
+  contactType: 'sales',
+  availableLanguage: ['Portuguese', 'English'],
+  areaServed: 'BR',
+  openingHours: [
+    {
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '18:00',
+    },
   ],
 };
 

@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import SEO from '@/components/SEO';
+import { useBreadcrumbs } from '@/hooks/useBreadcrumbs';
 import { Header } from '@/components/sections/Header';
 import { Hero } from '@/components/sections/Hero';
 import { Footer } from '@/components/sections/Footer';
@@ -33,6 +34,7 @@ const Faq = React.lazy(() =>
 const Index = () => {
   const title = `${businessInfo.name} | ${businessInfo.headline}`;
   const description = businessInfo.tagline;
+  const breadcrumbs = useBreadcrumbs();
 
   return (
     <>
@@ -40,6 +42,7 @@ const Index = () => {
         title={title}
         description={description}
         canonical="/"
+        breadcrumbs={breadcrumbs}
       />
       <Header />
 

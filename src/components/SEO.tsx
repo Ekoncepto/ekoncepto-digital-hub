@@ -1,13 +1,20 @@
 import { useEffect } from 'react';
-import { siteMetadata, businessInfo, contactInfo, socialLinks } from '@/config/site';
+import {
+  siteMetadata,
+  businessInfo,
+  contactInfo,
+  socialLinks,
+  seoConfig,
+  services,
+} from '@/config/site';
 import { faqItems } from '@/config/faq';
+import { Breadcrumb, createBreadcrumbSchema } from '../lib/breadcrumb';
 
 interface SEOProps {
   title: string;
   description: string;
   canonical?: string;
   image?: string;
-  structuredData?: Record<string, unknown>;
   noIndex?: boolean;
   articleData?: {
     author: string;
@@ -15,9 +22,10 @@ interface SEOProps {
     datePublished: string;
     dateModified: string;
   };
+  breadcrumbs?: Breadcrumb[];
 }
 
-function upsertMeta(selector:string, attrs: Record<string, string>) {
+function upsertMeta(selector: string, attrs: Record<string, string>) {
   let el = document.head.querySelector(selector) as HTMLMetaElement | null;
   if (!el) {
     el = document.createElement('meta');
@@ -36,12 +44,10 @@ function upsertLink(rel: string, href: string) {
   el.href = href;
 }
 
-const organizationId = `${siteMetadata.siteUrl}/#organization`;
-
-const defaultStructuredData = {
+const onlineBusinessSchema = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
-  '@id': organizationId,
+  '@type': 'OnlineBusiness',
+  '@id': siteMetadata.siteUrl,
   name: businessInfo.name,
   url: siteMetadata.siteUrl,
   logo: {
@@ -50,57 +56,34 @@ const defaultStructuredData = {
     width: '50',
     height: '50',
   },
+  image: `${siteMetadata.siteUrl}${businessInfo.logo}`,
+  description: siteMetadata.description,
   sameAs: socialLinks.map(link => link.url),
   contactPoint: {
     '@type': 'ContactPoint',
     telephone: contactInfo.phone.replace(/\D/g, ''),
-    contactType: 'customer service',
-    availableLanguage: 'Portuguese',
+    contactType: seoConfig.contactType,
+    availableLanguage: seoConfig.availableLanguage,
     email: contactInfo.email,
-    areaServed: 'BR',
+    areaServed: seoConfig.areaServed,
   },
+  openingHoursSpecification: seoConfig.openingHours.map(spec => ({
+    '@type': 'OpeningHoursSpecification',
+    ...spec,
+  })),
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Serviços de Consultoria',
-    itemListElement: [
-      'Consultoria de E-commerce',
-      'Otimização de Anúncios em Marketplaces',
-      'Gestão de Mídia Paga (Product Ads)',
-      'Precificação e Monitoramento de Anúncios',
-      'Gestão da Operação em Marketplaces',
-      'Análise de Resultados e Faturamento',
-    ].map(name => ({
+    itemListElement: services.map(service => ({
       '@type': 'Offer',
       itemOffered: {
         '@type': 'Service',
-        name,
+        name: service.name,
+        description: service.description,
       },
     })),
   },
-};
-
-const localBusinessSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
-  '@id': siteMetadata.siteUrl,
-  name: businessInfo.name,
-  image: `${siteMetadata.siteUrl}${businessInfo.logo}`,
-  url: siteMetadata.siteUrl,
-  telephone: contactInfo.phone.replace(/\D/g, ''),
-  email: contactInfo.email,
-  priceRange: '$$$',
-  description: siteMetadata.description,
-  openingHoursSpecification: {
-    '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-    opens: '09:00',
-    closes: '18:00',
-  },
-  sameAs: socialLinks.map(link => link.url),
-  parentOrganization: {
-    '@type': 'Organization',
-    '@id': organizationId,
-  }
+  ...(businessInfo.vatId && { vatID: businessInfo.vatId }),
 };
 
 const websiteSchema = {
@@ -114,8 +97,8 @@ const websiteSchema = {
   },
   publisher: {
     '@type': 'Organization',
-    '@id': organizationId,
-  }
+    '@id': siteMetadata.siteUrl,
+  },
 };
 
 const faqSchema = {
@@ -131,29 +114,24 @@ const faqSchema = {
   })),
 };
 
-
 export const SEO = ({
   title,
   description,
   canonical = '/',
   image,
-  structuredData = defaultStructuredData,
   noIndex,
+  breadcrumbs,
   articleData,
 }: SEOProps) => {
   useEffect(() => {
     document.title = title;
     upsertMeta('meta[name="description"]', { name: 'description', content: description });
 
-    // Handle noIndex
     if (noIndex) {
       upsertMeta('meta[name="robots"]', { name: 'robots', content: 'noindex,nofollow' });
     } else {
-      // Ensure the meta tag is removed if noIndex is false
       const robotsMeta = document.head.querySelector('meta[name="robots"]');
-      if (robotsMeta) {
-        document.head.removeChild(robotsMeta);
-      }
+      if (robotsMeta) document.head.removeChild(robotsMeta);
     }
 
     upsertMeta('meta[property="og:title"]', { property: 'og:title', content: title });
@@ -162,6 +140,19 @@ export const SEO = ({
       content: description,
     });
     if (image) upsertMeta('meta[property="og:image"]', { property: 'og:image', content: image });
+    if (article) {
+      upsertMeta('meta[property="og:type"]', { property: 'og:type', content: 'article' });
+      if (author)
+        upsertMeta('meta[property="article:author"]', {
+          property: 'article:author',
+          content: author,
+        });
+      if (publishedTime)
+        upsertMeta('meta[property="article:published_time"]', {
+          property: 'article:published_time',
+          content: publishedTime,
+        });
+    }
 
     upsertMeta('meta[name="twitter:card"]', {
       name: 'twitter:card',
@@ -179,12 +170,38 @@ export const SEO = ({
       upsertLink('canonical', canonicalUrl);
     }
 
-    // Structured Data
+    const breadcrumbSchema = createBreadcrumbSchema(breadcrumbs || []);
+
+    const articleSchema = article
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: title,
+          description: description,
+          image: image,
+          author: {
+            '@type': 'Organization',
+            name: author,
+            url: siteMetadata.siteUrl,
+          },
+          publisher: {
+            '@type': 'Organization',
+            '@id': siteMetadata.siteUrl,
+          },
+          datePublished: publishedTime,
+          mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': new URL(canonical, siteMetadata.siteUrl).href,
+          },
+        }
+      : null;
+
     const schemas = [
-      structuredData,
-      localBusinessSchema,
+      onlineBusinessSchema,
       websiteSchema,
       faqSchema,
+      breadcrumbSchema,
+      articleSchema,
     ].filter(Boolean);
 
     if (articleData) {
@@ -225,8 +242,16 @@ export const SEO = ({
       document.head.appendChild(script);
     }
     script.innerHTML = JSON.stringify(schemas, null, 2);
+  }, [
+    title,
+    description,
+    canonical,
+    image,
+    noIndex,
+    breadcrumbs,
+    articleData
+  ]);
 
-  }, [title, description, canonical, image, structuredData, articleData]);
 
   return null;
 };
