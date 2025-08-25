@@ -175,7 +175,7 @@ export const SEO = ({
     const breadcrumbSchema = createBreadcrumbSchema(breadcrumbs || []);
 
     const schemas = [
-      structuredData
+      structuredData,
       onlineBusinessSchema,
       websiteSchema,
       faqSchema,
