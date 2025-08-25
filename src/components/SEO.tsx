@@ -140,17 +140,17 @@ export const SEO = ({
       content: description,
     });
     if (image) upsertMeta('meta[property="og:image"]', { property: 'og:image', content: image });
-    if (article) {
+    if (articleData) {
       upsertMeta('meta[property="og:type"]', { property: 'og:type', content: 'article' });
-      if (author)
+      if (articleData.author)
         upsertMeta('meta[property="article:author"]', {
           property: 'article:author',
-          content: author,
+          content: articleData.author,
         });
-      if (publishedTime)
+      if (articleData)
         upsertMeta('meta[property="article:published_time"]', {
           property: 'article:published_time',
-          content: publishedTime,
+          content: articleData.datePublished,
         });
     }
 
