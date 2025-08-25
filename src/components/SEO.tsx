@@ -15,6 +15,7 @@ interface SEOProps {
   description: string;
   canonical?: string;
   image?: string;
+  structuredData?: Record<string, unknown>;
   noIndex?: boolean;
   articleData?: {
     author: string;
@@ -119,6 +120,7 @@ export const SEO = ({
   description,
   canonical = '/',
   image,
+  structuredData,
   noIndex,
   breadcrumbs,
   articleData,
@@ -173,6 +175,7 @@ export const SEO = ({
     const breadcrumbSchema = createBreadcrumbSchema(breadcrumbs || []);
 
     const schemas = [
+      structuredData
       onlineBusinessSchema,
       websiteSchema,
       faqSchema,
@@ -222,6 +225,7 @@ export const SEO = ({
     description,
     canonical,
     image,
+    structuredData,
     noIndex,
     breadcrumbs,
     articleData
