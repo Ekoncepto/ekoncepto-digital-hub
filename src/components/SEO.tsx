@@ -1,5 +1,12 @@
 import { useEffect } from 'react';
-import { siteMetadata, businessInfo, contactInfo, socialLinks } from '@/config/site';
+import {
+  siteMetadata,
+  businessInfo,
+  contactInfo,
+  socialLinks,
+  seoConfig,
+  services,
+} from '@/config/site';
 import { faqItems } from '@/config/faq';
 import { Breadcrumb, createBreadcrumbSchema } from '../lib/breadcrumb';
 
@@ -8,7 +15,6 @@ interface SEOProps {
   description: string;
   canonical?: string;
   image?: string;
-  structuredData?: Record<string, unknown>;
   noIndex?: boolean;
   breadcrumbs?: Breadcrumb[];
   author?: string;
@@ -35,12 +41,10 @@ function upsertLink(rel: string, href: string) {
   el.href = href;
 }
 
-const organizationId = `${siteMetadata.siteUrl}/#organization`;
-
-const defaultStructuredData = {
+const onlineBusinessSchema = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
-  '@id': organizationId,
+  '@type': 'OnlineBusiness',
+  '@id': siteMetadata.siteUrl,
   name: businessInfo.name,
   url: siteMetadata.siteUrl,
   logo: {
@@ -49,57 +53,34 @@ const defaultStructuredData = {
     width: '50',
     height: '50',
   },
+  image: `${siteMetadata.siteUrl}${businessInfo.logo}`,
+  description: siteMetadata.description,
   sameAs: socialLinks.map(link => link.url),
   contactPoint: {
     '@type': 'ContactPoint',
     telephone: contactInfo.phone.replace(/\D/g, ''),
-    contactType: 'customer service',
-    availableLanguage: 'Portuguese',
+    contactType: seoConfig.contactType,
+    availableLanguage: seoConfig.availableLanguage,
     email: contactInfo.email,
-    areaServed: 'BR',
+    areaServed: seoConfig.areaServed,
   },
+  openingHoursSpecification: seoConfig.openingHours.map(spec => ({
+    '@type': 'OpeningHoursSpecification',
+    ...spec,
+  })),
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Serviços de Consultoria',
-    itemListElement: [
-      'Consultoria de E-commerce',
-      'Otimização de Anúncios em Marketplaces',
-      'Gestão de Mídia Paga (Product Ads)',
-      'Precificação e Monitoramento de Anúncios',
-      'Gestão da Operação em Marketplaces',
-      'Análise de Resultados e Faturamento',
-    ].map(name => ({
+    itemListElement: services.map(service => ({
       '@type': 'Offer',
       itemOffered: {
         '@type': 'Service',
-        name,
+        name: service.name,
+        description: service.description,
       },
     })),
   },
-};
-
-const localBusinessSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
-  '@id': siteMetadata.siteUrl,
-  name: businessInfo.name,
-  image: `${siteMetadata.siteUrl}${businessInfo.logo}`,
-  url: siteMetadata.siteUrl,
-  telephone: contactInfo.phone.replace(/\D/g, ''),
-  email: contactInfo.email,
-  priceRange: '$$$',
-  description: siteMetadata.description,
-  openingHoursSpecification: {
-    '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-    opens: '09:00',
-    closes: '18:00',
-  },
-  sameAs: socialLinks.map(link => link.url),
-  parentOrganization: {
-    '@type': 'Organization',
-    '@id': organizationId,
-  }
+  ...(businessInfo.vatId && { vatID: businessInfo.vatId }),
 };
 
 const websiteSchema = {
@@ -113,8 +94,8 @@ const websiteSchema = {
   },
   publisher: {
     '@type': 'Organization',
-    '@id': organizationId,
-  }
+    '@id': siteMetadata.siteUrl,
+  },
 };
 
 const faqSchema = {
@@ -130,13 +111,11 @@ const faqSchema = {
   })),
 };
 
-
 export const SEO = ({
   title,
   description,
   canonical = '/',
   image,
-  structuredData,
   noIndex,
   breadcrumbs,
   author = businessInfo.name,
@@ -217,8 +196,7 @@ export const SEO = ({
       : null;
 
     const schemas = [
-      structuredData,
-      localBusinessSchema,
+      onlineBusinessSchema,
       websiteSchema,
       faqSchema,
       breadcrumbSchema,
@@ -238,13 +216,13 @@ export const SEO = ({
     description,
     canonical,
     image,
-    structuredData,
     noIndex,
     breadcrumbs,
     author,
     publishedTime,
     article,
   ]);
+
 
   return null;
 };
