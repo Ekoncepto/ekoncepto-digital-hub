@@ -8,7 +8,13 @@ const ComoVenderNaAmazonBrasilPage = () => {
       title="Comece a Vender na Amazon Brasil: Guia Prático"
       description="Nosso guia prático para iniciantes ensina tudo o que você precisa para começar a vender na Amazon Brasil."
       slug="como-vender-na-amazon-brasil"
-    >
+
+      articleData={{
+        author: 'E-koncepto',
+        publisher: 'E-koncepto',
+        datePublished: '2025-08-22',
+        dateModified: '2025-08-22',
+      }}>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">

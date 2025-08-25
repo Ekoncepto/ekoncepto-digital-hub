@@ -8,7 +8,13 @@ const GestaoDeContaMercadoLivrePage = () => {
       title="Gestão de Conta Mercado Livre: Liberte-se da Operação"
       description="Nosso serviço terceirizado de gestão de conta Mercado Livre cuida de tudo para você focar no que realmente importa: seu negócio."
       slug="gestao-de-conta-mercado-livre"
-    >
+
+      articleData={{
+        author: 'E-koncepto',
+        publisher: 'E-koncepto',
+        datePublished: '2025-08-22',
+        dateModified: '2025-08-22',
+      }}>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">

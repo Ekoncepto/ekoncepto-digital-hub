@@ -8,7 +8,13 @@ const GestaoDeMarketplacesPage = () => {
       title="Maximize Seu Lucro com Gestão Profissional de Marketplaces"
       description="Centralize suas operações e otimize seus resultados com nosso serviço de gestão de marketplaces."
       slug="gestao-de-marketplaces"
-    >
+
+      articleData={{
+        author: 'E-koncepto',
+        publisher: 'E-koncepto',
+        datePublished: '2025-08-22',
+        dateModified: '2025-08-22',
+      }}>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">

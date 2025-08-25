@@ -9,9 +9,15 @@ interface LandingPageProps {
   title: string;
   description: string;
   slug: string;
+  articleData?: {
+    author: string;
+    publisher: string;
+    datePublished: string;
+    dateModified: string;
+  };
 }
 
-const LandingPage: React.FC<LandingPageProps> = ({ children, title, description, slug }) => {
+const LandingPage: React.FC<LandingPageProps> = ({ children, title, description, slug, articleData }) => {
   const pageTitle = `${title} | ${businessInfo.name}`;
   const canonicalUrl = `${siteMetadata.siteUrl}/landing/${slug}`;
 
@@ -21,6 +27,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ children, title, description,
         title={pageTitle}
         description={description}
         canonical={canonicalUrl}
+        articleData={articleData}
       />
       <Header />
       <main className="py-16 md:py-24 lg:py-32">

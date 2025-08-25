@@ -7,7 +7,13 @@ const CriacaoAplusContentAmazonPage = () => {
       title="Seu Produto com Apresentação A+ de Alta Conversão na Amazon"
       description="Descubra como o conteúdo A+ pode transformar a página do seu produto e veja nosso portfólio."
       slug="criacao-a-plus-content-amazon"
-    >
+
+      articleData={{
+        author: 'E-koncepto',
+        publisher: 'E-koncepto',
+        datePublished: '2025-08-22',
+        dateModified: '2025-08-22',
+      }}>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">

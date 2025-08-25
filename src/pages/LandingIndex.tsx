@@ -2,6 +2,8 @@ import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import SEO from "@/components/SEO";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { landingPagesMetadata } from "@/config/landing-pages-metadata";
+import { siteMetadata } from "@/config/site";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
@@ -57,11 +59,23 @@ const landingPageCategories = {
 };
 
 const LandingIndexPage = () => {
+  const itemList = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    'itemListElement': landingPagesMetadata.map((page, index) => ({
+      '@type': 'ListItem',
+      'position': index + 1,
+      'name': page.title,
+      'url': `${siteMetadata.siteUrl}/landing/${page.slug}`
+    }))
+  };
+
   return (
     <>
       <SEO
         title="Conteúdos para Vender Mais | E-Koncepto"
         description="Explore nossos guias, ferramentas e consultorias para alavancar suas vendas em marketplaces."
+        structuredData={itemList}
       />
       <Header />
       <main className="py-16 md:py-24 lg:py-32">

@@ -8,7 +8,13 @@ const MarketingParaEcommercePage = () => {
       title="Marketing que Impulsiona seu E-commerce"
       description="Baixe nosso whitepaper sobre estratégias de marketing integradas e veja como impulsionar seu e-commerce."
       slug="marketing-para-ecommerce"
-    >
+
+      articleData={{
+        author: 'E-koncepto',
+        publisher: 'E-koncepto',
+        datePublished: '2025-08-22',
+        dateModified: '2025-08-22',
+      }}>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">

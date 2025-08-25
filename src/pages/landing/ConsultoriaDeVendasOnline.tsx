@@ -8,7 +8,13 @@ const ConsultoriaDeVendasOnlinePage = () => {
       title="Seu E-commerce Vendendo Mais em Menos Tempo"
       description="Nossa consultoria de vendas online é focada em sessões estratégicas para gerar resultados rápidos para sua loja."
       slug="consultoria-de-vendas-online"
-    >
+
+      articleData={{
+        author: 'E-koncepto',
+        publisher: 'E-koncepto',
+        datePublished: '2025-08-22',
+        dateModified: '2025-08-22',
+      }}>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">

@@ -9,6 +9,12 @@ interface SEOProps {
   image?: string;
   structuredData?: Record<string, unknown>;
   noIndex?: boolean;
+  articleData?: {
+    author: string;
+    publisher: string;
+    datePublished: string;
+    dateModified: string;
+  };
 }
 
 function upsertMeta(selector:string, attrs: Record<string, string>) {
@@ -133,6 +139,7 @@ export const SEO = ({
   image,
   structuredData = defaultStructuredData,
   noIndex,
+  articleData,
 }: SEOProps) => {
   useEffect(() => {
     document.title = title;
@@ -180,6 +187,36 @@ export const SEO = ({
       faqSchema,
     ].filter(Boolean);
 
+    if (articleData) {
+      const articleSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: title,
+        description: description,
+        image: image || `${siteMetadata.siteUrl}${businessInfo.logo}`,
+        author: {
+          '@type': 'Organization',
+          name: articleData.author,
+          url: siteMetadata.siteUrl,
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: articleData.publisher,
+          logo: {
+            '@type': 'ImageObject',
+            url: `${siteMetadata.siteUrl}${businessInfo.square_logo}`,
+          },
+        },
+        datePublished: articleData.datePublished,
+        dateModified: articleData.dateModified,
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': canonical ? new URL(canonical, siteMetadata.siteUrl).href : siteMetadata.siteUrl,
+        },
+      };
+      schemas.push(articleSchema);
+    }
+
     let script = document.getElementById('jsonld-structured-data');
     if (!script) {
       script = document.createElement('script');
@@ -189,7 +226,7 @@ export const SEO = ({
     }
     script.innerHTML = JSON.stringify(schemas, null, 2);
 
-  }, [title, description, canonical, image, structuredData]);
+  }, [title, description, canonical, image, structuredData, articleData]);
 
   return null;
 };
