@@ -40,8 +40,8 @@ const defaultStructuredData = {
   url: siteMetadata.siteUrl,
   logo: {
     '@type': 'ImageObject',
-    url: `${siteMetadata.siteUrl}${businessInfo.logo}`,
-    width: '250',
+    url: `${siteMetadata.siteUrl}${businessInfo.square_logo}`,
+    width: '50',
     height: '50',
   },
   sameAs: socialLinks.map(link => link.url),
