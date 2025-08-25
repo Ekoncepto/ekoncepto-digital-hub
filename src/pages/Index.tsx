@@ -40,16 +40,6 @@ const Index = () => {
         title={title}
         description={description}
         canonical="/"
-        image={`${siteMetadata.siteUrl}${businessInfo.logo}`}
-        structuredData={{
-          '@context': 'https://schema.org',
-          '@type': 'Organization',
-          name: businessInfo.name,
-          url: siteMetadata.siteUrl,
-          logo: `${siteMetadata.siteUrl}${businessInfo.logo}`,
-          sameAs: socialLinks?.map(link => link.url) || [],
-          description: businessInfo.description,
-        }}
       />
       <Header />
 

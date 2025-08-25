@@ -21,7 +21,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ children, title, description,
         title={pageTitle}
         description={description}
         canonical={canonicalUrl}
-        image={`${siteMetadata.siteUrl}${businessInfo.logo}`}
       />
       <Header />
       <main className="py-16 md:py-24 lg:py-32">
