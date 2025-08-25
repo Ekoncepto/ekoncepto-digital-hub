@@ -172,36 +172,11 @@ export const SEO = ({
 
     const breadcrumbSchema = createBreadcrumbSchema(breadcrumbs || []);
 
-    const articleSchema = article
-      ? {
-          '@context': 'https://schema.org',
-          '@type': 'Article',
-          headline: title,
-          description: description,
-          image: image,
-          author: {
-            '@type': 'Organization',
-            name: author,
-            url: siteMetadata.siteUrl,
-          },
-          publisher: {
-            '@type': 'Organization',
-            '@id': siteMetadata.siteUrl,
-          },
-          datePublished: publishedTime,
-          mainEntityOfPage: {
-            '@type': 'WebPage',
-            '@id': new URL(canonical, siteMetadata.siteUrl).href,
-          },
-        }
-      : null;
-
     const schemas = [
       onlineBusinessSchema,
       websiteSchema,
       faqSchema,
       breadcrumbSchema,
-      articleSchema,
     ].filter(Boolean);
 
     if (articleData) {
