@@ -185,7 +185,7 @@ export const SEO = ({
           },
           publisher: {
             '@type': 'Organization',
-            '@id': organizationId,
+            '@id': siteMetadata.siteUrl,
           },
           datePublished: publishedTime,
           mainEntityOfPage: {
