@@ -31,7 +31,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ children, title, description,
         canonical={canonicalUrl}
         articleData={articleData}
         breadcrumbs={breadcrumbs}
-        publishedTime={publishedTime || new Date().toISOString()}
       />
       <Header />
       <main className="py-16 md:py-24 lg:py-32">
