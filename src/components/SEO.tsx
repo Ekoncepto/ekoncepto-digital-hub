@@ -15,11 +15,15 @@ interface SEOProps {
   description: string;
   canonical?: string;
   image?: string;
+  structuredData?: Record<string, unknown>;
   noIndex?: boolean;
+  articleData?: {
+    author: string;
+    publisher: string;
+    datePublished: string;
+    dateModified: string;
+  };
   breadcrumbs?: Breadcrumb[];
-  author?: string;
-  publishedTime?: string;
-  article?: boolean;
 }
 
 function upsertMeta(selector: string, attrs: Record<string, string>) {
@@ -116,11 +120,10 @@ export const SEO = ({
   description,
   canonical = '/',
   image,
+  structuredData,
   noIndex,
   breadcrumbs,
-  author = businessInfo.name,
-  publishedTime,
-  article,
+  articleData,
 }: SEOProps) => {
   useEffect(() => {
     document.title = title;
@@ -139,17 +142,17 @@ export const SEO = ({
       content: description,
     });
     if (image) upsertMeta('meta[property="og:image"]', { property: 'og:image', content: image });
-    if (article) {
+    if (articleData) {
       upsertMeta('meta[property="og:type"]', { property: 'og:type', content: 'article' });
-      if (author)
+      if (articleData.author)
         upsertMeta('meta[property="article:author"]', {
           property: 'article:author',
-          content: author,
+          content: articleData.author,
         });
-      if (publishedTime)
+      if (articleData)
         upsertMeta('meta[property="article:published_time"]', {
           property: 'article:published_time',
-          content: publishedTime,
+          content: articleData.datePublished,
         });
     }
 
@@ -171,37 +174,43 @@ export const SEO = ({
 
     const breadcrumbSchema = createBreadcrumbSchema(breadcrumbs || []);
 
-    const articleSchema = article
-      ? {
-          '@context': 'https://schema.org',
-          '@type': 'Article',
-          headline: title,
-          description: description,
-          image: image,
-          author: {
-            '@type': 'Organization',
-            name: author,
-            url: siteMetadata.siteUrl,
-          },
-          publisher: {
-            '@type': 'Organization',
-            '@id': siteMetadata.siteUrl,
-          },
-          datePublished: publishedTime,
-          mainEntityOfPage: {
-            '@type': 'WebPage',
-            '@id': new URL(canonical, siteMetadata.siteUrl).href,
-          },
-        }
-      : null;
-
     const schemas = [
+      structuredData,
       onlineBusinessSchema,
       websiteSchema,
       faqSchema,
       breadcrumbSchema,
-      articleSchema,
     ].filter(Boolean);
+
+    if (articleData) {
+      const articleSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: title,
+        description: description,
+        image: image || `${siteMetadata.siteUrl}${businessInfo.logo}`,
+        author: {
+          '@type': 'Organization',
+          name: articleData.author,
+          url: siteMetadata.siteUrl,
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: articleData.publisher,
+          logo: {
+            '@type': 'ImageObject',
+            url: `${siteMetadata.siteUrl}${businessInfo.square_logo}`,
+          },
+        },
+        datePublished: articleData.datePublished,
+        dateModified: articleData.dateModified,
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': canonical ? new URL(canonical, siteMetadata.siteUrl).href : siteMetadata.siteUrl,
+        },
+      };
+      schemas.push(articleSchema);
+    }
 
     let script = document.getElementById('jsonld-structured-data');
     if (!script) {
@@ -216,11 +225,10 @@ export const SEO = ({
     description,
     canonical,
     image,
+    structuredData,
     noIndex,
     breadcrumbs,
-    author,
-    publishedTime,
-    article,
+    articleData
   ]);
 
 

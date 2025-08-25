@@ -8,7 +8,13 @@ const MagaluAdsProdutosPatrocinadosPage = () => {
       title="Anuncie no Magalu e Venda Mais"
       description="Receba um checklist gratuito com métricas e diferenciais para anunciar no Magalu Ads e destacar seus produtos patrocinados."
       slug="magalu-ads-produtos-patrocinados"
-    >
+
+      articleData={{
+        author: 'E-koncepto',
+        publisher: 'E-koncepto',
+        datePublished: '2025-08-22',
+        dateModified: '2025-08-22',
+      }}>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">

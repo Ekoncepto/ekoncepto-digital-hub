@@ -8,7 +8,13 @@ const AumentarVisibilidadeProdutosOnlinePage = () => {
       title="Torne Seus Produtos Mais Visíveis Online"
       description="Receba um checklist com técnicas de SEO e Ads para aumentar a visibilidade dos seus produtos e atrair mais clientes."
       slug="aumentar-visibilidade-produtos-online"
-    >
+
+      articleData={{
+        author: 'E-koncepto',
+        publisher: 'E-koncepto',
+        datePublished: '2025-08-22',
+        dateModified: '2025-08-22',
+      }}>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">

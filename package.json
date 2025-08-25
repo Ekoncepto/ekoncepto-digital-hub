@@ -11,6 +11,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "generate-sitemap": "node scripts/generate-sitemap.js",
+    "generate-landing-metadata": "node scripts/generate_landing_page_metadata.mjs",
     "optimize-images": "node --no-warnings scripts/optimize-images.mjs"
   },
   "dependencies": {
@@ -105,6 +106,10 @@
     "{src/App.tsx,src/pages/landing/routes.tsx}": [
       "npm run generate-sitemap",
       "git add public/sitemap.xml"
+    ],
+    "src/pages/landing/*.tsx": [
+      "npm run generate-landing-metadata",
+      "git add src/config/landing-pages-metadata.ts"
     ]
   }
 }

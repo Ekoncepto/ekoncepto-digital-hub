@@ -8,7 +8,13 @@ const FulfillmentByAmazonBrasilPage = () => {
       title="Venda Mais com a Logística Amazon FBA Brasil"
       description="Entenda o passo a passo do Fulfillment by Amazon (FBA) no Brasil com nosso guia ilustrado e veja como ele pode alavancar suas vendas."
       slug="fulfillment-by-amazon-brasil"
-    >
+
+      articleData={{
+        author: 'E-koncepto',
+        publisher: 'E-koncepto',
+        datePublished: '2025-08-22',
+        dateModified: '2025-08-22',
+      }}>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">

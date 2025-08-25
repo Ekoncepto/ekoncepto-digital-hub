@@ -8,7 +8,13 @@ const ConsultoriaMercadoLivrePage = () => {
       title="Vendas no Mercado Livre: Melhore com Especialistas"
       description="Nossa consultoria focada em performance ajuda você a otimizar sua operação e escalar suas vendas no Mercado Livre."
       slug="consultoria-mercado-livre"
-    >
+
+      articleData={{
+        author: 'E-koncepto',
+        publisher: 'E-koncepto',
+        datePublished: '2025-08-22',
+        dateModified: '2025-08-22',
+      }}>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">

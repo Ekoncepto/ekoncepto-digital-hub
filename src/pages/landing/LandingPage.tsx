@@ -10,16 +10,15 @@ interface LandingPageProps {
   title: string;
   description: string;
   slug: string;
-  publishedTime?: string;
+  articleData?: {
+    author: string;
+    publisher: string;
+    datePublished: string;
+    dateModified: string;
+  };
 }
 
-const LandingPage: React.FC<LandingPageProps> = ({
-  children,
-  title,
-  description,
-  slug,
-  publishedTime,
-}) => {
+const LandingPage: React.FC<LandingPageProps> = ({ children, title, description, slug, articleData }) => {
   const pageTitle = `${title} | ${businessInfo.name}`;
   const canonicalUrl = `${siteMetadata.siteUrl}/landing/${slug}`;
   const breadcrumbs = useBreadcrumbs();
@@ -30,9 +29,8 @@ const LandingPage: React.FC<LandingPageProps> = ({
         title={pageTitle}
         description={description}
         canonical={canonicalUrl}
+        articleData={articleData}
         breadcrumbs={breadcrumbs}
-        article
-        publishedTime={publishedTime || new Date().toISOString()}
       />
       <Header />
       <main className="py-16 md:py-24 lg:py-32">

@@ -8,7 +8,13 @@ const AmazonSeoPage = () => {
       title="Otimize Suas Listagens com Amazon SEO"
       description="Aprenda como funciona o algoritmo A9 da Amazon e solicite uma auditoria gratuita para melhorar o ranking dos seus produtos."
       slug="amazon-seo"
-    >
+
+      articleData={{
+        author: 'E-koncepto',
+        publisher: 'E-koncepto',
+        datePublished: '2025-08-22',
+        dateModified: '2025-08-22',
+      }}>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">

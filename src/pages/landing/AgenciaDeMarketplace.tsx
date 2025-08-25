@@ -8,6 +8,12 @@ const AgenciaDeMarketplacePage = () => {
       title="A Gestão de Marketplaces que Vende por Você"
       description="Conheça nosso serviço full-service e entenda por que uma agência de marketplace é o parceiro ideal para escalar seu negócio."
       slug="agencia-de-marketplace"
+      articleData={{
+        author: 'E-koncepto',
+        publisher: 'E-koncepto',
+        datePublished: '2025-08-22',
+        dateModified: '2025-08-22',
+      }}
     >
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">

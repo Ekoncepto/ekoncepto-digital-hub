@@ -3,6 +3,8 @@ import { Footer } from "@/components/sections/Footer";
 import SEO from "@/components/SEO";
 import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { landingPagesMetadata } from "@/config/landing-pages-metadata";
+import { siteMetadata } from "@/config/site";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
@@ -58,12 +60,23 @@ const landingPageCategories = {
 };
 
 const LandingIndexPage = () => {
+  const itemList = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    'itemListElement': landingPagesMetadata.map((page, index) => ({
+      '@type': 'ListItem',
+      'position': index + 1,
+      'name': page.title,
+      'url': `${siteMetadata.siteUrl}/landing/${page.slug}`
+    }))
+  };
   const breadcrumbs = useBreadcrumbs();
   return (
     <>
       <SEO
         title="Conteúdos para Vender Mais | E-Koncepto"
         description="Explore nossos guias, ferramentas e consultorias para alavancar suas vendas em marketplaces."
+        structuredData={itemList}
         breadcrumbs={breadcrumbs}
       />
       <Header />

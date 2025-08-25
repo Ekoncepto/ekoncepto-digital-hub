@@ -8,6 +8,12 @@ const AgenciaEspecializadaShopeePage = () => {
       title="Gestão Especializada para Seus Anúncios na Shopee"
       description="Somos uma agência especializada em Shopee. Conte com nosso serviço profissional para escalar suas vendas."
       slug="agencia-especializada-shopee"
+      articleData={{
+        author: 'E-koncepto',
+        publisher: 'E-koncepto',
+        datePublished: '2025-08-22',
+        dateModified: '2025-08-22',
+      }}
     >
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
