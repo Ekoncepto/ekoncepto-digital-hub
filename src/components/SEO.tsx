@@ -8,9 +8,10 @@ interface SEOProps {
   canonical?: string;
   image?: string;
   structuredData?: Record<string, unknown>;
+  noIndex?: boolean;
 }
 
-function upsertMeta(selector: string, attrs: Record<string, string>) {
+function upsertMeta(selector:string, attrs: Record<string, string>) {
   let el = document.head.querySelector(selector) as HTMLMetaElement | null;
   if (!el) {
     el = document.createElement('meta');
@@ -29,12 +30,20 @@ function upsertLink(rel: string, href: string) {
   el.href = href;
 }
 
+const organizationId = `${siteMetadata.siteUrl}/#organization`;
+
 const defaultStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': organizationId,
   name: businessInfo.name,
   url: siteMetadata.siteUrl,
-  logo: `${siteMetadata.siteUrl}${businessInfo.logo}`,
+  logo: {
+    '@type': 'ImageObject',
+    url: `${siteMetadata.siteUrl}${businessInfo.logo}`,
+    width: '250',
+    height: '50',
+  },
   sameAs: socialLinks.map(link => link.url),
   contactPoint: {
     '@type': 'ContactPoint',
@@ -44,14 +53,32 @@ const defaultStructuredData = {
     email: contactInfo.email,
     areaServed: 'BR',
   },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Serviços de Consultoria',
+    itemListElement: [
+      'Consultoria de E-commerce',
+      'Otimização de Anúncios em Marketplaces',
+      'Gestão de Mídia Paga (Product Ads)',
+      'Precificação e Monitoramento de Anúncios',
+      'Gestão da Operação em Marketplaces',
+      'Análise de Resultados e Faturamento',
+    ].map(name => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name,
+      },
+    })),
+  },
 };
 
 const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
+  '@id': siteMetadata.siteUrl,
   name: businessInfo.name,
   image: `${siteMetadata.siteUrl}${businessInfo.logo}`,
-  '@id': siteMetadata.siteUrl,
   url: siteMetadata.siteUrl,
   telephone: contactInfo.phone.replace(/\D/g, ''),
   email: contactInfo.email,
@@ -64,6 +91,10 @@ const localBusinessSchema = {
     closes: '18:00',
   },
   sameAs: socialLinks.map(link => link.url),
+  parentOrganization: {
+    '@type': 'Organization',
+    '@id': organizationId,
+  }
 };
 
 const websiteSchema = {
@@ -75,6 +106,10 @@ const websiteSchema = {
     target: `${siteMetadata.siteUrl}/search?q={search_term_string}`,
     'query-input': 'required name=search_term_string',
   },
+  publisher: {
+    '@type': 'Organization',
+    '@id': organizationId,
+  }
 };
 
 const faqSchema = {
@@ -90,67 +125,6 @@ const faqSchema = {
   })),
 };
 
-const serviceSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  serviceType: 'Consultoria de E-commerce',
-  provider: {
-    '@type': 'Organization',
-    name: businessInfo.name,
-  },
-  areaServed: {
-    '@type': 'Country',
-    name: 'BR',
-  },
-  hasOfferCatalog: {
-    '@type': 'OfferCatalog',
-    name: 'Serviços de Consultoria',
-    itemListElement: [
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'Consultoria de E-commerce',
-        },
-      },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'Otimização de Anúncios em Marketplaces',
-        },
-      },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'Gestão de Mídia Paga (Product Ads)',
-        },
-      },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'Precificação e Monitoramento de Anúncios',
-        },
-      },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'Gestão da Operação em Marketplaces',
-        },
-      },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'Análise de Resultados e Faturamento',
-        },
-      },
-    ],
-  },
-};
 
 export const SEO = ({
   title,
@@ -158,10 +132,22 @@ export const SEO = ({
   canonical = '/',
   image,
   structuredData = defaultStructuredData,
+  noIndex,
 }: SEOProps) => {
   useEffect(() => {
     document.title = title;
     upsertMeta('meta[name="description"]', { name: 'description', content: description });
+
+    // Handle noIndex
+    if (noIndex) {
+      upsertMeta('meta[name="robots"]', { name: 'robots', content: 'noindex,nofollow' });
+    } else {
+      // Ensure the meta tag is removed if noIndex is false
+      const robotsMeta = document.head.querySelector('meta[name="robots"]');
+      if (robotsMeta) {
+        document.head.removeChild(robotsMeta);
+      }
+    }
 
     upsertMeta('meta[property="og:title"]', { property: 'og:title', content: title });
     upsertMeta('meta[property="og:description"]', {
@@ -188,25 +174,21 @@ export const SEO = ({
 
     // Structured Data
     const schemas = [
-      { id: 'jsonld-organization', data: structuredData },
-      { id: 'jsonld-localbusiness', data: localBusinessSchema },
-      { id: 'jsonld-website', data: websiteSchema },
-      { id: 'jsonld-faq', data: faqSchema },
-      { id: 'jsonld-service', data: serviceSchema },
-    ];
+      structuredData,
+      localBusinessSchema,
+      websiteSchema,
+      faqSchema,
+    ].filter(Boolean);
 
-    schemas.forEach(({ id, data }) => {
-      let script = document.getElementById(id) as HTMLScriptElement | null;
-      if (!script) {
-        script = document.createElement('script');
-        script.id = id;
-        script.type = 'application/ld+json';
-        document.head.appendChild(script);
-      }
-      if (data) {
-        script.text = JSON.stringify(data);
-      }
-    });
+    let script = document.getElementById('jsonld-structured-data');
+    if (!script) {
+      script = document.createElement('script');
+      script.id = 'jsonld-structured-data';
+      script.setAttribute('type', 'application/ld+json');
+      document.head.appendChild(script);
+    }
+    script.innerHTML = JSON.stringify(schemas, null, 2);
+
   }, [title, description, canonical, image, structuredData]);
 
   return null;
