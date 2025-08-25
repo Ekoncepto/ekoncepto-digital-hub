@@ -43,6 +43,7 @@ export const businessInfo: BusinessInfo = {
   about:
     'Somos uma consultoria especializada em marketplaces. Atuamos lado a lado com seu time, do lançamento à escala, com foco em performance, informações acionáveis e execução constante. Em média, nossos clientes alcançam crescimento acima de 70% nos primeiros 6 meses.',
   logo: '/images/ekoncepto-logo.svg', // Use the original SVG logo
+  square_logo: '/images/logo.svg',
   favicon: '/favicon.ico',
   processSteps: [
     {
@@ -116,7 +117,7 @@ export const siteMetadata = {
   title: 'E-Koncepto | Consultoria de E-commerce para Marketplaces',
   description:
     'Aumente suas vendas nos marketplaces com consultoria prática: lançamento de contas, otimização de anúncios e escalada de resultados.',
-  siteUrl: 'https://ekoncepto.com',
+  siteUrl: 'https://www.ekoncepto.com',
   author: 'E-Koncepto',
   locale: 'pt-BR',
   keywords: [
