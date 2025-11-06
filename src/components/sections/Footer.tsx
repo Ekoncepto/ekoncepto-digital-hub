@@ -62,6 +62,7 @@ export const Footer = () => {
     {
       title: 'Navegação',
       links: [
+        { name: 'Meu Painel', href: 'https://app.ekoncepto.com' },
         { name: 'Início', to: '/' },
         { name: 'Mercado', href: '#mercado' },
         { name: 'Metodologia', href: '#metodologia' },

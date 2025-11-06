@@ -116,6 +116,14 @@ export const Header = () => {
               href={externalLinks.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
+              className={`text-sm font-medium transition-colors duration-300 text-muted-foreground hover:text-primary`}
+            >
+              Contato
+            </a>
+            <a
+              href="https://app.ekoncepto.com"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-block"
             >
               <Button
@@ -123,7 +131,7 @@ export const Header = () => {
                 variant="hero"
                 className="py-3 px-6 sm:px-8 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary/20"
               >
-                Fale Conosco
+                Meu Painel
               </Button>
             </a>
           </nav>
@@ -156,6 +164,15 @@ export const Header = () => {
         }`}
       >
         <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
+          <a
+            href="https://app.ekoncepto.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={closeMobileMenu}
+            className={`block rounded-md px-3 py-2 text-base font-medium text-foreground hover:bg-muted hover:text-primary transition-colors duration-300`}
+          >
+            Meu Painel
+          </a>
           {navLinks.map(link => (
             <Link
               key={link.id}
@@ -187,15 +204,10 @@ export const Header = () => {
             href={externalLinks.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="block w-full"
             onClick={closeMobileMenu}
+            className={`block rounded-md px-3 py-2 text-base font-medium text-foreground hover:bg-muted hover:text-primary transition-colors duration-300`}
           >
-            <Button
-              variant="hero"
-              className="w-full py-3 px-6 sm:px-8 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary/20"
-            >
-              Fale Conosco
-            </Button>
+            Contato
           </a>
         </div>
       </div>
