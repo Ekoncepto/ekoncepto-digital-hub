@@ -34,7 +34,8 @@ describe('Header', () => {
     expect(within(header).getByTestId('logo')).toBeInTheDocument();
     const desktopNav = within(header).getByRole('navigation');
     expect(within(desktopNav).getByTestId('nav-mercado')).toBeInTheDocument();
-    expect(within(desktopNav).getByRole('link', { name: /fale conosco/i })).toBeInTheDocument();
+    expect(within(desktopNav).getByRole('link', { name: /contato/i })).toBeInTheDocument();
+    expect(within(desktopNav).getByRole('button', { name: /meu painel/i })).toBeInTheDocument();
   });
 
   describe('Navigation Links on Homepage', () => {
@@ -48,18 +49,21 @@ describe('Header', () => {
       // The key is that it navigates correctly.
       expect(within(desktopNav).getByTestId('nav-mercado')).toHaveAttribute('href', expect.stringMatching(/#mercado/));
       expect(within(desktopNav).getByTestId('nav-servicos')).toHaveAttribute('href', expect.stringMatching(/#servicos/));
-      const faleConoscoLink = within(desktopNav).getByRole('link', { name: /fale conosco/i });
-      expect(faleConoscoLink).toHaveAttribute('href', externalLinks.whatsapp);
-      expect(faleConoscoLink).toHaveAttribute('target', '_blank');
+      const contatoLink = within(desktopNav).getByRole('link', { name: /contato/i });
+      expect(contatoLink).toHaveAttribute('href', externalLinks.whatsapp);
+      expect(contatoLink).toHaveAttribute('target', '_blank');
     });
 
     it('should have correct hash links on mobile menu', () => {
       const mobileMenu = screen.getByTestId('mobile-menu');
       expect(within(mobileMenu).getByRole('link', { name: 'Mercado' })).toHaveAttribute('href', expect.stringMatching(/#mercado/));
       expect(within(mobileMenu).getByRole('link', { name: 'Serviços' })).toHaveAttribute('href', expect.stringMatching(/#servicos/));
-      const faleConoscoLink = within(mobileMenu).getByRole('link', { name: /fale conosco/i });
-      expect(faleConoscoLink).toHaveAttribute('href', externalLinks.whatsapp);
-      expect(faleConoscoLink).toHaveAttribute('target', '_blank');
+      const contatoLink = within(mobileMenu).getByRole('link', { name: /contato/i });
+      expect(contatoLink).toHaveAttribute('href', externalLinks.whatsapp);
+      expect(contatoLink).toHaveAttribute('target', '_blank');
+      const meuPainelButton = within(mobileMenu).getByRole('button', { name: /meu painel/i });
+      expect(meuPainelButton).toBeInTheDocument();
+      expect(meuPainelButton).toHaveClass('w-full');
     });
   });
 
@@ -72,18 +76,21 @@ describe('Header', () => {
       const desktopNav = screen.getByRole('navigation');
       expect(within(desktopNav).getByTestId('nav-mercado')).toHaveAttribute('href', '/#mercado');
       expect(within(desktopNav).getByTestId('nav-servicos')).toHaveAttribute('href', '/#servicos');
-      const faleConoscoLink = within(desktopNav).getByRole('link', { name: /fale conosco/i });
-      expect(faleConoscoLink).toHaveAttribute('href', externalLinks.whatsapp);
-      expect(faleConoscoLink).toHaveAttribute('target', '_blank');
+      const contatoLink = within(desktopNav).getByRole('link', { name: /contato/i });
+      expect(contatoLink).toHaveAttribute('href', externalLinks.whatsapp);
+      expect(contatoLink).toHaveAttribute('target', '_blank');
     });
 
     it('should have correct links pointing back to homepage sections on mobile', () => {
       const mobileMenu = screen.getByTestId('mobile-menu');
       expect(within(mobileMenu).getByRole('link', { name: 'Mercado' })).toHaveAttribute('href', '/#mercado');
       expect(within(mobileMenu).getByRole('link', { name: 'Serviços' })).toHaveAttribute('href', '/#servicos');
-      const faleConoscoLink = within(mobileMenu).getByRole('link', { name: /fale conosco/i });
-      expect(faleConoscoLink).toHaveAttribute('href', externalLinks.whatsapp);
-      expect(faleConoscoLink).toHaveAttribute('target', '_blank');
+      const contatoLink = within(mobileMenu).getByRole('link', { name: /contato/i });
+      expect(contatoLink).toHaveAttribute('href', externalLinks.whatsapp);
+      expect(contatoLink).toHaveAttribute('target', '_blank');
+      const meuPainelButton = within(mobileMenu).getByRole('button', { name: /meu painel/i });
+      expect(meuPainelButton).toBeInTheDocument();
+      expect(meuPainelButton).toHaveClass('w-full');
     });
   });
 });

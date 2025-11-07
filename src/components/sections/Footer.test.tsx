@@ -37,17 +37,6 @@ describe('Footer', () => {
     expect(linkedinLink).toHaveAttribute('target', '_blank');
   });
 
-  it('should render contact links correctly', () => {
-    renderWithRouter();
-    const emailLink = screen.getByText(contactInfo.email);
-    expect(emailLink).toBeInTheDocument();
-    expect(emailLink).toHaveAttribute('href', `mailto:${contactInfo.email}`);
-
-    const phoneLink = screen.getByText(contactInfo.phone);
-    expect(phoneLink).toBeInTheDocument();
-    expect(phoneLink).toHaveAttribute('href', `tel:+${contactInfo.whatsapp}`);
-  });
-
   describe('Navigation Links on Homepage', () => {
     beforeEach(() => {
       renderWithRouter(['/']);
@@ -61,6 +50,10 @@ describe('Footer', () => {
 
     it('should always link to /conteudos correctly', () => {
       expect(screen.getByRole('link', { name: /conteúdos/i })).toHaveAttribute('href', '/conteudos');
+    });
+
+    it('should have a Meu Painel link', () => {
+      expect(screen.getByRole('link', { name: /meu painel/i })).toBeInTheDocument();
     });
   });
 
@@ -77,6 +70,35 @@ describe('Footer', () => {
 
     it('should always link to /conteudos correctly', () => {
       expect(screen.getByRole('link', { name: /conteúdos/i })).toHaveAttribute('href', '/conteudos');
+    });
+  });
+
+  describe('Contact Info', () => {
+    beforeEach(() => {
+      renderWithRouter();
+    });
+
+    it('should render the email with a mailto link', () => {
+      const emailLink = screen.getByText(contactInfo.email);
+      expect(emailLink).toBeInTheDocument();
+      expect(emailLink).toHaveAttribute('href', `mailto:${contactInfo.email}`);
+    });
+
+    it('should render the phone with a tel link', () => {
+      const phoneLink = screen.getByText(contactInfo.phone);
+      expect(phoneLink).toBeInTheDocument();
+      expect(phoneLink).toHaveAttribute('href', `tel:+${contactInfo.whatsapp}`);
+    });
+
+    it('should render the address with a Google Maps link', () => {
+      const addressLink = screen.getByText(contactInfo.address);
+      expect(addressLink).toBeInTheDocument();
+      expect(addressLink).toHaveAttribute(
+        'href',
+        `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+          contactInfo.address
+        )}`
+      );
     });
   });
 });
