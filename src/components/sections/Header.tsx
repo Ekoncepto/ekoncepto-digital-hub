@@ -86,7 +86,7 @@ export const Header = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex min-w-0 flex-grow items-center justify-end space-x-4 lg:space-x-6 xl:space-x-8">
+          <nav className="hidden xl:flex min-w-0 flex-grow items-center justify-end space-x-4 lg:space-x-6 xl:space-x-8">
             {navLinks.map(link => (
               <Link
                 key={link.id}
@@ -137,7 +137,7 @@ export const Header = () => {
           </nav>
 
           {/* Mobile Menu Button */}
-          <div className="lg:hidden">
+          <div className="xl:hidden">
             <button
               onClick={toggleMobileMenu}
               aria-label="Toggle menu"
@@ -159,20 +159,18 @@ export const Header = () => {
       {/* Mobile Menu */}
       <div
         data-testid="mobile-menu"
-        className={`lg:hidden bg-background transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`xl:hidden bg-background transition-all duration-300 ease-in-out overflow-hidden ${
           mobileMenuOpen ? 'max-h-screen' : 'max-h-0'
         }`}
       >
         <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-          <a
-            href="https://app.ekoncepto.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={closeMobileMenu}
-            className={`block rounded-md px-3 py-2 text-base font-medium text-foreground hover:bg-muted hover:text-primary transition-colors duration-300`}
-          >
-            Meu Painel
-          </a>
+          <div className="px-2 pt-2 pb-3">
+            <a href="https://app.ekoncepto.com" target="_blank" rel="noopener noreferrer" className="block">
+              <Button size="sm" variant="hero" className="w-full">
+                Meu Painel
+              </Button>
+            </a>
+          </div>
           {navLinks.map(link => (
             <Link
               key={link.id}
@@ -198,8 +196,6 @@ export const Header = () => {
           >
             Conteúdo
           </Link>
-        </div>
-        <div className="border-t border-border px-2 pt-3 pb-3">
           <a
             href={externalLinks.whatsapp}
             target="_blank"

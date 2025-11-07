@@ -61,6 +61,9 @@ describe('Header', () => {
       const contatoLink = within(mobileMenu).getByRole('link', { name: /contato/i });
       expect(contatoLink).toHaveAttribute('href', externalLinks.whatsapp);
       expect(contatoLink).toHaveAttribute('target', '_blank');
+      const meuPainelButton = within(mobileMenu).getByRole('button', { name: /meu painel/i });
+      expect(meuPainelButton).toBeInTheDocument();
+      expect(meuPainelButton).toHaveClass('w-full');
     });
   });
 
@@ -85,6 +88,9 @@ describe('Header', () => {
       const contatoLink = within(mobileMenu).getByRole('link', { name: /contato/i });
       expect(contatoLink).toHaveAttribute('href', externalLinks.whatsapp);
       expect(contatoLink).toHaveAttribute('target', '_blank');
+      const meuPainelButton = within(mobileMenu).getByRole('button', { name: /meu painel/i });
+      expect(meuPainelButton).toBeInTheDocument();
+      expect(meuPainelButton).toHaveClass('w-full');
     });
   });
 });
