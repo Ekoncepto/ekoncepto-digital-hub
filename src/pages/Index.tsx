@@ -30,6 +30,9 @@ const ContactCTA = React.lazy(() =>
 const Faq = React.lazy(() =>
   import('@/components/sections/Faq').then(module => ({ default: module.Faq }))
 );
+const Team = React.lazy(() =>
+  import('@/components/sections/Team').then(module => ({ default: module.Team }))
+);
 
 const Index = () => {
   const title = `${businessInfo.name} | ${businessInfo.headline}`;
@@ -66,6 +69,9 @@ const Index = () => {
           </ErrorBoundary>
           <ErrorBoundary>
             <About />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <Team />
           </ErrorBoundary>
           <ErrorBoundary>
             <Faq />
