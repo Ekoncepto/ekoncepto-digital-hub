@@ -21,7 +21,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -42,9 +41,7 @@ interface LandingPageFormProps {
   redirectPath?: string;
 }
 
-export function LandingPageForm({ redirectPath = "/obrigado" }: LandingPageFormProps) {
-  const navigate = useNavigate();
-
+export function LandingPageForm({ redirectPath = "/thank-you" }: LandingPageFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -68,7 +65,7 @@ export function LandingPageForm({ redirectPath = "/obrigado" }: LandingPageFormP
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: encode({ "form-name": "landingpage", ...values }),
     })
-      .then(() => navigate(redirectPath))
+      .then(() => (window.location.href = redirectPath))
       .catch((error) => alert(error));
   }
 

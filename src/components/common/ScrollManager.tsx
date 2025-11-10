@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 
 const ScrollManager = () => {
-  const { pathname, hash } = useLocation();
-
   useEffect(() => {
+    const { pathname, hash } = window.location;
+
     if (hash) {
       const id = hash.replace('#', '');
 
@@ -26,7 +25,7 @@ const ScrollManager = () => {
     } else {
       window.scrollTo(0, 0);
     }
-  }, [pathname, hash]);
+  }, []);
 
   return null;
 };

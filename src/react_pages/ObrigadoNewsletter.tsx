@@ -3,7 +3,6 @@ import { Footer } from "@/components/sections/Footer";
 import SEO from "@/components/SEO";
 import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import { CheckCircle } from "lucide-react";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 const ObrigadoNewsletterPage = () => {
@@ -28,9 +27,9 @@ const ObrigadoNewsletterPage = () => {
           </p>
           <div className="mt-8">
             <Button asChild size="lg">
-              <Link to="/">
+              <a href="/">
                 Voltar para a página inicial
-              </Link>
+              </a>
             </Button>
           </div>
         </div>

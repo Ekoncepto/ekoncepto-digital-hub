@@ -1,6 +1,5 @@
 import LandingPage from "./LandingPage";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 
 const VenderNoMarketplacePage = () => {
   return (
@@ -64,7 +63,7 @@ const VenderNoMarketplacePage = () => {
           </div>
           <div className="mt-8">
             <Button asChild size="lg">
-              <Link to="/conteudos">Explorar Nossos Conteúdos</Link>
+              <a href="/landing">Explorar Nossos Conteúdos</a>
             </Button>
           </div>
         </section>

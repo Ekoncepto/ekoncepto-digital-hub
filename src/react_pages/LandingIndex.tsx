@@ -5,7 +5,6 @@ import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { landingPagesMetadata } from "@/config/landing-pages-metadata";
 import { siteMetadata } from "@/config/site";
-import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 const disabledSlugs = [
@@ -111,13 +110,13 @@ const LandingIndexPage = () => {
                             Em breve
                           </div>
                         ) : (
-                          <Link
-                            to={`/landing/${page.slug}`}
+                          <a
+                            href={`/landing/${page.slug}`}
                             className="font-semibold text-brand hover:underline flex items-center"
                             data-testid={`link-${page.slug}`}
                           >
                             Ler mais <ArrowRight className="ml-2 h-4 w-4" />
-                          </Link>
+                          </a>
                         )}
                       </div>
                     </Card>

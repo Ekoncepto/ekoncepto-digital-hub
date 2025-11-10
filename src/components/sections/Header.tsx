@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Link, useLocation } from 'react-router-dom';
 import { externalLinks } from '@/config/site';
 
 export const Header = () => {
@@ -8,8 +7,8 @@ export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const observer = useRef<IntersectionObserver | null>(null);
-  const location = useLocation();
-  const isHomePage = location.pathname === '/';
+
+  const isHomePage = typeof window !== 'undefined' ? window.location.pathname === '/' : false;
 
   // --- Effects for scroll detection and active section observation ---
   useEffect(() => {
@@ -71,7 +70,7 @@ export const Header = () => {
         <div className="flex h-20 items-center justify-between gap-4 sm:gap-8">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link to="/" aria-label="E-koncepto Home" data-testid="logo">
+            <a href="/" aria-label="E-koncepto Home" data-testid="logo">
               <picture>
                 <img
                   src="/images/ekoncepto-logo branco.svg"
@@ -82,15 +81,15 @@ export const Header = () => {
                   fetchpriority="high"
                 />
               </picture>
-            </Link>
+            </a>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden xl:flex min-w-0 flex-grow items-center justify-end space-x-4 lg:space-x-6 xl:space-x-8">
             {navLinks.map(link => (
-              <Link
+              <a
                 key={link.id}
-                to={isHomePage ? link.href : `/${link.href}`}
+                href={isHomePage ? link.href : `/${link.href}`}
                 data-testid={`nav-${link.id}`}
                 className={`text-sm font-medium transition-colors duration-300 ${
                   activeSection === link.id
@@ -99,19 +98,19 @@ export const Header = () => {
                 }`}
               >
                 {link.label}
-              </Link>
+              </a>
             ))}
-            <Link
-              to="/conteudos"
+            <a
+              href="/landing"
               data-testid="nav-conteudo"
               className={`text-sm font-medium transition-colors duration-300 ${
-                location.pathname === '/conteudos'
+                typeof window !== 'undefined' && window.location.pathname === '/landing'
                   ? 'text-primary'
                   : 'text-muted-foreground hover:text-primary'
               }`}
             >
               Conteúdo
-            </Link>
+            </a>
             <a
               href={externalLinks.whatsapp}
               target="_blank"
@@ -172,9 +171,9 @@ export const Header = () => {
             </a>
           </div>
           {navLinks.map(link => (
-            <Link
+            <a
               key={link.id}
-              to={isHomePage ? link.href : `/${link.href}`}
+              href={isHomePage ? link.href : `/${link.href}`}
               onClick={closeMobileMenu}
               className={`block rounded-md px-3 py-2 text-base font-medium transition-colors duration-300 ${
                 activeSection === link.id
@@ -183,19 +182,19 @@ export const Header = () => {
               }`}
             >
               {link.label}
-            </Link>
+            </a>
           ))}
-          <Link
-            to="/conteudos"
+          <a
+            href="/landing"
             onClick={closeMobileMenu}
             className={`block rounded-md px-3 py-2 text-base font-medium transition-colors duration-300 ${
-              location.pathname === '/conteudos'
+              typeof window !== 'undefined' && window.location.pathname === '/landing'
                 ? 'bg-primary/10 text-primary'
                 : 'text-foreground hover:bg-muted hover:text-primary'
             }`}
           >
             Conteúdo
-          </Link>
+          </a>
           <a
             href={externalLinks.whatsapp}
             target="_blank"

@@ -1,5 +1,4 @@
 import { useEffect, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
 
 // Initialize Google Analytics
 const initGA = (measurementId: string) => {
@@ -24,7 +23,7 @@ const initGA = (measurementId: string) => {
         send_page_view: false, // We'll handle page views manually
       });
     }
-  } catch (error) {
+  } catch (error)_ {
     console.error('Failed to initialize Google Analytics', error);
   }
 };
@@ -37,8 +36,6 @@ const isInvalidGAId = (id?: string): boolean => {
 };
 
 export const useAnalytics = (measurementId?: string) => {
-  const location = useLocation();
-
   useEffect(() => {
     // Initialize GA if measurementId is provided, valid, and GA is not already initialized
     const isValid = !isInvalidGAId(measurementId);
@@ -49,15 +46,27 @@ export const useAnalytics = (measurementId?: string) => {
 
   // Track page views on route change
   useEffect(() => {
-    const isValid = !isInvalidGAId(measurementId);
-    if (isValid && typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'page_view', {
-        page_path: location.pathname + location.search + location.hash,
-        page_title: document.title,
-        page_location: window.location.href,
-      });
-    }
-  }, [location, measurementId]);
+    const trackPageView = () => {
+      const isValid = !isInvalidGAId(measurementId);
+      if (isValid && typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'page_view', {
+          page_path: window.location.pathname + window.location.search + window.location.hash,
+          page_title: document.title,
+          page_location: window.location.href,
+        });
+      }
+    };
+
+    // Track initial page view
+    trackPageView();
+
+    // Track page views on Astro's page load event
+    document.addEventListener('astro:page-load', trackPageView);
+
+    return () => {
+      document.removeEventListener('astro:page-load', trackPageView);
+    };
+  }, [measurementId]);
 
   // Track custom events
   const trackEvent = useCallback(
