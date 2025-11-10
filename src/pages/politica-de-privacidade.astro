@@ -1,8 +1,15 @@
 ---
+import SEO from '../components/SEO.astro';
 import Layout from '../layouts/Layout.astro';
 import PoliticaDePrivacidade from '../react_pages/PoliticaDePrivacidade.tsx';
 ---
+import SEO from '../components/SEO.astro';
 
-<Layout >
+<Layout title={'Política de Privacidade'}>
+    <SEO
+        title={'Política de Privacidade'}
+        description={'Política de Privacidade da E-Koncepto.'}
+        noIndex
+    />
     <PoliticaDePrivacidade client:load />
 </Layout>

@@ -1,8 +1,16 @@
 ---
+import SEO from '../../components/SEO.astro';
+
+const title = "Torne Seus Produtos Mais Visíveis Online";
+const description = "Receba um checklist com técnicas de SEO e Ads para aumentar a visibilidade dos seus produtos e atrair mais clientes.";
 import Layout from '../../layouts/Layout.astro';
 import AumentarVisibilidadeProdutosOnline from '../../react_pages/landing/AumentarVisibilidadeProdutosOnline.tsx';
 ---
+import SEO from '../../components/SEO.astro';
 
-<Layout >
+const title = "Torne Seus Produtos Mais Visíveis Online";
+const description = "Receba um checklist com técnicas de SEO e Ads para aumentar a visibilidade dos seus produtos e atrair mais clientes.";
+
+<Layout title={title}>
     <AumentarVisibilidadeProdutosOnline client:load />
 </Layout>

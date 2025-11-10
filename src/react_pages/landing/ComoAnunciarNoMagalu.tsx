@@ -4,17 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const ComoAnunciarNoMagaluPage = () => {
   return (
-    <LandingPage
-      title="Anuncie no Magalu de Forma Profissional"
-      description="Aprenda o passo a passo e dicas essenciais para criar anúncios eficazes no Magalu com nosso tutorial em vídeo."
-      slug="como-anunciar-no-magalu"
-
-      articleData={{
-        author: 'E-koncepto',
-        publisher: 'E-koncepto',
-        datePublished: '2025-08-22',
-        dateModified: '2025-08-22',
-      }}>
+    <LandingPage>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">
@@ -65,7 +55,7 @@ const ComoAnunciarNoMagaluPage = () => {
                 <CardTitle className="text-center text-2xl">Seja o primeiro a saber</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm redirectPath="/obrigado-newsletter" />
+                <LandingPageForm />
               </CardContent>
             </Card>
           </div>

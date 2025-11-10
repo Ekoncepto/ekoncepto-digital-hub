@@ -1,0 +1,168 @@
+---
+import {
+  siteMetadata,
+  businessInfo,
+  contactInfo,
+  socialLinks,
+  seoConfig,
+  services,
+} from '@/config/site';
+import { faqItems } from '@/config/faq';
+import { Breadcrumb, createBreadcrumbSchema } from '../lib/breadcrumb';
+
+interface SEOProps {
+  title: string;
+  description: string;
+  canonical?: string;
+  image?: string;
+  structuredData?: Record<string, unknown>;
+  noIndex?: boolean;
+  articleData?: {
+    author: string;
+    publisher: string;
+    datePublished: string;
+    dateModified: string;
+  };
+  breadcrumbs?: Breadcrumb[];
+}
+
+const {
+  title,
+  description,
+  canonical = '/',
+  image,
+  structuredData,
+  noIndex,
+  breadcrumbs,
+  articleData,
+} = Astro.props as SEOProps;
+
+const onlineBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'OnlineBusiness',
+  '@id': siteMetadata.siteUrl,
+  name: businessInfo.name,
+  url: siteMetadata.siteUrl,
+  logo: {
+    '@type': 'ImageObject',
+    url: `${siteMetadata.siteUrl}${businessInfo.square_logo}`,
+    width: '50',
+    height: '50',
+  },
+  image: `${siteMetadata.siteUrl}${businessInfo.logo}`,
+  description: siteMetadata.description,
+  sameAs: socialLinks.map(link => link.url),
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: contactInfo.phone.replace(/\D/g, ''),
+    contactType: seoConfig.contactType,
+    availableLanguage: seoConfig.availableLanguage,
+    email: contactInfo.email,
+    areaServed: seoConfig.areaServed,
+  },
+  openingHoursSpecification: seoConfig.openingHours.map(spec => ({
+    '@type': 'OpeningHoursSpecification',
+    ...spec,
+  })),
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Serviços de Consultoria',
+    itemListElement: services.map(service => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: service.name,
+        description: service.description,
+      },
+    })),
+  },
+  ...(businessInfo.vatId && { vatID: businessInfo.vatId }),
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  url: siteMetadata.siteUrl,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${siteMetadata.siteUrl}/search?q={search_term_string}`,
+    'query-input': 'required name=search_term_string',
+  },
+  publisher: {
+    '@type': 'Organization',
+    '@id': siteMetadata.siteUrl,
+  },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map(item => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const breadcrumbSchema = createBreadcrumbSchema(breadcrumbs || []);
+
+const schemas = [
+  structuredData,
+  onlineBusinessSchema,
+  websiteSchema,
+  faqSchema,
+  breadcrumbSchema,
+].filter(Boolean);
+
+if (articleData) {
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: title,
+    description: description,
+    image: image || `${siteMetadata.siteUrl}${businessInfo.logo}`,
+    author: {
+      '@type': 'Organization',
+      name: articleData.author,
+      url: siteMetadata.siteUrl,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: articleData.publisher,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteMetadata.siteUrl}${businessInfo.square_logo}`,
+      },
+    },
+    datePublished: articleData.datePublished,
+    dateModified: articleData.dateModified,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': canonical ? new URL(canonical, siteMetadata.siteUrl).href : siteMetadata.siteUrl,
+    },
+  };
+  schemas.push(articleSchema);
+}
+
+const canonicalUrl = new URL(canonical, siteMetadata.siteUrl).href;
+---
+<Fragment>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noIndex && <meta name="robots" content="noindex,nofollow" />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {image && <meta property="og:image" content={image} />}
+    {articleData && <meta property="og:type" content="article" />}
+    {articleData?.author && <meta property="article:author" content={articleData.author} />}
+    {articleData?.datePublished && <meta property="article:published_time" content={articleData.datePublished} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {image && <meta name="twitter:image" content={image} />}
+    <link rel="canonical" href={canonicalUrl} />
+    <script type="application/ld+json" set:html={JSON.stringify(schemas, null, 2)} />
+</Fragment>

@@ -1,18 +1,9 @@
-import SEO from "@/components/SEO";
-import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 
 const TermosDeUsoPage = () => {
-  const breadcrumbs = useBreadcrumbs();
   return (
     <>
-      <SEO
-        title="Termos de Uso"
-        description="Termos de Uso da E-Koncepto."
-        noIndex
-        breadcrumbs={breadcrumbs}
-      />
       <Header />
       <main className="py-16 md:py-24 lg:py-32">
         <div className="container mx-auto px-4">

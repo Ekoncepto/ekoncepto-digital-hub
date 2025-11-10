@@ -1,8 +1,16 @@
 ---
+import SEO from '../../components/SEO.astro';
+
+const title = "Anúncios que Convertem em Qualquer Marketplace";
+const description = "Com nossa expertise multicanal, criamos e otimizamos anúncios para gerar o máximo de resultado em qualquer plataforma.";
 import Layout from '../../layouts/Layout.astro';
 import GestaoDeAnunciosEmMarketplaces from '../../react_pages/landing/GestaoDeAnunciosEmMarketplaces.tsx';
 ---
+import SEO from '../../components/SEO.astro';
 
-<Layout >
+const title = "Anúncios que Convertem em Qualquer Marketplace";
+const description = "Com nossa expertise multicanal, criamos e otimizamos anúncios para gerar o máximo de resultado em qualquer plataforma.";
+
+<Layout title={title}>
     <GestaoDeAnunciosEmMarketplaces client:load />
 </Layout>

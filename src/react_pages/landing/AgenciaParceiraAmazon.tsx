@@ -4,17 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const AgenciaParceiraAmazonPage = () => {
   return (
-    <LandingPage
-      title="Parceiro Certificado para Suas Vendas na Amazon"
-      description="Somos uma agência parceira certificada pela Amazon. Conheça nossos cases de sucesso e veja como podemos escalar suas vendas."
-      slug="agencia-parceira-amazon"
-      articleData={{
-        author: 'E-koncepto',
-        publisher: 'E-koncepto',
-        datePublished: '2025-08-22',
-        dateModified: '2025-08-22',
-      }}
-    >
+    <LandingPage>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">

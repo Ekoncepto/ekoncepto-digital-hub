@@ -1,8 +1,16 @@
 ---
+import SEO from '../../components/SEO.astro';
+
+const title = "Otimize Suas Listagens com Amazon SEO";
+const description = "Aprenda como funciona o algoritmo A9 da Amazon e solicite uma auditoria gratuita para melhorar o ranking dos seus produtos.";
 import Layout from '../../layouts/Layout.astro';
 import AmazonSeo from '../../react_pages/landing/AmazonSeo.tsx';
 ---
+import SEO from '../../components/SEO.astro';
 
-<Layout >
+const title = "Otimize Suas Listagens com Amazon SEO";
+const description = "Aprenda como funciona o algoritmo A9 da Amazon e solicite uma auditoria gratuita para melhorar o ranking dos seus produtos.";
+
+<Layout title={title}>
     <AmazonSeo client:load />
 </Layout>

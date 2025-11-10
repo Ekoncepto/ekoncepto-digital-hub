@@ -1,8 +1,15 @@
 ---
+import SEO from '../components/SEO.astro';
 import Layout from '../layouts/Layout.astro';
 import ObrigadoNewsletter from '../react_pages/ObrigadoNewsletter.tsx';
 ---
+import SEO from '../components/SEO.astro';
 
-<Layout >
+<Layout title={'Inscrição Confirmada!'}>
+    <SEO
+        title={'Inscrição Confirmada!'}
+        description={'Obrigado por se inscrever em nossa newsletter.'}
+        noIndex
+    />
     <ObrigadoNewsletter client:load />
 </Layout>

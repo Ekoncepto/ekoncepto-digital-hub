@@ -4,17 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const ComoVenderNaShopeePage = () => {
   return (
-    <LandingPage
-      title="Guia Atualizado para Vender na Shopee"
-      description="Aprenda como vender na Shopee com nosso conteúdo educacional completo, incluindo e-book e vídeo."
-      slug="como-vender-na-shopee"
-
-      articleData={{
-        author: 'E-koncepto',
-        publisher: 'E-koncepto',
-        datePublished: '2025-08-22',
-        dateModified: '2025-08-22',
-      }}>
+    <LandingPage>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">
@@ -65,7 +55,7 @@ const ComoVenderNaShopeePage = () => {
                 <CardTitle className="text-center text-2xl">Seja o primeiro a saber</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm redirectPath="/obrigado-newsletter" />
+                <LandingPageForm />
               </CardContent>
             </Card>
           </div>

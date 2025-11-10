@@ -4,17 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const AgenciaDeMarketplacePage = () => {
   return (
-    <LandingPage
-      title="A Gestão de Marketplaces que Vende por Você"
-      description="Conheça nosso serviço full-service e entenda por que uma agência de marketplace é o parceiro ideal para escalar seu negócio."
-      slug="agencia-de-marketplace"
-      articleData={{
-        author: 'E-koncepto',
-        publisher: 'E-koncepto',
-        datePublished: '2025-08-22',
-        dateModified: '2025-08-22',
-      }}
-    >
+    <LandingPage>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">

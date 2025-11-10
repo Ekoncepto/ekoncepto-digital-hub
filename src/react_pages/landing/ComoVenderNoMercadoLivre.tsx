@@ -4,17 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const ComoVenderNoMercadoLivrePage = () => {
   return (
-    <LandingPage
-      title="Guia Definitivo: Como Vender no Mercado Livre e Lucrar Mais"
-      description="Nosso guia completo ensina o passo a passo para iniciantes que desejam ter sucesso no Mercado Livre."
-      slug="como-vender-no-mercado-livre"
-
-      articleData={{
-        author: 'E-koncepto',
-        publisher: 'E-koncepto',
-        datePublished: '2025-08-22',
-        dateModified: '2025-08-22',
-      }}>
+    <LandingPage>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">
@@ -65,7 +55,7 @@ const ComoVenderNoMercadoLivrePage = () => {
                 <CardTitle className="text-center text-2xl">Seja o primeiro a saber</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm redirectPath="/obrigado-newsletter" />
+                <LandingPageForm />
               </CardContent>
             </Card>
           </div>

@@ -1,19 +1,10 @@
-import SEO from "@/components/SEO";
-import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 
 const PoliticaDePrivacidadePage = () => {
-  const breadcrumbs = useBreadcrumbs();
-  return (
+    return (
     <>
-      <SEO
-        title="Política de Privacidade"
-        description="Política de Privacidade da E-Koncepto."
-        noIndex
-        breadcrumbs={breadcrumbs}
-      />
-      <Header />
+            <Header />
       <main className="py-16 md:py-24 lg:py-32">
         <div className="container mx-auto px-4">
           <div className="prose lg:prose-xl mx-auto">

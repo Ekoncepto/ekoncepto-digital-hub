@@ -1,8 +1,16 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import LandingIndexPage from '../../react_pages/LandingIndex.tsx';
+import SEO from '../../components/SEO.astro';
+
+const title = "Nossos Conteúdos e Soluções";
+const description = "Encontre o material certo para ajudar você a vender mais nos maiores marketplaces do Brasil. Guias, análises e estratégias para todos os níveis de vendedores.";
 ---
 
-<Layout >
+<Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
     <LandingIndexPage client:load />
 </Layout>

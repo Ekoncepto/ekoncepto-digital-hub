@@ -4,17 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const EstrategiasMercadoAdsPage = () => {
   return (
-    <LandingPage
-      title="Estratégias Avançadas para Dominar o Mercado Ads"
-      description="Participe do nosso webinar e tenha acesso a conteúdo avançado sobre estratégias de Mercado Ads para escalar suas vendas."
-      slug="estrategias-mercado-ads"
-
-      articleData={{
-        author: 'E-koncepto',
-        publisher: 'E-koncepto',
-        datePublished: '2025-08-22',
-        dateModified: '2025-08-22',
-      }}>
+    <LandingPage>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">

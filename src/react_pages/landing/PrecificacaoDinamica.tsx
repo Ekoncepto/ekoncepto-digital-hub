@@ -3,17 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const PrecificacaoDinamicaPage = () => {
   return (
-    <LandingPage
-      title="Aumente Sua Margem com Precificação Dinâmica"
-      description="Entenda como a precificação dinâmica funciona e como nossa ferramenta interativa pode simular seu ROI."
-      slug="precificacao-dinamica"
-
-      articleData={{
-        author: 'E-koncepto',
-        publisher: 'E-koncepto',
-        datePublished: '2025-08-22',
-        dateModified: '2025-08-22',
-      }}>
+    <LandingPage>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">

@@ -1,7 +1,5 @@
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
-import SEO from "@/components/SEO";
-import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { landingPagesMetadata } from "@/config/landing-pages-metadata";
 import { siteMetadata } from "@/config/site";
@@ -69,16 +67,9 @@ const LandingIndexPage = () => {
       'url': `${siteMetadata.siteUrl}/landing/${page.slug}`
     }))
   };
-  const breadcrumbs = useBreadcrumbs();
-  return (
+    return (
     <>
-      <SEO
-        title="Conteúdos para Vender Mais | E-Koncepto"
-        description="Explore nossos guias, ferramentas e consultorias para alavancar suas vendas em marketplaces."
-        structuredData={itemList}
-        breadcrumbs={breadcrumbs}
-      />
-      <Header />
+            <Header />
       <main className="py-16 md:py-24 lg:py-32">
         <div className="container mx-auto px-4">
           <header className="text-center mb-16">

@@ -4,17 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const MercadoEnviosFullPage = () => {
   return (
-    <LandingPage
-      title="Sua Operação Logística no Mercado Livre com o Full"
-      description="Conheça os benefícios do Mercado Encios Full, o programa de fulfillment do Mercado Livre, e simule seus custos."
-      slug="mercado-envios-full"
-
-      articleData={{
-        author: 'E-koncepto',
-        publisher: 'E-koncepto',
-        datePublished: '2025-08-22',
-        dateModified: '2025-08-22',
-      }}>
+    <LandingPage>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">

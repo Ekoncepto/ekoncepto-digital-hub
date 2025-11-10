@@ -4,17 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const MaioresMarketplacesDoBrasilPage = () => {
   return (
-    <LandingPage
-      title="Comparativo dos Maiores Marketplaces do Brasil"
-      description="Receba uma análise e dados sobre os maiores marketplaces do Brasil em um PDF comparativo para tomar a melhor decisão para o seu negócio."
-      slug="maiores-marketplaces-do-brasil"
-
-      articleData={{
-        author: 'E-koncepto',
-        publisher: 'E-koncepto',
-        datePublished: '2025-08-22',
-        dateModified: '2025-08-22',
-      }}>
+    <LandingPage>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">
@@ -65,7 +55,7 @@ const MaioresMarketplacesDoBrasilPage = () => {
                 <CardTitle className="text-center text-2xl">Seja o primeiro a saber</CardTitle>
               </CardHeader>
               <CardContent>
-                <LandingPageForm redirectPath="/obrigado-newsletter" />
+                <LandingPageForm />
               </CardContent>
             </Card>
           </div>

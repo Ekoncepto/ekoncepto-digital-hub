@@ -1,8 +1,16 @@
 ---
+import SEO from '../../components/SEO.astro';
+
+const title = "Sua Operação Logística no Mercado Livre com o Full";
+const description = "Conheça os benefícios do Mercado Encios Full, o programa de fulfillment do Mercado Livre, e simule seus custos.";
 import Layout from '../../layouts/Layout.astro';
 import MercadoEnviosFull from '../../react_pages/landing/MercadoEnviosFull.tsx';
 ---
+import SEO from '../../components/SEO.astro';
 
-<Layout >
+const title = "Sua Operação Logística no Mercado Livre com o Full";
+const description = "Conheça os benefícios do Mercado Encios Full, o programa de fulfillment do Mercado Livre, e simule seus custos.";
+
+<Layout title={title}>
     <MercadoEnviosFull client:load />
 </Layout>

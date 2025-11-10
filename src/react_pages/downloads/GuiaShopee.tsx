@@ -1,12 +1,9 @@
 import { useEffect } from "react";
-import SEO from "@/components/SEO";
-import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 
 const GuiaShopeeDownloadPage = () => {
-  const breadcrumbs = useBreadcrumbs();
-  useEffect(() => {
+    useEffect(() => {
     const link = document.createElement("a");
     link.href = "/downloads/guia-shopee.pdf";
     link.setAttribute("download", "guia-shopee.pdf");
@@ -17,13 +14,7 @@ const GuiaShopeeDownloadPage = () => {
 
   return (
     <>
-      <SEO
-        title="Download | Guia para Iniciantes na Shopee"
-        description="Download do guia para iniciantes na Shopee."
-        noIndex
-        breadcrumbs={breadcrumbs}
-      />
-      <Header />
+            <Header />
       <main className="flex-grow flex items-center justify-center py-16 md:py-24 lg:py-32">
         <div className="container mx-auto px-4 text-center">
           <div className="bg-white p-12 rounded-lg shadow-lg">

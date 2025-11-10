@@ -4,17 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const MercadoAdsPage = () => {
   return (
-    <LandingPage
-      title="Transforme suas vendas no Mercado Livre com Ads inteligentes"
-      description="Aprenda como o Mercado Ads funciona, os desafios de otimização e como nossa consultoria pode alavancar suas vendas."
-      slug="mercado-ads"
-
-      articleData={{
-        author: 'E-koncepto',
-        publisher: 'E-koncepto',
-        datePublished: '2025-08-22',
-        dateModified: '2025-08-22',
-      }}>
+    <LandingPage>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">

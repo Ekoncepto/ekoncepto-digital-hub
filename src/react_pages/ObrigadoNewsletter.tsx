@@ -1,21 +1,12 @@
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
-import SEO from "@/components/SEO";
-import { useBreadcrumbs } from "@/hooks/useBreadcrumbs";
 import { CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const ObrigadoNewsletterPage = () => {
-  const breadcrumbs = useBreadcrumbs();
-  return (
+    return (
     <>
-      <SEO
-        title="Inscrição Confirmada!"
-        description="Obrigado por se inscrever em nossa newsletter."
-        noIndex={true}
-        breadcrumbs={breadcrumbs}
-      />
-      <Header />
+            <Header />
       <main className="py-24 md:py-32 lg:py-40">
         <div className="container mx-auto px-4 text-center">
           <CheckCircle className="mx-auto h-16 w-16 text-green-500" />

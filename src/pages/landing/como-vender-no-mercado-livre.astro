@@ -1,8 +1,16 @@
 ---
+import SEO from '../../components/SEO.astro';
+
+const title = "Guia Definitivo: Como Vender no Mercado Livre e Lucrar Mais";
+const description = "Nosso guia completo ensina o passo a passo para iniciantes que desejam ter sucesso no Mercado Livre.";
 import Layout from '../../layouts/Layout.astro';
 import ComoVenderNoMercadoLivre from '../../react_pages/landing/ComoVenderNoMercadoLivre.tsx';
 ---
+import SEO from '../../components/SEO.astro';
 
-<Layout >
+const title = "Guia Definitivo: Como Vender no Mercado Livre e Lucrar Mais";
+const description = "Nosso guia completo ensina o passo a passo para iniciantes que desejam ter sucesso no Mercado Livre.";
+
+<Layout title={title}>
     <ComoVenderNoMercadoLivre client:load />
 </Layout>

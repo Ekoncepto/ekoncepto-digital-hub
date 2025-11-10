@@ -4,17 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const ComoGanharBuyBoxAmazonPage = () => {
   return (
-    <LandingPage
-      title="Domine o Buy Box e Aumente Suas Vendas na Amazon"
-      description="Estratégias práticas de otimização para conquistar o Buy Box da Amazon e multiplicar suas vendas."
-      slug="como-ganhar-buy-box-amazon"
-
-      articleData={{
-        author: 'E-koncepto',
-        publisher: 'E-koncepto',
-        datePublished: '2025-08-22',
-        dateModified: '2025-08-22',
-      }}>
+    <LandingPage>
       <div className="max-w-4xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter">
