@@ -1,16 +1,16 @@
 ---
 import SEO from '../../components/SEO.astro';
-
-const title = "Venda Mais com a Logística Amazon FBA Brasil";
-const description = "Entenda o passo a passo do Fulfillment by Amazon (FBA) no Brasil com nosso guia ilustrado e veja como ele pode alavancar suas vendas.";
 import Layout from '../../layouts/Layout.astro';
 import FulfillmentByAmazonBrasil from '../../react_pages/landing/FulfillmentByAmazonBrasil.tsx';
----
-import SEO from '../../components/SEO.astro';
 
 const title = "Venda Mais com a Logística Amazon FBA Brasil";
 const description = "Entenda o passo a passo do Fulfillment by Amazon (FBA) no Brasil com nosso guia ilustrado e veja como ele pode alavancar suas vendas.";
+---
 
 <Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
     <FulfillmentByAmazonBrasil client:load />
 </Layout>

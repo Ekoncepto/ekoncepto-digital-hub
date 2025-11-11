@@ -1,16 +1,16 @@
 ---
 import SEO from '../../components/SEO.astro';
-
-const title = "Seu Produto com Apresentação A+ de Alta Conversão na Amazon";
-const description = "Descubra como o conteúdo A+ pode transformar a página do seu produto e veja nosso portfólio.";
 import Layout from '../../layouts/Layout.astro';
 import CriacaoAplusContentAmazon from '../../react_pages/landing/CriacaoAplusContentAmazon.tsx';
----
-import SEO from '../../components/SEO.astro';
 
 const title = "Seu Produto com Apresentação A+ de Alta Conversão na Amazon";
 const description = "Descubra como o conteúdo A+ pode transformar a página do seu produto e veja nosso portfólio.";
+---
 
 <Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
     <CriacaoAplusContentAmazon client:load />
 </Layout>

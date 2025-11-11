@@ -1,16 +1,16 @@
 ---
 import SEO from '../../components/SEO.astro';
-
-const title = "Seu E-commerce Vendendo Mais em Menos Tempo";
-const description = "Nossa consultoria de vendas online é focada em sessões estratégicas para gerar resultados rápidos para sua loja.";
 import Layout from '../../layouts/Layout.astro';
 import ConsultoriaDeVendasOnline from '../../react_pages/landing/ConsultoriaDeVendasOnline.tsx';
----
-import SEO from '../../components/SEO.astro';
 
 const title = "Seu E-commerce Vendendo Mais em Menos Tempo";
 const description = "Nossa consultoria de vendas online é focada em sessões estratégicas para gerar resultados rápidos para sua loja.";
+---
 
 <Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
     <ConsultoriaDeVendasOnline client:load />
 </Layout>

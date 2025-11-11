@@ -1,16 +1,16 @@
 ---
 import SEO from '../../components/SEO.astro';
-
-const title = "Transforme suas vendas no Mercado Livre com Ads inteligentes";
-const description = "Aprenda como o Mercado Ads funciona, os desafios de otimização e como nossa consultoria pode alavancar suas vendas.";
 import Layout from '../../layouts/Layout.astro';
 import MercadoAds from '../../react_pages/landing/MercadoAds.tsx';
----
-import SEO from '../../components/SEO.astro';
 
 const title = "Transforme suas vendas no Mercado Livre com Ads inteligentes";
 const description = "Aprenda como o Mercado Ads funciona, os desafios de otimização e como nossa consultoria pode alavancar suas vendas.";
+---
 
 <Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
     <MercadoAds client:load />
 </Layout>

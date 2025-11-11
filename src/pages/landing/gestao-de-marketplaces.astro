@@ -1,16 +1,16 @@
 ---
 import SEO from '../../components/SEO.astro';
-
-const title = "Maximize Seu Lucro com Gestão Profissional de Marketplaces";
-const description = "Centralize suas operações e otimize seus resultados com nosso serviço de gestão de marketplaces.";
 import Layout from '../../layouts/Layout.astro';
 import GestaoDeMarketplaces from '../../react_pages/landing/GestaoDeMarketplaces.tsx';
----
-import SEO from '../../components/SEO.astro';
 
 const title = "Maximize Seu Lucro com Gestão Profissional de Marketplaces";
 const description = "Centralize suas operações e otimize seus resultados com nosso serviço de gestão de marketplaces.";
+---
 
 <Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
     <GestaoDeMarketplaces client:load />
 </Layout>

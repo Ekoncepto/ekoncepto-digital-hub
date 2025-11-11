@@ -1,16 +1,16 @@
 ---
 import SEO from '../../components/SEO.astro';
-
-const title = "Estratégias Avançadas para Dominar o Mercado Ads";
-const description = "Participe do nosso webinar e tenha acesso a conteúdo avançado sobre estratégias de Mercado Ads para escalar suas vendas.";
 import Layout from '../../layouts/Layout.astro';
 import EstrategiasMercadoAds from '../../react_pages/landing/EstrategiasMercadoAds.tsx';
----
-import SEO from '../../components/SEO.astro';
 
 const title = "Estratégias Avançadas para Dominar o Mercado Ads";
 const description = "Participe do nosso webinar e tenha acesso a conteúdo avançado sobre estratégias de Mercado Ads para escalar suas vendas.";
+---
 
 <Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
     <EstrategiasMercadoAds client:load />
 </Layout>

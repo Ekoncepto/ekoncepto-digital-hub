@@ -1,16 +1,16 @@
 ---
 import SEO from '../../components/SEO.astro';
-
-const title = "Anuncie no Magalu e Venda Mais";
-const description = "Receba um checklist gratuito com métricas e diferenciais para anunciar no Magalu Ads e destacar seus produtos patrocinados.";
 import Layout from '../../layouts/Layout.astro';
 import MagaluAdsProdutosPatrocinados from '../../react_pages/landing/MagaluAdsProdutosPatrocinados.tsx';
----
-import SEO from '../../components/SEO.astro';
 
 const title = "Anuncie no Magalu e Venda Mais";
 const description = "Receba um checklist gratuito com métricas e diferenciais para anunciar no Magalu Ads e destacar seus produtos patrocinados.";
+---
 
 <Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
     <MagaluAdsProdutosPatrocinados client:load />
 </Layout>

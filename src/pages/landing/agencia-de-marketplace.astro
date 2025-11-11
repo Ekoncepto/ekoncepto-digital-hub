@@ -1,16 +1,16 @@
 ---
 import SEO from '../../components/SEO.astro';
-
-const title = "A Gestão de Marketplaces que Vende por Você";
-const description = "Conheça nosso serviço full-service e entenda por que uma agência de marketplace é o parceiro ideal para escalar seu negócio.";
 import Layout from '../../layouts/Layout.astro';
 import AgenciaDeMarketplace from '../../react_pages/landing/AgenciaDeMarketplace.tsx';
----
-import SEO from '../../components/SEO.astro';
 
 const title = "A Gestão de Marketplaces que Vende por Você";
 const description = "Conheça nosso serviço full-service e entenda por que uma agência de marketplace é o parceiro ideal para escalar seu negócio.";
+---
 
 <Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
     <AgenciaDeMarketplace client:load />
 </Layout>

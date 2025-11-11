@@ -1,16 +1,16 @@
 ---
 import SEO from '../../components/SEO.astro';
-
-const title = "Aumente Sua Margem com Precificação Dinâmica";
-const description = "Entenda como a precificação dinâmica funciona e como nossa ferramenta interativa pode simular seu ROI.";
 import Layout from '../../layouts/Layout.astro';
 import PrecificacaoDinamica from '../../react_pages/landing/PrecificacaoDinamica.tsx';
----
-import SEO from '../../components/SEO.astro';
 
 const title = "Aumente Sua Margem com Precificação Dinâmica";
 const description = "Entenda como a precificação dinâmica funciona e como nossa ferramenta interativa pode simular seu ROI.";
+---
 
 <Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
     <PrecificacaoDinamica client:load />
 </Layout>

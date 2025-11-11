@@ -1,16 +1,16 @@
 ---
 import SEO from '../../components/SEO.astro';
-
-const title = "Parceiro Certificado para Suas Vendas na Amazon";
-const description = "Somos uma agência parceira certificada pela Amazon. Conheça nossos cases de sucesso e veja como podemos escalar suas vendas.";
 import Layout from '../../layouts/Layout.astro';
 import AgenciaParceiraAmazon from '../../react_pages/landing/AgenciaParceiraAmazon.tsx';
----
-import SEO from '../../components/SEO.astro';
 
 const title = "Parceiro Certificado para Suas Vendas na Amazon";
 const description = "Somos uma agência parceira certificada pela Amazon. Conheça nossos cases de sucesso e veja como podemos escalar suas vendas.";
+---
 
 <Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
     <AgenciaParceiraAmazon client:load />
 </Layout>

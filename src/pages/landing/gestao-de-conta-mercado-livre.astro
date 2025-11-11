@@ -1,16 +1,16 @@
 ---
 import SEO from '../../components/SEO.astro';
-
-const title = "Gestão de Conta Mercado Livre: Liberte-se da Operação";
-const description = "Nosso serviço terceirizado de gestão de conta Mercado Livre cuida de tudo para você focar no que realmente importa: seu negócio.";
 import Layout from '../../layouts/Layout.astro';
 import GestaoDeContaMercadoLivre from '../../react_pages/landing/GestaoDeContaMercadoLivre.tsx';
----
-import SEO from '../../components/SEO.astro';
 
 const title = "Gestão de Conta Mercado Livre: Liberte-se da Operação";
 const description = "Nosso serviço terceirizado de gestão de conta Mercado Livre cuida de tudo para você focar no que realmente importa: seu negócio.";
+---
 
 <Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
     <GestaoDeContaMercadoLivre client:load />
 </Layout>

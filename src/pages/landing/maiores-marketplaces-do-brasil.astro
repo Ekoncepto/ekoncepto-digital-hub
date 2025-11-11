@@ -1,16 +1,16 @@
 ---
 import SEO from '../../components/SEO.astro';
-
-const title = "Comparativo dos Maiores Marketplaces do Brasil";
-const description = "Receba uma análise e dados sobre os maiores marketplaces do Brasil em um PDF comparativo para tomar a melhor decisão para o seu negócio.";
 import Layout from '../../layouts/Layout.astro';
 import MaioresMarketplacesDoBrasil from '../../react_pages/landing/MaioresMarketplacesDoBrasil.tsx';
----
-import SEO from '../../components/SEO.astro';
 
 const title = "Comparativo dos Maiores Marketplaces do Brasil";
 const description = "Receba uma análise e dados sobre os maiores marketplaces do Brasil em um PDF comparativo para tomar a melhor decisão para o seu negócio.";
+---
 
 <Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
     <MaioresMarketplacesDoBrasil client:load />
 </Layout>

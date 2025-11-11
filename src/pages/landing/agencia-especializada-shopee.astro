@@ -1,16 +1,16 @@
 ---
 import SEO from '../../components/SEO.astro';
-
-const title = "Gestão Especializada para Seus Anúncios na Shopee";
-const description = "Somos uma agência especializada em Shopee. Conte com nosso serviço profissional para escalar suas vendas.";
 import Layout from '../../layouts/Layout.astro';
 import AgenciaEspecializadaShopee from '../../react_pages/landing/AgenciaEspecializadaShopee.tsx';
----
-import SEO from '../../components/SEO.astro';
 
 const title = "Gestão Especializada para Seus Anúncios na Shopee";
 const description = "Somos uma agência especializada em Shopee. Conte com nosso serviço profissional para escalar suas vendas.";
+---
 
 <Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
     <AgenciaEspecializadaShopee client:load />
 </Layout>
