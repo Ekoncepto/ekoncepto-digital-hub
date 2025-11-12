@@ -1,13 +1,6 @@
 import React from 'react';
 import { founders } from '@/config/founders';
 import FounderCard from '@/components/common/FounderCard';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
 import { motion } from 'framer-motion';
 
 export const Founders = () => {
@@ -28,23 +21,11 @@ export const Founders = () => {
             Nossa equipe de liderança combina experiência, paixão e um compromisso inabalável com o sucesso de nossos clientes.
           </p>
         </div>
-        <Carousel
-          opts={{
-            align: 'start',
-            loop: true,
-          }}
-          className="w-full"
-        >
-          <CarouselContent>
-            {founders.map((founder, index) => (
-              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                <FounderCard founder={founder} />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
+          {founders.map((founder, index) => (
+            <FounderCard founder={founder} key={index} />
+          ))}
+        </div>
       </div>
     </motion.div>
   );
