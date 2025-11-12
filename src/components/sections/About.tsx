@@ -1,10 +1,20 @@
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { businessInfo, externalLinks } from '@/config/site';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { motion } from 'framer-motion';
 import { Check, BarChart, Users, Zap, Award, Quote } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+
+const Founders = lazy(() => import('@/components/sections/Founders'));
 
 export const About = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const stats = [
     { value: '70%+', label: 'Crescimento médio em 6 meses', icon: BarChart },
     { value: '90', label: 'NPS (Net Promoter Score)', icon: Award },
@@ -170,6 +180,12 @@ export const About = () => {
           </motion.div>
         </div>
 
+        {isClient && (
+          <Suspense fallback={<FounderSkeleton />}>
+            <Founders />
+          </Suspense>
+        )}
+
         {/* Testimonials */}
         <motion.div
           className="mt-24 grid md:grid-cols-2 gap-8"
@@ -198,5 +214,26 @@ export const About = () => {
     </section>
   );
 };
+
+const FounderSkeleton = () => (
+  <div className="py-16 md:py-24">
+    <div className="container">
+      <div className="text-center max-w-4xl mx-auto mb-16">
+        <Skeleton className="h-12 w-3/4 mx-auto mb-6" />
+        <Skeleton className="h-6 w-full max-w-2xl mx-auto" />
+      </div>
+      <div className="flex justify-center gap-8">
+        {[...Array(3)].map((_, i) => (
+          <div key={i} className="flex flex-col items-center text-center p-6 md:basis-1/2 lg:basis-1/3">
+            <Skeleton className="size-40 rounded-full mb-4" />
+            <Skeleton className="h-8 w-48 mb-2" />
+            <Skeleton className="h-5 w-64" />
+            <Skeleton className="h-8 w-4/5 mt-4" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
 
 export default About;
