@@ -1,0 +1,16 @@
+---
+import SEO from '../../components/SEO.astro';
+import Layout from '../../layouts/Layout.astro';
+import ConsultoriaMercadoLivre from '../../react_pages/landing/ConsultoriaMercadoLivre.tsx';
+
+const title = "Vendas no Mercado Livre: Melhore com Especialistas";
+const description = "Nossa consultoria focada em performance ajuda você a otimizar sua operação e escalar suas vendas no Mercado Livre.";
+---
+
+<Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
+    <ConsultoriaMercadoLivre client:load />
+</Layout>

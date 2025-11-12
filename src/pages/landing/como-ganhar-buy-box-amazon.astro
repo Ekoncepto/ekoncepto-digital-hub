@@ -1,0 +1,16 @@
+---
+import SEO from '../../components/SEO.astro';
+import Layout from '../../layouts/Layout.astro';
+import ComoGanharBuyBoxAmazon from '../../react_pages/landing/ComoGanharBuyBoxAmazon.tsx';
+
+const title = "Domine o Buy Box e Aumente Suas Vendas na Amazon";
+const description = "Estratégias práticas de otimização para conquistar o Buy Box da Amazon e multiplicar suas vendas.";
+---
+
+<Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
+    <ComoGanharBuyBoxAmazon client:load />
+</Layout>

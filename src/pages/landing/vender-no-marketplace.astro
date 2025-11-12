@@ -1,0 +1,16 @@
+---
+import SEO from '../../components/SEO.astro';
+import Layout from '../../layouts/Layout.astro';
+import VenderNoMarketplace from '../../react_pages/landing/VenderNoMarketplace.tsx';
+
+const title = "Tudo que Você Precisa Saber para Vender em Marketplaces";
+const description = "Um hub de artigos com conteúdo amplo sobre como vender nos principais marketplaces do Brasil.";
+---
+
+<Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
+    <VenderNoMarketplace client:load />
+</Layout>

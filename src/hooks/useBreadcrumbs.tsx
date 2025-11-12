@@ -1,12 +1,16 @@
-import { useLocation } from 'react-router-dom';
 import { generateBreadcrumbs, Breadcrumb } from '@/lib/breadcrumb';
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 
 export const useBreadcrumbs = (): Breadcrumb[] => {
-  const location = useLocation();
+  const [pathname, setPathname] = useState('');
+
+  useEffect(() => {
+    setPathname(window.location.pathname);
+  }, []);
+
   const breadcrumbs = useMemo(
-    () => generateBreadcrumbs(location.pathname),
-    [location.pathname]
+    () => generateBreadcrumbs(pathname),
+    [pathname]
   );
   return breadcrumbs;
 };

@@ -9,19 +9,9 @@ export default {
   // Enable JIT mode for faster development builds
   mode: 'jit',
   // Be explicit about content to prevent unused CSS in production
-  content: isProduction
-    ? [
-        './src/**/*.{js,ts,jsx,tsx,mdx}',
-        './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-        './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-        './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-      ]
-    : [
-        './src/**/*.{js,ts,jsx,tsx,mdx}',
-        './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-        './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-        './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-      ],
+  content: [
+    './src/**/*.{js,ts,jsx,tsx,mdx,astro}',
+  ],
   // Safelist any dynamic classes that might be used
   safelist: [
     'lg:grid-cols-1',

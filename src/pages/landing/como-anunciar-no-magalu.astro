@@ -1,0 +1,16 @@
+---
+import SEO from '../../components/SEO.astro';
+import Layout from '../../layouts/Layout.astro';
+import ComoAnunciarNoMagalu from '../../react_pages/landing/ComoAnunciarNoMagalu.tsx';
+
+const title = "Anuncie no Magalu de Forma Profissional";
+const description = "Aprenda o passo a passo e dicas essenciais para criar anúncios eficazes no Magalu com nosso tutorial em vídeo.";
+---
+
+<Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
+    <ComoAnunciarNoMagalu client:load />
+</Layout>

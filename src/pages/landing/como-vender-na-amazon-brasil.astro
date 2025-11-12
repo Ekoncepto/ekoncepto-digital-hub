@@ -1,0 +1,16 @@
+---
+import SEO from '../../components/SEO.astro';
+import Layout from '../../layouts/Layout.astro';
+import ComoVenderNaAmazonBrasil from '../../react_pages/landing/ComoVenderNaAmazonBrasil.tsx';
+
+const title = "Comece a Vender na Amazon Brasil: Guia Prático";
+const description = "Nosso guia prático para iniciantes ensina tudo o que você precisa para começar a vender na Amazon Brasil.";
+---
+
+<Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
+    <ComoVenderNaAmazonBrasil client:load />
+</Layout>

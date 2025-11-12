@@ -1,0 +1,16 @@
+---
+import SEO from '../../components/SEO.astro';
+import Layout from '../../layouts/Layout.astro';
+import MarketingParaEcommerce from '../../react_pages/landing/MarketingParaEcommerce.tsx';
+
+const title = "Marketing que Impulsiona seu E-commerce";
+const description = "Baixe nosso whitepaper sobre estratégias de marketing integradas e veja como impulsionar seu e-commerce.";
+---
+
+<Layout title={title}>
+    <SEO
+        title={title}
+        description={description}
+    />
+    <MarketingParaEcommerce client:load />
+</Layout>

@@ -1,28 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { contactInfo } from '@/config/site';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const location = useLocation();
-  const navigate = useNavigate();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const myForm = event.currentTarget;
-    const formData = new FormData(myForm);
-
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(formData as any).toString(),
-    })
-      .then(() => navigate('/obrigado-newsletter'))
-      .catch((error) => alert(error));
-  };
-  const isHomePage = location.pathname === '/';
+  const isHomePage = typeof window !== 'undefined' ? window.location.pathname === '/' : false;
 
   const socialLinks = [
     {
@@ -63,14 +46,14 @@ export const Footer = () => {
       title: 'Navegação',
       links: [
         { name: 'Meu Painel', href: 'https://app.ekoncepto.com' },
-        { name: 'Início', to: '/' },
+        { name: 'Início', href: '/' },
         { name: 'Mercado', href: '#mercado' },
         { name: 'Metodologia', href: '#metodologia' },
         { name: 'Cases', href: '#cases' },
         { name: 'Serviços', href: '#servicos' },
         { name: 'Processo', href: '#processo' },
         { name: 'Sobre', href: '#about' },
-        { name: 'Conteúdos', to: '/conteudos' },
+        { name: 'Conteúdos', href: '/landing' },
       ],
     },
     {
@@ -148,19 +131,10 @@ export const Footer = () => {
               <h3 className="text-white font-semibold text-lg mb-4">{section.title}</h3>
               <ul className="space-y-3">
                 {section.links.map(link => {
-                  const isInternalHash = link.href && link.href.startsWith('#');
                   const isExternal = link.href && (link.href.startsWith('mailto:') || link.href.startsWith('tel:') || link.href.startsWith('https:'));
 
                   return (
                     <li key={link.name}>
-                      {link.to || isInternalHash ? (
-                        <Link
-                          to={link.to || (isHomePage ? link.href : `/${link.href}`)}
-                          className="text-gray-400 hover:text-primary transition-colors duration-300"
-                        >
-                          {link.name}
-                        </Link>
-                      ) : (
                         <a
                           href={link.href}
                           className="text-gray-400 hover:text-primary transition-colors duration-300"
@@ -169,7 +143,6 @@ export const Footer = () => {
                         >
                           {link.name}
                         </a>
-                      )}
                     </li>
                   );
                 })}
@@ -188,7 +161,7 @@ export const Footer = () => {
             <p className="text-gray-400 mb-4">
               Assine nossa newsletter para receber novidades e dicas.
             </p>
-            <form name="newsletter" data-netlify="true" onSubmit={handleSubmit} className="flex">
+            <form name="newsletter" method="POST" action="/obrigado-newsletter" data-netlify="true" className="flex">
               <input type="hidden" name="form-name" value="newsletter" />
               <input
                 type="email"
@@ -219,18 +192,18 @@ export const Footer = () => {
             &copy; {currentYear} Ekoncepto. Todos os direitos reservados.
           </p>
           <div className="flex space-x-6">
-            <Link
-              to="/termos-de-uso"
+            <a
+              href="/termos-de-uso"
               className="text-sm text-gray-400 hover:text-brand transition-colors duration-300"
             >
               Termos de Uso
-            </Link>
-            <Link
-              to="/politica-de-privacidade"
+            </a>
+            <a
+              href="/politica-de-privacidade"
               className="text-sm text-gray-400 hover:text-brand transition-colors duration-300"
             >
               Política de Privacidade
-            </Link>
+            </a>
           </div>
         </motion.div>
       </div>
