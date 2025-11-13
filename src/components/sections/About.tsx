@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { businessInfo, externalLinks } from '@/config/site';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { motion } from 'framer-motion';
@@ -50,6 +50,12 @@ export const About = () => {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
+
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   return (
     <section id="about" className="py-16 md:py-24 bg-white">
@@ -163,7 +169,7 @@ export const About = () => {
           </motion.div>
         </div>
 
-        <Founders />
+        {hasMounted && <Founders />}
 
         {/* Testimonials */}
         <motion.div

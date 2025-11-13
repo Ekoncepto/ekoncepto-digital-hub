@@ -2,10 +2,15 @@ import React from 'react';
 import { founders } from '@/config/founders';
 import FounderCard from '@/components/common/FounderCard';
 import { motion } from 'framer-motion';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 
 export const Founders = () => {
+  const plugin = React.useRef(Autoplay({ delay: 5000, stopOnInteraction: true }));
+
   return (
     <motion.div
+      data-testid="founders-section"
       className="py-16 md:py-24"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -21,11 +26,26 @@ export const Founders = () => {
             Nossa equipe de liderança combina experiência, paixão e um compromisso inabalável com o sucesso de nossos clientes.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
-          {founders.map((founder, index) => (
-            <FounderCard founder={founder} key={index} />
-          ))}
-        </div>
+        <Carousel
+          plugins={[plugin.current]}
+          className="w-full"
+          onMouseEnter={plugin.current.stop}
+          onMouseLeave={plugin.current.reset}
+          opts={{
+            align: 'center',
+            loop: true,
+          }}
+        >
+          <CarouselContent>
+            {founders.map((founder, index) => (
+              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/1">
+                <div className="flex justify-center">
+                  <FounderCard founder={founder} />
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
       </div>
     </motion.div>
   );

@@ -32,7 +32,7 @@ export const FounderCard: React.FC<FounderCardProps> = ({ founder }) => {
       </div>
       <h3 className="text-2xl font-bold tracking-tight">{founder.name}</h3>
       <p className="text-primary font-medium">{founder.title}</p>
-      <p className="mt-4 text-muted-foreground max-w-md">{founder.bio}</p>
+      <p className="mt-4 text-muted-foreground max-w-lg">{founder.bio}</p>
       <div className="flex mt-4 space-x-4">
         {founder.linkedin && (
           <a href={founder.linkedin} target="_blank" rel="noopener noreferrer" aria-label={`${founder.name} on LinkedIn`}>
