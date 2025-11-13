@@ -21,10 +21,12 @@ export const Founders = () => {
             Nossa equipe de liderança combina experiência, paixão e um compromisso inabalável com o sucesso de nossos clientes.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
-          {founders.map((founder, index) => (
-            <FounderCard founder={founder} key={index} />
-          ))}
+        <div className="flex justify-center">
+          <div className="inline-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {founders.map((founder, index) => (
+              <FounderCard founder={founder} key={index} />
+            ))}
+          </div>
         </div>
       </div>
     </motion.div>
