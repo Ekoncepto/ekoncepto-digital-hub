@@ -16,7 +16,7 @@ const config = {
   // Process all image files in the images directory
   includePatterns: [/\.(png|jpg|jpeg|webp)$/i],
   // Target widths for responsive images
-  widths: [320, 640, 960, 1280, 1920],
+  widths: [160, 320, 640, 960, 1280, 1920],
   // Quality settings
   quality: {
     webp: 80,
