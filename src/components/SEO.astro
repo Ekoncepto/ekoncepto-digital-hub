@@ -8,6 +8,7 @@ import {
   services,
 } from '@/config/site';
 import { faqItems } from '@/config/faq';
+import { founders } from '@/config/founders';
 import { Breadcrumb, createBreadcrumbSchema } from '../lib/breadcrumb';
 
 interface SEOProps {
@@ -77,7 +78,29 @@ const onlineBusinessSchema = {
     })),
   },
   ...(businessInfo.vatId && { vatID: businessInfo.vatId }),
+  founder: founders.map(founder => ({
+    '@type': 'Person',
+    '@id': `${siteMetadata.siteUrl}/#${founder.name.toLowerCase().replace(/\s/g, '-')}`,
+    name: founder.name,
+    jobTitle: founder.title,
+    image: `${siteMetadata.siteUrl}${founder.image}`,
+    sameAs: [founder.linkedin, founder.instagram].filter(Boolean),
+  })),
 };
+
+const personSchemas = founders.map(founder => ({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${siteMetadata.siteUrl}/#${founder.name.toLowerCase().replace(/\s/g, '-')}`,
+  name: founder.name,
+  jobTitle: founder.title,
+  image: `${siteMetadata.siteUrl}${founder.image}`,
+  sameAs: [founder.linkedin, founder.instagram].filter(Boolean),
+  worksFor: {
+    '@type': 'Organization',
+    '@id': siteMetadata.siteUrl,
+  },
+}));
 
 const websiteSchema = {
   '@context': 'https://schema.org',
@@ -115,6 +138,7 @@ const schemas = [
   websiteSchema,
   faqSchema,
   breadcrumbSchema,
+  ...personSchemas,
 ].filter(Boolean);
 
 if (articleData) {

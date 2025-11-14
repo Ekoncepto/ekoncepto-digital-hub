@@ -1,8 +1,10 @@
+import React, { useState, useEffect } from 'react';
 import { businessInfo, externalLinks } from '@/config/site';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { motion } from 'framer-motion';
 import { Check, BarChart, Users, Zap, Award, Quote } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Founders } from '@/components/sections/Founders';
 
 export const About = () => {
   const stats = [
@@ -48,6 +50,12 @@ export const About = () => {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
+
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   return (
     <section id="about" className="py-16 md:py-24 bg-white">
@@ -115,15 +123,6 @@ export const About = () => {
                 height={680}
               />
             </div>
-            {/*<div className="absolute -bottom-6 -right-6 bg-primary text-white p-4 rounded-lg shadow-lg hidden lg:block">
-              <div className="flex items-center">
-                <Award className="size-8 mr-2" />
-                <div>
-                  <p className="font-bold">Parceiro Ouro</p> 
-                  <p className="text-sm opacity-90">Mercado Livre</p>
-                </div>
-              </div>
-            </div>*/}
           </motion.div>
 
           <motion.div
@@ -169,6 +168,8 @@ export const About = () => {
             </div>
           </motion.div>
         </div>
+
+        {hasMounted && <Founders />}
 
         {/* Testimonials */}
         <motion.div

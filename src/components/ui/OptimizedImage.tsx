@@ -55,7 +55,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   const fileName = src.split('/').pop() || '';
   const [name, ext] = fileName.split('.');
 
-  const originalFormat = ext.toLowerCase() === 'jpeg' ? 'jpg' : ext.toLowerCase();
+  const originalFormat = ext.toLowerCase();
 
   // 2. Helper function to generate a `srcSet` string from the widths array
   const generateSrcSet = (format: string) => {
