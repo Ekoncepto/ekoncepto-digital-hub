@@ -51,12 +51,6 @@ export const About = () => {
     show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
-  const [hasMounted, setHasMounted] = useState(false);
-
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
-
   return (
     <section id="about" className="py-16 md:py-24 bg-white">
       <div className="container">
@@ -169,7 +163,7 @@ export const About = () => {
           </motion.div>
         </div>
 
-        {hasMounted && <Founders />}
+        <Founders />
 
         {/* Testimonials */}
         <motion.div

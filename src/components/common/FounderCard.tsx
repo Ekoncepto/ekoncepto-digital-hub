@@ -22,7 +22,7 @@ export const FounderCard: React.FC<FounderCardProps> = ({ founder }) => {
         <OptimizedImage
           src={founder.image}
           alt={founder.name}
-          widths={[160, 320]}
+          widths={[320]}
           sizes="160px"
           className="rounded-full"
           imgClassName="rounded-full object-cover"
@@ -35,12 +35,22 @@ export const FounderCard: React.FC<FounderCardProps> = ({ founder }) => {
       <p className="mt-4 text-muted-foreground max-w-lg">{founder.bio}</p>
       <div className="flex mt-4 space-x-4">
         {founder.linkedin && (
-          <a href={founder.linkedin} target="_blank" rel="noopener noreferrer" aria-label={`${founder.name} on LinkedIn`}>
+          <a
+            href={founder.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${founder.name} on LinkedIn`}
+          >
             <Linkedin className="size-6 text-muted-foreground transition-colors hover:text-primary" />
           </a>
         )}
         {founder.instagram && (
-          <a href={founder.instagram} target="_blank" rel="noopener noreferrer" aria-label={`${founder.name} on Instagram`}>
+          <a
+            href={founder.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${founder.name} on Instagram`}
+          >
             <Instagram className="size-6 text-muted-foreground transition-colors hover:text-primary" />
           </a>
         )}
