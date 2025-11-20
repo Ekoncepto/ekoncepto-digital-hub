@@ -23,7 +23,8 @@ export const Founders = () => {
             Conheça os Fundadores
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Nossa equipe de liderança combina experiência, paixão e um compromisso inabalável com o sucesso de nossos clientes.
+            Nossa equipe de liderança combina experiência, paixão e um compromisso inabalável com o
+            sucesso de nossos clientes.
           </p>
         </div>
         <Carousel
@@ -38,7 +39,7 @@ export const Founders = () => {
         >
           <CarouselContent>
             {founders.map((founder, index) => (
-              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/1">
+              <CarouselItem key={index} className="basis-full">
                 <div className="flex justify-center">
                   <FounderCard founder={founder} />
                 </div>
