@@ -164,7 +164,12 @@ export const Header = () => {
       >
         <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
           <div className="px-2 pt-2 pb-3">
-            <a href="https://app.ekoncepto.com" target="_blank" rel="noopener noreferrer" className="block">
+            <a
+              href="https://app.ekoncepto.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block"
+            >
               <Button size="sm" variant="hero" className="w-full">
                 Meu Painel
               </Button>
@@ -206,6 +211,28 @@ export const Header = () => {
           </a>
         </div>
       </div>
+      <noscript>
+        <div className="p-4 bg-background border-t text-center">
+          <p className="mb-2 font-bold">Menu de Navegação:</p>
+          <div className="flex flex-wrap justify-center gap-4">
+            {navLinks.map(link => (
+              <a
+                key={link.id}
+                href={isHomePage ? link.href : `/${link.href}`}
+                className="text-primary hover:underline"
+              >
+                {link.label}
+              </a>
+            ))}
+            <a href="/landing" className="text-primary hover:underline">
+              Conteúdo
+            </a>
+            <a href={externalLinks.whatsapp} className="text-primary hover:underline">
+              Contato
+            </a>
+          </div>
+        </div>
+      </noscript>
     </header>
   );
 };

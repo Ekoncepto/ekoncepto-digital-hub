@@ -84,7 +84,7 @@ export const Hero = () => {
             ].map((marketplace, index) => (
               <div
                 key={marketplace.alt}
-                className="marketplace-logo opacity-0 transform translate-y-4 hover:scale-110 transition-all duration-500"
+                className="marketplace-logo transform translate-y-4 hover:scale-110 transition-all duration-500"
                 style={{
                   animationDelay: `${200 + index * 100}ms`,
                 }}

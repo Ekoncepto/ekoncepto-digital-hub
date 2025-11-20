@@ -6,7 +6,7 @@ const FloatingWhatsAppButton = () => {
   return (
     <motion.div
       className="fixed bottom-6 right-6 z-50"
-      initial={{ scale: 0, opacity: 0 }}
+      initial={{ scale: 1, opacity: 1 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.5, delay: 1, ease: 'easeOut' }}
       whileHover={{ scale: 1.1 }}
