@@ -1,9 +1,9 @@
 import React from 'react';
-import HeaderShopee from '@/components/sections/shopee/HeaderShopee';
 import HeroShopee from '@/components/sections/shopee/HeroShopee';
 import CasesShopee from '@/components/sections/shopee/CasesShopee';
 import ServicesShopee from '@/components/sections/shopee/ServicesShopee';
 import ContactShopee from '@/components/sections/shopee/ContactShopee';
+import { FoundersGridLp } from '@/components/sections/lp/FoundersGridLp';
 import { Footer } from '@/components/sections/Footer';
 
 /**
@@ -11,8 +11,10 @@ import { Footer } from '@/components/sections/Footer';
  *
  * Audience: active Shopee sellers coming from inside the Shopee platform.
  * Strategy: short, visual, Shopee-branded (orange/yellow), direct to
- * WhatsApp. No Methodology/Process/About/FAQ — popup traffic has low
- * intent and needs a fast path to the offer.
+ * WhatsApp. No full header (logo lives inside the Hero), no nav — the
+ * page is short enough to scroll, and the global FloatingWhatsAppButton
+ * keeps the CTA reachable from anywhere. Founders shown side-by-side
+ * (grid) so sellers see who they'll talk to.
  *
  * The .shopee-theme wrapper (set in shopee.astro around this component)
  * recolors the CSS custom property --primary to Shopee orange, so every
@@ -22,12 +24,11 @@ import { Footer } from '@/components/sections/Footer';
 const Shopee = () => {
   return (
     <>
-      <HeaderShopee />
-
       <main>
         <HeroShopee />
         <CasesShopee />
         <ServicesShopee />
+        <FoundersGridLp />
         <ContactShopee />
       </main>
 

@@ -18,6 +18,24 @@ export const HeroShopee = () => {
 
   return (
     <section className="text-white text-center py-20 md:py-28 lg:py-36 bg-gradient-to-br from-[#EE4D2D] to-[#F69E15]">
+      {/* Brand identity — logo only, no header bar. Links to home so visitors
+          who want to know more about the company can leave cleanly. */}
+      <div className="container mx-auto px-4 sm:px-6">
+        <a
+          href="/"
+          aria-label="E-Koncepto"
+          className="inline-block mb-12 md:mb-16"
+        >
+          <img
+            src="/images/ekoncepto-logo branco.svg"
+            alt="E-Koncepto"
+            className="h-8 md:h-10 w-auto mx-auto"
+            width={245}
+            height={32}
+          />
+        </a>
+      </div>
+
       <div className="container mx-auto px-4 sm:px-6">
         <div className="max-w-4xl mx-auto">
           {/* Eyebrow — contextual to where they came from. */}
@@ -33,10 +51,10 @@ export const HeroShopee = () => {
             </span>
           </h1>
 
-          {/* Authority sub — one line, with the big number. */}
+          {/* Authority sub — one line, with the big number + multi-channel scope. */}
           <p className="text-xl md:text-2xl max-w-2xl mx-auto mb-12 text-white/95 font-medium">
-            O método que já moveu {socialProof.totalRevenue} em marketplaces — agora focado em fazer
-            suas vendas na Shopee decolarem.
+            O método que já moveu {socialProof.totalRevenue} em marketplaces — com expertise em
+            Mercado Livre, Amazon e Shopee para fazer suas vendas decolarem.
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-5">
@@ -63,13 +81,47 @@ export const HeroShopee = () => {
         </div>
 
         {/* Authority stats — white numbers pop on orange. */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto mb-14">
           {stats.map(stat => (
             <div key={stat.label} className="text-center">
               <div className="text-4xl md:text-5xl font-black text-white mb-2">{stat.value}</div>
               <div className="text-base text-white/90">{stat.label}</div>
             </div>
           ))}
+        </div>
+
+        {/*
+         * Multi-channel scope — subtle strip so a Shopee seller who also sells
+         * (or wants to sell) on ML/Amazon sees we cover those too. Kept visually
+         * quiet so it doesn't compete with the Shopee CTA above.
+         */}
+        <div className="max-w-2xl mx-auto">
+          <p className="text-center text-white/80 font-medium mb-4 text-sm sm:text-base">
+            Atendemos também nos principais marketplaces:
+          </p>
+          <div className="flex items-center justify-center gap-6 md:gap-10">
+            <img
+              src="/images/marketplaces/mercado-livre.svg"
+              alt="Mercado Livre"
+              className="h-8 md:h-10 w-auto bg-white/95 rounded-md p-2"
+              width={90}
+              height={28}
+            />
+            <img
+              src="/images/marketplaces/amazon.svg"
+              alt="Amazon"
+              className="h-8 md:h-10 w-auto bg-white/95 rounded-md p-2"
+              width={68}
+              height={22}
+            />
+            <img
+              src="/images/marketplaces/shopee.svg"
+              alt="Shopee"
+              className="h-8 md:h-10 w-auto bg-white/95 rounded-md p-2"
+              width={55}
+              height={18}
+            />
+          </div>
         </div>
       </div>
     </section>
