@@ -100,8 +100,8 @@ export const Process = () => {
               variants={itemVariants}
             >
               <div className="relative mb-6">
-                <div className="absolute -inset-2 bg-primary/10 rounded-full animate-pulse"></div>
-                <div className="relative flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary to-green-400 text-white rounded-full shadow-lg">
+                <div className="absolute -inset-2 bg-primary/10 rounded-full"></div>
+                <div className="relative flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary to-primary/60 text-white rounded-full shadow-lg">
                   {step.icon}
                 </div>
                 <div className="absolute -top-2 -right-2 w-8 h-8 bg-gray-900 text-white text-sm font-bold rounded-full flex items-center justify-center border-2 border-white">

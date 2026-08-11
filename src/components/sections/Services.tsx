@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { externalLinks, services } from '@/config/site';
+import { externalLinks, services, whatsappLink } from '@/config/site';
 import { ArrowRight, BarChart2, Rocket, Zap, TrendingUp, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -69,28 +69,28 @@ export const Services = () => {
                     <h3 className="text-xl font-bold mb-3">{service.name}</h3>
                     <p className="text-muted-foreground mb-4 flex-grow">{service.description}</p>
 
-                    <ul className="space-y-2 mb-6">
+                    <ul className="space-y-3 mb-6">
                       {service.features.map((feature, index) => (
                         <li key={index} className="flex items-start">
                           <Check className="size-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
-                          <span className="text-sm">{feature}</span>
+                          <span className="text-base">{feature}</span>
                         </li>
                       ))}
                     </ul>
                     <a
-                      className="inline-block mt-6"
-                      href={externalLinks.whatsapp}
+                      className="inline-block mt-6 w-full"
+                      href={whatsappLink(`services-${service.id}`)}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Falar com um especialista no WhatsApp"
                     >
                       <Button
-                        className="mt-auto w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+                        className="mt-auto w-full hover:bg-green-500 hover:text-white transition-colors"
                         variant="outline"
                         size="lg"
                       >
                         {service.cta}
-                        <ArrowRight className="ml-2 size-4 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight className="ml-2 size-4 transition-transform" />
                       </Button>
                     </a>
                   </div>
@@ -110,12 +110,12 @@ export const Services = () => {
           <p className="text-muted-foreground mb-6">Não encontrou o que procura?</p>
           <a
             className="inline-block mt-6"
-            href={externalLinks.whatsapp}
+            href={whatsappLink('services-default')}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Falar com um especialista no WhatsApp"
           >
-            <Button size="lg" className="bg-primary hover:bg-primary/90">
+            <Button size="lg" className="bg-green-500 hover:bg-green-600 text-white">
               Fale com nosso time
               <ArrowRight className="ml-2 size-4" />
             </Button>

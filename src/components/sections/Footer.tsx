@@ -47,7 +47,6 @@ export const Footer = () => {
       links: [
         { name: 'Meu Painel', href: 'https://app.ekoncepto.com' },
         { name: 'Início', href: '/' },
-        { name: 'Mercado', href: '#mercado' },
         { name: 'Metodologia', href: '#metodologia' },
         { name: 'Cases', href: '#cases' },
         { name: 'Serviços', href: '#servicos' },
@@ -194,13 +193,13 @@ export const Footer = () => {
           <div className="flex space-x-6">
             <a
               href="/termos-de-uso"
-              className="text-sm text-gray-400 hover:text-brand transition-colors duration-300"
+              className="text-sm text-gray-400 hover:text-primary transition-colors duration-300"
             >
               Termos de Uso
             </a>
             <a
               href="/politica-de-privacidade"
-              className="text-sm text-gray-400 hover:text-brand transition-colors duration-300"
+              className="text-sm text-gray-400 hover:text-primary transition-colors duration-300"
             >
               Política de Privacidade
             </a>

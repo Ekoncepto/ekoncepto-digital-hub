@@ -25,7 +25,6 @@ export const HeaderLp = () => {
   useEffect(() => {
     const sections = [
       'hero',
-      'mercado',
       'metodologia',
       'cases',
       'servicos',
@@ -52,7 +51,6 @@ export const HeaderLp = () => {
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
   const navLinks = [
-    { href: '#mercado', label: 'Mercado', id: 'mercado' },
     { href: '#metodologia', label: 'Metodologia', id: 'metodologia' },
     { href: '#cases', label: 'Cases', id: 'cases' },
     { href: '#servicos', label: 'Serviços', id: 'servicos' },

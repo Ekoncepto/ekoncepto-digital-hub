@@ -68,16 +68,16 @@ export const HeroLp = () => {
               href={whatsappLink('hero')}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 sm:px-10 rounded-lg text-lg sm:text-xl transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-green-500/30 animate-pulse"
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 sm:px-10 rounded-lg text-lg sm:text-xl transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-green-500/30"
               data-aos="fade-up"
               data-aos-delay="100"
               data-aos-duration="600"
             >
-              Quero parar de perder dinheiro
+              Quero meu diagnóstico gratuito
             </a>
             <a
               href="#cases"
-              className="bg-gray-800 hover:bg-gray-700 text-white font-bold py-4 px-8 sm:px-10 rounded-lg text-lg sm:text-xl transition-all duration-300 transform hover:scale-105"
+              className="bg-transparent border border-gray-600 text-white font-medium py-4 px-8 sm:px-10 rounded-lg text-base transition-all duration-300 hover:bg-gray-800"
               data-aos="fade-up"
               data-aos-delay="150"
               data-aos-duration="600"

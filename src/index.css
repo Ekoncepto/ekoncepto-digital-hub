@@ -103,6 +103,14 @@ All colors MUST be HSL.
     overflow-x: hidden;
   }
 
+  /* Offset anchor jumps so section headings aren't hidden behind the
+     80px (h-20) sticky header. Applies to every #cases, #metodologia,
+     #servicos, #processo, #about, #contato, #faq navigation click. */
+  html {
+    scroll-padding-top: 5rem;
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";

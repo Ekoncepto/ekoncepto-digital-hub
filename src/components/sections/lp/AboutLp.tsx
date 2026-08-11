@@ -1,8 +1,8 @@
 import React from 'react';
-import { businessInfo, externalLinks } from '@/config/site';
+import { businessInfo, whatsappLink, socialProof } from '@/config/site';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 import { motion } from 'framer-motion';
-import { Check, BarChart, Users, Zap, Award, Quote } from 'lucide-react';
+import { Check, BarChart, Users, Zap, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { FoundersGridLp } from '@/components/sections/lp/FoundersGridLp';
 
@@ -10,12 +10,16 @@ import { FoundersGridLp } from '@/components/sections/lp/FoundersGridLp';
  * LP-only About — identical to the home About section, except it renders
  * the Founders as a side-by-side grid (FoundersGridLp) instead of the
  * auto-playing carousel, so both partners are always visible at once.
+ *
+ * Stats now read from the centralized socialProof object so the page
+ * never contradicts itself (previously hardcoded R$100M+ while the hero
+ * showed +R$241M — a credibility killer for finance-literate B2B buyers).
  */
 export const AboutLp = () => {
   const stats = [
-    { value: '70%+', label: 'Crescimento médio em 6 meses', icon: BarChart },
-    { value: '90', label: 'NPS (Net Promoter Score)', icon: Award },
-    { value: 'R$100M+', label: 'Em vendas geradas', icon: Zap },
+    { value: socialProof.averageGrowth, label: socialProof.averageGrowthDescription, icon: BarChart },
+    { value: socialProof.nps, label: socialProof.npsDescription, icon: Award },
+    { value: socialProof.totalRevenue, label: socialProof.totalRevenueDescription, icon: Zap },
   ];
 
   const features = [
@@ -23,21 +27,6 @@ export const AboutLp = () => {
     'Metodologia própria e validada',
     'Suporte dedicado e consultoria personalizada',
     'Relatórios semanais de desempenho',
-  ];
-
-  const testimonials = [
-    {
-      quote:
-        'A E-Koncepto transformou nosso negócio. Em 4 meses já tivemos um crescimento de 120% nas vendas.',
-      author: 'Carlos Silva',
-      role: 'Diretor Comercial - Moda Esportiva',
-    },
-    {
-      quote:
-        'A equipe é incrível! Nos ajudaram a estruturar nossa operação do zero e hoje somos destaque no segmento.',
-      author: 'Juliana Mendes',
-      role: 'CEO - Casa & Decoração',
-    },
   ];
 
   const container = {
@@ -149,9 +138,9 @@ export const AboutLp = () => {
             </ul>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <a href={externalLinks.whatsapp} target="_blank" rel="noopener noreferrer">
-                <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
-                  <span>Fale com um especialista</span>
+              <a href={whatsappLink('contact')} target="_blank" rel="noopener noreferrer">
+                <Button size="lg" className="bg-green-500 hover:bg-green-600 text-white">
+                  Fale com um especialista
                 </Button>
               </a>
               <a href="#metodologia">
@@ -168,32 +157,11 @@ export const AboutLp = () => {
           </motion.div>
         </div>
 
-        {/* Testimonials */}
-        <motion.div
-          className="mt-24 grid md:grid-cols-2 gap-8 mb-24"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-        >
-          {testimonials.map((testimonial, index) => (
-            <div key={index} className="bg-muted/30 p-6 rounded-xl relative">
-              <Quote className="absolute top-6 right-6 size-8 text-muted-foreground/20" />
-              <p className="text-lg italic mb-6">"{testimonial.quote}"</p>
-              <div className="flex items-center">
-                <div className="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold mr-4">
-                  {testimonial.author.charAt(0)}
-                </div>
-                <div>
-                  <p className="font-semibold">{testimonial.author}</p>
-                  <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* Founders — grid (both always visible) instead of carousel. */}
+        {/* Founders — grid (both always visible) instead of carousel.
+            Testimonials block removed: anonymous quotes without photo/
+            company/metric read as fabricated and reduce credibility vs.
+            the real numbered SuccessCases above. Add back when we have
+            real, attributable testimonials. */}
         <FoundersGridLp />
       </div>
     </section>
