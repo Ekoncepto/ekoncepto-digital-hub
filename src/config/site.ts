@@ -108,6 +108,39 @@ export const externalLinks = {
   //blog: 'https://blog.ekoncepto.com.br',
 };
 
+/**
+ * WhatsApp deep link builder with contextual pre-filled messages.
+ * Lets us attribute inbound leads to the section/button they clicked,
+ * without needing analytics. The `source` key selects the message.
+ *
+ * Usage: <a href={whatsappLink('hero')}>...</a>
+ */
+const WHATSAPP_MESSAGES: Record<string, string> = {
+  hero: 'Olá! Vim pelo site e quero falar com um especialista para acelerar minhas vendas em marketplaces.',
+  cases:
+    'Olá! Vi os resultados de vocês e quero entender como aplicar isso na minha operação.',
+  'services-estrategia':
+    'Olá! Tenho interesse na Estratégia de Marketplace. Pode me passar mais detalhes?',
+  'services-implementacao':
+    'Olá! Quero começar — minha loja operando em até 15 dias.',
+  'services-escala':
+    'Olá! Já vendo e quero escalar pro próximo nível com vocês.',
+  contact:
+    'Olá! Quero meu diagnóstico gratuito e o plano de ação para os próximos 90 dias.',
+  header: 'Olá! Gostaria de falar com um especialista da E-Koncepto.',
+  floating: 'Olá! Vim pelo site e gostaria de falar com um especialista.',
+  default:
+    'Olá! Gostaria de mais informações sobre a consultoria.',
+};
+
+export function whatsappLink(
+  source: keyof typeof WHATSAPP_MESSAGES | string = 'default',
+  customMessage?: string
+): string {
+  const message = customMessage ?? WHATSAPP_MESSAGES[source] ?? WHATSAPP_MESSAGES.default;
+  return `https://wa.me/${contactInfo.whatsapp}?text=${encodeURIComponent(message)}`;
+}
+
 // Analytics and Tracking
 export const analytics = {
   googleAnalyticsId: import.meta.env.VITE_GA_MEASUREMENT_ID,

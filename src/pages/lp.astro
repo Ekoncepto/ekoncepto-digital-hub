@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Index from '../react_pages/Index.tsx';
+import Lp from '../react_pages/Lp.tsx';
 import SEO from '@/components/SEO.astro';
 import { businessInfo } from '@/config/site';
 
@@ -14,5 +14,5 @@ const description = businessInfo.tagline;
         description={description}
         canonical="/"
     />
-	<Index client:load />
+	<Lp client:load />
 </Layout>

@@ -23,6 +23,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.zcode/
 
 # Ignore environment variables file
 .env
