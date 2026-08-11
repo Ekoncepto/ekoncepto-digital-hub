@@ -108,11 +108,66 @@ export const externalLinks = {
   //blog: 'https://blog.ekoncepto.com.br',
 };
 
+/**
+ * WhatsApp deep link builder with contextual pre-filled messages.
+ * Lets us attribute inbound leads to the section/button they clicked,
+ * without needing analytics. The `source` key selects the message.
+ *
+ * Usage: <a href={whatsappLink('hero')}>...</a>
+ */
+const WHATSAPP_MESSAGES: Record<string, string> = {
+  hero: 'Olá! Vim pelo site e quero falar com um especialista para acelerar minhas vendas em marketplaces.',
+  cases:
+    'Olá! Vi os resultados de vocês e quero entender como aplicar isso na minha operação.',
+  'services-estrategia':
+    'Olá! Tenho interesse na Estratégia de Marketplace. Pode me passar mais detalhes?',
+  'services-implementacao':
+    'Olá! Quero começar — minha loja operando em até 15 dias.',
+  'services-escala':
+    'Olá! Já vendo e quero escalar pro próximo nível com vocês.',
+  contact:
+    'Olá! Quero meu diagnóstico gratuito e o plano de ação para os próximos 90 dias.',
+  header: 'Olá! Gostaria de falar com um especialista da E-Koncepto.',
+  floating: 'Olá! Vim pelo site e gostaria de falar com um especialista.',
+  default:
+    'Olá! Gostaria de mais informações sobre a consultoria.',
+};
+
+export function whatsappLink(
+  source: keyof typeof WHATSAPP_MESSAGES | string = 'default',
+  customMessage?: string
+): string {
+  const message = customMessage ?? WHATSAPP_MESSAGES[source] ?? WHATSAPP_MESSAGES.default;
+  return `https://wa.me/${contactInfo.whatsapp}?text=${encodeURIComponent(message)}`;
+}
+
 // Analytics and Tracking
 export const analytics = {
   googleAnalyticsId: import.meta.env.VITE_GA_MEASUREMENT_ID,
   googleTagManagerId: import.meta.env.VITE_GTM_ID,
   facebookPixelId: import.meta.env.VITE_FACEBOOK_PIXEL_ID,
+};
+
+/**
+ * Social proof metrics used across the site (hero, cases, contact).
+ * Centralized so all surfaces stay in sync and are easy to update.
+ *
+ * Notes:
+ * - `totalRevenue` = all-time GMV moved through our clients' marketplaces.
+ * - Use the absolute figure (+R$ 241M) for authority; the 2026 figure
+ *   (+R$ 80M) can be surfaced later if we want a "this year" angle.
+ */
+export const socialProof = {
+  totalRevenue: '+R$ 241M',
+  totalRevenueDescription: 'movimentados em marketplaces',
+  revenue2026: '+R$ 80M',
+  revenue2026Description: 'movimentados só em 2026',
+  averageGrowth: '+70%',
+  averageGrowthDescription: 'crescimento médio em 6 meses',
+  nps: '90',
+  npsDescription: 'NPS — satisfação dos clientes',
+  brandsServed: '50+',
+  brandsServedDescription: 'marcas aceleradas em ML, Amazon e Shopee',
 };
 
 // Site Metadata for SEO
