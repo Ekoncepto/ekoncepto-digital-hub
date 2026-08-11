@@ -14,11 +14,15 @@ import { whatsappLink, socialProof } from '@/config/site';
 const CasesShopee = () => {
   const [isMobile, setIsMobile] = useState(false);
 
-  const formatSectorName = (sector: string) =>
-    sector
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+  // Manual map with correct Portuguese accents — the generic capitalize
+  // helper was outputting "Material Eletrico" (no accent), which looks sloppy.
+  const sectorLabels: Record<string, string> = {
+    'material-eletrico': 'Material Elétrico',
+    'equipamentos-hospitalares': 'Equipamentos Hospitalares',
+    'higiene-beleza-animal': 'Higiene e Beleza Animal',
+    magazine: 'Magazine',
+  };
+  const formatSectorName = (sector: string) => sectorLabels[sector] ?? 'Outros';
 
   const cases = [
     {
@@ -104,7 +108,7 @@ const CasesShopee = () => {
           {cases.map(caseItem => (
             <motion.div
               key={caseItem.id}
-              className="bg-white border border-gray-100 rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition-all duration-300 h-full flex flex-col items-center relative overflow-hidden group"
+              className="bg-white border border-gray-200 rounded-2xl p-6 text-center shadow-md hover:shadow-lg transition-all duration-300 h-full flex flex-col items-center relative overflow-hidden group"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{
                 opacity: 1,
@@ -118,7 +122,7 @@ const CasesShopee = () => {
                   : {}
               }
             >
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#EE4D2D] to-[#F69E15]"></div>
+              <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#EE4D2D] to-[#F69E15]"></div>
 
               <div className="relative z-10 h-full flex flex-col items-center">
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors duration-300">

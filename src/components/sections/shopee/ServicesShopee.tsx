@@ -23,7 +23,7 @@ const services = [
     id: 'diagnostico',
     name: 'Diagnóstico Shopee',
     description:
-      'Análise completa da sua conta, anúncios e concorrência na Shopee. Plano de ação em 7 dias.',
+      'Análise completa da sua conta, anúncios e concorrência na Shopee. Plano de ação de 90 dias.',
     icon: 'search',
     cta: 'Quero o diagnóstico',
     source: 'shopee-services-diagnostico',
@@ -134,7 +134,11 @@ const ServicesShopee = () => {
                   href={whatsappLink(service.source)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full text-center bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md"
+                  className={`block w-full text-center font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 ${
+                    service.id === 'diagnostico'
+                      ? 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-md'
+                      : 'bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white'
+                  }`}
                 >
                   {service.cta}
                 </a>

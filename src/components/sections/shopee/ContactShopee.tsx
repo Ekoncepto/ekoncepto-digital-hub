@@ -2,9 +2,14 @@ import { MessageCircle, Phone, Mail, ShieldCheck, Sparkles } from 'lucide-react'
 import { contactInfo, whatsappLink, socialProof } from '@/config/site';
 
 /**
- * /shopee Contact — climax section, dark orange background so the yellow
- * CTA button pops. Names the 3 deliverables of the free diagnostic,
- * surfaces phone/email, and ends with risk-reversal + micro proof.
+ * /shopee Contact — climax section, dark orange background.
+ *
+ * Order matters: H2 → paragraph → CTA (immediately, before the fold of
+ * the section) → "what you get" reinforcement → risk reversal → channels.
+ * Users who scrolled here are high-intent; show the action first.
+ *
+ * Timeframes are standardized across the page: 1 dia util (response SLA),
+ * 30 min (call length), 90 dias (plan horizon). Don't mix "7 dias" here.
  */
 export const ContactShopee = () => {
   const phoneDigits = contactInfo.phone.replace(/[^\d+]/g, '');
@@ -16,16 +21,36 @@ export const ContactShopee = () => {
           <Sparkles className="w-10 h-10 text-[#F69E15]" />
         </div>
 
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
           Pronto para dominar a Shopee?
         </h2>
-        <p className="text-white/90 text-lg mt-4 max-w-2xl mx-auto">
+        <p className="text-white/90 text-lg mt-3 max-w-2xl mx-auto mb-8">
           Em 30 minutos de diagnóstico, mostramos onde sua operação na Shopee está perdendo dinheiro
           — e o caminho para os seus próprios números aqui em cima.
         </p>
 
-        {/* What you get — dark card on dark bg. */}
-        <div className="bg-white/10 border border-white/20 rounded-xl p-6 mt-8 mb-8 max-w-2xl mx-auto text-left backdrop-blur-sm">
+        {/* CTA FIRST — high-intent users should see the action immediately. */}
+        <a
+          className="inline-block mb-4"
+          href={whatsappLink('shopee-contact')}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Falar com um especialista no WhatsApp"
+        >
+          <span className="inline-flex items-center justify-center bg-[#EE4D2D] hover:bg-[#c93a18] text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-xl ring-2 ring-white/30">
+            <MessageCircle className="mr-2" />
+            Quero meu diagnóstico Shopee
+          </span>
+        </a>
+
+        {/* Risk reversal right under the CTA. */}
+        <div className="flex items-center justify-center gap-2 mb-10 text-base text-white/90">
+          <ShieldCheck className="w-5 h-5 text-[#F69E15]" />
+          <span>Gratuito · Sem compromisso · Resposta em 1 dia útil</span>
+        </div>
+
+        {/* What you get — reinforcement after the CTA. */}
+        <div className="bg-white/10 border border-white/25 rounded-xl p-6 mb-10 max-w-2xl mx-auto text-left backdrop-blur-sm">
           <p className="font-semibold text-white mb-4 text-center text-lg">
             No diagnóstico gratuito, você recebe:
           </p>
@@ -45,27 +70,8 @@ export const ContactShopee = () => {
           </ul>
         </div>
 
-        <a
-          className="inline-block"
-          href={whatsappLink('shopee-contact')}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Falar com um especialista no WhatsApp"
-        >
-          <span className="inline-flex items-center justify-center bg-[#F69E15] hover:bg-[#e08e0a] text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-xl animate-pulse">
-            <MessageCircle className="mr-2" />
-            Quero meu diagnóstico Shopee
-          </span>
-        </a>
-
-        {/* Risk reversal. */}
-        <div className="flex items-center justify-center gap-2 mt-6 text-base text-white/90">
-          <ShieldCheck className="w-5 h-5 text-[#F69E15]" />
-          <span>Gratuito · Sem compromisso · Resposta em até 1 dia útil</span>
-        </div>
-
         {/* Micro proof. */}
-        <p className="text-base text-white/80 mt-3 mb-10">
+        <p className="text-base text-white/80 mb-10">
           {socialProof.totalRevenue} já movimentados para nossos clientes em marketplaces.
         </p>
 
@@ -87,7 +93,7 @@ export const ContactShopee = () => {
           </a>
         </div>
 
-        <p className="text-sm text-white/70 mt-4">
+        <p className="text-sm text-white/80 mt-4">
           Atendimento: {contactInfo.workingHours}
         </p>
       </div>

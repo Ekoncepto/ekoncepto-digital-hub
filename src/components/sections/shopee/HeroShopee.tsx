@@ -18,20 +18,19 @@ export const HeroShopee = () => {
 
   return (
     <section className="text-white text-center py-12 md:py-16 lg:py-20 bg-gradient-to-br from-[#EE4D2D] to-[#F69E15]">
-      {/* Brand identity — logo (dark variant) on a white pill so it stays
-          legible on the orange gradient. Links to home. */}
+      {/* Brand identity — white logo, links to home. */}
       <div className="container mx-auto px-4 sm:px-6">
         <a
           href="/"
           aria-label="E-Koncepto"
-          className="inline-block mb-8 md:mb-10 bg-white/95 rounded-full px-5 py-2 shadow-md"
+          className="inline-block mb-8 md:mb-10"
         >
           <img
-            src="/images/ekoncepto-logo.svg"
+            src="/images/ekoncepto-logo branco.svg"
             alt="E-Koncepto"
-            className="h-7 md:h-8 w-auto"
-            width={215}
-            height={28}
+            className="h-8 md:h-10 w-auto mx-auto"
+            width={245}
+            height={32}
           />
         </a>
       </div>
@@ -44,31 +43,31 @@ export const HeroShopee = () => {
           </p>
 
           {/* Seller-pain headline — provokes the specific Shopee frustration. */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[1.1] mb-6">
             Seus anúncios na Shopee não vendem?{' '}
-            <span className="underline decoration-4 underline-offset-4">
+            <span className="underline decoration-2 underline-offset-4">
               É falta de método, não de sorte.
             </span>
           </h1>
 
           {/* Authority sub — one line, with the big number + multi-channel scope. */}
-          <p className="text-xl md:text-2xl max-w-2xl mx-auto mb-12 text-white/95 font-medium">
+          <p className="text-lg md:text-xl max-w-2xl mx-auto mb-10 text-white/95 font-medium">
             O método que já moveu {socialProof.totalRevenue} em marketplaces — com expertise em
             Mercado Livre, Amazon e Shopee para fazer suas vendas decolarem.
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-5">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-4">
             <a
               href={whatsappLink('shopee-hero')}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white hover:bg-gray-100 text-[#EE4D2D] font-bold py-4 px-8 sm:px-10 rounded-lg text-lg sm:text-xl transition-all duration-300 transform hover:scale-105 shadow-xl"
+              className="bg-[#EE4D2D] hover:bg-[#d4421f] text-white font-bold py-4 px-8 sm:px-10 rounded-lg text-base sm:text-lg transition-all duration-300 transform hover:scale-105 shadow-xl ring-2 ring-white/30"
             >
-              Quero vender mais na Shopee
+              Quero vender mais
             </a>
             <a
               href="#cases"
-              className="bg-[#F69E15] hover:bg-[#e08e0a] text-white font-bold py-4 px-8 sm:px-10 rounded-lg text-lg sm:text-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="bg-transparent border-2 border-white text-white font-bold py-4 px-8 sm:px-10 rounded-lg text-base sm:text-lg transition-all duration-300 transform hover:scale-105 hover:bg-white hover:text-[#EE4D2D]"
             >
               Ver quem já escalou
             </a>
