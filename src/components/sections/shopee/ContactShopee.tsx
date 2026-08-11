@@ -10,7 +10,7 @@ export const ContactShopee = () => {
   const phoneDigits = contactInfo.phone.replace(/[^\d+]/g, '');
 
   return (
-    <section id="contato" className="py-16 md:py-24 bg-[#d4421f] text-white">
+    <section id="contato" className="py-12 md:py-16 lg:py-20 bg-[#d4421f] text-white">
       <div className="container text-center max-w-3xl mx-auto px-4">
         <div className="flex justify-center mb-4">
           <Sparkles className="w-10 h-10 text-[#F69E15]" />

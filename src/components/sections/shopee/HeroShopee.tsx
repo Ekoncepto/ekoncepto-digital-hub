@@ -17,21 +17,21 @@ export const HeroShopee = () => {
   ];
 
   return (
-    <section className="text-white text-center py-20 md:py-28 lg:py-36 bg-gradient-to-br from-[#EE4D2D] to-[#F69E15]">
-      {/* Brand identity — logo only, no header bar. Links to home so visitors
-          who want to know more about the company can leave cleanly. */}
+    <section className="text-white text-center py-12 md:py-16 lg:py-20 bg-gradient-to-br from-[#EE4D2D] to-[#F69E15]">
+      {/* Brand identity — logo (dark variant) on a white pill so it stays
+          legible on the orange gradient. Links to home. */}
       <div className="container mx-auto px-4 sm:px-6">
         <a
           href="/"
           aria-label="E-Koncepto"
-          className="inline-block mb-12 md:mb-16"
+          className="inline-block mb-8 md:mb-10 bg-white/95 rounded-full px-5 py-2 shadow-md"
         >
           <img
-            src="/images/ekoncepto-logo branco.svg"
+            src="/images/ekoncepto-logo.svg"
             alt="E-Koncepto"
-            className="h-8 md:h-10 w-auto mx-auto"
-            width={245}
-            height={32}
+            className="h-7 md:h-8 w-auto"
+            width={215}
+            height={28}
           />
         </a>
       </div>

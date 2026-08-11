@@ -3,7 +3,7 @@ import HeroShopee from '@/components/sections/shopee/HeroShopee';
 import CasesShopee from '@/components/sections/shopee/CasesShopee';
 import ServicesShopee from '@/components/sections/shopee/ServicesShopee';
 import ContactShopee from '@/components/sections/shopee/ContactShopee';
-import { FoundersGridLp } from '@/components/sections/lp/FoundersGridLp';
+import FoundersShopee from '@/components/sections/shopee/FoundersShopee';
 import { Footer } from '@/components/sections/Footer';
 
 /**
@@ -28,7 +28,7 @@ const Shopee = () => {
         <HeroShopee />
         <CasesShopee />
         <ServicesShopee />
-        <FoundersGridLp />
+        <FoundersShopee />
         <ContactShopee />
       </main>
 
