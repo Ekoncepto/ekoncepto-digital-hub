@@ -6,7 +6,9 @@ import ErrorBoundary from '@/components/common/ErrorBoundary';
 
 // Reuse unchanged sections from the home — only the four conversion-critical
 // sections (Header, Hero, SuccessCases, ContactCTA) are swapped for their -lp variants.
-import MarketOverview from '@/components/sections/MarketOverview';
+// MarketOverview is intentionally omitted on /lp: that section sells the e-commerce
+// opportunity itself, but /lp targets warm leads who already sell on marketplaces.
+// It stays on the home page where it serves organic/cold traffic and SEO.
 import { Methodology } from '@/components/sections/Methodology';
 import SuccessCasesLp from '@/components/sections/lp/SuccessCasesLp';
 import { Services } from '@/components/sections/Services';
@@ -22,9 +24,6 @@ const Lp = () => {
 
       <main>
         <HeroLp />
-        <ErrorBoundary>
-          <MarketOverview />
-        </ErrorBoundary>
         <ErrorBoundary>
           <Methodology />
         </ErrorBoundary>

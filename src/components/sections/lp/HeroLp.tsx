@@ -39,7 +39,7 @@ export const HeroLp = () => {
   ];
 
   return (
-    <section className="bg-white text-foreground text-center py-16 md:py-24 lg:py-32">
+    <section className="bg-gray-900 text-white text-center py-20 md:py-28 lg:py-36">
       <div className="container mx-auto px-4 sm:px-6">
         <div
           className="max-w-4xl mx-auto animate-fade-in-up"
@@ -47,28 +47,28 @@ export const HeroLp = () => {
           data-aos-duration="800"
         >
           {/* Eyebrow — authority marker, no fluff. */}
-          <p className="inline-block text-xs sm:text-sm font-semibold tracking-wider uppercase text-primary mb-6 border border-primary/30 rounded-full px-4 py-1.5">
+          <p className="inline-block text-sm md:text-base font-semibold tracking-wider uppercase text-primary mb-8 border border-primary/30 rounded-full px-5 py-2">
             Especialistas que estiveram dentro do Mercado Livre
           </p>
 
-          {/* Punchy headline — FOMO + contrast, à la Mamba. Short and aggressive. */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] mb-5">
+          {/* Punchy headline — FOMO + contrast, big and bold for impact. */}
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] mb-6">
             Enquanto você tenta sozinho, seus{' '}
             <span className="text-primary">concorrentes faturam 3x mais.</span>
           </h1>
 
-          {/* One-line subheadline — curiosity + path forward, no paragraph. */}
-          <p className="text-lg md:text-2xl max-w-2xl mx-auto mb-10 text-muted-foreground font-medium">
+          {/* One-line subheadline — bright enough to read on dark bg. */}
+          <p className="text-xl md:text-2xl max-w-2xl mx-auto mb-12 text-gray-200 font-medium">
             O método que já moveu {socialProof.totalRevenue} em marketplaces — aplicado ao seu
             negócio em até 90 dias.
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-5">
             <a
               href={whatsappLink('hero')}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 sm:px-10 rounded-lg text-base sm:text-xl transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-green-500/30 animate-pulse"
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 sm:px-10 rounded-lg text-lg sm:text-xl transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-green-500/30 animate-pulse"
               data-aos="fade-up"
               data-aos-delay="100"
               data-aos-duration="600"
@@ -77,7 +77,7 @@ export const HeroLp = () => {
             </a>
             <a
               href="#cases"
-              className="bg-gray-800 hover:bg-gray-700 text-white font-bold py-4 px-8 sm:px-10 rounded-lg text-base sm:text-xl transition-all duration-300 transform hover:scale-105"
+              className="bg-gray-800 hover:bg-gray-700 text-white font-bold py-4 px-8 sm:px-10 rounded-lg text-lg sm:text-xl transition-all duration-300 transform hover:scale-105"
               data-aos="fade-up"
               data-aos-delay="150"
               data-aos-duration="600"
@@ -86,33 +86,33 @@ export const HeroLp = () => {
             </a>
           </div>
 
-          {/* Friction reducer — single line, tight. */}
-          <p className="text-sm text-muted-foreground/70 mb-12">
+          {/* Friction reducer — brighter on dark bg. */}
+          <p className="text-base text-gray-300 mb-14">
             Diagnóstico gratuito · Resposta em 1 dia útil
           </p>
         </div>
 
-        {/* Authority stats — the proof that backs the headline. */}
+        {/* Authority stats — big numbers on dark for drama. */}
         <div
-          className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto mb-12"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto mb-14"
           data-aos="fade-up"
           data-aos-delay="150"
         >
           {stats.map(stat => (
             <div key={stat.label} className="text-center">
-              <div className="text-3xl md:text-4xl font-black text-primary mb-1">{stat.value}</div>
-              <div className="text-sm text-muted-foreground">{stat.label}</div>
+              <div className="text-4xl md:text-5xl font-black text-primary mb-2">{stat.value}</div>
+              <div className="text-base text-gray-300">{stat.label}</div>
             </div>
           ))}
         </div>
 
-        {/* Marketplace logos — positioned as "we know the rules of the game". */}
+        {/* Marketplace logos — dark card on dark bg, white inner cards pop. */}
         <div
-          className="bg-muted/50 py-8 mt-12 md:mt-16 rounded-xl"
+          className="bg-gray-800/50 py-8 mt-12 md:mt-16 rounded-xl backdrop-blur-sm"
           data-aos="fade-up"
           data-aos-delay="200"
         >
-          <p className="text-center text-muted-foreground font-medium mb-6 text-sm sm:text-base">
+          <p className="text-center text-gray-200 font-medium mb-6 text-base sm:text-lg">
             Conhecemos os bastidores dos maiores canais de venda do Brasil:
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 items-center justify-items-center">
@@ -126,7 +126,7 @@ export const HeroLp = () => {
                 className="marketplace-logo transform translate-y-4 hover:scale-110 transition-all duration-500"
                 style={{ animationDelay: `${200 + index * 100}ms` }}
               >
-                <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+                <div className="bg-white/90 p-5 rounded-lg backdrop-blur-sm">
                   <img
                     src={marketplace.src}
                     alt={marketplace.alt}

@@ -97,7 +97,7 @@ const SuccessCasesLp = () => {
   }, []);
 
   return (
-    <section id="cases" className="py-16 md:py-24 bg-white overflow-hidden">
+    <section id="cases" className="py-16 md:py-24 bg-gray-900 text-white overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6">
         <motion.div
           className="text-center mb-12 md:mb-16"
@@ -106,11 +106,11 @@ const SuccessCasesLp = () => {
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5">
             Isso é o que acontece quando você para de{' '}
             <span className="text-primary">chutar</span> e começa a jogar com dados.
           </h2>
-          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
             Não são estimativas. São resultados reais, com tempo de operação e setor. O mesmo método
             que construímos dentro das plataformas — aplicado à sua marca.
           </p>
@@ -120,7 +120,7 @@ const SuccessCasesLp = () => {
           {cases.map(caseItem => (
             <motion.div
               key={caseItem.id}
-              className="bg-white border border-gray-100 rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition-all duration-300 h-full flex flex-col items-center relative overflow-hidden group"
+              className="bg-gray-800 border border-gray-700 rounded-2xl p-6 text-center transition-all duration-300 h-full flex flex-col items-center relative overflow-hidden group"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{
                 opacity: 1,
@@ -130,23 +130,23 @@ const SuccessCasesLp = () => {
               viewport={{ once: true, margin: '-50px' }}
               whileHover={
                 !isMobile
-                  ? { y: -5, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }
+                  ? { y: -5, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5)', borderColor: 'rgb(var(--primary))' }
                   : {}
               }
             >
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary"></div>
 
               <div className="relative z-10 h-full flex flex-col items-center">
-                <div className="w-16 h-16 bg-primary/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-primary/10 transition-colors duration-300">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors duration-300">
                   <SectorIcon sector={caseItem.sector} />
                 </div>
 
-                <p className="text-sm font-medium text-gray-500 mb-1">{caseItem.headline}</p>
-                <h3 className="text-4xl font-bold text-gray-900 mb-2">{caseItem.value}</h3>
-                <p className="text-sm font-medium text-gray-600 mb-4">{caseItem.description}</p>
+                <p className="text-sm font-medium text-gray-400 mb-1">{caseItem.headline}</p>
+                <h3 className="text-3xl md:text-4xl font-bold text-primary mb-2">{caseItem.value}</h3>
+                <p className="text-base font-medium text-gray-300 mb-4">{caseItem.description}</p>
 
-                <div className="mt-auto pt-4 w-full border-t border-gray-100">
-                  <span className="inline-flex items-center text-xs font-medium text-gray-500">
+                <div className="mt-auto pt-4 w-full border-t border-gray-700">
+                  <span className="inline-flex items-center text-sm font-medium text-gray-400">
                     Setor: {formatSectorName(caseItem.sector)}
                   </span>
                 </div>
@@ -157,19 +157,19 @@ const SuccessCasesLp = () => {
 
         {/* CTA at peak persuasion — capitalize on the moment of belief. */}
         <motion.div
-          className="mt-12 md:mt-16 text-center bg-gray-50 border border-gray-100 rounded-2xl p-8 md:p-12"
+          className="mt-12 md:mt-16 text-center bg-gray-800/50 border border-gray-700 rounded-2xl p-8 md:p-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.6 }}
         >
           <div className="flex items-center justify-center mb-4">
-            <Target className="w-8 h-8 text-primary" />
+            <Target className="w-10 h-10 text-primary" />
           </div>
-          <h3 className="text-2xl md:text-3xl font-bold mb-3">
+          <h3 className="text-2xl md:text-3xl font-bold mb-4">
             Esses resultados podem ser os seus próximos 90 dias.
           </h3>
-          <p className="text-muted-foreground max-w-2xl mx-auto mb-6">
+          <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-8">
             Já movimentamos {socialProof.totalRevenue} em marketplaces para {socialProof.brandsServed}{' '}
             marcas. No diagnóstico gratuito, mostramos exatamente onde estão as suas maiores
             oportunidades — e o plano para capturá-las.
@@ -178,7 +178,7 @@ const SuccessCasesLp = () => {
             href={whatsappLink('cases')}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg text-base sm:text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+            className="inline-flex items-center justify-center bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
           >
             Quero resultados assim
           </a>
