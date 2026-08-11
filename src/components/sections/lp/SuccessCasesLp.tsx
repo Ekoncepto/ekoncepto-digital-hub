@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { HeartPulse, Zap, PawPrint, ShoppingCart, Box, TrendingUp } from 'lucide-react';
-import { whatsappLink } from '@/config/site';
+import { HeartPulse, Zap, PawPrint, ShoppingCart, Box, Target } from 'lucide-react';
+import { whatsappLink, socialProof } from '@/config/site';
 
 interface SuccessCase {
   id: number;
-  title: string;
+  headline: string;
   value: string;
   description: string;
   delay?: number;
@@ -35,9 +35,13 @@ const SectorIcon = ({ sector }: { sector: string }) => {
 };
 
 /**
- * LP-only SuccessCases — keeps the strong metric cards from the home,
- * then capitalizes on the peak-persuasion moment with a contextual
- * WhatsApp CTA right below them ("Quero resultados assim").
+ * LP-only SuccessCases — same strong metric cards, but reframed as the
+ * natural consequence of our insider methodology, and closed with a
+ * contextual CTA at the peak-persuasion moment.
+ *
+ * Copy strategy: numbers without attribution are suspicious in B2B.
+ * We pair each number with a sector and a timeframe, then frame the
+ * whole block as "this is what happens when you stop guessing".
  */
 const SuccessCasesLp = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -51,7 +55,7 @@ const SuccessCasesLp = () => {
   const cases: SuccessCase[] = [
     {
       id: 1,
-      title: 'Crescimento de',
+      headline: 'De operação estagnada a',
       value: '+R$ 2 milhões/mês',
       description: 'em vendas em apenas 4 meses',
       delay: 0.1,
@@ -59,7 +63,7 @@ const SuccessCasesLp = () => {
     },
     {
       id: 2,
-      title: 'De zero a',
+      headline: 'Do zero a',
       value: '+R$ 152 mil/mês',
       description: 'em 2 meses após o lançamento',
       delay: 0.2,
@@ -67,17 +71,17 @@ const SuccessCasesLp = () => {
     },
     {
       id: 3,
-      title: 'Aumento de',
-      value: '+89% no faturamento',
-      description: 'em apenas 1 mês',
+      headline: 'Faturamento escalado em',
+      value: '+89%',
+      description: 'já no primeiro mês de operação',
       delay: 0.3,
       sector: 'magazine',
     },
     {
       id: 4,
-      title: 'Crescimento de',
+      headline: 'Liderança de categoria com',
       value: '+239% em vendas',
-      description: 'em 6 meses',
+      description: 'em 6 meses de gestão',
       delay: 0.4,
       sector: 'higiene-beleza-animal',
     },
@@ -103,11 +107,12 @@ const SuccessCasesLp = () => {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            Resultados que <span className="text-primary">falam por si.</span>
+            Isso é o que acontece quando você para de{' '}
+            <span className="text-primary">chutar</span> e começa a jogar com dados.
           </h2>
           <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
-            Não prometemos, nós provamos. Veja o que nossa metodologia fez por alguns de nossos
-            clientes.
+            Não são estimativas. São resultados reais, com tempo de operação e setor. O mesmo método
+            que construímos dentro das plataformas — aplicado à sua marca.
           </p>
         </motion.div>
 
@@ -136,15 +141,13 @@ const SuccessCasesLp = () => {
                   <SectorIcon sector={caseItem.sector} />
                 </div>
 
+                <p className="text-sm font-medium text-gray-500 mb-1">{caseItem.headline}</p>
                 <h3 className="text-4xl font-bold text-gray-900 mb-2">{caseItem.value}</h3>
-
-                <p className="text-sm font-medium text-gray-600 mb-4">
-                  {caseItem.title} {caseItem.description}
-                </p>
+                <p className="text-sm font-medium text-gray-600 mb-4">{caseItem.description}</p>
 
                 <div className="mt-auto pt-4 w-full border-t border-gray-100">
                   <span className="inline-flex items-center text-xs font-medium text-gray-500">
-                    Empresa do setor de {formatSectorName(caseItem.sector)}
+                    Setor: {formatSectorName(caseItem.sector)}
                   </span>
                 </div>
               </div>
@@ -152,7 +155,7 @@ const SuccessCasesLp = () => {
           ))}
         </div>
 
-        {/* CTA at peak persuasion — the home version stops here with no action. */}
+        {/* CTA at peak persuasion — capitalize on the moment of belief. */}
         <motion.div
           className="mt-12 md:mt-16 text-center bg-gray-50 border border-gray-100 rounded-2xl p-8 md:p-12"
           initial={{ opacity: 0, y: 20 }}
@@ -161,14 +164,15 @@ const SuccessCasesLp = () => {
           transition={{ duration: 0.6 }}
         >
           <div className="flex items-center justify-center mb-4">
-            <TrendingUp className="w-8 h-8 text-primary" />
+            <Target className="w-8 h-8 text-primary" />
           </div>
           <h3 className="text-2xl md:text-3xl font-bold mb-3">
-            Quer resultados assim na sua operação?
+            Esses resultados podem ser os seus próximos 90 dias.
           </h3>
           <p className="text-muted-foreground max-w-2xl mx-auto mb-6">
-            Mais de 50 marcas atendidas em Mercado Livre, Amazon e Shopee. Receba um diagnóstico
-            gratuito e descubra onde estão as suas maiores oportunidades.
+            Já movimentamos {socialProof.totalRevenue} em marketplaces para {socialProof.brandsServed}{' '}
+            marcas. No diagnóstico gratuito, mostramos exatamente onde estão as suas maiores
+            oportunidades — e o plano para capturá-las.
           </p>
           <a
             href={whatsappLink('cases')}

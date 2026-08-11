@@ -148,6 +148,28 @@ export const analytics = {
   facebookPixelId: import.meta.env.VITE_FACEBOOK_PIXEL_ID,
 };
 
+/**
+ * Social proof metrics used across the site (hero, cases, contact).
+ * Centralized so all surfaces stay in sync and are easy to update.
+ *
+ * Notes:
+ * - `totalRevenue` = all-time GMV moved through our clients' marketplaces.
+ * - Use the absolute figure (+R$ 241M) for authority; the 2026 figure
+ *   (+R$ 80M) can be surfaced later if we want a "this year" angle.
+ */
+export const socialProof = {
+  totalRevenue: '+R$ 241M',
+  totalRevenueDescription: 'movimentados em marketplaces',
+  revenue2026: '+R$ 80M',
+  revenue2026Description: 'movimentados só em 2026',
+  averageGrowth: '+70%',
+  averageGrowthDescription: 'crescimento médio em 6 meses',
+  nps: '90',
+  npsDescription: 'NPS — satisfação dos clientes',
+  brandsServed: '50+',
+  brandsServedDescription: 'marcas aceleradas em ML, Amazon e Shopee',
+};
+
 // Site Metadata for SEO
 export const siteMetadata = {
   title: 'E-Koncepto | Consultoria de E-commerce para Marketplaces',

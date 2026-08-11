@@ -1,10 +1,15 @@
-import { whatsappLink } from '@/config/site';
+import { whatsappLink, socialProof } from '@/config/site';
 import { useEffect } from 'react';
 
 /**
- * LP-only Hero — adds a social-proof stats bar, a risk-reversal CTA
- * ("Quero meu diagnóstico gratuito"), microcopy to reduce friction,
- * and a contextual WhatsApp message so inbound leads are attributable.
+ * LP-only Hero — premium authority positioning.
+ *
+ * Copy strategy vs. competitor (Mamba Digital):
+ * They lead with scale/volume ("#1 da LATAM", "+6k clientes", "+R$ 1Bi").
+ * We lead with INSIDER EXPERTISE — the founders ran marketplaces from the
+ * inside (Mercado Livre, Americanas) before fighting for the brand's side.
+ * This is the boutique-vs-factory positioning: you talk to the people who
+ * built the rules, not a queue of 6.000 accounts.
  */
 export const HeroLp = () => {
   useEffect(() => {
@@ -26,11 +31,11 @@ export const HeroLp = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Social proof stats — surfaced from the About section up to the hero.
+  // Hero stats — the authority markers that make a cold visitor trust us.
   const stats = [
-    { value: '+R$ 100M', label: 'em vendas geradas' },
-    { value: '+70%', label: 'crescimento médio em 6 meses' },
-    { value: 'NPS 90', label: 'satisfação dos clientes' },
+    { value: socialProof.totalRevenue, label: socialProof.totalRevenueDescription },
+    { value: socialProof.averageGrowth, label: socialProof.averageGrowthDescription },
+    { value: `NPS ${socialProof.nps}`, label: socialProof.npsDescription },
   ];
 
   return (
@@ -41,14 +46,20 @@ export const HeroLp = () => {
           data-aos="fade-up"
           data-aos-duration="800"
         >
+          {/* Eyebrow — positions us as insiders, not just consultants. */}
+          <p className="inline-block text-xs sm:text-sm font-semibold tracking-wider uppercase text-primary mb-6 border border-primary/30 rounded-full px-4 py-1.5">
+            Ex-insiders do Mercado Livre e Americanas
+          </p>
+
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight mb-6">
-            Aceleramos suas vendas em marketplaces com{' '}
-            <span className="text-primary">tecnologia e expertise.</span>
+            O mesmo conhecimento que <span className="text-primary">moveu{' '}
+            {socialProof.totalRevenue}</span> em marketplaces — agora aplicado ao seu negócio.
           </h1>
 
           <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-gray-300">
-            Utilizamos dados, tecnologia própria e um time certificado para posicionar seus produtos
-            e multiplicar seu faturamento.
+            Não somos mais uma consultoria de marketplace. Somos quem esteve dentro das plataformas,
+            estruturando as maiores contas de CPG do Brasil e do México — e hoje colocamos essa
+            inteligência a serviço do seu faturamento.
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-4">
@@ -70,17 +81,17 @@ export const HeroLp = () => {
               data-aos-delay="150"
               data-aos-duration="600"
             >
-              Veja nossos resultados
+              Ver resultados reais
             </a>
           </div>
 
-          {/* Microcopy — reduces psychological friction below the CTA. */}
+          {/* Friction reducers — answer the silent objections. */}
           <p className="text-sm text-gray-400 mb-12">
-            Resposta em até 1 dia útil · Sem compromisso · Diagnóstico gratuito
+            Diagnóstico gratuito · Resposta em 1 dia útil · Sem compromisso
           </p>
         </div>
 
-        {/* Social proof stats — pulled up from the About section. */}
+        {/* Authority stats — the proof that backs the headline. */}
         <div
           className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto mb-12"
           data-aos="fade-up"
@@ -94,14 +105,14 @@ export const HeroLp = () => {
           ))}
         </div>
 
-        {/* Marketplaces Logos */}
+        {/* Marketplace logos — positioned as "we know the rules of the game". */}
         <div
           className="bg-gray-800/50 py-8 mt-12 md:mt-16 rounded-xl backdrop-blur-sm"
           data-aos="fade-up"
           data-aos-delay="200"
         >
           <p className="text-center text-gray-300 font-medium mb-6 text-sm sm:text-base">
-            Especialistas nos maiores canais de venda do Brasil:
+            Conhecemos os bastidores dos maiores canais de venda do Brasil:
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 items-center justify-items-center">
             {[
