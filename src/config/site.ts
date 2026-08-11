@@ -116,7 +116,7 @@ export const externalLinks = {
  * Usage: <a href={whatsappLink('hero')}>...</a>
  */
 const WHATSAPP_MESSAGES: Record<string, string> = {
-  hero: 'Olá! Vim pelo site e quero falar com um especialista para acelerar minhas vendas em marketplaces.',
+  hero: 'Olá! Vi que meus concorrentes estão faturando 3x mais. Quero meu diagnóstico gratuito para entender onde estou perdendo dinheiro em marketplaces.',
   cases:
     'Olá! Vi os resultados de vocês e quero entender como aplicar isso na minha operação.',
   'services-estrategia':

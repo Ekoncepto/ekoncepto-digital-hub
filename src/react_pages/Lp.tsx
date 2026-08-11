@@ -11,7 +11,7 @@ import { Methodology } from '@/components/sections/Methodology';
 import SuccessCasesLp from '@/components/sections/lp/SuccessCasesLp';
 import { Services } from '@/components/sections/Services';
 import { Process } from '@/components/sections/Process';
-import { About } from '@/components/sections/About';
+import { AboutLp } from '@/components/sections/lp/AboutLp';
 import { ContactCTALp } from '@/components/sections/lp/ContactCTALp';
 import { Faq } from '@/components/sections/Faq';
 
@@ -38,7 +38,7 @@ const Lp = () => {
           <Process />
         </ErrorBoundary>
         <ErrorBoundary>
-          <About />
+          <AboutLp />
         </ErrorBoundary>
         <ErrorBoundary>
           <Faq />

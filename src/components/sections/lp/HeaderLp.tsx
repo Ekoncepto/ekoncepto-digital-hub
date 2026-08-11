@@ -129,7 +129,7 @@ export const HeaderLp = () => {
                 className="bg-green-500 hover:bg-green-600 text-white py-3 px-6 sm:px-8 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-green-500/20"
               >
                 <WhatsAppIcon className="w-4 h-4 mr-2" />
-                Diagnóstico gratuito
+                Quero vender mais
               </Button>
             </a>
           </nav>
@@ -182,7 +182,7 @@ export const HeaderLp = () => {
             >
               <Button size="sm" className="w-full bg-green-500 hover:bg-green-600 text-white">
                 <WhatsAppIcon className="w-4 h-4 mr-2" />
-                Diagnóstico gratuito
+                Quero vender mais
               </Button>
             </a>
           </div>
