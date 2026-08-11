@@ -129,6 +129,20 @@ const WHATSAPP_MESSAGES: Record<string, string> = {
     'Olá! Quero meu diagnóstico gratuito e o plano de ação para os próximos 90 dias.',
   header: 'Olá! Gostaria de falar com um especialista da E-Koncepto.',
   floating: 'Olá! Vim pelo site e gostaria de falar com um especialista.',
+  'shopee-hero':
+    'Olá! Vim do popup da Shopee. Quero vender mais na minha operação.',
+  'shopee-cases':
+    'Olá! Vi os resultados de vocês e quero aplicar na minha operação da Shopee.',
+  'shopee-services-diagnostico':
+    'Olá! Quero o diagnóstico da minha operação na Shopee.',
+  'shopee-services-ads':
+    'Olá! Quero otimizar meus anúncios e melhorar meus Shopee Ads.',
+  'shopee-services-escala':
+    'Olá! Quero escalar minhas vendas na Shopee com promoções.',
+  'shopee-contact':
+    'Olá! Quero meu diagnóstico gratuito para dominar a Shopee.',
+  'shopee-header':
+    'Olá! Vim da Shopee e quero falar com um especialista.',
   default:
     'Olá! Gostaria de mais informações sobre a consultoria.',
 };

@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Shopee from '../react_pages/Shopee.tsx';
+import SEO from '@/components/SEO.astro';
+import { businessInfo } from '@/config/site';
+
+const title = `${businessInfo.name} | Especialistas em Shopee`;
+const description = `Já moveu +R$ 241M em marketplaces. Diagnóstico gratuito para suas vendas na Shopee decolarem com método e Shopee Ads.`;
+---
+
+<Layout title={title}>
+	<SEO
+        title={title}
+        description={description}
+        canonical="/shopee"
+    />
+	<!-- shopee-theme wrapper: recolors --primary to Shopee orange for all
+	     child components using bg-primary/text-primary/etc. -->
+	<div class="shopee-theme">
+		<Shopee client:load />
+	</div>
+</Layout>

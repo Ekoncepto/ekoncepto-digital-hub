@@ -77,6 +77,23 @@ All colors MUST be HSL.
     --ring: 151 88% 49%;
   }
 
+  /*
+   * Shopee theme — wraps the /shopee route to recolor every component that
+   * uses bg-primary/text-primary/etc. to Shopee's orange + yellow identity.
+   * Apply via a wrapper <div className="shopee-theme"> around the page.
+   * Colors: orange #EE4D2D (14 84% 55%), yellow #F69E15 (36 90% 53%).
+   * Home and /lp are unaffected — no .shopee-theme wrapper on those routes.
+   */
+  .shopee-theme {
+    --primary: 14 84% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 36 90% 53%;
+    --secondary-foreground: 0 0% 100%;
+    --ring: 14 84% 55%;
+    --gradient-primary: linear-gradient(135deg, hsl(14 84% 55%), hsl(36 90% 53%));
+    --shadow-elegant: 0 10px 30px -10px hsl(14 84% 55% / 0.3);
+  }
+
   * {
     @apply border-border;
   }
