@@ -16,8 +16,9 @@
  */
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Loader2, X, ArrowRight } from 'lucide-react';
+import { Loader2, X, ArrowRight, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import {
   PROACTIVE_CHAT_DELAY_MS,
@@ -50,6 +51,9 @@ export default function ProactiveChat() {
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [qIndex, setQIndex] = useState(0);
   const [hasOpened, setHasOpened] = useState(false);
+  // Estado pra quando o usuário seleciona "Outra categoria" e precisa digitar.
+  const [waitingOther, setWaitingOther] = useState(false);
+  const [otherInputValue, setOtherInputValue] = useState('');
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const msgIdRef = useRef(0);
@@ -128,8 +132,37 @@ export default function ProactiveChat() {
   function handleUserReply(value: string, displayText?: string) {
     const q = QUIZ_QUESTIONS[qIndex];
     pushMsg('user', displayText ?? value);
-    setAnswer(q.id, value);
 
+    // Se for "outros" (ex: Outra categoria), não salva como "outros" —
+    // pede pro usuário digitar o que vende de fato.
+    if (value === 'outros') {
+      setPhase('typing');
+      setTimeout(() => {
+        pushMsg('bot', 'Conta pra mim: o que você vende exatamente? 📝');
+        setWaitingOther(true);
+        setPhase('input');
+      }, TYPING_DELAY_MS);
+      return;
+    }
+
+    setAnswer(q.id, value);
+    const ack = ACKNOWLEDGMENTS[q.id] ?? '👍';
+    setPhase('typing');
+    setTimeout(() => {
+      pushMsg('bot', ack);
+      setTimeout(() => askNext(qIndex + 1), 400);
+    }, TYPING_DELAY_MS);
+  }
+
+  function handleOtherTextSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const v = otherInputValue.trim();
+    if (v.length < 2) return;
+    const q = QUIZ_QUESTIONS[qIndex];
+    pushMsg('user', v);
+    setAnswer(q.id, v);
+    setWaitingOther(false);
+    setOtherInputValue('');
     const ack = ACKNOWLEDGMENTS[q.id] ?? '👍';
     setPhase('typing');
     setTimeout(() => {
@@ -272,20 +305,36 @@ export default function ProactiveChat() {
           {/* Input / Opções */}
           {phase !== 'done' && phase !== 'typing' && phase !== 'open' && currentQ && (
             <div className="border-t border-border p-3 bg-background">
-              {currentQ.options && phase === 'input' && (
-                <div className="grid gap-2 max-h-40 overflow-y-auto">
-                  {currentQ.options.map((opt) => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      onClick={() => handleUserReply(opt.value, `${opt.emoji ?? ''} ${opt.label}`.trim())}
-                      className="flex items-center gap-2 w-full text-left text-sm px-3 py-2 rounded-lg border border-border hover:border-primary hover:bg-accent transition-colors"
-                    >
-                      {opt.emoji && <span aria-hidden>{opt.emoji}</span>}
-                      <span>{opt.label}</span>
-                    </button>
-                  ))}
-                </div>
+              {/* Input de texto livre (quando selecionou "Outra categoria") */}
+              {waitingOther && phase === 'input' ? (
+                <form onSubmit={handleOtherTextSubmit} className="flex gap-2">
+                  <Input
+                    autoFocus
+                    placeholder="Ex: Petshop, suplementos..."
+                    value={otherInputValue}
+                    onChange={(e) => setOtherInputValue(e.target.value)}
+                    className="h-10 text-sm"
+                  />
+                  <Button type="submit" size="icon" aria-label="Enviar" disabled={otherInputValue.trim().length < 2}>
+                    <Send className="w-4 h-4" />
+                  </Button>
+                </form>
+              ) : (
+                currentQ.options && phase === 'input' && (
+                  <div className="grid gap-2 max-h-40 overflow-y-auto">
+                    {currentQ.options.map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => handleUserReply(opt.value, `${opt.emoji ?? ''} ${opt.label}`.trim())}
+                        className="flex items-center gap-2 w-full text-left text-sm px-3 py-2 rounded-lg border border-border hover:border-primary hover:bg-accent transition-colors"
+                      >
+                        {opt.emoji && <span aria-hidden>{opt.emoji}</span>}
+                        <span>{opt.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                )
               )}
 
               {/* Escape */}

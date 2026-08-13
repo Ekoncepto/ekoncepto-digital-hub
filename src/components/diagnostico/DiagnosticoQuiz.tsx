@@ -14,8 +14,9 @@
  */
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowLeft, Check, MessageCircle, Sparkles, AlertCircle, TrendingUp } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, MessageCircle, Sparkles, AlertCircle, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 import { QUIZ_QUESTIONS, type QuizQuestion } from '@/config/diagnostico-quiz';
@@ -30,11 +31,14 @@ export default function DiagnosticoQuiz() {
   const [step, setStep] = useState(0);
   const [phase, setPhase] = useState<Phase>('answering');
   const [whatsappUrl, setWhatsappUrl] = useState('');
+  // Campo de texto livre para "Outra categoria" (quando selecionado).
+  const [otherValue, setOtherValue] = useState('');
+  const [otherError, setOtherError] = useState<string | null>(null);
 
   const question: QuizQuestion = QUIZ_QUESTIONS[step];
   const total = QUIZ_QUESTIONS.length;
 
-  // Progresso: 4 perguntas + 1 tela de contato = 5 etapas.
+  // Progresso: 5 perguntas + 1 tela de contato = 6 etapas.
   // 'done' conta como 100%.
   const progress =
     phase === 'done'
@@ -43,10 +47,34 @@ export default function DiagnosticoQuiz() {
         ? Math.round((total / (total + 1)) * 100)
         : Math.round((step / (total + 1)) * 100);
 
+  // Detecta se a pergunta atual tem opção "outros" com campo livre.
+  // Convenção: o value da opção especial é sempre 'outros'.
+  const hasOther = question.options?.some((o) => o.value === 'outros') ?? false;
+  const otherSelected = hasOther && answers[question.id] === 'outros';
+
   function handleSelectOption(value: string) {
     setAnswer(question.id, value);
+    // Se for a opção "outros", NÃO avança — abre o campo de texto.
+    if (value === 'outros') {
+      setOtherValue('');
+      setOtherError(null);
+      return;
+    }
     // pequena pausa para o usuário ver o feedback visual do card
     setTimeout(() => goNext(), 220);
+  }
+
+  function handleOtherSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const v = otherValue.trim();
+    if (v.length < 2) {
+      setOtherError('Digite ao menos 2 caracteres.');
+      return;
+    }
+    // Salva a resposta real do usuário (ex: "Petshop") em vez de "outros".
+    setAnswer(question.id, v);
+    setOtherError(null);
+    setTimeout(() => goNext(), 100);
   }
 
   function goNext() {
@@ -175,6 +203,42 @@ export default function DiagnosticoQuiz() {
                 );
               })}
             </div>
+
+            {/* Campo de texto livre quando "Outra categoria" é selecionada */}
+            <AnimatePresence>
+              {otherSelected && (
+                <motion.form
+                  onSubmit={handleOtherSubmit}
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="mt-4 space-y-2 overflow-hidden"
+                >
+                  <Input
+                    autoFocus
+                    placeholder="Ex: Petshop, suplementos, brinquedos..."
+                    value={otherValue}
+                    onChange={(e) => {
+                      setOtherValue(e.target.value);
+                      if (otherError) setOtherError(null);
+                    }}
+                    className={cn(
+                      'h-12 text-base',
+                      otherError &&
+                        'border-destructive focus-visible:ring-destructive'
+                    )}
+                  />
+                  {otherError && (
+                    <p className="text-sm text-destructive">{otherError}</p>
+                  )}
+                  <Button type="submit" size="lg" className="w-full h-12">
+                    Continuar
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </motion.form>
+              )}
+            </AnimatePresence>
           </motion.div>
         </AnimatePresence>
       )}
