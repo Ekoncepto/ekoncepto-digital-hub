@@ -29,9 +29,9 @@ Você acessa a planilha e vê o lead em tempo real
 2. Renomeie para algo como `Leads Diagnóstico E-Koncepto`.
 3. Na linha 1, adicione os cabeçalhos (um por coluna):
 
-   | A | B | C | D | E | F | G | H | I | J | K | L | M | N |
-   |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-   | timestamp | origem | marketplace | categoria | faturamento | dor | objetivo | nome | empresa | whatsapp | email | referrer | userAgent | page |
+   | A | B | C | D | E | F | G | H | I | J | K | L | M | N | O |
+   |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+   | timestamp | origem | marketplace | categoria | faturamento | dor | objetivo | nome | empresa | whatsapp | email | referrer | userAgent | page | diagnostico |
 
    > **Se você já tinha a planilha com o cabeçalho anterior** (sem `categoria`
    > e `empresa`), insira essas 2 colunas novas (D e J), cole o novo script
@@ -90,7 +90,8 @@ function doPost(e) {
     data.email || '',
     data._referrer || '',
     data._userAgent || '',
-    data._page || ''
+    data._page || '',
+    data.diagnostico || ''
   ];
 
   sheet.appendRow(row);
@@ -106,14 +107,15 @@ function testInsert() {
       _timestamp: new Date().toISOString(),
       source: 'test',
       marketplace: 'shopee',
-      categoria: 'eletronicos',
+      categoria: 'Petshop',
       faturamento: '10k-50k',
       dor: 'escalar',
       objetivo: 'escalar',
       nome: 'Teste Manual',
       empresa: 'Loja Exemplo',
       whatsapp: '(11) 99999-9999',
-      email: ''
+      email: '',
+      diagnostico: '[ALTA] Seu anúncio precisa de SEO melhor...'
     }) }
   };
   doPost(fakeEvent);
@@ -163,12 +165,14 @@ VITE_GOOGLE_SHEETS_WEBHOOK_URL=https://script.google.com/macros/s/AKfycby.../exe
 
 ## Colunas da planilha (referência)
 
+## Colunas da planilha (referência)
+
 | Coluna | Campo | Exemplo |
 |---|---|---|
 | A | timestamp | `2026-08-13T14:32:01.234Z` |
 | B | origem (`source`) | `hero`, `shopee-contact`, `header`... |
 | C | marketplace | `mercado-livre`, `amazon`, `shopee`, `multi`, `nenhum` |
-| D | categoria | `eletronicos`, `moda`, `casa`, `beleza`, `outros` |
+| D | categoria | `eletronicos`, `moda`, `casa`, `beleza`, ou texto livre |
 | E | faturamento | `ate-10k`, `10k-50k`, `50k-100k`, `100k-500k`, `500k+` |
 | F | dor | `nao-vende`, `vende-pouco`, `margem`, `escalar`, `tempo` |
 | G | objetivo | `comecar`, `otimizar`, `escalar`, `profissionalizar` |
@@ -179,6 +183,7 @@ VITE_GOOGLE_SHEETS_WEBHOOK_URL=https://script.google.com/macros/s/AKfycby.../exe
 | L | referrer | URL de onde veio |
 | M | userAgent | navegador/dispositivo |
 | N | page | `/diagnostico` |
+| O | diagnostico | Texto com os insights gerados (mesmos da tela de sucesso) |
 
 ---
 

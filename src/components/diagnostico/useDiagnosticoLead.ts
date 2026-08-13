@@ -11,6 +11,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
   buildDiagnosticMessage,
+  buildDiagnosticInsight,
   whatsappDirectLink,
 } from '@/config/site';
 import {
@@ -18,6 +19,21 @@ import {
   QUIZ_QUESTIONS,
   QUIZ_LABELS,
 } from '@/config/diagnostico-quiz';
+
+/**
+ * Transforma os insights do diagnóstico (array de objetos) num texto
+ * legível pra gravar na planilha. Cada insight vira uma linha no formato:
+ * "[ALTA] Título: descrição"
+ */
+function insightsToText(answers: Record<string, string>): string {
+  const insights = buildDiagnosticInsight(answers);
+  return insights
+    .map(
+      (i) =>
+        `[${i.prioridade.toUpperCase()}] ${i.titulo}: ${i.descricao}`
+    )
+    .join('\n\n');
+}
 
 /**
  * URL do webhook do Google Sheets.
@@ -142,6 +158,10 @@ export function useDiagnosticoLead() {
         formName: 'diagnostico',
         source,
         ...data,
+        // Diagnóstico gerado automaticamente (os mesmos insights que
+        // aparecem na tela de sucesso). Útil pra você saber exatamente o
+        // que o lead leu antes de falar com você.
+        diagnostico: insightsToText(data),
         // metadados úteis para auditoria
         _timestamp: new Date().toISOString(),
         _referrer: typeof document !== 'undefined' ? document.referrer : '',
