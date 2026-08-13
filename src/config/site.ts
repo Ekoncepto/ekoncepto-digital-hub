@@ -213,9 +213,15 @@ export function buildDiagnosticMessage(
     QUIZ_VALUE_LABELS[field]?.[value] ?? value;
 
   const nome = answers.nome?.trim();
-  const saudacao = nome ? `Olá! Sou ${nome}.` : 'Olá!';
+  const empresa = answers.empresa?.trim();
+  const saudacao = nome
+    ? empresa
+      ? `Olá! Sou ${nome} da ${empresa}.`
+      : `Olá! Sou ${nome}.`
+    : 'Olá!';
 
   const marketplace = answers.marketplace ? label('marketplace', answers.marketplace) : null;
+  const categoria = answers.categoria ? label('categoria', answers.categoria) : null;
   const faturamento = answers.faturamento ? label('faturamento', answers.faturamento) : null;
   const dor = answers.dor ? label('dor', answers.dor) : null;
   const objetivo = answers.objetivo ? label('objetivo', answers.objetivo) : null;
@@ -225,6 +231,7 @@ export function buildDiagnosticMessage(
 
   const contexto: string[] = [];
   if (marketplace) contexto.push(`Vendo em: ${marketplace}`);
+  if (categoria) contexto.push(`Categoria: ${categoria}`);
   if (faturamento) contexto.push(`Faturamento: ${faturamento}`);
   if (dor) contexto.push(`Maior dor: ${dor}`);
   if (objetivo) contexto.push(`Objetivo: ${objetivo}`);

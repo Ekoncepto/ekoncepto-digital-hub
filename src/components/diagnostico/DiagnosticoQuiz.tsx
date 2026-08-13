@@ -114,6 +114,7 @@ export default function DiagnosticoQuiz() {
           <ContactForm
             initial={{
               nome: answers.nome ?? '',
+              empresa: answers.empresa ?? '',
               whatsapp: answers.whatsapp ?? '',
               email: answers.email ?? '',
             }}

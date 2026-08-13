@@ -38,6 +38,7 @@ const TYPING_DELAY_MS = 650;
 /** Versão "fala" de cada pergunta, mais conversacional que o quiz. */
 const QUESTION_PROMPTS: Record<string, string> = {
   marketplace: 'Oi! 👋 Pra te indicar o caminho certo: onde você vende hoje?',
+  categoria: 'Show! E o que você vende? (categoria principal)',
   faturamento: 'Legal! E qual é o seu faturamento mensal aprox.?',
   dor: 'Entendi. E qual é a sua maior dor hoje?',
   objetivo: 'Pra fechar: o que você quer alcançar?',
@@ -314,6 +315,7 @@ export default function ProactiveChat() {
 
 const ACKNOWLEDGMENTS: Record<string, string> = {
   marketplace: 'Show! 👍',
+  categoria: 'Boa categoria! 📦',
   faturamento: 'Anotado! 📝',
   dor: 'Entendi — é super comum.',
   objetivo: 'Boa! 🎯',

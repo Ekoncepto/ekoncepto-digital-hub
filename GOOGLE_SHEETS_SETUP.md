@@ -29,13 +29,13 @@ Você acessa a planilha e vê o lead em tempo real
 2. Renomeie para algo como `Leads Diagnóstico E-Koncepto`.
 3. Na linha 1, adicione os cabeçalhos (um por coluna):
 
-   | A | B | C | D | E | F | G | H | I | J | K | L |
-   |---|---|---|---|---|---|---|---|---|---|---|---|
-   | timestamp | origem | marketplace | faturamento | dor | objetivo | nome | whatsapp | email | referrer | userAgent | page |
+   | A | B | C | D | E | F | G | H | I | J | K | L | M | N |
+   |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+   | timestamp | origem | marketplace | categoria | faturamento | dor | objetivo | nome | empresa | whatsapp | email | referrer | userAgent | page |
 
-   > Se você já tinha a planilha com o cabeçalho antigo (`contato` sem coluna `email`),
-   > atualize: troque `contato` por `whatsapp`, adicione `email` ao lado, e
-   > cole o novo script (Passo 3) + faça novo deploy (Passo 4 → New version).
+   > **Se você já tinha a planilha com o cabeçalho anterior** (sem `categoria`
+   > e `empresa`), insira essas 2 colunas novas (D e J), cole o novo script
+   > (Passo 3) e faça **New version** no deploy (Passo 4).
 
 ### 2. Abrir o Apps Script
 
@@ -80,10 +80,12 @@ function doPost(e) {
     data._timestamp || new Date().toISOString(),
     data.source || '',
     data.marketplace || '',
+    data.categoria || '',
     data.faturamento || '',
     data.dor || '',
     data.objetivo || '',
     data.nome || '',
+    data.empresa || '',
     data.whatsapp || data.contato || '',
     data.email || '',
     data._referrer || '',
@@ -104,10 +106,12 @@ function testInsert() {
       _timestamp: new Date().toISOString(),
       source: 'test',
       marketplace: 'shopee',
+      categoria: 'eletronicos',
       faturamento: '10k-50k',
       dor: 'escalar',
       objetivo: 'escalar',
       nome: 'Teste Manual',
+      empresa: 'Loja Exemplo',
       whatsapp: '(11) 99999-9999',
       email: ''
     }) }
@@ -164,15 +168,17 @@ VITE_GOOGLE_SHEETS_WEBHOOK_URL=https://script.google.com/macros/s/AKfycby.../exe
 | A | timestamp | `2026-08-13T14:32:01.234Z` |
 | B | origem (`source`) | `hero`, `shopee-contact`, `header`... |
 | C | marketplace | `mercado-livre`, `amazon`, `shopee`, `multi`, `nenhum` |
-| D | faturamento | `ate-10k`, `10k-50k`, `50k-100k`, `100k-500k`, `500k+` |
-| E | dor | `nao-vende`, `vende-pouco`, `margem`, `escalar`, `tempo` |
-| F | objetivo | `comecar`, `otimizar`, `escalar`, `profissionalizar` |
-| G | nome | `João Silva` |
-| H | whatsapp | `(11) 99999-9999` |
-| I | email | `joao@email.com` (pode ser vazio) |
-| J | referrer | URL de onde veio |
-| K | userAgent | navegador/dispositivo |
-| L | page | `/diagnostico` |
+| D | categoria | `eletronicos`, `moda`, `casa`, `beleza`, `outros` |
+| E | faturamento | `ate-10k`, `10k-50k`, `50k-100k`, `100k-500k`, `500k+` |
+| F | dor | `nao-vende`, `vende-pouco`, `margem`, `escalar`, `tempo` |
+| G | objetivo | `comecar`, `otimizar`, `escalar`, `profissionalizar` |
+| H | nome | `João Silva` |
+| I | empresa | `Loja Exemplo LTDA` (pode ser vazio) |
+| J | whatsapp | `(11) 99999-9999` |
+| K | email | `joao@email.com` (pode ser vazio) |
+| L | referrer | URL de onde veio |
+| M | userAgent | navegador/dispositivo |
+| N | page | `/diagnostico` |
 
 ---
 

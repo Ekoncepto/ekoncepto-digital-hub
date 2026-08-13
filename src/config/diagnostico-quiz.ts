@@ -58,6 +58,13 @@ export const CONTACT_FIELDS: ContactField[] = [
     required: true,
   },
   {
+    id: 'empresa',
+    label: 'Empresa (opcional)',
+    placeholder: 'Nome da sua empresa ou loja',
+    inputMode: 'text',
+    required: false,
+  },
+  {
     id: 'whatsapp',
     label: 'WhatsApp',
     placeholder: '(11) 99999-9999',
@@ -85,6 +92,19 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: 'shopee', label: 'Shopee', emoji: '🛍️' },
       { value: 'multi', label: 'Mais de um marketplace', emoji: '🔀' },
       { value: 'nenhum', label: 'Ainda não vendo', emoji: '🚀' },
+    ],
+  },
+  {
+    id: 'categoria',
+    question: 'O que você vende?',
+    subtitle: 'Categoria ajuda a personalizar a estratégia de venda.',
+    type: 'single-choice',
+    options: [
+      { value: 'eletronicos', label: 'Eletrônicos e tecnologia', emoji: '📱' },
+      { value: 'moda', label: 'Moda e acessórios', emoji: '👕' },
+      { value: 'casa', label: 'Casa e decoração', emoji: '🏠' },
+      { value: 'beleza', label: 'Beleza e cuidados', emoji: '💄' },
+      { value: 'outros', label: 'Outra categoria', emoji: '📦' },
     ],
   },
   {
@@ -134,10 +154,12 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
 /** Rótulos amigáveis para cada id (usado na mensagem e no Sheets) */
 export const QUIZ_LABELS: Record<string, string> = {
   marketplace: 'Marketplace',
+  categoria: 'Categoria',
   faturamento: 'Faturamento',
   dor: 'Maior dor',
   objetivo: 'Objetivo',
   nome: 'Nome',
+  empresa: 'Empresa',
   whatsapp: 'WhatsApp',
   email: 'E-mail',
   source: 'Origem',
@@ -151,6 +173,13 @@ export const QUIZ_VALUE_LABELS: Record<string, Record<string, string>> = {
     shopee: 'Shopee',
     multi: 'Mais de um marketplace',
     nenhum: 'Ainda não vende',
+  },
+  categoria: {
+    eletronicos: 'Eletrônicos e tecnologia',
+    moda: 'Moda e acessórios',
+    casa: 'Casa e decoração',
+    beleza: 'Beleza e cuidados',
+    outros: 'Outra categoria',
   },
   faturamento: {
     'ate-10k': 'Até R$ 10k',

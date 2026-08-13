@@ -32,10 +32,14 @@ export default function ContactForm({
   onSubmit,
   submitting,
 }: ContactFormProps) {
-  const [values, setValues] = useState<Record<string, string>>({
-    nome: initial.nome ?? '',
-    whatsapp: initial.whatsapp ?? '',
-    email: initial.email ?? '',
+  // Estado dinâmico: inicializa a partir de CONTACT_FIELDS + valores previos.
+  // Assim, adicionar/remover campos no config funciona sem mexer aqui.
+  const [values, setValues] = useState<Record<string, string>>(() => {
+    const init: Record<string, string> = {};
+    for (const f of CONTACT_FIELDS) {
+      init[f.id] = initial[f.id] ?? '';
+    }
+    return init;
   });
   const [errors, setErrors] = useState<Errors>({});
 
