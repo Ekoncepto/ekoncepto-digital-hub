@@ -31,9 +31,11 @@ Você acessa a planilha e vê o lead em tempo real
 
    | A | B | C | D | E | F | G | H | I | J | K | L |
    |---|---|---|---|---|---|---|---|---|---|---|---|
-   | timestamp | origem | marketplace | faturamento | dor | objetivo | nome | contato | referrer | userAgent | page | _HP |
+   | timestamp | origem | marketplace | faturamento | dor | objetivo | nome | whatsapp | email | referrer | userAgent | page |
 
-   > A coluna `_HP` é o honeypot (anti-spam). Se vier preenchida, é bot.
+   > Se você já tinha a planilha com o cabeçalho antigo (`contato` sem coluna `email`),
+   > atualize: troque `contato` por `whatsapp`, adicione `email` ao lado, e
+   > cole o novo script (Passo 3) + faça novo deploy (Passo 4 → New version).
 
 ### 2. Abrir o Apps Script
 
@@ -48,39 +50,45 @@ Você acessa a planilha e vê o lead em tempo real
  * Recebe POSTs do quiz de diagnóstico (ekoncepto-digital-hub) e grava
  * cada envio como uma nova linha na planilha ativa.
  *
+ * IMPORTANTE: o site envia os dados como JSON em Content-Type text/plain
+ * (combinação necessária para funcionar cross-origin com mode:'no-cors').
+ * Por isso fazemos JSON.parse(e.postData.contents) e NÃO usamos e.parameter.
+ *
  * Deploy: Extensions → Apps Script → Deploy → New deployment
  *         → Web app → Execute as: Me → Who has access: Anyone
  */
 function doPost(e) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
 
-  // Decode do corpo (application/x-www-form-urlencoded)
-  var params;
+  // Parse do corpo JSON (vem como text/plain por causa do CORS)
+  var data;
   try {
-    params = e.parameter || {};
+    var raw = e.postData.contents || '{}';
+    data = JSON.parse(raw);
   } catch (err) {
-    return ContentService.createTextOutput('error').setMimeType(ContentService.MimeType.TEXT);
+    // Fallback: tenta como form-urlencoded (compatibilidade)
+    data = e.parameter || {};
   }
 
   // Honeypot: campo "_HP" invisível — se vier preenchido, é bot. Descarta.
-  if (params._HP && String(params._HP).trim() !== '') {
+  if (data._HP && String(data._HP).trim() !== '') {
     return ContentService.createTextOutput('ok').setMimeType(ContentService.MimeType.TEXT);
   }
 
   // Mapeia campos vindos do site (src/components/diagnostico/useDiagnosticoLead.ts)
   var row = [
-    params._timestamp || new Date().toISOString(),
-    params.source || '',
-    params.marketplace || '',
-    params.faturamento || '',
-    params.dor || '',
-    params.objetivo || '',
-    params.nome || '',
-    params.contato || '',
-    params._referrer || '',
-    params._userAgent || '',
-    params._page || '',
-    params._HP || ''
+    data._timestamp || new Date().toISOString(),
+    data.source || '',
+    data.marketplace || '',
+    data.faturamento || '',
+    data.dor || '',
+    data.objetivo || '',
+    data.nome || '',
+    data.whatsapp || data.contato || '',
+    data.email || '',
+    data._referrer || '',
+    data._userAgent || '',
+    data._page || ''
   ];
 
   sheet.appendRow(row);
@@ -91,8 +99,8 @@ function doPost(e) {
 
 /** Teste manual: roda no editor para validar gravação. */
 function testInsert() {
-  var e = {
-    parameter: {
+  var fakeEvent = {
+    postData: { contents: JSON.stringify({
       _timestamp: new Date().toISOString(),
       source: 'test',
       marketplace: 'shopee',
@@ -100,10 +108,11 @@ function testInsert() {
       dor: 'escalar',
       objetivo: 'escalar',
       nome: 'Teste Manual',
-      contato: '(11) 99999-9999'
-    }
+      whatsapp: '(11) 99999-9999',
+      email: ''
+    }) }
   };
-  doPost(e);
+  doPost(fakeEvent);
 }
 ```
 
@@ -159,11 +168,11 @@ VITE_GOOGLE_SHEETS_WEBHOOK_URL=https://script.google.com/macros/s/AKfycby.../exe
 | E | dor | `nao-vende`, `vende-pouco`, `margem`, `escalar`, `tempo` |
 | F | objetivo | `comecar`, `otimizar`, `escalar`, `profissionalizar` |
 | G | nome | `João Silva` |
-| H | contato | `(11) 99999-9999` ou `joao@email.com` |
-| I | referrer | URL de onde veio |
-| J | userAgent | navegador/dispositivo |
-| K | page | `/diagnostico` |
-| L | _HP | honeypot (deve estar sempre vazio) |
+| H | whatsapp | `(11) 99999-9999` |
+| I | email | `joao@email.com` (pode ser vazio) |
+| J | referrer | URL de onde veio |
+| K | userAgent | navegador/dispositivo |
+| L | page | `/diagnostico` |
 
 ---
 

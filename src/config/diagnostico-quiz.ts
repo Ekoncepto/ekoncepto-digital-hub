@@ -36,6 +36,43 @@ export type QuizQuestion = {
   validation?: 'name' | 'contact';
 };
 
+/**
+ * Campos do bloco final de identificação (tela única, não-quiz).
+ * Separados e claros: WhatsApp obrigatório, email opcional.
+ * Renderizados por ContactForm, não por DiagnosticoQuiz.
+ */
+export type ContactField = {
+  id: 'nome' | 'whatsapp' | 'email';
+  label: string;
+  placeholder: string;
+  inputMode: 'text' | 'tel' | 'email';
+  required: boolean;
+};
+
+export const CONTACT_FIELDS: ContactField[] = [
+  {
+    id: 'nome',
+    label: 'Seu nome',
+    placeholder: 'Como você se chama?',
+    inputMode: 'text',
+    required: true,
+  },
+  {
+    id: 'whatsapp',
+    label: 'WhatsApp',
+    placeholder: '(11) 99999-9999',
+    inputMode: 'tel',
+    required: true,
+  },
+  {
+    id: 'email',
+    label: 'E-mail (opcional)',
+    placeholder: 'seu@email.com',
+    inputMode: 'email',
+    required: false,
+  },
+];
+
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
   {
     id: 'marketplace',
@@ -88,23 +125,11 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: 'profissionalizar', label: 'Profissionalizar operação', emoji: '👔' },
     ],
   },
-  {
-    id: 'nome',
-    question: 'Como você se chama?',
-    subtitle: 'Pra eu preparar algo personalizado pra você.',
-    type: 'text',
-    placeholder: 'Seu primeiro nome',
-    validation: 'name',
-  },
-  {
-    id: 'contato',
-    question: 'Pra onde eu mando seu diagnóstico?',
-    subtitle: 'WhatsApp ou e-mail — escolha o melhor pra você.',
-    type: 'contact',
-    placeholder: '(11) 99999-9999 ou seu@email.com',
-    validation: 'contact',
-  },
 ];
+
+// OBS: os campos de identificação (nome, whatsapp, email) NÃO estão no array
+// acima. Eles formam um bloco dedicado (ContactForm) exibido após a última
+// pergunta de múltipla escolha, com layout claro e mobile-friendly.
 
 /** Rótulos amigáveis para cada id (usado na mensagem e no Sheets) */
 export const QUIZ_LABELS: Record<string, string> = {
@@ -113,7 +138,8 @@ export const QUIZ_LABELS: Record<string, string> = {
   dor: 'Maior dor',
   objetivo: 'Objetivo',
   nome: 'Nome',
-  contato: 'Contato',
+  whatsapp: 'WhatsApp',
+  email: 'E-mail',
   source: 'Origem',
 };
 

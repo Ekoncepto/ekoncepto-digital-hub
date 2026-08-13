@@ -1,30 +1,29 @@
 /**
  * Chat proativo — segundo caminho de qualificação.
  *
- * Diferente do DiagnosticoQuiz (tela cheia, 1 pergunta por vez), este é
- * um balão de conversa que abre após 30s (ou em exit-intent) e faz as
- * MESMAS perguntas em formato de bate-papo. As respostas são persistidas
- * no localStorage, então o usuário pode começar no chat e terminar no
- * quiz (ou vice-versa) sem perder o que já digitou.
+ * Diferente do DiagnosticoQuiz (tela cheia), este é um balão de conversa
+ * que abre após 30s (ou em exit-intent) e faz as 4 perguntas de múltipla
+ * escolha em formato de bate-papo. As respostas são persistidas no
+ * localStorage, então quando o usuário vai pra /diagnostico o quiz já
+ * vem pré-preenchido — só falta o formulário de contato.
  *
  * UX:
  *  - Botão flutuante (canto inferior esquerdo; WhatsApp fica no direito).
  *  - Janela de chat com bolhas "minha" vs. "deles".
  *  - Animação "digitando..." antes de cada pergunta (humaniza).
- *  - Escape: botão "falar direto no WhatsApp" pula o quiz.
+ *  - Ao final das 4 perguntas: botão leva pra /diagnostico completar.
+ *  - Escape: botão "falar direto no WhatsApp" pula tudo.
  */
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Loader2, Send, X, MessageSquare } from 'lucide-react';
+import { Loader2, X, MessageSquare, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import {
   PROACTIVE_CHAT_DELAY_MS,
   QUIZ_QUESTIONS,
-  type QuizQuestion,
 } from '@/config/diagnostico-quiz';
-import { useDiagnosticoLead, validateField } from './useDiagnosticoLead';
+import { useDiagnosticoLead } from './useDiagnosticoLead';
 
 type ChatMsg = {
   id: number;
@@ -32,7 +31,7 @@ type ChatMsg = {
   text: string;
 };
 
-type ChatPhase = 'idle' | 'open' | 'typing' | 'input' | 'submitting' | 'done';
+type ChatPhase = 'idle' | 'open' | 'typing' | 'input' | 'done';
 
 const TYPING_DELAY_MS = 650;
 
@@ -42,18 +41,13 @@ const QUESTION_PROMPTS: Record<string, string> = {
   faturamento: 'Legal! E qual é o seu faturamento mensal aprox.?',
   dor: 'Entendi. E qual é a sua maior dor hoje?',
   objetivo: 'Pra fechar: o que você quer alcançar?',
-  nome: 'Perfeito! Como você se chama?',
-  contato: 'Pra onde eu te mando seu diagnóstico? (WhatsApp ou e-mail)',
 };
 
 export default function ProactiveChat() {
-  const { answers, setAnswer, submitLead, buildWhatsAppUrl } = useDiagnosticoLead();
+  const { answers, setAnswer, source, buildWhatsAppUrl } = useDiagnosticoLead();
   const [phase, setPhase] = useState<ChatPhase>('idle');
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [qIndex, setQIndex] = useState(0);
-  const [inputValue, setInputValue] = useState('');
-  const [inputError, setInputError] = useState<string | null>(null);
-  const [whatsappUrl, setWhatsappUrl] = useState('');
   const [hasOpened, setHasOpened] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -95,7 +89,6 @@ export default function ProactiveChat() {
     if (hasOpened) return;
     setHasOpened(true);
     setPhase('open');
-    // pequena introdução antes da primeira pergunta
     pushMsg('bot', 'Olá! Sou da E-Koncepto 👋');
     setTimeout(() => askNext(0), TYPING_DELAY_MS * 2);
   }
@@ -114,13 +107,11 @@ export default function ProactiveChat() {
     }, TYPING_DELAY_MS);
   }
 
-  function handleUserReply(text: string) {
-    pushMsg('user', text);
+  function handleUserReply(value: string, displayText?: string) {
+    const q = QUIZ_QUESTIONS[qIndex];
+    pushMsg('user', displayText ?? value);
+    setAnswer(q.id, value);
 
-    const q: QuizQuestion = QUIZ_QUESTIONS[qIndex];
-    setAnswer(q.id, text);
-
-    // confirmação leve antes da próxima
     const ack = ACKNOWLEDGMENTS[q.id] ?? '👍';
     setPhase('typing');
     setTimeout(() => {
@@ -129,29 +120,11 @@ export default function ProactiveChat() {
     }, TYPING_DELAY_MS);
   }
 
-  function handleSubmitText(e: React.FormEvent) {
-    e.preventDefault();
-    const q = QUIZ_QUESTIONS[qIndex];
-    const err = validateField(q.id, inputValue);
-    if (err) {
-      setInputError(err);
-      return;
-    }
-    setInputError(null);
-    handleUserReply(inputValue.trim());
-    setInputValue('');
-  }
-
-  async function finish() {
-    setPhase('submitting');
-    const result = await submitLead(answers);
-    setWhatsappUrl(result.whatsappUrl);
+  function finish() {
     setPhase('done');
     pushMsg(
       'bot',
-      answers.nome?.trim()
-        ? `${answers.nome.trim()}, pronto! 🎉 Toque abaixo pra falar comigo agora:`
-        : 'Pronto! 🎉 Toque abaixo pra falar comigo agora:'
+      'Perfeito! 🎉 Pra receber seu diagnóstico personalizado, deixa seu contato:'
     );
   }
 
@@ -160,6 +133,9 @@ export default function ProactiveChat() {
     window.open(url, '_blank', 'noopener,noreferrer');
     setPhase('idle');
   }
+
+  // Link pro /diagnostico preservando o source (atribuição de origem)
+  const diagnosticoUrl = `/diagnostico?source=${encodeURIComponent(source || 'chat')}`;
 
   // Botão inicial (balão flutuante)
   if (phase === 'idle') {
@@ -185,7 +161,6 @@ export default function ProactiveChat() {
   }
 
   const currentQ = QUIZ_QUESTIONS[qIndex];
-  const isText = currentQ && (currentQ.type === 'text' || currentQ.type === 'contact');
 
   return (
     <AnimatePresence>
@@ -206,7 +181,7 @@ export default function ProactiveChat() {
               <div>
                 <p className="text-sm font-semibold leading-tight">E-Koncepto</p>
                 <p className="text-xs opacity-80 leading-tight">
-                  {phase === 'done' ? 'Diagnóstico pronto' : 'Online agora'}
+                  {phase === 'done' ? 'Quase lá!' : 'Online agora'}
                 </p>
               </div>
             </div>
@@ -245,73 +220,36 @@ export default function ProactiveChat() {
             )}
 
             {phase === 'done' && (
-              <div className="pt-2">
+              <div className="pt-2 space-y-2">
                 <Button asChild variant="hero" className="w-full" size="sm">
-                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                    Falar no WhatsApp →
+                  <a href={diagnosticoUrl}>
+                    Completar diagnóstico
+                    <ArrowRight className="w-4 h-4 ml-1" />
                   </a>
                 </Button>
+                <p className="text-xs text-center text-muted-foreground px-2">
+                  Suas respostas já estão salvas — é só preencher o contato. ✨
+                </p>
               </div>
             )}
           </div>
 
           {/* Input / Opções */}
-          {phase !== 'done' && phase !== 'submitting' && currentQ && (
+          {phase !== 'done' && phase !== 'typing' && phase !== 'open' && currentQ && (
             <div className="border-t border-border p-3 bg-background">
-              {/* Opções de múltipla escolha */}
-              {!isText && currentQ.options && phase === 'input' && (
+              {currentQ.options && phase === 'input' && (
                 <div className="grid gap-2 max-h-40 overflow-y-auto">
                   {currentQ.options.map((opt) => (
                     <button
                       key={opt.value}
                       type="button"
-                      onClick={() => handleUserReply(opt.label)}
+                      onClick={() => handleUserReply(opt.value, `${opt.emoji ?? ''} ${opt.label}`.trim())}
                       className="flex items-center gap-2 w-full text-left text-sm px-3 py-2 rounded-lg border border-border hover:border-primary hover:bg-accent transition-colors"
                     >
                       {opt.emoji && <span aria-hidden>{opt.emoji}</span>}
                       <span>{opt.label}</span>
                     </button>
                   ))}
-                </div>
-              )}
-
-              {/* Input de texto */}
-              {isText && phase === 'input' && (
-                <form onSubmit={handleSubmitText} className="space-y-2">
-                  <div className="flex gap-2">
-                    <Input
-                      autoFocus
-                      placeholder={currentQ.placeholder}
-                      value={inputValue}
-                      onChange={(e) => {
-                        setInputValue(e.target.value);
-                        if (inputError) setInputError(null);
-                      }}
-                      className={cn(
-                        inputError && 'border-destructive focus-visible:ring-destructive'
-                      )}
-                    />
-                    <Button type="submit" size="icon" aria-label="Enviar">
-                      <Send className="w-4 h-4" />
-                    </Button>
-                  </div>
-                  {inputError && (
-                    <p className="text-xs text-destructive">{inputError}</p>
-                  )}
-                </form>
-              )}
-
-              {(phase === 'typing' || phase === 'open') && (
-                <div className="flex items-center gap-2 text-xs text-muted-foreground h-9">
-                  <Loader2 className="w-3 h-3 animate-spin" />
-                  {phase === 'open' ? 'Iniciando...' : 'E-Koncepto está digitando...'}
-                </div>
-              )}
-
-              {phase === 'submitting' && (
-                <div className="flex items-center gap-2 text-xs text-muted-foreground h-9">
-                  <Loader2 className="w-3 h-3 animate-spin" />
-                  Salvando seu diagnóstico...
                 </div>
               )}
 
@@ -327,6 +265,13 @@ export default function ProactiveChat() {
               )}
             </div>
           )}
+
+          {(phase === 'typing' || phase === 'open') && (
+            <div className="border-t border-border p-3 bg-background flex items-center gap-2 text-xs text-muted-foreground h-12">
+              <Loader2 className="w-3 h-3 animate-spin" />
+              {phase === 'open' ? 'Iniciando...' : 'E-Koncepto está digitando...'}
+            </div>
+          )}
         </div>
       </motion.div>
     </AnimatePresence>
@@ -338,8 +283,6 @@ const ACKNOWLEDGMENTS: Record<string, string> = {
   faturamento: 'Anotado! 📝',
   dor: 'Entendi — é super comum.',
   objetivo: 'Boa! 🎯',
-  nome: 'Prazer! 🤝',
-  contato: 'Recebido! ✅',
 };
 
 function Dot({ delay }: { delay: number }) {

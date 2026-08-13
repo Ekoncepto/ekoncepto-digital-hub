@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { whatsappLink } from '@/config/site';
+import { whatsappDirectLink } from '@/config/site';
 
 const FloatingWhatsAppButton = () => {
   // Suprime na /diagnostico: lá o chat proativo já cumpre esse papel,
@@ -18,7 +18,7 @@ const FloatingWhatsAppButton = () => {
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
     >
-      <a href={whatsappLink('floating')}>
+      <a href={whatsappDirectLink('floating')} target="_blank" rel="noopener noreferrer">
         <Button
           size="lg"
           className="rounded-full shadow-lg bg-green-500 hover:bg-green-600 text-white w-16 h-16 p-0 relative"

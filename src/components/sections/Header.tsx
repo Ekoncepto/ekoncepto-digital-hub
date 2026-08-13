@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { whatsappLink } from '@/config/site';
+import { whatsappDirectLink } from '@/config/site';
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -112,7 +112,9 @@ export const Header = () => {
               Conteúdo
             </a>
             <a
-              href={whatsappLink('header')}
+              href={whatsappDirectLink('header')}
+              target="_blank"
+              rel="noopener noreferrer"
               className={`text-sm font-medium transition-colors duration-300 text-muted-foreground hover:text-primary`}
             >
               Contato
@@ -199,7 +201,9 @@ export const Header = () => {
             Conteúdo
           </a>
           <a
-            href={whatsappLink('header')}
+            href={whatsappDirectLink('header')}
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={closeMobileMenu}
             className={`block rounded-md px-3 py-2 text-base font-medium text-foreground hover:bg-muted hover:text-primary transition-colors duration-300`}
           >
@@ -223,7 +227,7 @@ export const Header = () => {
             <a href="/landing" className="text-primary hover:underline">
               Conteúdo
             </a>
-            <a href={whatsappLink('header')} className="text-primary hover:underline">
+            <a href={whatsappDirectLink('header')} className="text-primary hover:underline">
               Contato
             </a>
           </div>

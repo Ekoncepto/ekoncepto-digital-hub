@@ -46,24 +46,35 @@ function readStoredAnswers(): DiagnosticoAnswers {
 }
 
 /**
- * Validação leve, sem Zod, para os 2 campos de texto (nome e contato).
+ * Validação leve, sem Zod, para os campos de texto do bloco de contato.
  * Mantém o bundle menor e a UX simples.
+ *
+ * Retorna null se válido, ou mensagem de erro.
+ * `required` controla se campo vazio é aceito (email é opcional).
  */
-export function validateField(id: string, value: string): string | null {
+export function validateField(
+  id: string,
+  value: string,
+  required = true
+): string | null {
   const v = value.trim();
-  if (!v) return 'Este campo é obrigatório.';
+  if (!v) return required ? 'Este campo é obrigatório.' : null;
+
   if (id === 'nome') {
     if (v.length < 2) return 'Digite ao menos 2 caracteres.';
     return null;
   }
-  if (id === 'contato') {
-    // aceita telefone (ao menos 8 dígitos) ou e-mail
+  if (id === 'whatsapp') {
+    // aceita celular/telefone com pelo menos 10 dígitos (DDD + número)
     const digits = v.replace(/\D/g, '');
-    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-    const isPhone = digits.length >= 8 && digits.length <= 15;
-    if (!isEmail && !isPhone) {
-      return 'Digite um WhatsApp ou e-mail válido.';
+    if (digits.length < 10 || digits.length > 15) {
+      return 'Digite um WhatsApp válido com DDD. Ex: (11) 99999-9999';
     }
+    return null;
+  }
+  if (id === 'email') {
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    if (!isEmail) return 'Digite um e-mail válido.';
     return null;
   }
   return null;
@@ -113,7 +124,7 @@ export function useDiagnosticoLead() {
 
       // Honeypot: campo que só bots preenchem. Se vier, descarta silenciosamente.
       const payload = {
-        'form-name': 'diagnostico',
+        formName: 'diagnostico',
         source,
         ...data,
         // metadados úteis para auditoria
@@ -148,18 +159,19 @@ export function useDiagnosticoLead() {
       }
 
       try {
+        // CORREÇÃO CRÍTICA: Apps Script cross-origin exige Content-Type
+        // text/plain (CORS-safelisted, não dispara preflight). Com
+        // application/x-www-form-urlencoded + mode:'no-cors', o navegador
+        // reescreve o header pra text/plain silenciosamente, MAS o body
+        // continua url-encoded — e o Apps Script não parseia como form,
+        // deixando e.parameter vazio. Solução: mandar JSON em text/plain
+        // e fazer JSON.parse(e.postData.contents) no script.
         await fetch(googleSheetsConfig.webhookUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: Object.entries(payload)
-            .map(
-              ([k, val]) =>
-                `${encodeURIComponent(k)}=${encodeURIComponent(String(val ?? ''))}`
-            )
-            .join('&'),
-          // Apps Script não retorna CORS perfeito em todos os cenários;
-          // mode 'no-cors' evita erros visíveis no console após sucesso.
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload),
           mode: 'no-cors',
+          redirect: 'follow',
         });
 
         return { ok: true, whatsappUrl };

@@ -1,43 +1,46 @@
 /**
  * Quiz de diagnóstico — núcleo da página /diagnostico.
  *
- * UX (melhorias vs. quiz de referência do Efeito Vendas):
- *  - 1 pergunta por tela, com transições suaves (framer-motion).
- *  - Barra de progresso no topo.
- *  - Botão "voltar" para editar resposta (referência não tinha).
- *  - Opções como cards grandes e clicáveis (melhor mobile que radio buttons).
- *  - Auto-avanço ao clicar em opção de múltipla escolha (menos fricção).
- *  - Tela final: loading -> confirmação -> WhatsApp com msg personalizada.
+ * Fluxo:
+ *  1) 4 perguntas de múltipla escolha (1 por tela, com barra de progresso,
+ *     auto-avanço ao clicar, botão voltar).
+ *  2) Tela de contato (ContactForm) com nome + WhatsApp + email claros.
+ *  3) Tela de sucesso -> botão WhatsApp com mensagem personalizada.
+ *
+ * Melhorias vs. quiz de referência (Efeito Vendas):
+ *  - Opções como cards grandes (melhor mobile que radio buttons).
+ *  - Botão "voltar" para editar resposta anterior.
+ *  - Campos de contato separados e claros (não um campo "contato" só).
  */
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Check, Loader2, MessageCircle } from 'lucide-react';
+import { ArrowLeft, Check, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
-import {
-  QUIZ_QUESTIONS,
-  type QuizQuestion,
-} from '@/config/diagnostico-quiz';
-import {
-  useDiagnosticoLead,
-  validateField,
-} from './useDiagnosticoLead';
+import { QUIZ_QUESTIONS, type QuizQuestion } from '@/config/diagnostico-quiz';
+import { useDiagnosticoLead } from './useDiagnosticoLead';
+import ContactForm from './ContactForm';
 
-type Phase = 'answering' | 'submitting' | 'done';
+type Phase = 'answering' | 'contact' | 'submitting' | 'done';
 
 export default function DiagnosticoQuiz() {
   const { answers, setAnswer, submitLead, source } = useDiagnosticoLead();
   const [step, setStep] = useState(0);
   const [phase, setPhase] = useState<Phase>('answering');
-  const [textValue, setTextValue] = useState('');
-  const [textError, setTextError] = useState<string | null>(null);
   const [whatsappUrl, setWhatsappUrl] = useState('');
 
   const question: QuizQuestion = QUIZ_QUESTIONS[step];
   const total = QUIZ_QUESTIONS.length;
-  const progress = phase === 'done' ? 100 : Math.round((step / total) * 100);
+
+  // Progresso: 4 perguntas + 1 tela de contato = 5 etapas.
+  // 'done' conta como 100%.
+  const progress =
+    phase === 'done'
+      ? 100
+      : phase === 'contact' || phase === 'submitting'
+        ? Math.round((total / (total + 1)) * 100)
+        : Math.round((step / (total + 1)) * 100);
 
   function handleSelectOption(value: string) {
     setAnswer(question.id, value);
@@ -45,44 +48,32 @@ export default function DiagnosticoQuiz() {
     setTimeout(() => goNext(), 220);
   }
 
-  function handleTextSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const err = validateField(question.id, textValue);
-    if (err) {
-      setTextError(err);
-      return;
-    }
-    setAnswer(question.id, textValue.trim());
-    setTextError(null);
-    goNext();
-  }
-
   function goNext() {
     if (step < total - 1) {
       setStep((s) => s + 1);
-      // pré-preenche texto caso já tenha sido respondido antes (localStorage)
-      const next = QUIZ_QUESTIONS[step + 1];
-      if (next && (next.type === 'text' || next.type === 'contact')) {
-        setTextValue(answers[next.id] ?? '');
-      }
     } else {
-      finish();
+      // acabaram as perguntas -> vai pro formulário de contato
+      setPhase('contact');
     }
   }
 
   function goBack() {
+    if (phase === 'contact') {
+      // volta pra última pergunta
+      setPhase('answering');
+      setStep(total - 1);
+      return;
+    }
     if (step === 0) return;
     setStep((s) => s - 1);
-    const prev = QUIZ_QUESTIONS[step - 1];
-    if (prev && (prev.type === 'text' || prev.type === 'contact')) {
-      setTextValue(answers[prev.id] ?? '');
-      setTextError(null);
-    }
   }
 
-  async function finish() {
+  async function handleContactSubmit(values: Record<string, string>) {
+    // mescla os campos de contato com as respostas do quiz
+    Object.entries(values).forEach(([k, v]) => setAnswer(k, v));
     setPhase('submitting');
-    const result = await submitLead(answers);
+    const merged = { ...answers, ...values };
+    const result = await submitLead(merged);
     setWhatsappUrl(result.whatsappUrl);
     setPhase('done');
   }
@@ -93,7 +84,7 @@ export default function DiagnosticoQuiz() {
     return <SuccessScreen whatsappUrl={whatsappUrl} answers={answers} />;
   }
 
-  const isText = question.type === 'text' || question.type === 'contact';
+  const showContact = phase === 'contact' || phase === 'submitting';
 
   return (
     <div className="w-full max-w-2xl mx-auto">
@@ -101,33 +92,53 @@ export default function DiagnosticoQuiz() {
       <div className="mb-8">
         <div className="flex justify-between items-center mb-2 text-sm text-muted-foreground">
           <span>
-            Pergunta {step + 1} de {total}
+            {showContact
+              ? 'Quase lá!'
+              : `Pergunta ${step + 1} de ${total}`}
           </span>
           <span>{progress}%</span>
         </div>
         <Progress value={progress} className="h-2" />
       </div>
 
-      {/* Card da pergunta */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={question.id}
-          initial={{ opacity: 0, x: 24 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -24 }}
-          transition={{ duration: 0.25, ease: 'easeOut' }}
-        >
+      {showContact ? (
+        // ----- Tela de contato -----
+        <div>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">
-            {question.question}
+            Pra onde mando seu diagnóstico?
           </h2>
-          {question.subtitle && (
-            <p className="text-muted-foreground mb-8">{question.subtitle}</p>
-          )}
+          <p className="text-muted-foreground mb-8">
+            Pronto! Agora é só deixar seu contato pra receber o plano personalizado.
+          </p>
+          <ContactForm
+            initial={{
+              nome: answers.nome ?? '',
+              whatsapp: answers.whatsapp ?? '',
+              email: answers.email ?? '',
+            }}
+            onSubmit={handleContactSubmit}
+            submitting={phase === 'submitting'}
+          />
+        </div>
+      ) : (
+        // ----- Pergunta de múltipla escolha -----
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={question.id}
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -24 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
+          >
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">
+              {question.question}
+            </h2>
+            {question.subtitle && (
+              <p className="text-muted-foreground mb-8">{question.subtitle}</p>
+            )}
 
-          {/* Múltipla escolha */}
-          {!isText && question.options && (
             <div className="grid gap-3">
-              {question.options.map((opt) => {
+              {question.options?.map((opt) => {
                 const selected = answers[question.id] === opt.value;
                 return (
                   <button
@@ -162,54 +173,12 @@ export default function DiagnosticoQuiz() {
                 );
               })}
             </div>
-          )}
-
-          {/* Inputs de texto */}
-          {isText && (
-            <form onSubmit={handleTextSubmit} className="space-y-4">
-              <Input
-                autoFocus
-                type={question.type === 'contact' ? 'text' : 'text'}
-                inputMode={question.type === 'contact' ? 'email' : 'text'}
-                placeholder={question.placeholder}
-                value={textValue}
-                onChange={(e) => {
-                  setTextValue(e.target.value);
-                  if (textError) setTextError(null);
-                }}
-                className={cn(
-                  'h-14 text-lg',
-                  textError && 'border-destructive focus-visible:ring-destructive'
-                )}
-              />
-              {textError && (
-                <p className="text-sm text-destructive">{textError}</p>
-              )}
-              <Button
-                type="submit"
-                size="lg"
-                className="w-full h-12 text-base"
-                disabled={phase === 'submitting'}
-              >
-                {phase === 'submitting' ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Processando...
-                  </>
-                ) : (
-                  <>
-                    {step === total - 1 ? 'Ver meu diagnóstico' : 'Continuar'}
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </>
-                )}
-              </Button>
-            </form>
-          )}
-        </motion.div>
-      </AnimatePresence>
+          </motion.div>
+        </AnimatePresence>
+      )}
 
       {/* Botão voltar */}
-      {step > 0 && (
+      {(step > 0 || showContact) && (
         <button
           type="button"
           onClick={goBack}

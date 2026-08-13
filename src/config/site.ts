@@ -219,7 +219,7 @@ export function buildDiagnosticMessage(
   const faturamento = answers.faturamento ? label('faturamento', answers.faturamento) : null;
   const dor = answers.dor ? label('dor', answers.dor) : null;
   const objetivo = answers.objetivo ? label('objetivo', answers.objetivo) : null;
-  const contato = answers.contato?.trim();
+  const whatsapp = answers.whatsapp?.trim();
 
   const partes: string[] = [saudacao, 'Acabei de fazer o diagnóstico gratuito no site da E-Koncepto.'];
 
@@ -230,10 +230,14 @@ export function buildDiagnosticMessage(
   if (objetivo) contexto.push(`Objetivo: ${objetivo}`);
   if (contexto.length) partes.push(contexto.join(' · '));
 
-  if (contato) partes.push(`Meu contato: ${contato}`);
+  // WhatsApp já é o canal de contato, não precisa repetir na mensagem.
+  // Email só incluímos se veio (campo opcional).
+  const email = answers.email?.trim();
+  if (email) partes.push(`Meu e-mail: ${email}`);
 
   partes.push('Pode me ajudar com o próximo passo?');
   void source; // reservado para futuro (ex: personalizar por origem)
+  void whatsapp; // já é o canal ativo, não repetir
   return partes.join('\n');
 }
 
