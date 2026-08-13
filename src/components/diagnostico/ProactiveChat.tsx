@@ -53,24 +53,33 @@ export default function ProactiveChat() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const msgIdRef = useRef(0);
 
+  // Suprime na /diagnostico: lá o quiz em tela cheia já é o caminho principal.
+  // O chat proativo só faz sentido nas OUTRAS páginas (home, LPs, etc) como
+  // segundo caminho. Mostrar os dois na mesma tela é redundante e confuso.
+  // (depois dos hooks, pra não violar Rules of Hooks)
+  const isDiagnosticoPage =
+    typeof window !== 'undefined' && window.location.pathname === '/diagnostico';
+
   // Abre sozinho depois de PROACTIVE_CHAT_DELAY_MS (uma vez só)
+  // Ignora na /diagnostico (lá o quiz já é o caminho principal).
   useEffect(() => {
-    if (hasOpened) return;
+    if (hasOpened || isDiagnosticoPage) return;
     const t = setTimeout(() => openChat(), PROACTIVE_CHAT_DELAY_MS);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasOpened]);
+  }, [hasOpened, isDiagnosticoPage]);
 
   // Exit-intent: se o mouse sair do topo, abre também
+  // Ignora na /diagnostico pelo mesmo motivo.
   useEffect(() => {
-    if (hasOpened) return;
+    if (hasOpened || isDiagnosticoPage) return;
     const handler = (e: MouseEvent) => {
       if (e.clientY <= 0) openChat();
     };
     document.addEventListener('mouseout', handler);
     return () => document.removeEventListener('mouseout', handler);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasOpened]);
+  }, [hasOpened, isDiagnosticoPage]);
 
   // Auto-scroll para a última mensagem
   useEffect(() => {
@@ -136,6 +145,9 @@ export default function ProactiveChat() {
 
   // Link pro /diagnostico preservando o source (atribuição de origem)
   const diagnosticoUrl = `/diagnostico?source=${encodeURIComponent(source || 'chat')}`;
+
+  // Na /diagnostico, não renderiza nada (quiz em tela cheia já é o caminho).
+  if (isDiagnosticoPage) return null;
 
   // Botão inicial (balão flutuante)
   if (phase === 'idle') {
