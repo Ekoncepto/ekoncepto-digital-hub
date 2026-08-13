@@ -241,6 +241,126 @@ export function buildDiagnosticMessage(
   return partes.join('\n');
 }
 
+/**
+ * Gera um mini-diagnóstico personalizado para a tela de sucesso.
+ *
+ * Cruza as respostas (marketplace + faturamento + dor + objetivo) e devolve
+ * 2-3 "insights" acionáveis — valor imediato, antes do CTA de WhatsApp.
+ * Cada insight é { titulo, descricao, prioridade } pra podermos estilizar.
+ *
+ * A lógica é baseada em heurísticas simples (não IA) que refletem o
+ * posicionamento da E-Koncepto. Editável sem tocar em UI.
+ */
+export type DiagnosticInsight = {
+  titulo: string;
+  descricao: string;
+  prioridade: 'alta' | 'media' | 'baixa';
+};
+
+export function buildDiagnosticInsight(
+  answers: Record<string, string>
+): DiagnosticInsight[] {
+  const insights: DiagnosticInsight[] = [];
+  const mp = answers.marketplace;
+  const fat = answers.faturamento;
+  const dor = answers.dor;
+  const objetivo = answers.objetivo;
+
+  // --- Insight por DOR (o mais importante — aparece primeiro) ---
+  const dorMap: Record<string, DiagnosticInsight> = {
+    'nao-vende': {
+      titulo: 'Seus anúncios não estão sendo encontrados',
+      descricao:
+        'Anúncios que não vendem geralmente têm problema de SEO/visibilidade dentro do marketplace. O primeiro passo é otimizar títulos, palavras-chave e imagens para aparecer nas buscas.',
+      prioridade: 'alta',
+    },
+    'vende-pouco': {
+      titulo: 'Tráfego baixo nos seus anúncios',
+      descricao:
+        'Vender pouco indica que poucos clientes estão vendo seus produtos. Investir em Ads do marketplace (Shopee Ads, Mercado Ads) com segmentação certa costuma dobrar a visibilidade rapidamente.',
+      prioridade: 'alta',
+    },
+    margem: {
+      titulo: 'Sua precificação pode estar errada',
+      descricao:
+        'Margem apertada quase sempre vem de precificação sem considerar comissões, frete e custos ocultos do marketplace. Recalcular o preço de venda é a alavanca de margem mais rápida.',
+      prioridade: 'alta',
+    },
+    escalar: {
+      titulo: 'Você está pronto para escalar — mas falta estrutura',
+      descricao:
+        'Escalar exige sortimento maior, reposição de estoque no tempo certo e campanhas de Ads bem estruturadas. Sem processo definido, escalar queima dinheiro.',
+      prioridade: 'media',
+    },
+    tempo: {
+      titulo: 'Você está operando no manual demais',
+      descricao:
+        'Falta de tempo significa processos manuais que deveriam ser automatizados: integração de estoque, resposta de mensagens, reposição. Automação libera você pra estratégia.',
+      prioridade: 'media',
+    },
+  };
+  if (dor && dorMap[dor]) insights.push(dorMap[dor]);
+
+  // --- Insight por OBJETIVO ---
+  const objetivoMap: Record<string, DiagnosticInsight> = {
+    comecar: {
+      titulo: 'Começar do zero exige o setup certo',
+      descricao:
+        'A maioria dos vendedores demora meses pra vender porque pula etapas: escolha do marketplace certo, cadastro otimizado desde o início e logística bem configurada.',
+      prioridade: 'media',
+    },
+    otimizar: {
+      titulo: 'Otimizar exige foco nos anúncios certos',
+      descricao:
+        ' Nem todo anúncio merece atenção. A regra 80/20 se aplica: 20% dos seus anúncios trazem 80% do resultado. Identificar esses e investir neles é o caminho.',
+      prioridade: 'media',
+    },
+    escalar: {
+      titulo: 'Escalar é sobre canais e sortimento, não só Ads',
+      descricao:
+        'Escalar de verdade significa vender em mais de um marketplace, ampliar o catálogo com produtos vencedores e estruturar logística full (FBA, Full, etc).',
+      prioridade: 'baixa',
+    },
+    profissionalizar: {
+      titulo: 'Profissionalizar é organizar processos e métricas',
+      descricao:
+        'Operação profissional precisa de dashboard de métricas claras (GMV, ticket médio, CAC), processo de reposição e governança de preço. Sem isso, você cresce às cegas.',
+      prioridade: 'baixa',
+    },
+  };
+  if (objetivo && objetivoMap[objetivo]) insights.push(objetivoMap[objetivo]);
+
+  // --- Insight por FATURAMENTO (contexto de onde o lead está) ---
+  if (fat === 'ate-10k' || fat === '10k-50k') {
+    insights.push({
+      titulo: 'Sua fase pede foco, não escala',
+      descricao:
+        'Nessa faixa de faturamento, o ganho maior vem de dominar UM marketplace antes de expandir. Tentar vender em vários ao mesmo tempo dilui esforço.',
+      prioridade: 'baixa',
+    });
+  } else if (fat === '500k+') {
+    insights.push({
+      titulo: 'Você já tem tração — o risco é estagnar',
+      descricao:
+        'Nesse patamar, o crescimento exige olhar pra fora: novos marketplaces, expansão de portfólio e parcerias estratégicas. O que te trouxe até aqui não te leva até o próximo nível.',
+      prioridade: 'baixa',
+    });
+  }
+
+  // Fallback: se por algum motivo não gerou nada, devolve 1 genérico.
+  if (insights.length === 0) {
+    insights.push({
+      titulo: 'Identificamos oportunidades na sua operação',
+      descricao:
+        'Com base nas suas respostas, existem alavancas concretas de crescimento que podemos explorar. O próximo passo é um diagnóstico mais profundo.',
+      prioridade: 'media',
+    });
+  }
+
+  void mp; // reservado: personalizar por marketplace específico no futuro
+  return insights.slice(0, 3); // máx 3 insights pra tela não ficar longa
+}
+
 // Analytics and Tracking
 export const analytics = {
   googleAnalyticsId: import.meta.env.VITE_GA_MEASUREMENT_ID,

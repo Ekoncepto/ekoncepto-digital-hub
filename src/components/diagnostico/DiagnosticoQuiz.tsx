@@ -14,11 +14,12 @@
  */
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowLeft, Check, MessageCircle } from 'lucide-react';
+import { ArrowLeft, Check, MessageCircle, Sparkles, AlertCircle, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 import { QUIZ_QUESTIONS, type QuizQuestion } from '@/config/diagnostico-quiz';
+import { buildDiagnosticInsight, type DiagnosticInsight } from '@/config/site';
 import { useDiagnosticoLead } from './useDiagnosticoLead';
 import ContactForm from './ContactForm';
 
@@ -202,32 +203,157 @@ function SuccessScreen({
   answers: Record<string, string>;
 }) {
   const nome = answers.nome?.trim();
+  const insights = buildDiagnosticInsight(answers);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="max-w-xl mx-auto text-center"
+      className="max-w-2xl mx-auto"
     >
-      <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mx-auto mb-6">
-        <Check className="w-8 h-8" strokeWidth={3} />
+      {/* Cabeçalho */}
+      <div className="text-center mb-8">
+        <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mx-auto mb-6">
+          <Check className="w-8 h-8" strokeWidth={3} />
+        </div>
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3">
+          {nome ? `${nome}, aqui está seu diagnóstico` : 'Aqui está seu diagnóstico'}
+        </h2>
+        <p className="text-muted-foreground">
+          Com base nas suas respostas, identificamos os seguintes pontos:
+        </p>
       </div>
-      <h2 className="text-3xl font-bold tracking-tight mb-3">
-        {nome ? `${nome}, seu diagnóstico está pronto!` : 'Seu diagnóstico está pronto!'}
-      </h2>
-      <p className="text-muted-foreground mb-8">
-        Agora é só falar com um especialista no WhatsApp. Preparamos um resumo com
-        suas respostas pra você não precisar repetir nada.
-      </p>
-      <Button asChild size="lg" variant="hero" className="w-full h-14 text-base">
-        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-          <MessageCircle className="w-5 h-5 mr-2" />
-          Falar no WhatsApp
-        </a>
-      </Button>
-      <p className="text-xs text-muted-foreground mt-4">
-        Grátis · Sem compromisso · Resposta em minutos
-      </p>
+
+      {/* Insights (mini-diagnóstico personalizado) */}
+      <div className="space-y-3 mb-8">
+        {insights.map((insight, idx) => (
+          <InsightCard key={idx} insight={insight} index={idx} />
+        ))}
+      </div>
+
+      {/* Resumo das respostas (colapsável visual) */}
+      <div className="rounded-lg bg-muted/50 p-4 mb-8">
+        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">
+          Seu perfil
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {(['marketplace', 'faturamento', 'objetivo'] as const).map((key) => {
+            const value = answers[key];
+            if (!value) return null;
+            const label =
+              key === 'marketplace'
+                ? marketplaceLabel(value)
+                : key === 'faturamento'
+                  ? faturamentoLabel(value)
+                  : objetivoLabel(value);
+            return (
+              <span
+                key={key}
+                className="inline-flex items-center rounded-full bg-background border border-border px-3 py-1 text-xs font-medium"
+              >
+                {label}
+              </span>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* CTA WhatsApp */}
+      <div className="text-center">
+        <p className="text-muted-foreground mb-4">
+          Quer o diagnóstico completo com plano de ação? Fale com um especialista —
+          o resumo já chega preenchido no WhatsApp.
+        </p>
+        <Button asChild size="lg" variant="hero" className="w-full sm:w-auto h-14 px-8 text-base">
+          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+            <MessageCircle className="w-5 h-5 mr-2" />
+            Quero o diagnóstico completo
+          </a>
+        </Button>
+        <p className="text-xs text-muted-foreground mt-4">
+          Grátis · Sem compromisso · Resposta em minutos
+        </p>
+      </div>
     </motion.div>
   );
+}
+
+function InsightCard({
+  insight,
+  index,
+}: {
+  insight: DiagnosticInsight;
+  index: number;
+}) {
+  const icon =
+    insight.prioridade === 'alta'
+      ? AlertCircle
+      : insight.prioridade === 'media'
+        ? TrendingUp
+        : Sparkles;
+  const Icon = icon;
+  const colorClass =
+    insight.prioridade === 'alta'
+      ? 'text-red-500 bg-red-500/10'
+      : insight.prioridade === 'media'
+        ? 'text-amber-500 bg-amber-500/10'
+        : 'text-primary bg-primary/10';
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -16 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.3, delay: index * 0.15 }}
+      className="flex gap-4 p-4 rounded-xl border border-border bg-background"
+    >
+      <div
+        className={cn(
+          'shrink-0 w-10 h-10 rounded-full flex items-center justify-center',
+          colorClass
+        )}
+      >
+        <Icon className="w-5 h-5" />
+      </div>
+      <div className="flex-1">
+        <h3 className="font-semibold text-sm sm:text-base mb-1">
+          {insight.titulo}
+        </h3>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          {insight.descricao}
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
+// Helpers de label (mantidos inline pra não acoplar mais imports)
+function marketplaceLabel(value: string): string {
+  const map: Record<string, string> = {
+    'mercado-livre': 'Mercado Livre',
+    amazon: 'Amazon',
+    shopee: 'Shopee',
+    multi: 'Multi-marketplace',
+    nenhum: 'Ainda não vende',
+  };
+  return map[value] ?? value;
+}
+function faturamentoLabel(value: string): string {
+  const map: Record<string, string> = {
+    'ate-10k': 'Até R$ 10k/mês',
+    '10k-50k': 'R$ 10k–50k/mês',
+    '50k-100k': 'R$ 50k–100k/mês',
+    '100k-500k': 'R$ 100k–500k/mês',
+    '500k+': '+R$ 500k/mês',
+  };
+  return map[value] ?? value;
+}
+function objetivoLabel(value: string): string {
+  const map: Record<string, string> = {
+    comecar: 'Começar do zero',
+    otimizar: 'Otimizar operação',
+    escalar: 'Escalar vendas',
+    profissionalizar: 'Profissionalizar',
+  };
+  return map[value] ?? value;
 }
