@@ -16,7 +16,7 @@
  */
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Loader2, X, MessageSquare, ArrowRight } from 'lucide-react';
+import { Loader2, X, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import {
@@ -157,7 +157,7 @@ export default function ProactiveChat() {
   // Na /diagnostico, não renderiza nada (quiz em tela cheia já é o caminho).
   if (isDiagnosticoPage) return null;
 
-  // Botão inicial (balão flutuante)
+  // Botão inicial (balão flutuante estilo WhatsApp, canto inferior direito)
   if (phase === 'idle') {
     return (
       <motion.button
@@ -165,16 +165,30 @@ export default function ProactiveChat() {
         onClick={openChat}
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.3 }}
-        className="fixed bottom-6 left-6 z-40"
-        aria-label="Abrir chat de diagnóstico"
+        transition={{ duration: 0.3, delay: 1 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="fixed bottom-6 right-6 z-40"
+        aria-label="Falar com especialista"
       >
-        <span className="flex items-center gap-2 bg-background border border-border shadow-lg rounded-full pl-3 pr-4 py-3 hover:bg-accent transition-colors">
-          <span className="relative flex w-9 h-9 items-center justify-center rounded-full bg-primary text-primary-foreground">
-            <MessageSquare className="w-5 h-5" />
-            <span className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-red-500 ring-2 ring-background" />
+        <span className="relative flex w-16 h-16 items-center justify-center rounded-full bg-green-500 hover:bg-green-600 text-white shadow-lg transition-colors">
+          {/* Ícone WhatsApp (mesmo SVG do FloatingWhatsAppButton original) */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 30 30"
+            fill="currentColor"
+            className="w-9 h-9"
+            aria-hidden="true"
+          >
+            <path d="M30.3139 14.3245C30.174 10.4932 28.5594 6.864 25.8073 4.1948C23.0552 1.52559 19.3784 0.0227244 15.5446 4.10118e-06H15.4722C12.8904 -0.00191309 10.3527 0.668375 8.10857 1.94491C5.86449 3.22145 3.99142 5.06026 2.67367 7.28039C1.35592 9.50053 0.6389 12.0255 0.593155 14.6068C0.547411 17.1882 1.17452 19.737 2.41278 22.0024L1.09794 29.8703C1.0958 29.8865 1.09712 29.9029 1.10182 29.9185C1.10651 29.9341 1.11448 29.9485 1.12518 29.9607C1.13588 29.973 1.14907 29.9828 1.16387 29.9896C1.17867 29.9964 1.19475 29.9999 1.21103 30H1.23365L9.01561 28.269C11.0263 29.2344 13.2282 29.7353 15.4586 29.7346C15.6004 29.7346 15.7421 29.7346 15.8838 29.7346C17.8458 29.6786 19.7773 29.2346 21.5667 28.4282C23.3562 27.6218 24.9682 26.469 26.3098 25.0363C27.6514 23.6036 28.696 21.9194 29.3832 20.0809C30.0704 18.2423 30.3867 16.2859 30.3139 14.3245Z" />
+          </svg>
+          {/* Badge "não lido" pra chamar atenção */}
+          <span className="absolute -top-0.5 -right-0.5 flex w-5 h-5">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75 animate-ping" />
+            <span className="relative inline-flex w-5 h-5 rounded-full bg-red-500 text-white text-[10px] font-bold items-center justify-center ring-2 ring-green-500">
+              1
+            </span>
           </span>
-          <span className="text-sm font-medium">Fazer diagnóstico</span>
         </span>
       </motion.button>
     );
@@ -189,7 +203,7 @@ export default function ProactiveChat() {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 20, scale: 0.95 }}
         transition={{ duration: 0.25 }}
-        className="fixed bottom-6 left-6 z-50 w-[calc(100vw-3rem)] sm:w-96"
+        className="fixed bottom-24 right-6 z-50 w-[calc(100vw-3rem)] sm:w-96"
       >
         <div className="bg-card border border-border rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[70vh]">
           {/* Header */}

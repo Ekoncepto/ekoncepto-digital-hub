@@ -175,7 +175,12 @@ export const QUIZ_VALUE_LABELS: Record<string, Record<string, string>> = {
 };
 
 /** Tempo (ms) para o chat proativo aparecer sozinho */
-export const PROACTIVE_CHAT_DELAY_MS = 30_000;
+/**
+ * Tempo (ms) para o chat abrir SOZINHO (auto-open).
+ * O clique no botão flutuante é imediato — esse delay é só pro balão
+ * aparecer automaticamente caso o usuário não clique em nada.
+ */
+export const PROACTIVE_CHAT_DELAY_MS = 45_000;
 
 /** Chave de localStorage para preservar respostas entre quiz e chat */
 export const DIAGNOSTICO_STORAGE_KEY = 'ek_diagnostico_answers';

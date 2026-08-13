@@ -1,5 +1,12 @@
 ---
-import FloatingWhatsAppButton from './FloatingWhatsAppButton.jsx';
+import ProactiveChat from '@/components/diagnostico/ProactiveChat';
 ---
 
-<FloatingWhatsAppButton client:load />
+{/*
+  Botão flutuante unificado: ícone de WhatsApp (familiar) que abre o quiz
+  conversacional (ProactiveChat). Aparece em todas as páginas exceto na
+  /diagnostico (o próprio ProactiveChat suprime lá via isDiagnosticoPage).
+  Dentro do chat, o usuário pode: responder as perguntas e ir pro
+  /diagnostico completar, OU clicar em "falar direto no WhatsApp".
+*/}
+<ProactiveChat client:load />
