@@ -1,13 +1,26 @@
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { whatsappDirectLink } from '@/config/site';
 
 const FloatingWhatsAppButton = () => {
-  // Suprime na /diagnostico: lá o chat proativo já cumpre esse papel,
-  // e ter os dois ao mesmo tempo polui a tela.
-  const isDiagnostico =
-    typeof window !== 'undefined' && window.location.pathname === '/diagnostico';
-  if (isDiagnostico) return null;
+  // Suprime na /diagnostico: lá o quiz em tela cheia já é o caminho,
+  // não faz sentido ter o botão flutuante de WhatsApp competindo.
+  //
+  // Importante: o check tem que ser client-only (useEffect + state), porque
+  // o Astro renderiza o componente no servidor (SSR) pra gerar HTML estático.
+  // No servidor window é undefined, então um check inline no corpo do
+  // componente falha e o botão vai pro HTML. Com state, o botão renderiza
+  // escondido no SSR e só fica visível após o mount no client (se não for
+  // /diagnostico).
+  const [hidden, setHidden] = useState(true);
+
+  useEffect(() => {
+    const path = window.location.pathname.replace(/\/$/, '');
+    setHidden(path.endsWith('/diagnostico'));
+  }, []);
+
+  if (hidden) return null;
 
   return (
     <motion.div

@@ -56,9 +56,17 @@ export default function ProactiveChat() {
   // Suprime na /diagnostico: lá o quiz em tela cheia já é o caminho principal.
   // O chat proativo só faz sentido nas OUTRAS páginas (home, LPs, etc) como
   // segundo caminho. Mostrar os dois na mesma tela é redundante e confuso.
-  // (depois dos hooks, pra não violar Rules of Hooks)
-  const isDiagnosticoPage =
-    typeof window !== 'undefined' && window.location.pathname === '/diagnostico';
+  //
+  // Importante: precisa ser client-only (useEffect + state) porque o Astro
+  // renderiza no servidor (SSR). Check inline no corpo falha no SSR (window
+  // undefined) e o botão vai pro HTML estático. Com state, renderiza escondido
+  // no SSR e só aparece no client se NÃO for /diagnostico.
+  const [isDiagnosticoPage, setIsDiagnosticoPage] = useState(true);
+
+  useEffect(() => {
+    const path = window.location.pathname.replace(/\/$/, '');
+    setIsDiagnosticoPage(path.endsWith('/diagnostico'));
+  }, []);
 
   // Abre sozinho depois de PROACTIVE_CHAT_DELAY_MS (uma vez só)
   // Ignora na /diagnostico (lá o quiz já é o caminho principal).

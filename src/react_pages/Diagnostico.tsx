@@ -1,15 +1,14 @@
 /**
- * Página /diagnostico — orquestra os 3 pedaços:
+ * Página /diagnostico — orquestra os 2 pedaços:
  *  - HeroDiagnostico: headline + prova social
  *  - DiagnosticoQuiz: quiz em tela cheia (caminho principal)
- *  - ProactiveChat: chat que abre após 30s (caminho conversacional)
  *
- * O chat só aparece como fallback/segunda via: se o usuário já está
- * engajado no quiz, o balão dele fica discreto (canto inferior esquerdo).
+ * O ProactiveChat NÃO está aqui — ele compete com o quiz (ação duplicada).
+ * O chat proativo só deve aparecer em OUTRAS páginas (home, LPs) como
+ * segundo caminho. Ver Layout.astro.
  */
 import HeroDiagnostico from '@/components/diagnostico/HeroDiagnostico';
 import DiagnosticoQuiz from '@/components/diagnostico/DiagnosticoQuiz';
-import ProactiveChat from '@/components/diagnostico/ProactiveChat';
 
 const Diagnostico = () => {
   return (
@@ -25,7 +24,6 @@ const Diagnostico = () => {
           </footer>
         </section>
       </main>
-      <ProactiveChat />
     </>
   );
 };
