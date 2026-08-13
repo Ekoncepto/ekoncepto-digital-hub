@@ -94,6 +94,36 @@ All colors MUST be HSL.
     --shadow-elegant: 0 10px 30px -10px hsl(14 84% 55% / 0.3);
   }
 
+  /*
+   * Mercado Livre theme — yellow #FFE600 (authentic ML) with DARK text
+   * for contrast, blue #3483FA as secondary (CTAs/links).
+   * Apply via <div className="mercado-livre-theme">.
+   */
+  .mercado-livre-theme {
+    --primary: 55 100% 50%;
+    --primary-foreground: 220 25% 10%;
+    --secondary: 217 95% 61%;
+    --secondary-foreground: 0 0% 100%;
+    --ring: 217 95% 61%;
+    --gradient-primary: linear-gradient(135deg, hsl(55 100% 50%), hsl(217 95% 61%));
+    --shadow-elegant: 0 10px 30px -10px hsl(217 95% 61% / 0.3);
+  }
+
+  /*
+   * Amazon theme — orange #FF9900 as primary (matches Shopee pattern for
+   * consistency), navy #131921 as secondary.
+   * Apply via <div className="amazon-theme">.
+   */
+  .amazon-theme {
+    --primary: 36 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 32% 10%;
+    --secondary-foreground: 0 0% 100%;
+    --ring: 36 100% 50%;
+    --gradient-primary: linear-gradient(135deg, hsl(220 32% 10%), hsl(36 100% 50%));
+    --shadow-elegant: 0 10px 30px -10px hsl(36 100% 50% / 0.3);
+  }
+
   * {
     @apply border-border;
   }

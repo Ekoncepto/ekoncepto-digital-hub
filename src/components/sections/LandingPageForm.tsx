@@ -26,6 +26,9 @@ const formSchema = z.object({
   name: z.string().min(2, {
     message: "O nome deve ter pelo menos 2 caracteres.",
   }),
+  email: z.string().email({
+    message: "Digite um e-mail válido.",
+  }),
   company: z.string().min(2, {
     message: "O nome da empresa deve ter pelo menos 2 caracteres.",
   }),
@@ -46,6 +49,7 @@ export function LandingPageForm({ redirectPath = "/thank-you" }: LandingPageForm
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      email: "",
       company: "",
     },
   });
@@ -86,6 +90,25 @@ export function LandingPageForm({ redirectPath = "/thank-you" }: LandingPageForm
               <FormLabel>Nome</FormLabel>
               <FormControl>
                 <Input placeholder="Seu nome completo" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>E-mail</FormLabel>
+              <FormControl>
+                <Input
+                  type="email"
+                  inputMode="email"
+                  autoComplete="email"
+                  placeholder="seu@email.com"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -1,16 +1,29 @@
 ---
+// Esta página antes prometia um "Guia Completo da Shopee" que não existe
+// (dizia "Em breve"). Em vez de queimar a confiança do visitante com uma
+// oferta vaporware, redirecionamos pro /diagnostico — que entrega valor
+// real (diagnóstico personalizado) e converte.
+// O redirecionamento é duplo: meta refresh (funciona sem JS) + JS instantâneo.
 import SEO from '../../components/SEO.astro';
 import Layout from '../../layouts/Layout.astro';
-import ComoVenderNaShopee from '../../react_pages/landing/ComoVenderNaShopee.tsx';
 
-const title = "Guia Atualizado para Vender na Shopee";
-const description = "Aprenda como vender na Shopee com nosso conteúdo educacional completo, incluindo e-book e vídeo.";
+const title = "Diagnóstico Gratuito para Vender na Shopee | E-Koncepto";
+const description = "Descubra em 2 minutos onde você está perdendo dinheiro na Shopee. Diagnóstico personalizado e gratuito.";
+const redirectUrl = "/diagnostico?source=landing-shopee-redirect";
 ---
 
 <Layout title={title}>
     <SEO
         title={title}
         description={description}
+        canonical="/diagnostico"
     />
-    <ComoVenderNaShopee client:load />
+    <meta http-equiv="refresh" content={`0; url=${redirectUrl}`} />
+    <script is:inline define:vars={{ redirectUrl }}>
+        window.location.replace(redirectUrl);
+    </script>
+    <div style="padding: 4rem 1rem; text-align: center; font-family: sans-serif;">
+        <p style="font-size: 1.25rem; margin-bottom: 1rem;">Redirecionando para seu diagnóstico gratuito...</p>
+        <p><a href={redirectUrl} style="color: #0FA958;">Clique aqui se não for redirecionado automaticamente.</a></p>
+    </div>
 </Layout>

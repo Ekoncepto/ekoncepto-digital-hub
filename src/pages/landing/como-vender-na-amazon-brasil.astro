@@ -1,16 +1,26 @@
 ---
+// Esta página antes prometia um "Guia Prático da Amazon" que não existe
+// (dizia "Em breve"). Redirecionamos pro /diagnostico — valor real.
 import SEO from '../../components/SEO.astro';
 import Layout from '../../layouts/Layout.astro';
-import ComoVenderNaAmazonBrasil from '../../react_pages/landing/ComoVenderNaAmazonBrasil.tsx';
 
-const title = "Comece a Vender na Amazon Brasil: Guia Prático";
-const description = "Nosso guia prático para iniciantes ensina tudo o que você precisa para começar a vender na Amazon Brasil.";
+const title = "Diagnóstico Gratuito para Vender na Amazon | E-Koncepto";
+const description = "Descubra em 2 minutos onde você está perdendo dinheiro na Amazon. Diagnóstico personalizado e gratuito.";
+const redirectUrl = "/diagnostico?source=landing-amazon-redirect";
 ---
 
 <Layout title={title}>
     <SEO
         title={title}
         description={description}
+        canonical="/diagnostico"
     />
-    <ComoVenderNaAmazonBrasil client:load />
+    <meta http-equiv="refresh" content={`0; url=${redirectUrl}`} />
+    <script is:inline define:vars={{ redirectUrl }}>
+        window.location.replace(redirectUrl);
+    </script>
+    <div style="padding: 4rem 1rem; text-align: center; font-family: sans-serif;">
+        <p style="font-size: 1.25rem; margin-bottom: 1rem;">Redirecionando para seu diagnóstico gratuito...</p>
+        <p><a href={redirectUrl} style="color: #0FA958;">Clique aqui se não for redirecionado automaticamente.</a></p>
+    </div>
 </Layout>
