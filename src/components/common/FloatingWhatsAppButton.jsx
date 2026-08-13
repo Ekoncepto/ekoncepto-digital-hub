@@ -1,8 +1,14 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { externalLinks } from '@/config/site';
+import { whatsappLink } from '@/config/site';
 
 const FloatingWhatsAppButton = () => {
+  // Suprime na /diagnostico: lá o chat proativo já cumpre esse papel,
+  // e ter os dois ao mesmo tempo polui a tela.
+  const isDiagnostico =
+    typeof window !== 'undefined' && window.location.pathname === '/diagnostico';
+  if (isDiagnostico) return null;
+
   return (
     <motion.div
       className="fixed bottom-6 right-6 z-50"
@@ -12,7 +18,7 @@ const FloatingWhatsAppButton = () => {
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
     >
-      <a href={externalLinks.whatsapp} target="_blank" rel="noopener noreferrer">
+      <a href={whatsappLink('floating')}>
         <Button
           size="lg"
           className="rounded-full shadow-lg bg-green-500 hover:bg-green-600 text-white w-16 h-16 p-0 relative"

@@ -1,0 +1,18 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Diagnostico from '../react_pages/Diagnostico.tsx';
+import SEO from '@/components/SEO.astro';
+import { businessInfo } from '@/config/site';
+
+const title = `Diagnóstico Gratuito | ${businessInfo.name}`;
+const description = `Descubra em 2 minutos onde você está perdendo dinheiro em marketplaces. Diagnóstico 100% personalizado pela ${businessInfo.name}.`;
+---
+
+<Layout title={title}>
+	<SEO
+		title={title}
+		description={description}
+		canonical="/diagnostico"
+	/>
+	<Diagnostico client:load />
+</Layout>

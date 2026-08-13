@@ -3,6 +3,8 @@
  * This file contains all the external links, contact information, and other site-wide settings.
  */
 
+import { QUIZ_VALUE_LABELS } from './diagnostico-quiz';
+
 type SocialLink = {
   name: string;
   url: string;
@@ -109,11 +111,27 @@ export const externalLinks = {
 };
 
 /**
- * WhatsApp deep link builder with contextual pre-filled messages.
- * Lets us attribute inbound leads to the section/button they clicked,
- * without needing analytics. The `source` key selects the message.
+ * Diagnóstico — página de qualificação intermediária.
  *
- * Usage: <a href={whatsappLink('hero')}>...</a>
+ * Todos os CTAs de WhatsApp do site passam por /diagnostico antes de
+ * abrir o WhatsApp de fato. O `source` (mesma chave que antes identificava
+ * a mensagem) agora identifica a origem do clique dentro do quiz, e é
+ * gravado no Google Sheets junto das respostas.
+ */
+const DIAGNOSTICO_PATH = '/diagnostico';
+
+/**
+ * Gera link interno para a página de diagnóstico, preservando o `source`
+ * para atribuição. Este é o novo comportamento de `whatsappLink()`.
+ */
+export function diagnosticoLink(source: string = 'default'): string {
+  return `${DIAGNOSTICO_PATH}?source=${encodeURIComponent(source)}`;
+}
+
+/**
+ * Mensagens pré-definidas para o caso de o usuário NÃO completar o quiz
+ * (ex: fecha a página, clica no botão de escape do chat, etc.). São usadas
+ * pelo `whatsappDirectLink()` abaixo — o "plan B" que pula o diagnóstico.
  */
 const WHATSAPP_MESSAGES: Record<string, string> = {
   hero: 'Olá! Vi que meus concorrentes estão faturando 3x mais. Quero meu diagnóstico gratuito para entender onde estou perdendo dinheiro em marketplaces.',
@@ -129,6 +147,8 @@ const WHATSAPP_MESSAGES: Record<string, string> = {
     'Olá! Quero meu diagnóstico gratuito e o plano de ação para os próximos 90 dias.',
   header: 'Olá! Gostaria de falar com um especialista da E-Koncepto.',
   floating: 'Olá! Vim pelo site e gostaria de falar com um especialista.',
+  footer: 'Olá! Vim pelo rodapé do site e gostaria de falar com um especialista.',
+  thankyou: 'Olá! Acabei de preencher o formulário e quero falar com um especialista.',
   'shopee-hero':
     'Olá! Vim do popup da Shopee. Quero vender mais na minha operação.',
   'shopee-cases':
@@ -147,13 +167,85 @@ const WHATSAPP_MESSAGES: Record<string, string> = {
     'Olá! Gostaria de mais informações sobre a consultoria.',
 };
 
+/**
+ * Roteia TODOS os CTAs de WhatsApp pelo diagnóstico primeiro.
+ *
+ * Antes: retornava wa.me/?text=mensagem
+ * Agora: retorna /diagnostico?source=<source>
+ *
+ * Os 15+ call sites que já usam whatsappLink('hero') etc. passam a
+ * qualificar o lead automaticamente, sem mudança no componente.
+ */
 export function whatsappLink(
+  source: keyof typeof WHATSAPP_MESSAGES | string = 'default'
+): string {
+  return diagnosticoLink(source);
+}
+
+/**
+ * Link DIRETO para o WhatsApp (pula o diagnóstico).
+ *
+ * Usado em casos de escape: botão "prefiro falar direto" no chat proativo,
+ * fallback de erro na submissão, ou quando o usuário já preencheu o quiz.
+ * Quando `customMessage` é passado, usa ela; caso contrário, busca a
+ * mensagem pré-definida pelo `source`.
+ */
+export function whatsappDirectLink(
   source: keyof typeof WHATSAPP_MESSAGES | string = 'default',
   customMessage?: string
 ): string {
   const message = customMessage ?? WHATSAPP_MESSAGES[source] ?? WHATSAPP_MESSAGES.default;
   return `https://wa.me/${contactInfo.whatsapp}?text=${encodeURIComponent(message)}`;
 }
+
+/**
+ * Monta mensagem personalizada de WhatsApp a partir das respostas do quiz.
+ *
+ * Usada na tela final do quiz/chat, quando o usuário já deu todos os dados
+ * e clicou em "falar no WhatsApp". A mensagem chega pré-preenchida no chat
+ * com o resumo do lead, poupando o usuário de reexplicar tudo.
+ */
+export function buildDiagnosticMessage(
+  answers: Record<string, string>,
+  source: string = 'site'
+): string {
+  const label = (field: string, value: string): string =>
+    QUIZ_VALUE_LABELS[field]?.[value] ?? value;
+
+  const nome = answers.nome?.trim();
+  const saudacao = nome ? `Olá! Sou ${nome}.` : 'Olá!';
+
+  const marketplace = answers.marketplace ? label('marketplace', answers.marketplace) : null;
+  const faturamento = answers.faturamento ? label('faturamento', answers.faturamento) : null;
+  const dor = answers.dor ? label('dor', answers.dor) : null;
+  const objetivo = answers.objetivo ? label('objetivo', answers.objetivo) : null;
+  const contato = answers.contato?.trim();
+
+  const partes: string[] = [saudacao, 'Acabei de fazer o diagnóstico gratuito no site da E-Koncepto.'];
+
+  const contexto: string[] = [];
+  if (marketplace) contexto.push(`Vendo em: ${marketplace}`);
+  if (faturamento) contexto.push(`Faturamento: ${faturamento}`);
+  if (dor) contexto.push(`Maior dor: ${dor}`);
+  if (objetivo) contexto.push(`Objetivo: ${objetivo}`);
+  if (contexto.length) partes.push(contexto.join(' · '));
+
+  if (contato) partes.push(`Meu contato: ${contato}`);
+
+  partes.push('Pode me ajudar com o próximo passo?');
+  void source; // reservado para futuro (ex: personalizar por origem)
+  return partes.join('\n');
+}
+
+/**
+ * Webhook do Google Apps Script para salvar leads do diagnóstico.
+ *
+ * Defina a URL em .env: VITE_GOOGLE_SHEETS_WEBHOOK_URL=https://script.google.com/macros/s/XXX/exec
+ * Veja GOOGLE_SHEETS_SETUP.md para configurar.
+ */
+export const googleSheetsConfig = {
+  webhookUrl: import.meta.env.VITE_GOOGLE_SHEETS_WEBHOOK_URL || '',
+};
 
 // Analytics and Tracking
 export const analytics = {

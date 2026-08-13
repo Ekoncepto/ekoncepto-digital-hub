@@ -1,7 +1,7 @@
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { Button } from "@/components/ui/button";
-import { externalLinks } from "@/config/site";
+import { whatsappLink } from "@/config/site";
 import { CheckCircle } from "lucide-react";
 
 const ThankYouPage = () => {
@@ -19,7 +19,7 @@ const ThankYouPage = () => {
           </p>
           <div className="mt-8">
             <Button asChild size="lg">
-              <a href={externalLinks.whatsapp} target="_blank" rel="noopener noreferrer">
+              <a href={whatsappLink('thankyou')}>
                 Iniciar conversa no WhatsApp
               </a>
             </Button>

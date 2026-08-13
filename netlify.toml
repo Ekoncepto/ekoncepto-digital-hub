@@ -1,0 +1,7 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Reservado para futuras Netlify Functions (ex: Conversions API server-side).
+# Por enquanto o site é estático, sem backend.
+# functions = "netlify/functions"
