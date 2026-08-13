@@ -25,6 +25,7 @@ import {
   CONTACT_FIELDS,
 } from '@/config/diagnostico-quiz';
 import { useDiagnosticoLead, validateField } from './useDiagnosticoLead';
+import { buildDiagnosticInsight, type DiagnosticInsight } from '@/config/site';
 
 type ChatMsg = {
   id: number;
@@ -78,6 +79,11 @@ export default function ProactiveChat() {
   const [contactIndex, setContactIndex] = useState(0); // qual campo de contato estamos
   const [contactInput, setContactInput] = useState('');
   const [contactError, setContactError] = useState<string | null>(null);
+  // Acumula as respostas de contato localmente (ref) pra garantir que o
+  // submitLead recebe TODAS as respostas mesmo antes do state do React
+  // atualizar. O setAnswer do hook é assíncrono e pode não ter refletido
+  // no estado `answers` quando submitAndFinish() roda.
+  const contactAnswersRef = useRef<Record<string, string>>({});
 
   // URL do WhatsApp gerada após submissão.
   const [whatsappUrl, setWhatsappUrl] = useState('');
@@ -129,6 +135,7 @@ export default function ProactiveChat() {
   function openChat() {
     if (hasOpened) return;
     setHasOpened(true);
+    contactAnswersRef.current = {}; // reset ao abrir
     setPhase('open');
     pushMsg('bot', 'Olá! Sou da E-Koncepto 👋');
     setTimeout(() => askNext(0), TYPING_DELAY_MS * 2);
@@ -242,6 +249,7 @@ export default function ProactiveChat() {
 
     pushMsg('user', value);
     setAnswer(fieldId, value);
+    contactAnswersRef.current[fieldId] = value; // garante no ref antes do submit
     setContactError(null);
     advanceContact();
   }
@@ -256,19 +264,49 @@ export default function ProactiveChat() {
     }, TYPING_DELAY_MS);
   }
 
-  // ---------------- FASE 3: submissão ----------------
+  // ---------------- FASE 3: submissão + diagnóstico ----------------
 
   async function submitAndFinish() {
     setPhase('submitting');
-    const result = await submitLead(answers);
+    // Merge explícito: answers (state, pode estar desatualizado) + ref
+    // (acumulado sincronamente). Garante que TODAS as respostas cheguem
+    // ao submitLead mesmo se o React ainda não re-renderizou.
+    const finalAnswers = { ...answers, ...contactAnswersRef.current };
+    const result = await submitLead(finalAnswers);
     setWhatsappUrl(result.whatsappUrl);
-    setPhase('done');
-    const nome = answers.nome?.trim();
+
+    const nome = finalAnswers.nome?.trim();
+    const insights = buildDiagnosticInsight(finalAnswers);
+
+    // Mensagem de introdução ao diagnóstico.
     pushMsg(
       'bot',
       nome
-        ? `${nome}, seu diagnóstico está pronto! 🎉 Toque abaixo pra falar comigo:`
-        : 'Seu diagnóstico está pronto! 🎉 Toque abaixo pra falar comigo:'
+        ? `${nome}, analisei suas respostas. Aqui está seu diagnóstico: 🔍`
+        : 'Analisei suas respostas. Aqui está seu diagnóstico: 🔍'
+    );
+
+    // Mostra cada insight como uma mensagem separada, com delay escalonado
+    // (simula alguém digitando cada ponto — mais humano que um texto longo).
+    insights.forEach((insight, idx) => {
+      setTimeout(() => {
+        const emoji =
+          insight.prioridade === 'alta' ? '🔴' :
+          insight.prioridade === 'media' ? '🟡' : '🔵';
+        pushMsg('bot', `${emoji} ${insight.titulo}\n\n${insight.descricao}`);
+      }, (idx + 1) * (TYPING_DELAY_MS * 2));
+    });
+
+    // Após todos os insights, mostra o CTA de WhatsApp.
+    setTimeout(
+      () => {
+        pushMsg(
+          'bot',
+          'Quer o diagnóstico completo com plano de ação? 📋 Toque abaixo pra falar comigo:'
+        );
+        setPhase('done');
+      },
+      (insights.length + 1) * (TYPING_DELAY_MS * 2)
     );
   }
 
@@ -336,7 +374,7 @@ export default function ProactiveChat() {
                   {phase === 'done'
                     ? 'Diagnóstico pronto!'
                     : phase === 'submitting'
-                      ? 'Salvando...'
+                      ? 'Preparando diagnóstico...'
                       : 'Online agora'}
                 </p>
               </div>
@@ -375,12 +413,9 @@ export default function ProactiveChat() {
               </div>
             )}
 
-            {phase === 'submitting' && (
-              <div className="flex items-center gap-2 text-xs text-muted-foreground px-2 py-1">
-                <Loader2 className="w-3 h-3 animate-spin" />
-                Preparando seu diagnóstico...
-              </div>
-            )}
+            {/* Durante 'submitting', os insights aparecem como mensagens
+                escalonadas (com delay). Não mostramos loader aqui pra não
+                concorrer com as mensagens — o header já diz "Preparando...". */}
 
             {phase === 'done' && whatsappUrl && (
               <div className="pt-2 space-y-2">
