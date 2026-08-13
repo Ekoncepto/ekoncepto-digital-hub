@@ -10,7 +10,6 @@
  */
 import { useCallback, useEffect, useState } from 'react';
 import {
-  googleSheetsConfig,
   buildDiagnosticMessage,
   whatsappDirectLink,
 } from '@/config/site';
@@ -19,6 +18,22 @@ import {
   QUIZ_QUESTIONS,
   QUIZ_LABELS,
 } from '@/config/diagnostico-quiz';
+
+/**
+ * URL do webhook do Google Sheets.
+ *
+ * Lida AQUI (no componente client) e não no site.ts compartilhado, porque
+ * o site.ts é importado tanto por .astro (server/frontmatter) quanto por
+ * componentes React (client). Em módulos compartilhados, o Vite/Astro pode
+ * não conseguir substituir `import.meta.env.VITE_*` estaticamente no bundle
+ * do browser, deixando a variável como undefined/string vazia mesmo quando
+ * o .env está correto. Lendo aqui, garantimos que o Vite faça a substituição
+ * no momento do build do client.
+ *
+ * DEBUG temporário: loga o valor em runtime pra confirmar se chegou ao browser.
+ */
+const GOOGLE_SHEETS_WEBHOOK_URL =
+  import.meta.env.VITE_GOOGLE_SHEETS_WEBHOOK_URL || '';
 
 export type DiagnosticoAnswers = Record<string, string>;
 
@@ -150,7 +165,7 @@ export function useDiagnosticoLead() {
 
       // 2) Google Sheets — grava os dados do lead.
       // Não bloqueia a UX se o webhook não estiver configurado — apenas pula.
-      if (!googleSheetsConfig.webhookUrl) {
+      if (!GOOGLE_SHEETS_WEBHOOK_URL) {
         // eslint-disable-next-line no-console
         console.warn(
           '[diagnostico] VITE_GOOGLE_SHEETS_WEBHOOK_URL não configurado — lead não será salvo. Verifique GOOGLE_SHEETS_SETUP.md.'
@@ -166,7 +181,7 @@ export function useDiagnosticoLead() {
         // continua url-encoded — e o Apps Script não parseia como form,
         // deixando e.parameter vazio. Solução: mandar JSON em text/plain
         // e fazer JSON.parse(e.postData.contents) no script.
-        await fetch(googleSheetsConfig.webhookUrl, {
+        await fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify(payload),

@@ -241,16 +241,6 @@ export function buildDiagnosticMessage(
   return partes.join('\n');
 }
 
-/**
- * Webhook do Google Apps Script para salvar leads do diagnóstico.
- *
- * Defina a URL em .env: VITE_GOOGLE_SHEETS_WEBHOOK_URL=https://script.google.com/macros/s/XXX/exec
- * Veja GOOGLE_SHEETS_SETUP.md para configurar.
- */
-export const googleSheetsConfig = {
-  webhookUrl: import.meta.env.VITE_GOOGLE_SHEETS_WEBHOOK_URL || '',
-};
-
 // Analytics and Tracking
 export const analytics = {
   googleAnalyticsId: import.meta.env.VITE_GA_MEASUREMENT_ID,
