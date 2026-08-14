@@ -113,6 +113,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     subtitle: 'Não se preocupe — todos os cases começaram pequenos.',
     type: 'single-choice',
     options: [
+      { value: 'nao-vendo', label: 'Ainda não vendo (R$ 0)', emoji: '🚀' },
       { value: 'ate-10k', label: 'Até R$ 10 mil', emoji: '🌱' },
       { value: '10k-50k', label: 'R$ 10k – R$ 50k', emoji: '📈' },
       { value: '50k-100k', label: 'R$ 50k – R$ 100k', emoji: '💪' },
@@ -182,6 +183,7 @@ export const QUIZ_VALUE_LABELS: Record<string, Record<string, string>> = {
     outros: 'Outra categoria',
   },
   faturamento: {
+    'nao-vendo': 'Ainda não vende',
     'ate-10k': 'Até R$ 10k',
     '10k-50k': 'R$ 10k – R$ 50k',
     '50k-100k': 'R$ 50k – R$ 100k',

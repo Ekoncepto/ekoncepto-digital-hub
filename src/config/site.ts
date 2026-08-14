@@ -246,7 +246,10 @@ export function buildDiagnosticMessage(
   const contexto: string[] = [];
   if (marketplace) contexto.push(`Vendo em: ${marketplace}`);
   if (categoria) contexto.push(`Categoria: ${categoria}`);
-  if (faturamento) contexto.push(`Faturamento: ${faturamento}`);
+  // Faturamento só entra na msg se a pessoa vende (evita "Faturamento: Ainda não vende")
+  if (faturamento && faturamento !== 'Ainda não vende') {
+    contexto.push(`Faturamento: ${faturamento}`);
+  }
   if (dor) contexto.push(`Maior dor: ${dor}`);
   if (objetivo) contexto.push(`Objetivo: ${objetivo}`);
   if (contexto.length) partes.push(contexto.join(' · '));
@@ -352,7 +355,14 @@ export function buildDiagnosticInsight(
   if (objetivo && objetivoMap[objetivo]) insights.push(objetivoMap[objetivo]);
 
   // --- Insight por FATURAMENTO (contexto de onde o lead está) ---
-  if (fat === 'ate-10k' || fat === '10k-50k') {
+  if (fat === 'nao-vendo') {
+    insights.push({
+      titulo: 'Você está começando — e isso é vantagem',
+      descricao:
+        'Quem ainda não vende não precisa desmontar nada: começa com a estrutura certa desde o dia 1. Escolher o marketplace certo pro seu produto e montar o catálogo bem feito economiza meses de retrabalho.',
+      prioridade: 'media',
+    });
+  } else if (fat === 'ate-10k' || fat === '10k-50k') {
     insights.push({
       titulo: 'Sua fase pede foco, não escala',
       descricao:

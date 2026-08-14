@@ -405,6 +405,7 @@ function marketplaceLabel(value: string): string {
 }
 function faturamentoLabel(value: string): string {
   const map: Record<string, string> = {
+    'nao-vendo': 'Ainda não vende',
     'ate-10k': 'Até R$ 10k/mês',
     '10k-50k': 'R$ 10k–50k/mês',
     '50k-100k': 'R$ 50k–100k/mês',
