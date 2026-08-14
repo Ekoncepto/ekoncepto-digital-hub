@@ -163,6 +163,20 @@ const WHATSAPP_MESSAGES: Record<string, string> = {
     'Olá! Quero meu diagnóstico gratuito para dominar a Shopee.',
   'shopee-header':
     'Olá! Vim da Shopee e quero falar com um especialista.',
+  // LPs de Ads — fallback (whatsappLink roteia pro /diagnostico; estas
+  // mensagens só usadas se o escape direto pro WhatsApp for acionado).
+  'ads-ml-hero': 'Olá! Vim do anúncio de Mercado Livre. Quero vender mais.',
+  'ads-ml-cases': 'Olá! Vi os resultados de vocês no ML e quero aplicar.',
+  'ads-ml-diagnostico': 'Olá! Quero o diagnóstico da minha operação no ML.',
+  'ads-ml-ads': 'Olá! Quero otimizar meus Mercado Ads.',
+  'ads-ml-escala': 'Olá! Quero escalar minhas vendas no Mercado Livre.',
+  'ads-ml-contact': 'Olá! Quero meu diagnóstico gratuito para o Mercado Livre.',
+  'ads-amazon-hero': 'Olá! Vim do anúncio da Amazon. Quero vender mais.',
+  'ads-amazon-cases': 'Olá! Vi os resultados de vocês na Amazon e quero aplicar.',
+  'ads-amazon-diagnostico': 'Olá! Quero o diagnóstico da minha operação na Amazon.',
+  'ads-amazon-ads': 'Olá! Quero otimizar meus Amazon PPC.',
+  'ads-amazon-escala': 'Olá! Quero escalar minhas vendas na Amazon.',
+  'ads-amazon-contact': 'Olá! Quero meu diagnóstico gratuito para a Amazon.',
   default:
     'Olá! Gostaria de mais informações sobre a consultoria.',
 };

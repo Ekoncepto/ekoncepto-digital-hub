@@ -1,0 +1,19 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AdsAmazon from '../../react_pages/ads/AdsAmazon.tsx';
+import SEO from '@/components/SEO.astro';
+import { ADS_LPS } from '@/config/ads-lp';
+
+const config = ADS_LPS['amazon'];
+---
+<Layout title={config.seoTitle}>
+	<SEO
+		title={config.seoTitle}
+		description={config.seoDescription}
+		canonical="/ads/amazon"
+		noIndex={true}
+	/>
+	<div class="amazon-theme">
+		<AdsAmazon client:load />
+	</div>
+</Layout>

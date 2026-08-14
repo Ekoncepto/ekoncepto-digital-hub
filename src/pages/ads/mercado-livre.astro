@@ -1,0 +1,19 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AdsMercadoLivre from '../../react_pages/ads/AdsMercadoLivre.tsx';
+import SEO from '@/components/SEO.astro';
+import { ADS_LPS } from '@/config/ads-lp';
+
+const config = ADS_LPS['mercado-livre'];
+---
+<Layout title={config.seoTitle}>
+	<SEO
+		title={config.seoTitle}
+		description={config.seoDescription}
+		canonical="/ads/mercado-livre"
+		noIndex={true}
+	/>
+	<div class="mercado-livre-theme">
+		<AdsMercadoLivre client:load />
+	</div>
+</Layout>
