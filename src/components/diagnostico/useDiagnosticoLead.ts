@@ -173,6 +173,16 @@ export function useDiagnosticoLead() {
       const eventId = `lead_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
       void eventId; // reservado: se adicionarmos CAPI futuro, usamos este id
 
+      // Dispara conversão do Google Ads (AW-18388566804).
+      // Conta como conversão toda vez que o lead completa o quiz/chat e
+      // submete os dados de contato. Sem callback de redirect (o usuário
+      // precisa ver a tela de sucesso com o botão de WhatsApp).
+      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+        window.gtag('event', 'conversion', {
+          send_to: 'AW-18388566804/071vCNLjqeEcEJSGrcBE',
+        });
+      }
+
       // 1) Pixel client-side do ChatGPT Ads (OpenAI) — dispara o evento
       //    "lead_created" assim que o usuário completa o quiz, independente
       //    do Sheets estar configurado. Essa é a fonte de dados principal.
