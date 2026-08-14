@@ -74,6 +74,8 @@ export default function ProactiveChat() {
   // Estado pra quando o usuário seleciona "Outra categoria" e precisa digitar.
   const [waitingOther, setWaitingOther] = useState(false);
   const [otherInputValue, setOtherInputValue] = useState('');
+  // Lead descartado (Ainda não vendo): fluxo educativo, sem WhatsApp.
+  const [isDisqualified, setIsDisqualified] = useState(false);
 
   // Estado da fase de contato (input de texto dentro do chat).
   const [contactIndex, setContactIndex] = useState(0); // qual campo de contato estamos
@@ -169,6 +171,26 @@ export default function ProactiveChat() {
         pushMsg('bot', 'Conta pra mim: o que você vende exatamente? 📝');
         setWaitingOther(true);
         setPhase('input-quiz');
+      }, TYPING_DELAY_MS);
+      return;
+    }
+
+    // GATE DE QUALIFICAÇÃO: "Ainda não vendo" no faturamento → fluxo
+    // educativo (sem WhatsApp, sem conversão, salvo como descartado).
+    if (q.id === 'faturamento' && value === 'nao-vendo') {
+      const merged = { ...answers, [q.id]: value };
+      setPhase('typing');
+      setTimeout(() => {
+        pushMsg('bot', 'Agradeço a sinceridade! 🙏');
+        setTimeout(() => {
+          pushMsg(
+            'bot',
+            'Nosso diagnóstico é para quem já vende em marketplaces. Como você está começando, preparamos guias gratuitos pra dar os primeiros passos — e em breve teremos cursos pra quem quer começar do zero! 📚'
+          );
+          setIsDisqualified(true);
+          submitLead(merged, { disqualified: true });
+          setPhase('done');
+        }, 400);
       }, TYPING_DELAY_MS);
       return;
     }
@@ -372,7 +394,9 @@ export default function ProactiveChat() {
                 <p className="text-sm font-semibold leading-tight">E-Koncepto</p>
                 <p className="text-xs opacity-80 leading-tight">
                   {phase === 'done'
-                    ? 'Diagnóstico pronto!'
+                    ? isDisqualified
+                      ? 'Guias pra começar'
+                      : 'Diagnóstico pronto!'
                     : phase === 'submitting'
                       ? 'Preparando diagnóstico...'
                       : 'Online agora'}
@@ -417,7 +441,18 @@ export default function ProactiveChat() {
                 escalonadas (com delay). Não mostramos loader aqui pra não
                 concorrer com as mensagens — o header já diz "Preparando...". */}
 
-            {phase === 'done' && whatsappUrl && (
+            {phase === 'done' && isDisqualified && (
+              <div className="pt-2 space-y-2">
+                <Button asChild className="w-full" size="sm">
+                  <a href="/landing">Ver guias gratuitos 📚</a>
+                </Button>
+                <p className="text-xs text-center text-muted-foreground px-2">
+                  Em breve: cursos pra começar do zero
+                </p>
+              </div>
+            )}
+
+            {phase === 'done' && !isDisqualified && whatsappUrl && (
               <div className="pt-2 space-y-2">
                 <Button asChild variant="hero" className="w-full" size="sm">
                   <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">

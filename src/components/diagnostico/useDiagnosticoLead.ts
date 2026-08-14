@@ -146,22 +146,34 @@ export function useDiagnosticoLead() {
    * Envia o lead para o Google Sheets e devolve a URL de WhatsApp
    * personalizada. Em caso de erro de rede, ainda devolve a URL de
    * WhatsApp (o lead não fica bloqueado — só não grava no Sheets).
+   *
+   * `opts.disqualified = true` (lead descartado, ex: "Ainda não vendo"):
+   *  - GRAVA na planilha com source sufixado "-descartado" (métrica de
+   *    tráfego desqualificado) e diagnostico prefixado com [DESCARTADO];
+   *  - NÃO dispara conversão do Google Ads nem eventos do ChatGPT Ads
+   *    (lead ruim não pode poluir as métricas de conversão).
    */
   const submitLead = useCallback(
-    async (finalAnswers?: DiagnosticoAnswers): Promise<SubmitResult> => {
+    async (
+      finalAnswers?: DiagnosticoAnswers,
+      opts?: { disqualified?: boolean }
+    ): Promise<SubmitResult> => {
       const data = finalAnswers ?? answers;
+      const disqualified = opts?.disqualified ?? false;
       const message = buildDiagnosticMessage(data, source);
       const whatsappUrl = whatsappDirectLink('default', message);
 
       // Honeypot: campo que só bots preenchem. Se vier, descarta silenciosamente.
       const payload = {
         formName: 'diagnostico',
-        source,
+        source: disqualified ? `${source}-descartado` : source,
         ...data,
         // Diagnóstico gerado automaticamente (os mesmos insights que
         // aparecem na tela de sucesso). Útil pra você saber exatamente o
         // que o lead leu antes de falar com você.
-        diagnostico: insightsToText(data),
+        diagnostico:
+          (disqualified ? '[DESCARTADO — quer começar do zero] ' : '') +
+          insightsToText(data),
         // metadados úteis para auditoria
         _timestamp: new Date().toISOString(),
         _referrer: typeof document !== 'undefined' ? document.referrer : '',
@@ -171,26 +183,33 @@ export function useDiagnosticoLead() {
 
       // Event ID para atribuição/deduplicação da conversão no ChatGPT Ads.
       const eventId = `lead_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
-      void eventId; // reservado: se adicionarmos CAPI futuro, usamos este id
 
-      // Dispara conversão do Google Ads (AW-18388566804).
-      // Conta como conversão toda vez que o lead completa o quiz/chat e
-      // submete os dados de contato. Sem callback de redirect (o usuário
-      // precisa ver a tela de sucesso com o botão de WhatsApp).
-      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-        window.gtag('event', 'conversion', {
-          send_to: 'AW-18388566804/071vCNLjqeEcEJSGrcBE',
-        });
-      }
+      // ===== Conversões: SÓ para leads QUALIFICADOS =====
+      // Lead descartado não conta conversão em nenhuma plataforma.
+      if (!disqualified) {
+        // Conversão do Google Ads (AW-18388566804).
+        if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+          window.gtag('event', 'conversion', {
+            send_to: 'AW-18388566804/071vCNLjqeEcEJSGrcBE',
+          });
+        }
 
-      // 1) Pixel client-side do ChatGPT Ads (OpenAI) — dispara o evento
-      //    "lead_created" assim que o usuário completa o quiz, independente
-      //    do Sheets estar configurado. Essa é a fonte de dados principal.
-      if (typeof window !== 'undefined' && typeof window.oaiq === 'function') {
-        window.oaiq('measure', 'lead_created', {
-          type: 'customer_action',
-          event_id: eventId,
-        });
+        // Pixel client-side do ChatGPT Ads (OpenAI):
+        // 1) "lead_created" — evento de fonte de dados.
+        if (typeof window !== 'undefined' && typeof window.oaiq === 'function') {
+          window.oaiq('measure', 'lead_created', {
+            type: 'customer_action',
+            event_id: eventId,
+          });
+
+          // 2) "registration_completed" — evento de CONVERSÃO do ChatGPT
+          //    Ads (ação configurada no painel). Mesmo momento: submit.
+          window.oaiq('measure', 'registration_completed', {
+            type: 'customer_action',
+            amount: 0,
+            currency: 'USD',
+          });
+        }
       }
 
       // 2) Google Sheets — grava os dados do lead.

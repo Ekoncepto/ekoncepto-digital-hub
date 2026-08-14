@@ -14,7 +14,7 @@
  */
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Check, MessageCircle, Sparkles, AlertCircle, TrendingUp } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, MessageCircle, Sparkles, AlertCircle, TrendingUp, GraduationCap, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
@@ -24,7 +24,7 @@ import { buildDiagnosticInsight, type DiagnosticInsight } from '@/config/site';
 import { useDiagnosticoLead } from './useDiagnosticoLead';
 import ContactForm from './ContactForm';
 
-type Phase = 'answering' | 'contact' | 'submitting' | 'done';
+type Phase = 'answering' | 'contact' | 'submitting' | 'done' | 'disqualified';
 
 export default function DiagnosticoQuiz() {
   const { answers, setAnswer, submitLead, source } = useDiagnosticoLead();
@@ -60,8 +60,23 @@ export default function DiagnosticoQuiz() {
       setOtherError(null);
       return;
     }
+    // GATE DE QUALIFICAÇÃO: "Ainda não vendo (R$ 0)" no faturamento não é
+    // o público da consultoria (que é pra quem já vende). Vai pra tela
+    // educada com direcionamento pro conteúdo educacional. O lead é salvo
+    // na planilha marcado como descartado, SEM contar conversão.
+    if (question.id === 'faturamento' && value === 'nao-vendo') {
+      const merged = { ...answers, [question.id]: value };
+      setTimeout(() => disqualify(merged), 220);
+      return;
+    }
     // pequena pausa para o usuário ver o feedback visual do card
     setTimeout(() => goNext(), 220);
+  }
+
+  async function disqualify(finalAnswers: Record<string, string>) {
+    setPhase('disqualified');
+    // Salva marcado como descartado (sem disparar conversões).
+    await submitLead(finalAnswers, { disqualified: true });
   }
 
   function handleOtherSubmit(e: React.FormEvent) {
@@ -108,6 +123,10 @@ export default function DiagnosticoQuiz() {
   }
 
   // ---------------- UI ----------------
+
+  if (phase === 'disqualified') {
+    return <NotFitScreen />;
+  }
 
   if (phase === 'done') {
     return <SuccessScreen whatsappUrl={whatsappUrl} answers={answers} />;
@@ -257,6 +276,60 @@ export default function DiagnosticoQuiz() {
 
       <input type="hidden" name="source" value={source} />
     </div>
+  );
+}
+
+function NotFitScreen() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="max-w-xl mx-auto text-center"
+    >
+      <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mx-auto mb-6">
+        <GraduationCap className="w-8 h-8" />
+      </div>
+      <h2 className="text-3xl font-bold tracking-tight mb-3">
+        Nosso diagnóstico é para quem já vende em marketplaces
+      </h2>
+      <p className="text-muted-foreground mb-8 leading-relaxed">
+        Como você está começando do zero, o diagnóstico de operação não se aplica
+        ao seu momento. Mas temos o caminho certo pra você:
+      </p>
+
+      <div className="rounded-xl border border-border bg-muted/30 p-6 mb-8 text-left space-y-4">
+        <div className="flex gap-3">
+          <BookOpen className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+          <div>
+            <p className="font-semibold text-sm">Guias gratuitos de marketplace</p>
+            <p className="text-sm text-muted-foreground">
+              Conteúdos práticos pra dar os primeiros passos da forma certa.
+            </p>
+          </div>
+        </div>
+        <div className="flex gap-3">
+          <GraduationCap className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+          <div>
+            <p className="font-semibold text-sm">Em breve: cursos pra começar do zero</p>
+            <p className="text-sm text-muted-foreground">
+              Estamos preparando cursos dedicados a quem está começando. Vale a pena
+              dominar o básico enquanto isso.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <Button asChild size="lg" className="w-full h-14 text-base">
+        <a href="/landing">
+          <BookOpen className="w-5 h-5 mr-2" />
+          Ver guias gratuitos
+        </a>
+      </Button>
+      <p className="text-xs text-muted-foreground mt-4">
+        Grátis · Conteúdo prático · Sem cadastro
+      </p>
+    </motion.div>
   );
 }
 
