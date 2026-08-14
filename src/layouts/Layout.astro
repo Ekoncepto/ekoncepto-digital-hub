@@ -19,13 +19,14 @@ const { title } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 
-		<!-- Google tag (gtag.js) -->
+		<!-- Google tag (gtag.js) — GA4 + Google Ads numa só tag -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-JTHKQTB86Z"></script>
 		<script is:inline>
 			window.dataLayer = window.dataLayer || [];
 			function gtag(){dataLayer.push(arguments);}
 			gtag('js', new Date());
 			gtag('config', 'G-JTHKQTB86Z');
+			gtag('config', 'AW-18388566804');
 		</script>
 
 		<!-- OpenAI / ChatGPT Ads Pixel -->
