@@ -133,6 +133,15 @@ export function useDiagnosticoLead() {
     setAnswers((prev) => ({ ...prev, [id]: value }));
   }, []);
 
+  /**
+   * Substitui TODAS as respostas de uma vez (inclusive remoções). Usado
+   * quando o fluxo volta/muda branch e respostas anteriores deixam de ser
+   * válidas (ex.: trocar a dor remove detalhes órfãos do localStorage).
+   */
+  const setAllAnswers = useCallback((next: DiagnosticoAnswers) => {
+    setAnswers(next);
+  }, []);
+
   const clearAnswers = useCallback(() => {
     setAnswers({});
     try {
@@ -261,6 +270,7 @@ export function useDiagnosticoLead() {
   return {
     answers,
     setAnswer,
+    setAllAnswers,
     clearAnswers,
     submitLead,
     buildWhatsAppUrl,

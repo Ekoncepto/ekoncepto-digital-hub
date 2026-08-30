@@ -2,24 +2,31 @@
  * Quiz de diagnóstico — núcleo da página /diagnostico.
  *
  * Fluxo:
- *  1) 4 perguntas de múltipla escolha (1 por tela, com barra de progresso,
- *     auto-avanço ao clicar, botão voltar).
+ *  1) Perguntas de escolha (1 por tela, com barra de progresso, auto-avanço
+ *     ao clicar, botão voltar). Perguntas multi-choice têm botão "Continuar".
+ *     Perguntas de follow-up aparecem conforme as dores marcadas (showIf).
  *  2) Tela de contato (ContactForm) com nome + WhatsApp + email claros.
  *  3) Tela de sucesso -> botão WhatsApp com mensagem personalizada.
  *
  * Melhorias vs. quiz de referência (Efeito Vendas):
  *  - Opções como cards grandes (melhor mobile que radio buttons).
+ *  - Canais em multi-select com logos dos marketplaces.
  *  - Botão "voltar" para editar resposta anterior.
  *  - Campos de contato separados e claros (não um campo "contato" só).
  */
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Check, MessageCircle, Sparkles, AlertCircle, TrendingUp, GraduationCap, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
-import { QUIZ_QUESTIONS, type QuizQuestion } from '@/config/diagnostico-quiz';
+import {
+  QUIZ_QUESTIONS,
+  getActiveQuestions,
+  multiLabel,
+  QUIZ_VALUE_LABELS,
+  type QuizQuestion,
+} from '@/config/diagnostico-quiz';
 import { buildDiagnosticInsight, type DiagnosticInsight } from '@/config/site';
 import { useDiagnosticoLead } from './useDiagnosticoLead';
 import ContactForm from './ContactForm';
@@ -27,19 +34,30 @@ import ContactForm from './ContactForm';
 type Phase = 'answering' | 'contact' | 'submitting' | 'done' | 'disqualified';
 
 export default function DiagnosticoQuiz() {
-  const { answers, setAnswer, submitLead, source } = useDiagnosticoLead();
+  const { answers, setAnswer, setAllAnswers, submitLead, source } = useDiagnosticoLead();
   const [step, setStep] = useState(0);
   const [phase, setPhase] = useState<Phase>('answering');
   const [whatsappUrl, setWhatsappUrl] = useState('');
-  // Campo de texto livre para "Outra categoria" (quando selecionado).
-  const [otherValue, setOtherValue] = useState('');
-  const [otherError, setOtherError] = useState<string | null>(null);
 
-  const question: QuizQuestion = QUIZ_QUESTIONS[step];
-  const total = QUIZ_QUESTIONS.length;
+  // Seleções locais da pergunta multi-choice atual (antes de "Continuar").
+  const [multiSelected, setMultiSelected] = useState<string[]>([]);
 
-  // Progresso: 5 perguntas + 1 tela de contato = 6 etapas.
-  // 'done' conta como 100%.
+  // Perguntas visíveis dado o estado atual (branching por dor via showIf).
+  const activeQuestions = useMemo(() => getActiveQuestions(answers), [answers]);
+  const question: QuizQuestion | undefined = activeQuestions[step];
+  const total = activeQuestions.length;
+
+  // Reseta seleções locais ao trocar de pergunta multi.
+  useEffect(() => {
+    if (question?.type === 'multi-choice' && answers[question.id]) {
+      setMultiSelected(answers[question.id].split(',').filter(Boolean));
+    } else {
+      setMultiSelected([]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [question?.id]);
+
+  // Progresso: perguntas ativas + 1 tela de contato. 'done' conta como 100%.
   const progress =
     phase === 'done'
       ? 100
@@ -47,30 +65,58 @@ export default function DiagnosticoQuiz() {
         ? Math.round((total / (total + 1)) * 100)
         : Math.round((step / (total + 1)) * 100);
 
-  // Detecta se a pergunta atual tem opção "outros" com campo livre.
-  // Convenção: o value da opção especial é sempre 'outros'.
-  const hasOther = question.options?.some((o) => o.value === 'outros') ?? false;
-  const otherSelected = hasOther && answers[question.id] === 'outros';
+  /**
+   * Ao responder a pergunta de índice `idx` (na lista ATIVA), remove as
+   * respostas de todas as perguntas posteriores (lista completa) — evita
+   * detalhes órfãos quando o usuário volta e muda a dor, por exemplo.
+   */
+  function purgeAfterAnswers(q: QuizQuestion, current: Record<string, string>) {
+    const idxFull = QUIZ_QUESTIONS.findIndex((x) => x.id === q.id);
+    const next: Record<string, string> = { ...current };
+    QUIZ_QUESTIONS.slice(idxFull + 1).forEach((x) => delete next[x.id]);
+    return next;
+  }
 
   function handleSelectOption(value: string) {
-    setAnswer(question.id, value);
-    // Se for a opção "outros", NÃO avança — abre o campo de texto.
-    if (value === 'outros') {
-      setOtherValue('');
-      setOtherError(null);
-      return;
-    }
-    // GATE DE QUALIFICAÇÃO: "Ainda não vendo (R$ 0)" no faturamento não é
-    // o público da consultoria (que é pra quem já vende). Vai pra tela
-    // educada com direcionamento pro conteúdo educacional. O lead é salvo
-    // na planilha marcado como descartado, SEM contar conversão.
-    if (question.id === 'faturamento' && value === 'nao-vendo') {
-      const merged = { ...answers, [question.id]: value };
+    if (!question) return;
+    const merged = purgeAfterAnswers(question, { ...answers, [question.id]: value });
+    // GATE DE QUALIFICAÇÃO (declarativo no config): ex. "Ainda não vendo
+    // online" nos canais. Vai pra tela educativa e salva o lead marcado
+    // como descartado, SEM contar conversão.
+    if (question.disqualifyValue === value) {
       setTimeout(() => disqualify(merged), 220);
       return;
     }
+    // Aplica tudo de uma vez (inclui remoção de detalhes órfãos).
+    setAllAnswers(merged);
     // pequena pausa para o usuário ver o feedback visual do card
     setTimeout(() => goNext(), 220);
+  }
+
+  /** Toggle de opção em pergunta multi-choice (respeita maxSelect/exclusive). */
+  function toggleMulti(value: string) {
+    if (!question?.options) return;
+    const opt = question.options.find((o) => o.value === value);
+    setMultiSelected((prev) => {
+      if (prev.includes(value)) return prev.filter((v) => v !== value);
+      if (opt?.exclusive) return [value]; // exclusiva desmarca as outras
+      const base = prev.filter((v) => !question.options?.find((o) => o.value === v)?.exclusive);
+      const max = question.maxSelect ?? Infinity;
+      if (base.length >= max) return base; // limite atingido
+      return [...base, value];
+    });
+  }
+
+  function handleMultiContinue() {
+    if (!question || multiSelected.length === 0) return;
+    const value = multiSelected.join(',');
+    const merged = purgeAfterAnswers(question, { ...answers, [question.id]: value });
+    if (question.disqualifyValue && multiSelected.includes(question.disqualifyValue)) {
+      setTimeout(() => disqualify(merged), 220);
+      return;
+    }
+    setAllAnswers(merged);
+    setTimeout(() => goNext(), 150);
   }
 
   async function disqualify(finalAnswers: Record<string, string>) {
@@ -79,21 +125,8 @@ export default function DiagnosticoQuiz() {
     await submitLead(finalAnswers, { disqualified: true });
   }
 
-  function handleOtherSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const v = otherValue.trim();
-    if (v.length < 2) {
-      setOtherError('Digite ao menos 2 caracteres.');
-      return;
-    }
-    // Salva a resposta real do usuário (ex: "Petshop") em vez de "outros".
-    setAnswer(question.id, v);
-    setOtherError(null);
-    setTimeout(() => goNext(), 100);
-  }
-
   function goNext() {
-    if (step < total - 1) {
+    if (step < activeQuestions.length - 1) {
       setStep((s) => s + 1);
     } else {
       // acabaram as perguntas -> vai pro formulário de contato
@@ -105,7 +138,7 @@ export default function DiagnosticoQuiz() {
     if (phase === 'contact') {
       // volta pra última pergunta
       setPhase('answering');
-      setStep(total - 1);
+      setStep(activeQuestions.length - 1);
       return;
     }
     if (step === 0) return;
@@ -133,6 +166,7 @@ export default function DiagnosticoQuiz() {
   }
 
   const showContact = phase === 'contact' || phase === 'submitting';
+  if (!question) return null;
 
   return (
     <div className="w-full max-w-2xl mx-auto">
@@ -170,7 +204,7 @@ export default function DiagnosticoQuiz() {
           />
         </div>
       ) : (
-        // ----- Pergunta de múltipla escolha -----
+        // ----- Pergunta de escolha -----
         <AnimatePresence mode="wait">
           <motion.div
             key={question.id}
@@ -188,12 +222,19 @@ export default function DiagnosticoQuiz() {
 
             <div className="grid gap-3">
               {question.options?.map((opt) => {
-                const selected = answers[question.id] === opt.value;
+                const selected =
+                  question.type === 'multi-choice'
+                    ? multiSelected.includes(opt.value)
+                    : answers[question.id] === opt.value;
                 return (
                   <button
                     key={opt.value}
                     type="button"
-                    onClick={() => handleSelectOption(opt.value)}
+                    onClick={() =>
+                      question.type === 'multi-choice'
+                        ? toggleMulti(opt.value)
+                        : handleSelectOption(opt.value)
+                    }
                     className={cn(
                       'group flex items-center gap-4 w-full text-left p-4 rounded-xl border-2 transition-all',
                       'hover:border-primary hover:bg-accent',
@@ -202,15 +243,28 @@ export default function DiagnosticoQuiz() {
                         : 'border-border bg-background'
                     )}
                   >
-                    {opt.emoji && (
-                      <span className="text-2xl shrink-0" aria-hidden>
-                        {opt.emoji}
+                    {opt.icon ? (
+                      // Logo do marketplace em container neutro
+                      <span className="shrink-0 w-10 h-10 rounded-lg bg-background border border-border flex items-center justify-center overflow-hidden">
+                        <img
+                          src={opt.icon}
+                          alt=""
+                          className="w-full h-full object-contain p-1.5"
+                          loading="lazy"
+                        />
                       </span>
+                    ) : (
+                      opt.emoji && (
+                        <span className="text-2xl shrink-0" aria-hidden>
+                          {opt.emoji}
+                        </span>
+                      )
                     )}
                     <span className="font-medium flex-1">{opt.label}</span>
                     <span
                       className={cn(
-                        'shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors',
+                        'shrink-0 w-5 h-5 border-2 flex items-center justify-center transition-colors',
+                        question.type === 'multi-choice' ? 'rounded-md' : 'rounded-full',
                         selected
                           ? 'border-primary bg-primary text-primary-foreground'
                           : 'border-muted-foreground/30 text-transparent group-hover:border-primary'
@@ -223,41 +277,25 @@ export default function DiagnosticoQuiz() {
               })}
             </div>
 
-            {/* Campo de texto livre quando "Outra categoria" é selecionada */}
-            <AnimatePresence>
-              {otherSelected && (
-                <motion.form
-                  onSubmit={handleOtherSubmit}
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.25 }}
-                  className="mt-4 space-y-2 overflow-hidden"
+            {/* Confirmação de multi-choice */}
+            {question.type === 'multi-choice' && (
+              <div className="mt-4">
+                {question.maxSelect && multiSelected.length > 0 && (
+                  <p className="text-xs text-muted-foreground mb-2 text-right">
+                    {multiSelected.length} de {question.maxSelect} selecionados
+                  </p>
+                )}
+                <Button
+                  size="lg"
+                  className="w-full h-12"
+                  disabled={multiSelected.length === 0}
+                  onClick={handleMultiContinue}
                 >
-                  <Input
-                    autoFocus
-                    placeholder="Ex: Petshop, suplementos, brinquedos..."
-                    value={otherValue}
-                    onChange={(e) => {
-                      setOtherValue(e.target.value);
-                      if (otherError) setOtherError(null);
-                    }}
-                    className={cn(
-                      'h-12 text-base',
-                      otherError &&
-                        'border-destructive focus-visible:ring-destructive'
-                    )}
-                  />
-                  {otherError && (
-                    <p className="text-sm text-destructive">{otherError}</p>
-                  )}
-                  <Button type="submit" size="lg" className="w-full h-12">
-                    Continuar
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </motion.form>
-              )}
-            </AnimatePresence>
+                  Continuar
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+            )}
           </motion.div>
         </AnimatePresence>
       )}
@@ -294,7 +332,7 @@ function NotFitScreen() {
         Nosso diagnóstico é para quem já vende em marketplaces
       </h2>
       <p className="text-muted-foreground mb-8 leading-relaxed">
-        Como você está começando do zero, o diagnóstico de operação não se aplica
+        Como você ainda não vende online, o diagnóstico de operação não se aplica
         ao seu momento. Mas temos o caminho certo pra você:
       </p>
 
@@ -376,15 +414,13 @@ function SuccessScreen({
           Seu perfil
         </p>
         <div className="flex flex-wrap gap-2">
-          {(['marketplace', 'faturamento', 'objetivo'] as const).map((key) => {
+          {(['marketplace', 'faturamento', 'dor'] as const).map((key) => {
             const value = answers[key];
             if (!value) return null;
             const label =
-              key === 'marketplace'
-                ? marketplaceLabel(value)
-                : key === 'faturamento'
-                  ? faturamentoLabel(value)
-                  : objetivoLabel(value);
+              key === 'dor' || key === 'marketplace'
+                ? multiLabel(key, value)
+                : QUIZ_VALUE_LABELS.faturamento[value] ?? value;
             return (
               <span
                 key={key}
@@ -463,36 +499,4 @@ function InsightCard({
       </div>
     </motion.div>
   );
-}
-
-// Helpers de label (mantidos inline pra não acoplar mais imports)
-function marketplaceLabel(value: string): string {
-  const map: Record<string, string> = {
-    'mercado-livre': 'Mercado Livre',
-    amazon: 'Amazon',
-    shopee: 'Shopee',
-    multi: 'Multi-marketplace',
-    nenhum: 'Ainda não vende',
-  };
-  return map[value] ?? value;
-}
-function faturamentoLabel(value: string): string {
-  const map: Record<string, string> = {
-    'nao-vendo': 'Ainda não vende',
-    'ate-10k': 'Até R$ 10k/mês',
-    '10k-50k': 'R$ 10k–50k/mês',
-    '50k-100k': 'R$ 50k–100k/mês',
-    '100k-500k': 'R$ 100k–500k/mês',
-    '500k+': '+R$ 500k/mês',
-  };
-  return map[value] ?? value;
-}
-function objetivoLabel(value: string): string {
-  const map: Record<string, string> = {
-    comecar: 'Começar do zero',
-    otimizar: 'Otimizar operação',
-    escalar: 'Escalar vendas',
-    profissionalizar: 'Profissionalizar',
-  };
-  return map[value] ?? value;
 }

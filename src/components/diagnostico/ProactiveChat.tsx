@@ -2,8 +2,8 @@
  * Chat proativo — botão flutuante unificado (visual WhatsApp).
  *
  * Fluxo completo dentro do próprio chat (não manda pra outra página):
- *  1) 5 perguntas de múltipla escolha (marketplace, categoria, faturamento,
- *     dor, objetivo) — formato conversa com typing indicator.
+ *  1) Perguntas de escolha (faturamento, canais multi com logos, dores multi
+ *     e follow-ups por dor) — formato conversa com typing indicator.
  *  2) 4 perguntas de contato (nome, empresa, WhatsApp, email) — input de
  *     texto dentro do chat, com validação.
  *  3) Submissão pro Google Sheets + pixel ChatGPT Ads.
@@ -15,7 +15,7 @@
  */
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Loader2, X, Send, MessageCircle } from 'lucide-react';
+import { Check, Loader2, Send, MessageCircle, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -23,6 +23,9 @@ import {
   PROACTIVE_CHAT_DELAY_MS,
   QUIZ_QUESTIONS,
   CONTACT_FIELDS,
+  getActiveQuestions,
+  multiLabel,
+  type QuizAnswers,
 } from '@/config/diagnostico-quiz';
 import { useDiagnosticoLead, validateField } from './useDiagnosticoLead';
 import { buildDiagnosticInsight, type DiagnosticInsight } from '@/config/site';
@@ -37,7 +40,7 @@ type ChatPhase =
   | 'idle'
   | 'open'
   | 'typing'
-  | 'input-quiz' // esperando resposta de múltipla escolha
+  | 'input-quiz' // esperando resposta de escolha (single ou multi)
   | 'input-contact' // esperando texto de contato (nome, empresa, etc)
   | 'submitting'
   | 'done';
@@ -46,11 +49,15 @@ const TYPING_DELAY_MS = 650;
 
 /** Versão "fala" de cada pergunta, mais conversacional que o quiz. */
 const QUESTION_PROMPTS: Record<string, string> = {
-  marketplace: 'Oi! 👋 Pra te indicar o caminho certo: onde você vende hoje?',
-  categoria: 'Show! E o que você vende? (categoria principal)',
-  faturamento: 'Legal! E qual é o seu faturamento mensal aprox.?',
-  dor: 'Entendi. E qual é a sua maior dor hoje?',
-  objetivo: 'Pra fechar: o que você quer alcançar?',
+  faturamento: 'Oi! 👋 Pra te indicar o caminho certo: quanto sua empresa fatura hoje?',
+  marketplace:
+    'Legal! E onde você vende hoje? Pode marcar mais de um 👇',
+  dor: 'Entendi. E qual a sua maior dor hoje? (pode marcar até 2)',
+  'detalhe-nao-vende': 'Sobre vender mais: o que você acha que trava suas vendas?',
+  'detalhe-vende-pouco': 'E como estão suas visitas nos anúncios?',
+  'detalhe-margem': 'Sobre margem: o que mais pesa no seu custo?',
+  'detalhe-escalar': 'Sobre escalar: o que impede você de crescer?',
+  'detalhe-tempo': 'Sobre tempo: o que mais consome o seu dia a dia?',
 };
 
 /** Prompts conversacionais para os campos de contato. */
@@ -65,16 +72,20 @@ const CONTACT_PROMPTS: Record<string, string> = {
 const CONTACT_ORDER = ['nome', 'empresa', 'whatsapp', 'email'] as const;
 
 export default function ProactiveChat() {
-  const { answers, setAnswer, submitLead } = useDiagnosticoLead();
+  const { answers, setAnswer, setAllAnswers, submitLead } = useDiagnosticoLead();
   const [phase, setPhase] = useState<ChatPhase>('idle');
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [qIndex, setQIndex] = useState(0);
   const [hasOpened, setHasOpened] = useState(false);
 
-  // Estado pra quando o usuário seleciona "Outra categoria" e precisa digitar.
-  const [waitingOther, setWaitingOther] = useState(false);
-  const [otherInputValue, setOtherInputValue] = useState('');
-  // Lead descartado (Ainda não vendo): fluxo educativo, sem WhatsApp.
+  // Perguntas visíveis (branching por dor). Recalculada quando as respostas
+  // mudam — follow-ups entram/saem da lista conforme as dores marcadas.
+  const activeQuestions = getActiveQuestions(answers);
+
+  // Seleções da pergunta multi-choice atual (antes de enviar).
+  const [multiSelected, setMultiSelected] = useState<string[]>([]);
+
+  // Lead descartado (não vende online): fluxo educativo, sem WhatsApp.
   const [isDisqualified, setIsDisqualified] = useState(false);
 
   // Estado da fase de contato (input de texto dentro do chat).
@@ -140,19 +151,21 @@ export default function ProactiveChat() {
     contactAnswersRef.current = {}; // reset ao abrir
     setPhase('open');
     pushMsg('bot', 'Olá! Sou da E-Koncepto 👋');
-    setTimeout(() => askNext(0), TYPING_DELAY_MS * 2);
+    setTimeout(() => askNext(0, {}), TYPING_DELAY_MS * 2);
   }
 
-  // ---------------- FASE 1: perguntas de múltipla escolha ----------------
+  // ---------------- FASE 1: perguntas de escolha ----------------
 
-  function askNext(index: number) {
-    if (index >= QUIZ_QUESTIONS.length) {
+  function askNext(index: number, currentAnswers: QuizAnswers) {
+    const questions = getActiveQuestions(currentAnswers);
+    if (index >= questions.length) {
       // Acabaram as perguntas -> vai pra fase de contato.
       startContactPhase();
       return;
     }
-    const q = QUIZ_QUESTIONS[index];
+    const q = questions[index];
     setQIndex(index);
+    setMultiSelected([]);
     setPhase('typing');
     setTimeout(() => {
       pushMsg('bot', QUESTION_PROMPTS[q.id] ?? q.question);
@@ -160,32 +173,44 @@ export default function ProactiveChat() {
     }, TYPING_DELAY_MS);
   }
 
-  function handleUserReply(value: string, displayText?: string) {
-    const q = QUIZ_QUESTIONS[qIndex];
-    pushMsg('user', displayText ?? value);
+  /**
+   * Ao responder a pergunta `q`, remove respostas posteriores órfãs
+   * (ex.: mudar a dor e voltar não pode deixar detalhes velhos).
+   */
+  function purgedAnswers(
+    qId: string,
+    current: QuizAnswers,
+    updates: QuizAnswers
+  ): QuizAnswers {
+    const idxFull = QUIZ_QUESTIONS.findIndex((x) => x.id === qId);
+    const next: QuizAnswers = { ...current, ...updates };
+    QUIZ_QUESTIONS.slice(idxFull + 1).forEach((x) => delete next[x.id]);
+    return next;
+  }
 
-    // Se for "outros", pede pra digitar.
-    if (value === 'outros') {
-      setPhase('typing');
-      setTimeout(() => {
-        pushMsg('bot', 'Conta pra mim: o que você vende exatamente? 📝');
-        setWaitingOther(true);
-        setPhase('input-quiz');
-      }, TYPING_DELAY_MS);
-      return;
-    }
+  /** Aplica respostas no hook e avança (ou desqualifica). */
+  function commitAndAdvance(
+    qId: string,
+    updates: QuizAnswers,
+    displayText: string
+  ) {
+    pushMsg('user', displayText);
+    const merged = purgedAnswers(qId, answers, updates);
+    // Remove chaves órfãs e aplica as novas de uma vez (localStorage incluso).
+    syncAnswers(merged);
 
-    // GATE DE QUALIFICAÇÃO: "Ainda não vendo" no faturamento → fluxo
-    // educativo (sem WhatsApp, sem conversão, salvo como descartado).
-    if (q.id === 'faturamento' && value === 'nao-vendo') {
-      const merged = { ...answers, [q.id]: value };
+    // GATE (declarativo no config): "Ainda não vendo online" nos canais.
+    const q = QUIZ_QUESTIONS.find((x) => x.id === qId);
+    const dq = q?.disqualifyValue;
+    const selectedValue = Object.values(updates)[0] ?? '';
+    if (dq && selectedValue.split(',').includes(dq)) {
       setPhase('typing');
       setTimeout(() => {
         pushMsg('bot', 'Agradeço a sinceridade! 🙏');
         setTimeout(() => {
           pushMsg(
             'bot',
-            'Nosso diagnóstico é para quem já vende em marketplaces. Como você está começando, preparamos guias gratuitos pra dar os primeiros passos — e em breve teremos cursos pra quem quer começar do zero! 📚'
+            'Nosso diagnóstico é para quem já vende em marketplaces. Como você ainda não vende online, preparamos guias gratuitos pra dar os primeiros passos — e em breve teremos cursos pra começar do zero! 📚'
           );
           setIsDisqualified(true);
           submitLead(merged, { disqualified: true });
@@ -195,30 +220,56 @@ export default function ProactiveChat() {
       return;
     }
 
-    setAnswer(q.id, value);
-    const ack = ACKNOWLEDGMENTS[q.id] ?? '👍';
+    const ack = ACKNOWLEDGMENTS[qId] ?? '👍';
     setPhase('typing');
     setTimeout(() => {
       pushMsg('bot', ack);
-      setTimeout(() => askNext(qIndex + 1), 400);
+      setTimeout(() => askNext(qIndex + 1, merged), 400);
     }, TYPING_DELAY_MS);
   }
 
-  function handleOtherTextSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const v = otherInputValue.trim();
-    if (v.length < 2) return;
-    const q = QUIZ_QUESTIONS[qIndex];
-    pushMsg('user', v);
-    setAnswer(q.id, v);
-    setWaitingOther(false);
-    setOtherInputValue('');
-    const ack = ACKNOWLEDGMENTS[q.id] ?? '👍';
-    setPhase('typing');
-    setTimeout(() => {
-      pushMsg('bot', ack);
-      setTimeout(() => askNext(qIndex + 1), 400);
-    }, TYPING_DELAY_MS);
+  // Sincroniza TODAS as respostas (inclusive remoções de chaves órfãs de
+  // um branch anterior) com o hook de uma vez.
+  function syncAnswers(merged: QuizAnswers) {
+    setAllAnswers(merged);
+  }
+
+  /** Resposta single-choice. */
+  function handleUserReply(value: string, displayText?: string) {
+    const q = activeQuestions[qIndex];
+    if (!q) return;
+    commitAndAdvance(
+      q.id,
+      { [q.id]: value },
+      displayText ?? multiLabel(q.id, value)
+    );
+  }
+
+  /** Toggle de opção multi (respeita maxSelect/exclusive). */
+  function toggleMulti(value: string) {
+    const q = activeQuestions[qIndex];
+    if (!q?.options) return;
+    const opt = q.options.find((o) => o.value === value);
+    setMultiSelected((prev) => {
+      if (prev.includes(value)) return prev.filter((v) => v !== value);
+      if (opt?.exclusive) return [value];
+      const base = prev.filter(
+        (v) => !q.options?.find((o) => o.value === v)?.exclusive
+      );
+      const max = q.maxSelect ?? Infinity;
+      if (base.length >= max) return base;
+      return [...base, value];
+    });
+  }
+
+  function handleMultiSend() {
+    const q = activeQuestions[qIndex];
+    if (!q || multiSelected.length === 0) return;
+    commitAndAdvance(
+      q.id,
+      { [q.id]: multiSelected.join(',') },
+      multiLabel(q.id, multiSelected.join(','))
+    );
   }
 
   // ---------------- FASE 2: coleta de contato ----------------
@@ -335,7 +386,7 @@ export default function ProactiveChat() {
   // ---------------- RENDER ----------------
 
   // Pergunta atual do quiz (undefined quando já passou pra fase de contato).
-  const currentQ = QUIZ_QUESTIONS[qIndex];
+  const currentQ = activeQuestions[qIndex];
 
   // Botão flutuante (visual WhatsApp, canto inferior direito)
   if (phase === 'idle') {
@@ -360,7 +411,7 @@ export default function ProactiveChat() {
             className="w-9 h-9"
             aria-hidden="true"
           >
-            <path d="M30.3139 14.3245C30.174 10.4932 28.5594 6.864 25.8073 4.1948C23.0552 1.52559 19.3784 0.0227244 15.5446 4.10118e-06H15.4722C12.8904 -0.00191309 10.3527 0.668375 8.10857 1.94491C5.86449 3.22145 3.99142 5.06026 2.67367 7.28039C1.35592 9.50053 0.6389 12.0255 0.593155 14.6068C0.547411 17.1882 1.17452 19.737 2.41278 22.0024L1.09794 29.8703C1.0958 29.8865 1.09712 29.9029 1.10182 29.9185C1.10651 29.9341 1.11448 29.9485 1.12518 29.9607C1.13588 29.973 1.14907 29.9828 1.16387 29.9896C1.17867 29.9964 1.19475 29.9999 1.21103 30H1.23365L9.01561 28.269C11.0263 29.2344 13.2282 29.7353 15.4586 29.7346C15.6004 29.7346 15.7421 29.7346 15.8838 29.7346C17.8458 29.6786 19.7773 29.2346 21.5667 28.4282C23.3562 27.6218 24.9682 26.469 26.3098 25.0363C27.6514 23.6036 28.696 21.9194 29.3832 20.0809C30.0704 18.2423 30.3867 16.2859 30.3139 14.3245Z" />
+            <path d="M30.3139 14.3245C30.174 10.4932 28.5594 6.864 25.8073 4.1948C23.0552 1.52559 19.3784 0.0227244 15.5446 4.10118e-06H15.4722C12.8904 -0.00191309 10.3527 0.668375 8.10857 1.94491C5.86449 3.22145 3.99142 5.06026 2.67367 7.28039C1.35592 9.50053 0.6389 12.0255 0.593155 14.6068C0.547411 17.1882 1.17452 19.737 2.41278 22.0024L1.09794 29.8703C1.0958 29.8865 1.09712 29.9029 1.10182 29.9185C1.10651 29.9341 1.11448 29.9485 1.12518 29.9607C1.13588 29.973 1.14907 29.9828 1.16387 29.9896C1.17867 29.9964 1.19475 29.9999 1.21103 30H1.23365L9.01561 28.269C11.0263 29.2344 13.2282 29.7353 15.4586 29.7346C15.6004 29.7346 15.7421 29.7346 15.8838 29.7346C17.8458 29.6786 19.7773 29.2346 21.5567 28.4282C23.3352 27.6216 24.9478 26.4694 26.3098 25.0363C27.6514 23.6036 28.6962 21.9324 29.3832 20.0809C30.0704 18.2423 30.3867 16.2859 30.3139 14.3245Z" />
           </svg>
           <span className="absolute -top-0.5 -right-0.5 flex w-5 h-5">
             <span className="absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75 animate-ping" />
@@ -437,10 +488,6 @@ export default function ProactiveChat() {
               </div>
             )}
 
-            {/* Durante 'submitting', os insights aparecem como mensagens
-                escalonadas (com delay). Não mostramos loader aqui pra não
-                concorrer com as mensagens — o header já diz "Preparando...". */}
-
             {phase === 'done' && isDisqualified && (
               <div className="pt-2 space-y-2">
                 <Button asChild className="w-full" size="sm">
@@ -467,40 +514,72 @@ export default function ProactiveChat() {
             )}
           </div>
 
-          {/* Input: múltipla escolha (fase de quiz) */}
-          {phase === 'input-quiz' && (
+          {/* Input: escolha (fase de quiz) */}
+          {phase === 'input-quiz' && currentQ && (
             <div className="border-t border-border p-3 bg-background shrink-0">
-              {waitingOther ? (
-                // Input de texto livre (Outra categoria)
-                <form onSubmit={handleOtherTextSubmit} className="flex gap-2">
-                  <Input
-                    autoFocus
-                    placeholder="Ex: Petshop, suplementos..."
-                    value={otherInputValue}
-                    onChange={(e) => setOtherInputValue(e.target.value)}
-                    className="h-10 text-sm"
-                  />
-                  <Button type="submit" size="icon" aria-label="Enviar" disabled={otherInputValue.trim().length < 2}>
-                    <Send className="w-4 h-4" />
-                  </Button>
-                </form>
-              ) : (
-                // Botões de opção
-                currentQ && currentQ.options && (
-                  <div className="grid gap-2 max-h-40 overflow-y-auto">
-                    {currentQ.options.map((opt) => (
-                      <button
-                        key={opt.value}
-                        type="button"
-                        onClick={() => handleUserReply(opt.value, `${opt.emoji ?? ''} ${opt.label}`.trim())}
-                        className="flex items-center gap-2 w-full text-left text-sm px-3 py-2 rounded-lg border border-border hover:border-primary hover:bg-accent transition-colors"
-                      >
-                        {opt.emoji && <span aria-hidden>{opt.emoji}</span>}
-                        <span>{opt.label}</span>
-                      </button>
-                    ))}
+              {currentQ.type === 'multi-choice' ? (
+                // Multi-select: toggle + enviar
+                <div className="space-y-2">
+                  <div className="grid grid-cols-2 gap-2 max-h-44 overflow-y-auto">
+                    {currentQ.options?.map((opt) => {
+                      const selected = multiSelected.includes(opt.value);
+                      return (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => toggleMulti(opt.value)}
+                          className={cn(
+                            'flex items-center gap-2 text-left text-sm px-3 py-2 rounded-lg border transition-colors',
+                            selected
+                              ? 'border-primary bg-accent'
+                              : 'border-border hover:border-primary'
+                          )}
+                        >
+                          {opt.icon ? (
+                            <span className="shrink-0 w-6 h-6 rounded bg-background border border-border flex items-center justify-center overflow-hidden">
+                              <img
+                                src={opt.icon}
+                                alt=""
+                                className="w-full h-full object-contain p-0.5"
+                                loading="lazy"
+                              />
+                            </span>
+                          ) : (
+                            opt.emoji && <span aria-hidden>{opt.emoji}</span>
+                          )}
+                          <span className="flex-1 leading-tight">{opt.label}</span>
+                          {selected && <Check className="w-3.5 h-3.5 shrink-0 text-primary" strokeWidth={3} />}
+                        </button>
+                      );
+                    })}
                   </div>
-                )
+                  <Button
+                    className="w-full"
+                    size="sm"
+                    disabled={multiSelected.length === 0}
+                    onClick={handleMultiSend}
+                  >
+                    <Send className="w-3.5 h-3.5 mr-1" />
+                    {multiSelected.length > 0 ? 'Enviar' : 'Selecione ao menos um'}
+                  </Button>
+                </div>
+              ) : (
+                // Single-choice: botões diretos
+                <div className="grid gap-2 max-h-40 overflow-y-auto">
+                  {currentQ.options?.map((opt) => (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      onClick={() =>
+                        handleUserReply(opt.value, `${opt.emoji ?? ''} ${opt.label}`.trim())
+                      }
+                      className="flex items-center gap-2 w-full text-left text-sm px-3 py-2 rounded-lg border border-border hover:border-primary hover:bg-accent transition-colors"
+                    >
+                      {opt.emoji && <span aria-hidden>{opt.emoji}</span>}
+                      <span>{opt.label}</span>
+                    </button>
+                  ))}
+                </div>
               )}
             </div>
           )}
@@ -567,11 +646,14 @@ export default function ProactiveChat() {
 }
 
 const ACKNOWLEDGMENTS: Record<string, string> = {
-  marketplace: 'Show! 👍',
-  categoria: 'Boa categoria! 📦',
   faturamento: 'Anotado! 📝',
+  marketplace: 'Show! 👍',
   dor: 'Entendi — é super comum.',
-  objetivo: 'Boa! 🎯',
+  'detalhe-nao-vende': 'Faz todo sentido.',
+  'detalhe-vende-pouco': 'Boa, isso já diz muito! 📊',
+  'detalhe-margem': 'Anotado — margem é sensível. 💸',
+  'detalhe-escalar': 'Entendi! 🚀',
+  'detalhe-tempo': 'Isso é mais comum do que parece. ⏰',
 };
 
 function Dot({ delay }: { delay: number }) {

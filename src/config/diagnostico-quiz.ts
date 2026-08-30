@@ -1,26 +1,34 @@
 /**
  * Diagnóstico Quiz — definição central das perguntas.
  *
- * Fluxo otimizado (6 perguntas) baseado e enxuto vs. o quiz de 8 passos
- * do Efeito Vendas. Para editar perguntas/opções, mexa apenas aqui —
- * o Quiz e o Chat proativo consomem este mesmo array.
+ * Para editar perguntas/opções, mexa apenas aqui — o Quiz e o Chat proativo
+ * consomem este mesmo array.
  *
- * Ordem pensada para qualificar rápido:
- *   1. Marketplace (onde está hoje)
- *   2. Faturamento (tamanho do lead)
- *   3. Dor principal (angle de venda)
- *   4. Objetivo (segmenta quente vs. frio)
- *   5. Nome (humaniza, começa a construir relação)
- *   6. Contato (captura de lead)
+ * Fluxo pensado para qualificar rápido com perguntas atreladas à dor:
+ *   1. Faturamento (tamanho do lead — primeira pergunta)
+ *   2. Canais onde vende (multi-select com logos; "não vendo online"
+ *      desqualifica na hora — gate declarativo via `disqualifyValue`)
+ *   3. Dores (multi-select, até 2)
+ *   4. Follow-ups: UMA pergunta por dor marcada (via `showIf`)
+ *   5. Bloco de contato (ContactForm)
+ *
+ * Respostas de perguntas multi são salvas como string única com vírgulas
+ * (ex.: "mercado-livre,shopee") — compatível com localStorage e Sheets.
  */
 
-export type QuizQuestionType = 'single-choice' | 'text' | 'contact';
+export type QuizQuestionType = 'single-choice' | 'multi-choice' | 'text' | 'contact';
 
 export type QuizOption = {
   value: string;
   label: string;
   emoji?: string;
+  /** Caminho de imagem (SVG) exibido no lugar do emoji — ex.: logos. */
+  icon?: string;
+  /** Opção exclusiva: quando marcada, desmarca as outras da mesma pergunta. */
+  exclusive?: boolean;
 };
+
+export type QuizAnswers = Record<string, string>;
 
 export type QuizQuestion = {
   id: string;
@@ -32,8 +40,16 @@ export type QuizQuestion = {
   options?: QuizOption[];
   /** Placeholder para inputs de texto */
   placeholder?: string;
-  /** Validador simples (chave -> regex ou regra) aplicado no cliente */
-  validation?: 'name' | 'contact';
+  /** Máximo de seleções em perguntas multi-choice */
+  maxSelect?: number;
+  /**
+   * Gate de qualificação: se o usuário selecionar este value nesta pergunta,
+   * o fluxo é interrompido (tela educativa, lead salvo como descartado,
+   * sem disparar conversões).
+   */
+  disqualifyValue?: string;
+  /** Exibe a pergunta apenas quando a condição é satisfeita (branching). */
+  showIf?: (answers: QuizAnswers) => boolean;
 };
 
 /**
@@ -42,7 +58,7 @@ export type QuizQuestion = {
  * Renderizados por ContactForm, não por DiagnosticoQuiz.
  */
 export type ContactField = {
-  id: 'nome' | 'whatsapp' | 'email';
+  id: 'nome' | 'empresa' | 'whatsapp' | 'email';
   label: string;
   placeholder: string;
   inputMode: 'text' | 'tel' | 'email';
@@ -82,34 +98,8 @@ export const CONTACT_FIELDS: ContactField[] = [
 
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
   {
-    id: 'marketplace',
-    question: 'Onde você vende hoje?',
-    subtitle: 'Isso me ajuda a focar nas estratégias certas pra você.',
-    type: 'single-choice',
-    options: [
-      { value: 'mercado-livre', label: 'Mercado Livre', emoji: '🛒' },
-      { value: 'amazon', label: 'Amazon', emoji: '📦' },
-      { value: 'shopee', label: 'Shopee', emoji: '🛍️' },
-      { value: 'multi', label: 'Mais de um marketplace', emoji: '🔀' },
-      { value: 'nenhum', label: 'Ainda não vendo', emoji: '🚀' },
-    ],
-  },
-  {
-    id: 'categoria',
-    question: 'O que você vende?',
-    subtitle: 'Categoria ajuda a personalizar a estratégia de venda.',
-    type: 'single-choice',
-    options: [
-      { value: 'eletronicos', label: 'Eletrônicos e tecnologia', emoji: '📱' },
-      { value: 'moda', label: 'Moda e acessórios', emoji: '👕' },
-      { value: 'casa', label: 'Casa e decoração', emoji: '🏠' },
-      { value: 'beleza', label: 'Beleza e cuidados', emoji: '💄' },
-      { value: 'outros', label: 'Outra categoria', emoji: '📦' },
-    ],
-  },
-  {
     id: 'faturamento',
-    question: 'Qual seu faturamento mensal?',
+    question: 'Quanto sua empresa fatura hoje?',
     subtitle: 'Não se preocupe — todos os cases começaram pequenos.',
     type: 'single-choice',
     options: [
@@ -122,10 +112,41 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
+    id: 'marketplace',
+    question: 'Onde você vende hoje?',
+    subtitle: 'Marque todos os canais onde você já vende. Pode escolher mais de um.',
+    type: 'multi-choice',
+    disqualifyValue: 'nao-vendo-online',
+    options: [
+      {
+        value: 'mercado-livre',
+        label: 'Mercado Livre',
+        icon: '/images/marketplaces/mercado-livre.svg',
+      },
+      {
+        value: 'amazon',
+        label: 'Amazon',
+        icon: '/images/marketplaces/amazon.svg',
+      },
+      {
+        value: 'shopee',
+        label: 'Shopee',
+        icon: '/images/marketplaces/shopee.svg',
+      },
+      {
+        value: 'nao-vendo-online',
+        label: 'Ainda não vendo online',
+        emoji: '🚀',
+        exclusive: true,
+      },
+    ],
+  },
+  {
     id: 'dor',
     question: 'Qual sua maior dor hoje?',
-    subtitle: 'Seja sincero — é por aqui que começamos a resolver.',
-    type: 'single-choice',
+    subtitle: 'Seja sincero — pode marcar até 2.',
+    type: 'multi-choice',
+    maxSelect: 2,
     options: [
       { value: 'nao-vende', label: 'Não consigo vender', emoji: '😰' },
       { value: 'vende-pouco', label: 'Vendo pouco', emoji: '📉' },
@@ -134,16 +155,68 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: 'tempo', label: 'Falta tempo / operação', emoji: '⏰' },
     ],
   },
+  // ----- Follow-ups: UMA pergunta por dor marcada (ordem fixa) -----
   {
-    id: 'objetivo',
-    question: 'O que você quer alcançar?',
-    subtitle: 'Última pergunta antes de montar seu diagnóstico.',
+    id: 'detalhe-nao-vende',
+    question: 'O que você acha que trava suas vendas?',
+    subtitle: 'Isso direciona o foco do seu diagnóstico.',
     type: 'single-choice',
+    showIf: (a) => !!a.dor?.includes('nao-vende'),
     options: [
-      { value: 'comecar', label: 'Começar do zero', emoji: '🚀' },
-      { value: 'otimizar', label: 'Otimizar o que tenho', emoji: '🔧' },
-      { value: 'escalar', label: 'Escalar minhas vendas', emoji: '🚀' },
-      { value: 'profissionalizar', label: 'Profissionalizar operação', emoji: '👔' },
+      { value: 'visibilidade', label: 'Meus anúncios não aparecem', emoji: '🔍' },
+      { value: 'listagem', label: 'Anúncios fracos (foto, título, descrição)', emoji: '🖼️' },
+      { value: 'preco', label: 'Não sou competitivo em preço', emoji: '🏷️' },
+      { value: 'reputacao', label: 'Minha reputação me atrapalha', emoji: '⭐' },
+    ],
+  },
+  {
+    id: 'detalhe-vende-pouco',
+    question: 'Como estão suas visitas?',
+    subtitle: 'Isso diferencia problema de tráfego vs. conversão.',
+    type: 'single-choice',
+    showIf: (a) => !!a.dor?.includes('vende-pouco'),
+    options: [
+      { value: 'poucas-visitas', label: 'Recebo poucas visitas', emoji: '📉' },
+      { value: 'nao-converte', label: 'Recebo visitas, mas ninguém compra', emoji: '👀' },
+      { value: 'sem-metricas', label: 'Não acompanho métricas', emoji: '🕳️' },
+    ],
+  },
+  {
+    id: 'detalhe-margem',
+    question: 'O que mais pesa no seu custo?',
+    subtitle: 'Margem saudável começa por saber onde ela escapa.',
+    type: 'single-choice',
+    showIf: (a) => !!a.dor?.includes('margem'),
+    options: [
+      { value: 'comissoes', label: 'Comissões do marketplace', emoji: '🏦' },
+      { value: 'frete', label: 'Frete e logística', emoji: '🚚' },
+      { value: 'anuncios', label: 'Gasto com anúncios', emoji: '📣' },
+      { value: 'compra', label: 'Preço de compra do produto', emoji: '📦' },
+    ],
+  },
+  {
+    id: 'detalhe-escalar',
+    question: 'O que impede você de escalar?',
+    subtitle: 'Escalar sem estrutura queima dinheiro.',
+    type: 'single-choice',
+    showIf: (a) => !!a.dor?.includes('escalar'),
+    options: [
+      { value: 'estoque', label: 'Estoque / capital de giro', emoji: '💵' },
+      { value: 'operacao', label: 'Operação e equipe', emoji: '🧑‍💼' },
+      { value: 'estrategia', label: 'Falta de estratégia clara', emoji: '🧭' },
+    ],
+  },
+  {
+    id: 'detalhe-tempo',
+    question: 'O que mais consome seu tempo?',
+    subtitle: 'É por aqui que a automatização mais rende.',
+    type: 'single-choice',
+    showIf: (a) => !!a.dor?.includes('tempo'),
+    options: [
+      { value: 'atendimento', label: 'Atendimento ao cliente', emoji: '💬' },
+      { value: 'envios', label: 'Envios e logística', emoji: '📦' },
+      { value: 'gestao-anuncios', label: 'Gestão de anúncios', emoji: '📊' },
+      { value: 'planilhas', label: 'Planilhas e rotina manual', emoji: '⌛' },
     ],
   },
 ];
@@ -152,13 +225,24 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
 // acima. Eles formam um bloco dedicado (ContactForm) exibido após a última
 // pergunta de múltipla escolha, com layout claro e mobile-friendly.
 
+/**
+ * Perguntas visíveis dado o estado atual das respostas (aplica `showIf`).
+ * Usado pelo quiz, pelo chat e pelo cálculo de progresso.
+ */
+export function getActiveQuestions(answers: QuizAnswers): QuizQuestion[] {
+  return QUIZ_QUESTIONS.filter((q) => !q.showIf || q.showIf(answers));
+}
+
 /** Rótulos amigáveis para cada id (usado na mensagem e no Sheets) */
 export const QUIZ_LABELS: Record<string, string> = {
-  marketplace: 'Marketplace',
-  categoria: 'Categoria',
   faturamento: 'Faturamento',
-  dor: 'Maior dor',
-  objetivo: 'Objetivo',
+  marketplace: 'Canais onde vende',
+  dor: 'Dores',
+  'detalhe-nao-vende': 'Detalhe (não vende)',
+  'detalhe-vende-pouco': 'Detalhe (vende pouco)',
+  'detalhe-margem': 'Detalhe (margem)',
+  'detalhe-escalar': 'Detalhe (escalar)',
+  'detalhe-tempo': 'Detalhe (tempo)',
   nome: 'Nome',
   empresa: 'Empresa',
   whatsapp: 'WhatsApp',
@@ -168,20 +252,6 @@ export const QUIZ_LABELS: Record<string, string> = {
 
 /** Mapa value -> label legível (para relatório e mensagem) */
 export const QUIZ_VALUE_LABELS: Record<string, Record<string, string>> = {
-  marketplace: {
-    'mercado-livre': 'Mercado Livre',
-    amazon: 'Amazon',
-    shopee: 'Shopee',
-    multi: 'Mais de um marketplace',
-    nenhum: 'Ainda não vende',
-  },
-  categoria: {
-    eletronicos: 'Eletrônicos e tecnologia',
-    moda: 'Moda e acessórios',
-    casa: 'Casa e decoração',
-    beleza: 'Beleza e cuidados',
-    outros: 'Outra categoria',
-  },
   faturamento: {
     'nao-vendo': 'Ainda não vende',
     'ate-10k': 'Até R$ 10k',
@@ -190,6 +260,14 @@ export const QUIZ_VALUE_LABELS: Record<string, Record<string, string>> = {
     '100k-500k': 'R$ 100k – R$ 500k',
     '500k+': 'Acima de R$ 500k',
   },
+  marketplace: {
+    'mercado-livre': 'Mercado Livre',
+    amazon: 'Amazon',
+    shopee: 'Shopee',
+    multi: 'Mais de um marketplace',
+    'nao-vendo-online': 'Ainda não vende online',
+    nenhum: 'Ainda não vende',
+  },
   dor: {
     'nao-vende': 'Não consegue vender',
     'vende-pouco': 'Vende pouco',
@@ -197,13 +275,44 @@ export const QUIZ_VALUE_LABELS: Record<string, Record<string, string>> = {
     escalar: 'Não sabe escalar',
     tempo: 'Falta tempo/operação',
   },
-  objetivo: {
-    comecar: 'Começar do zero',
-    otimizar: 'Otimizar o que tem',
-    escalar: 'Escalar vendas',
-    profissionalizar: 'Profissionalizar operação',
+  'detalhe-nao-vende': {
+    visibilidade: 'Anúncios não aparecem',
+    listagem: 'Anúncios fracos',
+    preco: 'Preço não competitivo',
+    reputacao: 'Reputação',
+  },
+  'detalhe-vende-pouco': {
+    'poucas-visitas': 'Poucas visitas',
+    'nao-converte': 'Visitas que não convertem',
+    'sem-metricas': 'Não acompanha métricas',
+  },
+  'detalhe-margem': {
+    comissoes: 'Comissões',
+    frete: 'Frete e logística',
+    anuncios: 'Anúncios',
+    compra: 'Preço de compra',
+  },
+  'detalhe-escalar': {
+    estoque: 'Estoque/capital',
+    operacao: 'Operação e equipe',
+    estrategia: 'Falta de estratégia',
+  },
+  'detalhe-tempo': {
+    atendimento: 'Atendimento',
+    envios: 'Envios e logística',
+    'gestao-anuncios': 'Gestão de anúncios',
+    planilhas: 'Planilhas e rotina',
   },
 };
+
+/** Converte um valor de resposta multi ("a,b") nos labels legíveis. */
+export function multiLabel(questionId: string, value: string): string {
+  const map = QUIZ_VALUE_LABELS[questionId] ?? {};
+  return value
+    .split(',')
+    .map((v) => map[v.trim()] ?? v.trim())
+    .join(' + ');
+}
 
 /** Tempo (ms) para o chat proativo aparecer sozinho */
 /**

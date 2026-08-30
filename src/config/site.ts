@@ -3,7 +3,7 @@
  * This file contains all the external links, contact information, and other site-wide settings.
  */
 
-import { QUIZ_VALUE_LABELS } from './diagnostico-quiz';
+import { QUIZ_LABELS, QUIZ_VALUE_LABELS } from './diagnostico-quiz';
 
 type SocialLink = {
   name: string;
@@ -225,6 +225,9 @@ export function buildDiagnosticMessage(
 ): string {
   const label = (field: string, value: string): string =>
     QUIZ_VALUE_LABELS[field]?.[value] ?? value;
+  // Valores multi ("a,b") viram "A + B".
+  const multi = (field: string, value: string): string =>
+    value.split(',').map((v) => label(field, v.trim())).join(' + ');
 
   const nome = answers.nome?.trim();
   const empresa = answers.empresa?.trim();
@@ -234,24 +237,23 @@ export function buildDiagnosticMessage(
       : `Olá! Sou ${nome}.`
     : 'Olá!';
 
-  const marketplace = answers.marketplace ? label('marketplace', answers.marketplace) : null;
-  const categoria = answers.categoria ? label('categoria', answers.categoria) : null;
+  const canais = answers.marketplace ? multi('marketplace', answers.marketplace) : null;
   const faturamento = answers.faturamento ? label('faturamento', answers.faturamento) : null;
-  const dor = answers.dor ? label('dor', answers.dor) : null;
-  const objetivo = answers.objetivo ? label('objetivo', answers.objetivo) : null;
+  const dores = answers.dor ? multi('dor', answers.dor) : null;
   const whatsapp = answers.whatsapp?.trim();
 
   const partes: string[] = [saudacao, 'Acabei de fazer o diagnóstico gratuito no site da E-Koncepto.'];
 
   const contexto: string[] = [];
-  if (marketplace) contexto.push(`Vendo em: ${marketplace}`);
-  if (categoria) contexto.push(`Categoria: ${categoria}`);
+  if (canais) contexto.push(`Vendo em: ${canais}`);
   // Faturamento só entra na msg se a pessoa vende (evita "Faturamento: Ainda não vende")
   if (faturamento && faturamento !== 'Ainda não vende') {
     contexto.push(`Faturamento: ${faturamento}`);
   }
-  if (dor) contexto.push(`Maior dor: ${dor}`);
-  if (objetivo) contexto.push(`Objetivo: ${objetivo}`);
+  if (dores) contexto.push(`Dores: ${dores}`);
+  // Follow-ups respondidos (detalhe-*) entram como contexto específico.
+  const detalhes = Object.entries(answers).filter(([k, v]) => k.startsWith('detalhe-') && v);
+  detalhes.forEach(([k, v]) => contexto.push(`${QUIZ_LABELS[k] ?? k}: ${label(k, v)}`));
   if (contexto.length) partes.push(contexto.join(' · '));
 
   // WhatsApp já é o canal de contato, não precisa repetir na mensagem.
@@ -285,10 +287,9 @@ export function buildDiagnosticInsight(
   answers: Record<string, string>
 ): DiagnosticInsight[] {
   const insights: DiagnosticInsight[] = [];
-  const mp = answers.marketplace;
+  const canais = answers.marketplace?.split(',').filter(Boolean) ?? [];
   const fat = answers.faturamento;
-  const dor = answers.dor;
-  const objetivo = answers.objetivo;
+  const dores = answers.dor?.split(',').filter(Boolean) ?? [];
 
   // --- Insight por DOR (o mais importante — aparece primeiro) ---
   const dorMap: Record<string, DiagnosticInsight> = {
@@ -323,36 +324,145 @@ export function buildDiagnosticInsight(
       prioridade: 'media',
     },
   };
-  if (dor && dorMap[dor]) insights.push(dorMap[dor]);
+  dores.forEach((d) => {
+    if (dorMap[d]) insights.push(dorMap[d]);
+  });
 
-  // --- Insight por OBJETIVO ---
-  const objetivoMap: Record<string, DiagnosticInsight> = {
-    comecar: {
-      titulo: 'Começar do zero exige o setup certo',
-      descricao:
-        'A maioria dos vendedores demora meses pra vender porque pula etapas: escolha do marketplace certo, cadastro otimizado desde o início e logística bem configurada.',
-      prioridade: 'media',
+  // --- Insight por FOLLOW-UP (torna o diagnóstico específico da dor) ---
+  const detalheMap: Record<string, Record<string, DiagnosticInsight>> = {
+    'detalhe-nao-vende': {
+      visibilidade: {
+        titulo: 'SEO de marketplace é o seu gargalo nº 1',
+        descricao:
+          'Se o anúncio não aparece, nada mais importa. Título com palavras-chave de busca, ficha técnica completa e imagens otimizadas são o que fazem o algoritmo te ranquear.',
+        prioridade: 'alta',
+      },
+      listagem: {
+        titulo: 'Sua listagem está perdendo cliques',
+        descricao:
+          'Foto principal e título decidem se o cliente clica ou não. Testar variações de imagem e título é uma das melhorias com retorno mais rápido.',
+        prioridade: 'alta',
+      },
+      preco: {
+        titulo: 'Preça com estratégia, não com medo',
+        descricao:
+          'Estar mais barato não é a única forma de competir. Destaques (Full, enviando hoje, atributos) permitem cobrar mais e ainda converter melhor.',
+        prioridade: 'media',
+      },
+      reputacao: {
+        titulo: 'Reputação destrava o algoritmo a seu favor',
+        descricao:
+          'Green/melhor reputação melhora ranqueamento e conversão. SLA de resposta e cancelamento zero são as alavancas mais rápidas.',
+        prioridade: 'media',
+      },
     },
-    otimizar: {
-      titulo: 'Otimizar exige foco nos anúncios certos',
-      descricao:
-        ' Nem todo anúncio merece atenção. A regra 80/20 se aplica: 20% dos seus anúncios trazem 80% do resultado. Identificar esses e investir neles é o caminho.',
-      prioridade: 'media',
+    'detalhe-vende-pouco': {
+      'poucas-visitas': {
+        titulo: 'Tráfego: seu produto não está sendo visto',
+        descricao:
+          'Baixa visita é problema de ranqueamento e/ou Ads. Ativar Ads no produto certo, com a palavras-chave certa, resolve a parte de demanda enquanto o SEO orgânico trabalha.',
+        prioridade: 'alta',
+      },
+      'nao-converte': {
+        titulo: 'Você tem audiência, mas não conversão',
+        descricao:
+          'Visita sem venda aponta pra listagem (preço, foto, reputação, review). O caminho é testar cada elemento da página do produto com método, no chute.',
+        prioridade: 'alta',
+      },
+      'sem-metricas': {
+        titulo: 'Sem métricas, todo esforço é chute',
+        descricao:
+          'Visitas, taxa de conversão e ticket médio por produto dizem exatamente onde está o dinheiro. Um dashboard simples já muda o jogo da sua operação.',
+        prioridade: 'media',
+      },
     },
-    escalar: {
-      titulo: 'Escalar é sobre canais e sortimento, não só Ads',
-      descricao:
-        'Escalar de verdade significa vender em mais de um marketplace, ampliar o catálogo com produtos vencedores e estruturar logística full (FBA, Full, etc).',
-      prioridade: 'baixa',
+    'detalhe-margem': {
+      comissoes: {
+        titulo: 'Comissão não se negocia — o planejamento sim',
+        descricao:
+          'A comissão é fixa, mas ela deveria entrar no cálculo do preço desde o início. Margem saudável em marketplace nasce da precificação, não do corte de custo.',
+        prioridade: 'alta',
+      },
+      frete: {
+        titulo: 'Logística pode estar comendo sua margem',
+        descricao:
+          'Programas de fullfillment (Full, FBA) mudam o custo-benefício do frete e ainda melhoram o ranqueamento. Vale recalcular por produto.',
+        prioridade: 'media',
+      },
+      anuncios: {
+        titulo: 'Ads sem gestão queima margem',
+        descricao:
+          'ACOS/ROAS por produto mostra onde o anúncio paga o aluguel. Cortar campanhas ruins e escalar as vencedoras costuma recuperar margem em dias.',
+        prioridade: 'media',
+      },
+      compra: {
+        titulo: 'Preço de compra é sua maior alavanca',
+        descricao:
+          'Negociar com fornecedor ou mudar a cadeia de compras impacta 100% das vendas — muito mais que qualquer otimização de anúncio.',
+        prioridade: 'media',
+      },
     },
-    profissionalizar: {
-      titulo: 'Profissionalizar é organizar processos e métricas',
-      descricao:
-        'Operação profissional precisa de dashboard de métricas claras (GMV, ticket médio, CAC), processo de reposição e governança de preço. Sem isso, você cresce às cegas.',
-      prioridade: 'baixa',
+    'detalhe-escalar': {
+      estoque: {
+        titulo: 'Capital de giro trava o crescimento',
+        descricao:
+          'Escalar exige reposição rápida. Mapear giro por produto e priorizar os vencedores faz o mesmo capital render mais vendas.',
+        prioridade: 'media',
+      },
+      operacao: {
+        titulo: 'Processo é o que faz a operação escalar',
+        descricao:
+          'Sem processo documentado, cada venda nova aumenta o caos. Definir rotinas de reposição, preços e atendimento é pré-requisito pra crescer.',
+        prioridade: 'media',
+      },
+      estrategia: {
+        titulo: 'Falta um plano de crescimento claro',
+        descricao:
+          'Saber quais produtos escalar, em qual canal e com que meta de retorno transforma crescimento em processo — não em sorte.',
+        prioridade: 'media',
+      },
+    },
+    'detalhe-tempo': {
+      atendimento: {
+        titulo: 'Atendimento pode ser semi-automatizado',
+        descricao:
+          'Respostas rápidas melhoram a reputação e liberam seu tempo. Modelos + horários definidos já cortam boa parte da carga manual.',
+        prioridade: 'baixa',
+      },
+      envios: {
+        titulo: 'Logística manual não escala',
+        descricao:
+          'Integração de pedidos e etiquetas automáticas eliminam o trabalho repetitivo de envio — é a automação com maior retorno imediato.',
+        prioridade: 'baixa',
+      },
+      'gestao-anuncios': {
+        titulo: 'Gestão de Ads dá pra sistematizar',
+        descricao:
+          'Rotina fixa de análise (quais escalar, quais pausar) transforma horas de olhar painel em decisões rápidas de 15 minutos por dia.',
+        prioridade: 'baixa',
+      },
+      planilhas: {
+        titulo: 'Planilha manual é hora desperdiçada',
+        descricao:
+          'Dashboards e integrações automáticas de estoque/vendas devolvem horas da sua semana pra focar no que cresce o negócio.',
+        prioridade: 'baixa',
+      },
     },
   };
-  if (objetivo && objetivoMap[objetivo]) insights.push(objetivoMap[objetivo]);
+  Object.entries(answers).forEach(([k, v]) => {
+    const insight = detalheMap[k]?.[v];
+    if (insight) insights.push(insight);
+  });
+
+  // --- Insight por CANAIS (multi-marketplace) ---
+  if (canais.length > 1) {
+    insights.push({
+      titulo: 'Vender em vários canais é vantagem — se for organizado',
+      descricao:
+        'Você já está em mais de um marketplace. O desafio agora é sincronizar estoque, preço e reputação entre eles pra um canal não canibalizar o outro.',
+      prioridade: 'baixa',
+    });
+  }
 
   // --- Insight por FATURAMENTO (contexto de onde o lead está) ---
   if (fat === 'nao-vendo') {
@@ -388,8 +498,8 @@ export function buildDiagnosticInsight(
     });
   }
 
-  void mp; // reservado: personalizar por marketplace específico no futuro
-  return insights.slice(0, 3); // máx 3 insights pra tela não ficar longa
+  void canais; // canais >1 já gera insight próprio acima
+  return insights.slice(0, 4); // máx 4 insights pra tela não ficar longa
 }
 
 // Analytics and Tracking
