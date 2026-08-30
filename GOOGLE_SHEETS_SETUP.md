@@ -29,13 +29,13 @@ Você acessa a planilha e vê o lead em tempo real
 2. Renomeie para algo como `Leads Diagnóstico E-Koncepto`.
 3. Na linha 1, adicione os cabeçalhos (um por coluna):
 
-   | A | B | C | D | E | F | G | H | I | J | K | L | M | N | O |
-   |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-   | timestamp | origem | marketplace | categoria | faturamento | dor | objetivo | nome | empresa | whatsapp | email | referrer | userAgent | page | diagnostico |
+   | A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T |
+   |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+   | timestamp | origem | faturamento | canais | canalOffline | categoria | dor | detalheNaoVende | detalheVendePouco | detalheMargem | detalheEscalar | detalheTempo | nome | empresa | whatsapp | email | referrer | userAgent | page | diagnostico |
 
-   > **Se você já tinha a planilha com o cabeçalho anterior** (sem `categoria`
-   > e `empresa`), insira essas 2 colunas novas (D e J), cole o novo script
-   > (Passo 3) e faça **New version** no deploy (Passo 4).
+   > **Se você já tinha a planilha com o cabeçalho anterior**, o mais simples é
+   > criar uma aba nova (ou planilha nova) com o cabeçalho acima, colar o script
+   > atualizado (Passo 3) e fazer **New version** no deploy (Passo 4).
 
 ### 2. Abrir o Apps Script
 
@@ -76,14 +76,20 @@ function doPost(e) {
   }
 
   // Mapeia campos vindos do site (src/components/diagnostico/useDiagnosticoLead.ts)
+  // Multi-selects chegam como string com vírgulas (ex.: "mercado-livre,shopee").
   var row = [
     data._timestamp || new Date().toISOString(),
     data.source || '',
-    data.marketplace || '',
-    data.categoria || '',
     data.faturamento || '',
+    data.marketplace || '',
+    data['canal-offline'] || '',
+    data.categoria || '',
     data.dor || '',
-    data.objetivo || '',
+    data['detalhe-nao-vende'] || '',
+    data['detalhe-vende-pouco'] || '',
+    data['detalhe-margem'] || '',
+    data['detalhe-escalar'] || '',
+    data['detalhe-tempo'] || '',
     data.nome || '',
     data.empresa || '',
     data.whatsapp || data.contato || '',
@@ -106,16 +112,18 @@ function testInsert() {
     postData: { contents: JSON.stringify({
       _timestamp: new Date().toISOString(),
       source: 'test',
-      marketplace: 'shopee',
-      categoria: 'Petshop',
       faturamento: '10k-50k',
-      dor: 'escalar',
-      objetivo: 'escalar',
+      marketplace: 'mercado-livre,shopee',
+      'canal-offline': '',
+      categoria: 'moda',
+      dor: 'margem,escalar',
+      'detalhe-margem': 'frete',
+      'detalhe-escalar': 'estoque',
       nome: 'Teste Manual',
       empresa: 'Loja Exemplo',
       whatsapp: '(11) 99999-9999',
       email: '',
-      diagnostico: '[ALTA] Seu anúncio precisa de SEO melhor...'
+      diagnostico: '[ALTA] Sua precificação pode estar errada...'
     }) }
   };
   doPost(fakeEvent);
@@ -165,25 +173,24 @@ VITE_GOOGLE_SHEETS_WEBHOOK_URL=https://script.google.com/macros/s/AKfycby.../exe
 
 ## Colunas da planilha (referência)
 
-## Colunas da planilha (referência)
-
 | Coluna | Campo | Exemplo |
 |---|---|---|
 | A | timestamp | `2026-08-13T14:32:01.234Z` |
-| B | origem (`source`) | `hero`, `shopee-contact`, `header`... |
-| C | marketplace | `mercado-livre`, `amazon`, `shopee`, `multi`, `nenhum` |
-| D | categoria | `eletronicos`, `moda`, `casa`, `beleza`, ou texto livre |
-| E | faturamento | `ate-10k`, `10k-50k`, `50k-100k`, `100k-500k`, `500k+` |
-| F | dor | `nao-vende`, `vende-pouco`, `margem`, `escalar`, `tempo` |
-| G | objetivo | `comecar`, `otimizar`, `escalar`, `profissionalizar` |
-| H | nome | `João Silva` |
-| I | empresa | `Loja Exemplo LTDA` (pode ser vazio) |
-| J | whatsapp | `(11) 99999-9999` |
-| K | email | `joao@email.com` (pode ser vazio) |
-| L | referrer | URL de onde veio |
-| M | userAgent | navegador/dispositivo |
-| N | page | `/diagnostico` |
-| O | diagnostico | Texto com os insights gerados (mesmos da tela de sucesso) |
+| B | origem (`source`) | `hero`, `shopee-contact`... (descartados ganham sufixo `-descartado`) |
+| C | faturamento | `nao-vendo`, `ate-10k`, `10k-50k`, `50k-100k`, `100k-500k`, `500k+` |
+| D | canais (`marketplace`) | multi: `mercado-livre`, `amazon`, `shopee`, `nao-vendo-online` (vírgula-separado) |
+| E | canalOffline | fluxo de expansão (50k+ sem marketplace): `loja-fisica`, `site`, `social`, `atacado`, `industria` |
+| F | categoria | multi: `eletronicos`, `moda`, `casa`, `beleza`, `alimentos`, `outros-fisicos`, `servicos-digitais`, `afiliado` |
+| G | dor | multi (máx. 2): `nao-vende`, `vende-pouco`, `margem`, `escalar`, `tempo` |
+| H–L | detalhes (follow-up por dor) | `visibilidade`, `poucas-visitas`, `comissoes`, `estoque`, `atendimento`... |
+| M | nome | `João Silva` |
+| N | empresa | `Loja Exemplo LTDA` (pode ser vazio) |
+| O | whatsapp | `(11) 99999-9999` |
+| P | email | `joao@email.com` (pode ser vazio) |
+| Q | referrer | URL de onde veio |
+| R | userAgent | navegador/dispositivo |
+| S | page | `/diagnostico` |
+| T | diagnostico | Texto com os insights gerados (mesmos da tela de sucesso) |
 
 ---
 
