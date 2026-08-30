@@ -164,7 +164,7 @@ const WHATSAPP_MESSAGES: Record<string, string> = {
   'shopee-header':
     'Olá! Vim da Shopee e quero falar com um especialista.',
   'shopee-promo-ads':
-    'Olá! Vim da promo de 01/09 — quero fechar a Gestão de Shopee Ads por R$ 1.500/mês (sem carência, sem fidelidade).',
+    'Olá! Quero saber mais sobre a promo de 01/09 — Gestão de Shopee Ads por R$ 1.500/mês (sem carência, sem fidelidade).',
   // LPs de Ads — fallback (whatsappLink roteia pro /diagnostico; estas
   // mensagens só usadas se o escape direto pro WhatsApp for acionado).
   'ads-ml-hero': 'Olá! Vim do anúncio de Mercado Livre. Quero vender mais.',

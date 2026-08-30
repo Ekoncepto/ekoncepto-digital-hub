@@ -27,12 +27,12 @@ const Shopee = () => {
     <>
       <main>
         <HeroShopee />
+        {/* Promo 01/09 (auto-expira após o fim do dia 01/09): gestão de
+            Shopee Ads por R$ 1.500/mês — única seção de preço, logo após o
+            hero (2ª dobra). Sem faixa fixa no topo e sem card duplicado. */}
+        <ShopeePromoSection />
         <CasesShopee />
         <ServicesShopee />
-        {/* Promo 01/09 (auto-expira após o fim do dia 01/09): gestão de
-            Shopee Ads por R$ 1.500/mês — no fluxo do scroll, sem faixa
-            fixa no topo pra não roubar a dobra do hero no mobile. */}
-        <ShopeePromoSection />
         <FoundersShopee />
         <ContactShopee />
       </main>

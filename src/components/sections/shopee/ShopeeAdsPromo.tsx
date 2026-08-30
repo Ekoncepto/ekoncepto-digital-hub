@@ -7,9 +7,8 @@
  *
  * Posicionamento: SEM faixa fixa no topo (rouba a dobra do hero,
  * principalmente no mobile, onde está a maioria do tráfego da Shopee).
- * A oferta aparece no fluxo do scroll — seção dedicada entre Serviços e
- * Fundadores (<ShopeePromoSection />) — e reforça no fechamento com o
- * card dentro do ContactShopee (<ShopeePromoCard />).
+ * A oferta aparece como seção dedicada logo após o hero (<ShopeePromoSection />)
+ * e vira um lembrete fino com countdown no contato (<ShopeePromoReminder />).
  *
  * AUTO-EXPIRA: depois de SHOPEE_ADS_PROMO_END ambos somem sozinhos.
  * Para uma próxima promo, basta trocar a data (e os textos) aqui.
@@ -52,20 +51,11 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
 function CountdownPill({
   left,
-  tone = 'onDark',
 }: {
   left: { d: number; h: number; m: number; s: number };
-  /** onDark = faixa laranja (texto branco) · onLight = card branco (laranja) */
-  tone?: 'onDark' | 'onLight';
 }) {
   return (
-    <span
-      className={
-        tone === 'onDark'
-          ? 'inline-flex items-center gap-1.5 bg-black/25 rounded-full px-4 py-1.5 font-mono text-base sm:text-lg font-bold tabular-nums'
-          : 'inline-flex items-center gap-1.5 bg-[#EE4D2D]/10 rounded-full px-4 py-1.5 font-mono text-base sm:text-lg font-bold tabular-nums'
-      }
-    >
+    <span className="inline-flex items-center gap-1.5 bg-black/25 rounded-full px-4 py-1.5 font-mono text-base sm:text-lg font-bold tabular-nums">
       <Timer className="w-4 h-4 shrink-0" aria-hidden />
       {left.d > 0 ? `${left.d}d ` : ''}
       {pad(left.h)}:{pad(left.m)}:{pad(left.s)}
@@ -129,7 +119,7 @@ export function ShopeePromoSection() {
           className="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-white text-[#EE4D2D] font-bold text-lg px-10 py-4 rounded-xl transition-all duration-300 transform hover:scale-[1.03] shadow-2xl"
         >
           <MessageCircle className="w-5 h-5" aria-hidden />
-          Quero fechar por R$ 1.500/mês
+          Quero saber mais
         </a>
         <p className="text-xs text-white/70 mt-4">
           Válida somente em 01/09/2026 · Vagas limitadas
@@ -139,50 +129,31 @@ export function ShopeePromoSection() {
   );
 }
 
-/** Bloco de reforço da promo dentro da seção de contato. */
-export function ShopeePromoCard() {
+/**
+ * Lembrete fino da promo dentro da seção de contato — UMA linha discreta
+ * acima do CTA principal, com countdown (sem card grande: o preço completo
+ * já foi apresentado na seção dedicada após o hero).
+ */
+export function ShopeePromoReminder() {
   const { visible, left } = usePromoCountdown(SHOPEE_ADS_PROMO_END);
   if (!visible || !left) return null;
 
   return (
-    <div className="bg-white rounded-2xl p-6 md:p-8 mb-10 max-w-2xl mx-auto text-[#EE4D2D] shadow-2xl ring-4 ring-white/30">
-      <div className="flex items-center justify-center gap-2 mb-3">
-        <Flame className="w-5 h-5" aria-hidden />
-        <p className="font-extrabold uppercase tracking-wide text-sm">
-          Oferta especial 01/09 — só pra quem chegar hoje
-        </p>
-      </div>
-
-      <p className="text-center text-slate-700 text-base mb-4">
-        Gestão de <strong>Shopee Ads</strong> profissional:
-      </p>
-
-      <p className="text-center mb-4">
-        <span className="block sm:inline text-slate-400 line-through text-2xl font-semibold mb-1 sm:mb-0 sm:mr-2">
-          R$ 2.500
-        </span>
-        <span className="text-4xl md:text-5xl font-extrabold">R$ 1.500</span>
-        <span className="text-slate-600 font-medium">/mês</span>
-      </p>
-
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-6 text-sm text-slate-600">
-        <CountdownPill left={left} tone="onLight" />
-        <span className="inline-flex items-center gap-1.5">
-          <ShieldCheck className="w-4 h-4 text-[#EE4D2D] shrink-0" aria-hidden />
-          Sem carência · Sem período mínimo · Cancele quando quiser
-        </span>
-      </div>
-
+    <div className="mb-6">
       <a
         href={whatsappLink(PROMO_SOURCE)}
-        className="flex items-center justify-center gap-2 w-full bg-[#EE4D2D] hover:bg-[#c93a18] text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-[1.02] shadow-xl"
+        className="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 bg-white/10 border border-white/25 rounded-full px-5 py-2 text-sm sm:text-base font-medium text-white/95 hover:bg-white/20 transition-colors"
       >
-        <MessageCircle className="w-5 h-5" aria-hidden />
-        Quero fechar a promo de R$ 1.500/mês
+        <span className="inline-flex items-center gap-1.5 font-semibold">
+          <Flame className="w-4 h-4 text-[#F69E15]" aria-hidden />
+          Promo 01/09 ativa: Gestão de Shopee Ads por R$ 1.500/mês
+        </span>
+        <span className="inline-flex items-center gap-1 font-mono font-bold tabular-nums">
+          <Timer className="w-3.5 h-3.5" aria-hidden />
+          {left.d > 0 ? `${left.d}d ` : ''}
+          {pad(left.h)}:{pad(left.m)}:{pad(left.s)}
+        </span>
       </a>
-      <p className="text-center text-xs text-slate-400 mt-3">
-        Válida somente em 01/09/2026 · Vagas limitadas
-      </p>
     </div>
   );
 }
