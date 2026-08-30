@@ -43,11 +43,11 @@ export type QuizQuestion = {
   /** Máximo de seleções em perguntas multi-choice */
   maxSelect?: number;
   /**
-   * Gate de qualificação: se o usuário selecionar este value nesta pergunta,
-   * o fluxo é interrompido (tela educativa, lead salvo como descartado,
-   * sem disparar conversões).
+   * Gate de qualificação: se o usuário selecionar algum destes values nesta
+   * pergunta, o fluxo é interrompido (tela educativa, lead salvo como
+   * descartado, sem disparar conversões).
    */
-  disqualifyValue?: string;
+  disqualifyValues?: string[];
   /**
    * Exceção ao gate: quando retorna true, a opção `disqualifyValue` NÃO
    * desqualifica (ex.: empresa que fatura 50k+/mês mas ainda não vende em
@@ -125,7 +125,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     question: 'Onde você vende hoje?',
     subtitle: 'Marque todos os canais onde você já vende. Pode escolher mais de um.',
     type: 'multi-choice',
-    disqualifyValue: 'nao-vendo-online',
+    disqualifyValues: ['nao-vendo-online'],
     // Empresa que fatura 50k+/mês fora dos marketplaces NÃO é descartada:
     // entra no fluxo de expansão de canais (pergunta canal-offline abaixo).
     disqualifyExemptIf: (a) =>
@@ -175,7 +175,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     question: 'O que sua empresa vende?',
     subtitle: 'Pode marcar mais de uma categoria.',
     type: 'multi-choice',
-    disqualifyValue: 'servicos-digitais',
+    disqualifyValues: ['servicos-digitais', 'afiliado'],
     options: [
       { value: 'eletronicos', label: 'Eletrônicos e tecnologia', emoji: '📱' },
       { value: 'moda', label: 'Moda e acessórios', emoji: '👕' },
@@ -187,6 +187,12 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
         value: 'servicos-digitais',
         label: 'Serviços / produtos digitais',
         emoji: '💻',
+        exclusive: true,
+      },
+      {
+        value: 'afiliado',
+        label: 'Vendo somente como afiliado',
+        emoji: '🤝',
         exclusive: true,
       },
     ],
@@ -334,6 +340,7 @@ export const QUIZ_VALUE_LABELS: Record<string, Record<string, string>> = {
     alimentos: 'Alimentos e bebidas',
     'outros-fisicos': 'Outros produtos físicos',
     'servicos-digitais': 'Serviços/produtos digitais',
+    afiliado: 'Somente afiliado',
   },
   dor: {
     'nao-vende': 'Não consegue vender',

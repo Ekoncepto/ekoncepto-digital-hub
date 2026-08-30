@@ -202,14 +202,13 @@ export default function ProactiveChat() {
     // Remove chaves órfãs e aplica as novas de uma vez (localStorage incluso).
     syncAnswers(merged);
 
-    // GATE (declarativo no config): "Ainda não vendo online" nos canais.
+    // GATE (declarativo no config): ex. "Ainda não vendo online" nos canais.
     // Exceção: quem fatura 50k+/mês é isento e segue pro fluxo de expansão.
     const q = QUIZ_QUESTIONS.find((x) => x.id === qId);
-    const dq = q?.disqualifyValue;
-    const selectedValue = Object.values(updates)[0] ?? '';
+    const dqs = q?.disqualifyValues ?? [];
+    const selectedValues = (Object.values(updates)[0] ?? '').split(',');
     if (
-      dq &&
-      selectedValue.split(',').includes(dq) &&
+      dqs.some((v) => selectedValues.includes(v)) &&
       !q?.disqualifyExemptIf?.(merged)
     ) {
       setPhase('typing');

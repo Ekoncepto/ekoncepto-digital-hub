@@ -84,7 +84,7 @@ export default function DiagnosticoQuiz() {
     // online" nos canais. Exceção: quem fatura 50k+/mês é isento
     // (disqualifyExemptIf) e segue pro fluxo de expansão de canais.
     if (
-      question.disqualifyValue === value &&
+      question.disqualifyValues?.includes(value) &&
       !question.disqualifyExemptIf?.(merged)
     ) {
       setTimeout(() => disqualify(merged), 220);
@@ -115,8 +115,7 @@ export default function DiagnosticoQuiz() {
     const value = multiSelected.join(',');
     const merged = purgeAfterAnswers(question, { ...answers, [question.id]: value });
     if (
-      question.disqualifyValue &&
-      multiSelected.includes(question.disqualifyValue) &&
+      question.disqualifyValues?.some((v) => multiSelected.includes(v)) &&
       !question.disqualifyExemptIf?.(merged)
     ) {
       setTimeout(() => disqualify(merged), 220);
