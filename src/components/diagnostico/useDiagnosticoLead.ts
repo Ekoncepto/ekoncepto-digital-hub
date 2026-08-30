@@ -15,6 +15,7 @@ import {
   whatsappDirectLink,
 } from '@/config/site';
 import {
+  CONTACT_FIELDS,
   DIAGNOSTICO_STORAGE_KEY,
   QUIZ_QUESTIONS,
   QUIZ_LABELS,
@@ -65,12 +66,38 @@ function readSourceFromUrl(): string {
   return params.get('source') || 'direct';
 }
 
-/** Lê respostas salvas (se houver) do localStorage. */
+/**
+ * Lê respostas salvas (se houver) do localStorage.
+ *
+ * Sanitiza contra respostas de versões antigas do quiz: mantém apenas
+ * chaves de perguntas/campos atuais com values válidos nas opções — evita
+ * que valores extintos (ex.: marketplace='multi', objetivo) vazem pro
+ * novo fluxo e pro payload da planilha.
+ */
 function readStoredAnswers(): DiagnosticoAnswers {
   if (typeof window === 'undefined') return {};
   try {
     const raw = window.localStorage.getItem(DIAGNOSTICO_STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as DiagnosticoAnswers) : {};
+    if (!raw) return {};
+    const stored = JSON.parse(raw) as DiagnosticoAnswers;
+    const contactIds = new Set(CONTACT_FIELDS.map((f) => f.id));
+    const next: DiagnosticoAnswers = {};
+    for (const q of QUIZ_QUESTIONS) {
+      const v = stored[q.id];
+      if (typeof v !== 'string' || !v) continue;
+      const validValues = new Set(q.options?.map((o) => o.value) ?? []);
+      const kept = v
+        .split(',')
+        .map((x) => x.trim())
+        .filter((x) => validValues.size === 0 || validValues.has(x));
+      if (kept.length) next[q.id] = kept.join(',');
+    }
+    // Campos de contato (texto livre) passam direto.
+    contactIds.forEach((id) => {
+      const v = stored[id];
+      if (typeof v === 'string' && v) next[id] = v;
+    });
+    return next;
   } catch {
     return {};
   }

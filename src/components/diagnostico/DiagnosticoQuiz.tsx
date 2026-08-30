@@ -93,7 +93,7 @@ export default function DiagnosticoQuiz() {
     // Aplica tudo de uma vez (inclui remoção de detalhes órfãos).
     setAllAnswers(merged);
     // pequena pausa para o usuário ver o feedback visual do card
-    setTimeout(() => goNext(), 220);
+    setTimeout(() => goNext(merged), 220);
   }
 
   /** Toggle de opção em pergunta multi-choice (respeita maxSelect/exclusive). */
@@ -122,7 +122,7 @@ export default function DiagnosticoQuiz() {
       return;
     }
     setAllAnswers(merged);
-    setTimeout(() => goNext(), 150);
+    setTimeout(() => goNext(merged), 150);
   }
 
   async function disqualify(finalAnswers: Record<string, string>) {
@@ -131,8 +131,13 @@ export default function DiagnosticoQuiz() {
     await submitLead(finalAnswers, { disqualified: true });
   }
 
-  function goNext() {
-    if (step < activeQuestions.length - 1) {
+  function goNext(nextAnswers?: Record<string, string>) {
+    // Usa as respostas ATUALIZADAS (passadas por quem acabou de responder):
+    // perguntas condicionais (follow-ups de dor, canal-offline) entram na
+    // lista só depois do re-render — com a lista do render anterior o quiz
+    // pularia direto pro contato.
+    const qs = getActiveQuestions(nextAnswers ?? answers);
+    if (step < qs.length - 1) {
       setStep((s) => s + 1);
     } else {
       // acabaram as perguntas -> vai pro formulário de contato
