@@ -89,7 +89,7 @@ export function ShopeePromoSection() {
 
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 leading-tight">
           Gestão de Shopee Ads com <br className="hidden sm:block" />
-          condição de lançamento
+          condição exclusiva de 01/09
         </h2>
         <p className="text-white/90 text-base md:text-lg mb-6">
           Nossa equipe assume seus anúncios na Shopee: estrutura de campanhas,
