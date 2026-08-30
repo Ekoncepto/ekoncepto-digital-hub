@@ -49,7 +49,7 @@ const TYPING_DELAY_MS = 650;
 
 /** Versão "fala" de cada pergunta, mais conversacional que o quiz. */
 const QUESTION_PROMPTS: Record<string, string> = {
-  faturamento: 'Oi! 👋 Pra te indicar o caminho certo: quanto sua empresa fatura hoje?',
+  faturamento: 'Oi! 👋 Pra te indicar o caminho certo: quanto sua empresa fatura por mês?',
   marketplace:
     'Legal! E onde você vende hoje? Pode marcar mais de um 👇',
   dor: 'Entendi. E qual a sua maior dor hoje? (pode marcar até 2)',

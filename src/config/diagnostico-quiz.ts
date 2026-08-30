@@ -99,7 +99,7 @@ export const CONTACT_FIELDS: ContactField[] = [
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
   {
     id: 'faturamento',
-    question: 'Quanto sua empresa fatura hoje?',
+    question: 'Quanto sua empresa fatura por mês?',
     subtitle: 'Não se preocupe — todos os cases começaram pequenos.',
     type: 'single-choice',
     options: [
