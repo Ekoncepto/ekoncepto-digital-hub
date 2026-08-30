@@ -168,6 +168,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { value: 'site', label: 'Site próprio', emoji: '🌐' },
       { value: 'social', label: 'Instagram / WhatsApp', emoji: '📱' },
       { value: 'atacado', label: 'Atacado / B2B', emoji: '📦' },
+      { value: 'industria', label: 'Indústria / fabricante', emoji: '🏭' },
     ],
   },
   {
@@ -331,6 +332,7 @@ export const QUIZ_VALUE_LABELS: Record<string, Record<string, string>> = {
     site: 'Site próprio',
     social: 'Instagram/WhatsApp',
     atacado: 'Atacado/B2B',
+    industria: 'Indústria/fabricante',
   },
   categoria: {
     eletronicos: 'Eletrônicos',
