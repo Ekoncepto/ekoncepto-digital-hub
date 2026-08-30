@@ -4,7 +4,7 @@ import CasesShopee from '@/components/sections/shopee/CasesShopee';
 import ServicesShopee from '@/components/sections/shopee/ServicesShopee';
 import ContactShopee from '@/components/sections/shopee/ContactShopee';
 import FoundersShopee from '@/components/sections/shopee/FoundersShopee';
-import { ShopeePromoBar } from '@/components/sections/shopee/ShopeeAdsPromo';
+import { ShopeePromoSection } from '@/components/sections/shopee/ShopeeAdsPromo';
 import { Footer } from '@/components/sections/Footer';
 
 /**
@@ -26,12 +26,13 @@ const Shopee = () => {
   return (
     <>
       <main>
-        {/* Promo 01/09 (auto-expira após o fim do dia 01/09): gestão de
-            Shopee Ads por R$ 1.500/mês — só nesta LP. */}
-        <ShopeePromoBar />
         <HeroShopee />
         <CasesShopee />
         <ServicesShopee />
+        {/* Promo 01/09 (auto-expira após o fim do dia 01/09): gestão de
+            Shopee Ads por R$ 1.500/mês — no fluxo do scroll, sem faixa
+            fixa no topo pra não roubar a dobra do hero no mobile. */}
+        <ShopeePromoSection />
         <FoundersShopee />
         <ContactShopee />
       </main>
