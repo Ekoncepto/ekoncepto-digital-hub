@@ -104,11 +104,11 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     type: 'single-choice',
     options: [
       { value: 'nao-vendo', label: 'Ainda não vendo (R$ 0)', emoji: '🚀' },
-      { value: 'ate-10k', label: 'Até R$ 10 mil', emoji: '🌱' },
-      { value: '10k-50k', label: 'R$ 10k – R$ 50k', emoji: '📈' },
-      { value: '50k-100k', label: 'R$ 50k – R$ 100k', emoji: '💪' },
-      { value: '100k-500k', label: 'R$ 100k – R$ 500k', emoji: '🎯' },
-      { value: '500k+', label: 'Acima de R$ 500k', emoji: '🏆' },
+      { value: 'ate-10k', label: 'Até R$ 10 mil/mês', emoji: '🌱' },
+      { value: '10k-50k', label: 'R$ 10 mil – R$ 50 mil/mês', emoji: '📈' },
+      { value: '50k-100k', label: 'R$ 50 mil – R$ 100 mil/mês', emoji: '💪' },
+      { value: '100k-500k', label: 'R$ 100 mil – R$ 500 mil/mês', emoji: '🎯' },
+      { value: '500k+', label: 'Acima de R$ 500 mil/mês', emoji: '🏆' },
     ],
   },
   {
@@ -254,11 +254,11 @@ export const QUIZ_LABELS: Record<string, string> = {
 export const QUIZ_VALUE_LABELS: Record<string, Record<string, string>> = {
   faturamento: {
     'nao-vendo': 'Ainda não vende',
-    'ate-10k': 'Até R$ 10k',
-    '10k-50k': 'R$ 10k – R$ 50k',
-    '50k-100k': 'R$ 50k – R$ 100k',
-    '100k-500k': 'R$ 100k – R$ 500k',
-    '500k+': 'Acima de R$ 500k',
+    'ate-10k': 'Até R$ 10k/mês',
+    '10k-50k': 'R$ 10k–50k/mês',
+    '50k-100k': 'R$ 50k–100k/mês',
+    '100k-500k': 'R$ 100k–500k/mês',
+    '500k+': 'Acima de R$ 500k/mês',
   },
   marketplace: {
     'mercado-livre': 'Mercado Livre',
