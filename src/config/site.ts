@@ -245,14 +245,25 @@ export function buildDiagnosticMessage(
   const partes: string[] = [saudacao, 'Acabei de fazer o diagnóstico gratuito no site da E-Koncepto.'];
 
   const contexto: string[] = [];
-  if (canais) contexto.push(`Vendo em: ${canais}`);
+  if (canais) {
+    // Lead de expansão (fatura fora do marketplace): contexto mais claro.
+    if (answers.marketplace === 'nao-vendo-online' && answers['canal-offline']) {
+      contexto.push(
+        `Vende hoje em: ${multi('canal-offline', answers['canal-offline'])} (quer abrir marketplaces)`
+      );
+    } else {
+      contexto.push(`Vendo em: ${canais}`);
+    }
+  }
   // Faturamento só entra na msg se a pessoa vende (evita "Faturamento: Ainda não vende")
   if (faturamento && faturamento !== 'Ainda não vende') {
     contexto.push(`Faturamento: ${faturamento}`);
   }
   if (dores) contexto.push(`Dores: ${dores}`);
   // Follow-ups respondidos (detalhe-*) entram como contexto específico.
-  const detalhes = Object.entries(answers).filter(([k, v]) => k.startsWith('detalhe-') && v);
+  const detalhes = Object.entries(answers).filter(
+    ([k, v]) => k.startsWith('detalhe-') && v
+  );
   detalhes.forEach(([k, v]) => contexto.push(`${QUIZ_LABELS[k] ?? k}: ${label(k, v)}`));
   if (contexto.length) partes.push(contexto.join(' · '));
 
@@ -461,6 +472,16 @@ export function buildDiagnosticInsight(
       descricao:
         'Você já está em mais de um marketplace. O desafio agora é sincronizar estoque, preço e reputação entre eles pra um canal não canibalizar o outro.',
       prioridade: 'baixa',
+    });
+  }
+
+  // --- Insight de EXPANSÃO: fatura forte fora do marketplace ---
+  if (canais.includes('nao-vendo-online')) {
+    insights.unshift({
+      titulo: 'Você está pronto pra abrir marketplaces',
+      descricao:
+        `Com ${fat ? 'seu faturamento atual' : 'sua operação'} e experiência de venda fora do marketplace, abrir Mercado Livre/Amazon/Shopee é expansão — não aposta. O mercado online coloca sua operação na frente de milhões de compradores que hoje não te alcançam.`,
+      prioridade: 'alta',
     });
   }
 

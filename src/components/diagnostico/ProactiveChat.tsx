@@ -52,6 +52,8 @@ const QUESTION_PROMPTS: Record<string, string> = {
   faturamento: 'Oi! 👋 Pra te indicar o caminho certo: quanto sua empresa fatura por mês?',
   marketplace:
     'Legal! E onde você vende hoje? Pode marcar mais de um 👇',
+  'canal-offline':
+    'Você já tem uma operação forte! 💪 E onde essa venda acontece hoje? (pode marcar mais de um)',
   dor: 'Entendi. E qual a sua maior dor hoje? (pode marcar até 2)',
   'detalhe-nao-vende': 'Sobre vender mais: o que você acha que trava suas vendas?',
   'detalhe-vende-pouco': 'E como estão suas visitas nos anúncios?',
@@ -200,10 +202,15 @@ export default function ProactiveChat() {
     syncAnswers(merged);
 
     // GATE (declarativo no config): "Ainda não vendo online" nos canais.
+    // Exceção: quem fatura 50k+/mês é isento e segue pro fluxo de expansão.
     const q = QUIZ_QUESTIONS.find((x) => x.id === qId);
     const dq = q?.disqualifyValue;
     const selectedValue = Object.values(updates)[0] ?? '';
-    if (dq && selectedValue.split(',').includes(dq)) {
+    if (
+      dq &&
+      selectedValue.split(',').includes(dq) &&
+      !q?.disqualifyExemptIf?.(merged)
+    ) {
       setPhase('typing');
       setTimeout(() => {
         pushMsg('bot', 'Agradeço a sinceridade! 🙏');
@@ -648,6 +655,7 @@ export default function ProactiveChat() {
 const ACKNOWLEDGMENTS: Record<string, string> = {
   faturamento: 'Anotado! 📝',
   marketplace: 'Show! 👍',
+  'canal-offline': 'Boa base pra expandir pros marketplaces! 🚀',
   dor: 'Entendi — é super comum.',
   'detalhe-nao-vende': 'Faz todo sentido.',
   'detalhe-vende-pouco': 'Boa, isso já diz muito! 📊',

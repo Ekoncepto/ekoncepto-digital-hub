@@ -48,6 +48,12 @@ export type QuizQuestion = {
    * sem disparar conversões).
    */
   disqualifyValue?: string;
+  /**
+   * Exceção ao gate: quando retorna true, a opção `disqualifyValue` NÃO
+   * desqualifica (ex.: empresa que fatura 50k+/mês mas ainda não vende em
+   * marketplaces entra no fluxo de expansão de canais).
+   */
+  disqualifyExemptIf?: (answers: QuizAnswers) => boolean;
   /** Exibe a pergunta apenas quando a condição é satisfeita (branching). */
   showIf?: (answers: QuizAnswers) => boolean;
 };
@@ -96,6 +102,9 @@ export const CONTACT_FIELDS: ContactField[] = [
   },
 ];
 
+/** Faturamentos que isentam do gate "não vende online" (fluxo de expansão). */
+export const FATURAMENTO_EXPANSAO = ['50k-100k', '100k-500k', '500k+'];
+
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
   {
     id: 'faturamento',
@@ -117,6 +126,10 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     subtitle: 'Marque todos os canais onde você já vende. Pode escolher mais de um.',
     type: 'multi-choice',
     disqualifyValue: 'nao-vendo-online',
+    // Empresa que fatura 50k+/mês fora dos marketplaces NÃO é descartada:
+    // entra no fluxo de expansão de canais (pergunta canal-offline abaixo).
+    disqualifyExemptIf: (a) =>
+      FATURAMENTO_EXPANSAO.includes(a.faturamento ?? ''),
     options: [
       {
         value: 'mercado-livre',
@@ -139,6 +152,22 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
         emoji: '🚀',
         exclusive: true,
       },
+    ],
+  },
+  {
+    id: 'canal-offline',
+    question: 'E onde essa venda acontece hoje?',
+    subtitle:
+      'Você já tem uma operação forte — o marketplace é o próximo canal a abrir.',
+    type: 'multi-choice',
+    showIf: (a) =>
+      a.marketplace === 'nao-vendo-online' &&
+      FATURAMENTO_EXPANSAO.includes(a.faturamento ?? ''),
+    options: [
+      { value: 'loja-fisica', label: 'Loja física', emoji: '🏪' },
+      { value: 'site', label: 'Site próprio', emoji: '🌐' },
+      { value: 'social', label: 'Instagram / WhatsApp', emoji: '📱' },
+      { value: 'atacado', label: 'Atacado / B2B', emoji: '📦' },
     ],
   },
   {
@@ -237,6 +266,7 @@ export function getActiveQuestions(answers: QuizAnswers): QuizQuestion[] {
 export const QUIZ_LABELS: Record<string, string> = {
   faturamento: 'Faturamento',
   marketplace: 'Canais onde vende',
+  'canal-offline': 'Canais atuais (fora do marketplace)',
   dor: 'Dores',
   'detalhe-nao-vende': 'Detalhe (não vende)',
   'detalhe-vende-pouco': 'Detalhe (vende pouco)',
@@ -267,6 +297,12 @@ export const QUIZ_VALUE_LABELS: Record<string, Record<string, string>> = {
     multi: 'Mais de um marketplace',
     'nao-vendo-online': 'Ainda não vende online',
     nenhum: 'Ainda não vende',
+  },
+  'canal-offline': {
+    'loja-fisica': 'Loja física',
+    site: 'Site próprio',
+    social: 'Instagram/WhatsApp',
+    atacado: 'Atacado/B2B',
   },
   dor: {
     'nao-vende': 'Não consegue vender',

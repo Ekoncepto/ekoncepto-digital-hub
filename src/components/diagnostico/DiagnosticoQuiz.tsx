@@ -81,9 +81,12 @@ export default function DiagnosticoQuiz() {
     if (!question) return;
     const merged = purgeAfterAnswers(question, { ...answers, [question.id]: value });
     // GATE DE QUALIFICAÇÃO (declarativo no config): ex. "Ainda não vendo
-    // online" nos canais. Vai pra tela educativa e salva o lead marcado
-    // como descartado, SEM contar conversão.
-    if (question.disqualifyValue === value) {
+    // online" nos canais. Exceção: quem fatura 50k+/mês é isento
+    // (disqualifyExemptIf) e segue pro fluxo de expansão de canais.
+    if (
+      question.disqualifyValue === value &&
+      !question.disqualifyExemptIf?.(merged)
+    ) {
       setTimeout(() => disqualify(merged), 220);
       return;
     }
@@ -111,7 +114,11 @@ export default function DiagnosticoQuiz() {
     if (!question || multiSelected.length === 0) return;
     const value = multiSelected.join(',');
     const merged = purgeAfterAnswers(question, { ...answers, [question.id]: value });
-    if (question.disqualifyValue && multiSelected.includes(question.disqualifyValue)) {
+    if (
+      question.disqualifyValue &&
+      multiSelected.includes(question.disqualifyValue) &&
+      !question.disqualifyExemptIf?.(merged)
+    ) {
       setTimeout(() => disqualify(merged), 220);
       return;
     }
