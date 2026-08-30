@@ -260,6 +260,8 @@ export function buildDiagnosticMessage(
     contexto.push(`Faturamento: ${faturamento}`);
   }
   if (dores) contexto.push(`Dores: ${dores}`);
+  if (answers.categoria)
+    contexto.push(`Nichos: ${multi('categoria', answers.categoria)}`);
   // Follow-ups respondidos (detalhe-*) entram como contexto específico.
   const detalhes = Object.entries(answers).filter(
     ([k, v]) => k.startsWith('detalhe-') && v

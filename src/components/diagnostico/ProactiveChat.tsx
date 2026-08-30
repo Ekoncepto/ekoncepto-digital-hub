@@ -54,6 +54,7 @@ const QUESTION_PROMPTS: Record<string, string> = {
     'Legal! E onde você vende hoje? Pode marcar mais de um 👇',
   'canal-offline':
     'Você já tem uma operação forte! 💪 E onde essa venda acontece hoje? (pode marcar mais de um)',
+  categoria: 'Pra personalizar sua estratégia: o que sua empresa vende? (pode marcar mais de um)',
   dor: 'Entendi. E qual a sua maior dor hoje? (pode marcar até 2)',
   'detalhe-nao-vende': 'Sobre vender mais: o que você acha que trava suas vendas?',
   'detalhe-vende-pouco': 'E como estão suas visitas nos anúncios?',
@@ -217,7 +218,7 @@ export default function ProactiveChat() {
         setTimeout(() => {
           pushMsg(
             'bot',
-            'Nosso diagnóstico é para quem já vende em marketplaces. Como você ainda não vende online, preparamos guias gratuitos pra dar os primeiros passos — e em breve teremos cursos pra começar do zero! 📚'
+            'Nosso diagnóstico é para quem vende produtos físicos em marketplaces. No seu momento, ele não se aplica — mas preparamos guias gratuitos com os primeiros passos! 📚'
           );
           setIsDisqualified(true);
           submitLead(merged, { disqualified: true });
@@ -656,6 +657,7 @@ const ACKNOWLEDGMENTS: Record<string, string> = {
   faturamento: 'Anotado! 📝',
   marketplace: 'Show! 👍',
   'canal-offline': 'Boa base pra expandir pros marketplaces! 🚀',
+  categoria: 'Boa categoria! 📦',
   dor: 'Entendi — é super comum.',
   'detalhe-nao-vende': 'Faz todo sentido.',
   'detalhe-vende-pouco': 'Boa, isso já diz muito! 📊',

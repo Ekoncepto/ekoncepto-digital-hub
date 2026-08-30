@@ -336,11 +336,11 @@ function NotFitScreen() {
         <GraduationCap className="w-8 h-8" />
       </div>
       <h2 className="text-3xl font-bold tracking-tight mb-3">
-        Nosso diagnóstico é para quem já vende em marketplaces
+        Nosso diagnóstico é para quem vende produtos físicos em marketplaces
       </h2>
       <p className="text-muted-foreground mb-8 leading-relaxed">
-        Como você ainda não vende online, o diagnóstico de operação não se aplica
-        ao seu momento. Mas temos o caminho certo pra você:
+        No seu momento, o diagnóstico de operação não se aplica. Mas temos o
+        caminho certo pra você:
       </p>
 
       <div className="rounded-xl border border-border bg-muted/30 p-6 mb-8 text-left space-y-4">
@@ -421,13 +421,13 @@ function SuccessScreen({
           Seu perfil
         </p>
         <div className="flex flex-wrap gap-2">
-          {(['marketplace', 'faturamento', 'dor'] as const).map((key) => {
+          {(['marketplace', 'faturamento', 'categoria', 'dor'] as const).map((key) => {
             const value = answers[key];
             if (!value) return null;
             const label =
-              key === 'dor' || key === 'marketplace'
-                ? multiLabel(key, value)
-                : QUIZ_VALUE_LABELS.faturamento[value] ?? value;
+              key === 'faturamento'
+                ? QUIZ_VALUE_LABELS.faturamento[value] ?? value
+                : multiLabel(key, value);
             return (
               <span
                 key={key}
