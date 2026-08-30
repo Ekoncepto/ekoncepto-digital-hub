@@ -1,5 +1,6 @@
 import { MessageCircle, Phone, Mail, ShieldCheck, Sparkles } from 'lucide-react';
 import { contactInfo, whatsappLink, socialProof } from '@/config/site';
+import { ShopeePromoCard } from './ShopeeAdsPromo';
 
 /**
  * /shopee Contact — climax section, dark orange background.
@@ -48,6 +49,9 @@ export const ContactShopee = () => {
           <ShieldCheck className="w-5 h-5 text-[#F69E15]" />
           <span>Gratuito · Sem compromisso · Resposta em 1 dia útil</span>
         </div>
+
+        {/* Promo 01/09 — reforço da oferta (auto-expira após 01/09). */}
+        <ShopeePromoCard />
 
         {/* What you get — reinforcement after the CTA. */}
         <div className="bg-white/10 border border-white/25 rounded-xl p-6 mb-10 max-w-2xl mx-auto text-left backdrop-blur-sm">
