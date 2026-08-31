@@ -11,7 +11,9 @@
  *
  * Aparece em todas as páginas EXCETO /diagnostico (suprimido via state).
  * Auto-abre após 45s ou em exit-intent. Sem botão de escape — o usuário
- * completa o fluxo ou fecha o chat (X no header).
+ * completa o fluxo ou fecha o chat (X no header). Fechar pelo X apenas
+ * esconde a janela: reabrir pelo botão flutuante retoma a conversa de
+ * onde parou (não recomeça o quiz nem bloqueia reaberturas).
  */
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -79,7 +81,12 @@ export default function ProactiveChat() {
   const [phase, setPhase] = useState<ChatPhase>('idle');
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [qIndex, setQIndex] = useState(0);
+  // hasOpened: o fluxo conversacional já começou (bloqueia auto-open/exit-intent).
+  // isOpen: a janela está visível AGORA. Separado do phase para que fechar (X)
+  // e reabrir (botão flutuante) preservem a conversa — sem isso, o guard de
+  // hasOpened impedia reabrir após fechar.
   const [hasOpened, setHasOpened] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   // Perguntas visíveis (branching por dor). Recalculada quando as respostas
   // mudam — follow-ups entram/saem da lista conforme as dores marcadas.
@@ -149,6 +156,9 @@ export default function ProactiveChat() {
   }
 
   function openChat() {
+    // Sempre exibe a janela — mesmo se o fluxo já começou em uma abertura
+    // anterior (a conversa é retomada de onde parou, sem recomeçar o quiz).
+    setIsOpen(true);
     if (hasOpened) return;
     setHasOpened(true);
     contactAnswersRef.current = {}; // reset ao abrir
@@ -395,8 +405,10 @@ export default function ProactiveChat() {
   // Pergunta atual do quiz (undefined quando já passou pra fase de contato).
   const currentQ = activeQuestions[qIndex];
 
-  // Botão flutuante (visual WhatsApp, canto inferior direito)
-  if (phase === 'idle') {
+  // Botão flutuante (visual WhatsApp, canto inferior direito) — visível
+  // sempre que a janela do chat está fechada (inclusive após fechar pelo X,
+  // para permitir reabrir).
+  if (!isOpen) {
     if (isDiagnosticoPage) return null;
     return (
       <motion.button
@@ -463,7 +475,7 @@ export default function ProactiveChat() {
             </div>
             <button
               type="button"
-              onClick={() => setPhase('idle')}
+              onClick={() => setIsOpen(false)}
               className="p-1 rounded hover:bg-primary-foreground/10 transition-colors"
               aria-label="Fechar chat"
             >
