@@ -1,5 +1,5 @@
 import { MessageCircle, Phone, Mail, ShieldCheck, Sparkles } from 'lucide-react';
-import { contactInfo, whatsappLink, socialProof } from '@/config/site';
+import { contactInfo, whatsappLink } from '@/config/site';
 import { ShopeePromoReminder } from './ShopeeAdsPromo';
 
 /**
@@ -75,10 +75,9 @@ export const ContactShopee = () => {
           </ul>
         </div>
 
-        {/* Micro proof. */}
-        <p className="text-base text-white/80 mb-10">
-          {socialProof.totalRevenue} já movimentados para nossos clientes em marketplaces.
-        </p>
+        {/* Micro proof removido: "R$ movimentados" já aparece no hero (stats)
+            e a credibilidade aqui vem do risco reverso + lista acima.
+            Repetir o número uma 3ª vez no fim da página era ruído. */}
 
         {/* Alternative channels. */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8 border-t border-white/20">

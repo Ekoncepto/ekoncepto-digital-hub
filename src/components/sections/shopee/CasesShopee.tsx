@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { HeartPulse, Zap, PawPrint, ShoppingCart, Box, Target } from 'lucide-react';
-import { whatsappLink, socialProof } from '@/config/site';
+import { HeartPulse, Zap, PawPrint, ShoppingCart, Box } from 'lucide-react';
+import { whatsappLink } from '@/config/site';
 
 /**
  * /shopee Cases — same strong metrics as the main LP, reframed with
@@ -143,32 +143,26 @@ const CasesShopee = () => {
           ))}
         </div>
 
-        {/* CTA at peak persuasion. */}
+        {/* CTA at peak persuasion — single compact line: the page already
+            has WhatsApp CTAs in the hero, promo and contact; a big box here
+            repeated the offer and the revenue number a second time. */}
         <motion.div
-          className="mt-12 md:mt-16 text-center bg-gray-50 border border-gray-100 rounded-2xl p-8 md:p-12"
+          className="mt-10 md:mt-14 flex flex-col sm:flex-row items-center justify-center gap-4 text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.6 }}
         >
-          <div className="flex items-center justify-center mb-4">
-            <Target className="w-10 h-10 text-primary" />
-          </div>
-          <h3 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900">
+          <h3 className="text-xl md:text-2xl font-bold text-gray-900">
             Quer resultados assim na sua operação da Shopee?
           </h3>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto mb-8">
-            Já movimentamos {socialProof.totalRevenue} em marketplaces. No diagnóstico gratuito,
-            mostramos exatamente onde estão as suas maiores oportunidades na Shopee — e o plano para
-            capturá-las.
-          </p>
           <a
             href={whatsappLink('shopee-cases')}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center bg-[#EE4D2D] hover:bg-[#d4421f] text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+            className="inline-flex items-center justify-center bg-[#EE4D2D] hover:bg-[#d4421f] text-white font-bold py-3 px-8 rounded-lg text-base md:text-lg transition-all duration-300 transform hover:scale-105 shadow-lg shrink-0"
           >
-            Quero resultados assim na Shopee
+            Quero resultados assim
           </a>
         </motion.div>
       </div>

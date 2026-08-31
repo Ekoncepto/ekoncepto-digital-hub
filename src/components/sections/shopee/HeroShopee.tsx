@@ -2,8 +2,12 @@ import { whatsappLink, socialProof } from '@/config/site';
 
 /**
  * /shopee Hero — solid Shopee orange background, seller-pain headline,
- * authority stats, yellow CTA. No marketplace logos (the visitor is
- * already on/coming from Shopee; the whole page is Shopee-branded).
+ * authority stats, yellow CTA.
+ *
+ * Multi-marketplace coverage (ML/Amazon/Shopee) lives in the sub-headline
+ * text only — no logo strip, which used to duplicate that info and steal
+ * ~100px from the first fold (worst on mobile, where most Shopee traffic
+ * is).
  *
  * The copy leads with a specific Shopee seller pain ("anúncios não
  * vendem") and reframes it as a method problem, not luck — opening the
@@ -80,47 +84,13 @@ export const HeroShopee = () => {
         </div>
 
         {/* Authority stats — white numbers pop on orange. */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto mb-14">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto mb-8">
           {stats.map(stat => (
             <div key={stat.label} className="text-center">
               <div className="text-4xl md:text-5xl font-black text-white mb-2">{stat.value}</div>
               <div className="text-base text-white/90">{stat.label}</div>
             </div>
           ))}
-        </div>
-
-        {/*
-         * Multi-channel scope — subtle strip so a Shopee seller who also sells
-         * (or wants to sell) on ML/Amazon sees we cover those too. Kept visually
-         * quiet so it doesn't compete with the Shopee CTA above.
-         */}
-        <div className="max-w-2xl mx-auto">
-          <p className="text-center text-white/80 font-medium mb-4 text-sm sm:text-base">
-            Atendemos também nos principais marketplaces:
-          </p>
-          <div className="flex items-center justify-center gap-6 md:gap-10">
-            <img
-              src="/images/marketplaces/mercado-livre.svg"
-              alt="Mercado Livre"
-              className="h-8 md:h-10 w-auto bg-white/95 rounded-md p-2"
-              width={90}
-              height={28}
-            />
-            <img
-              src="/images/marketplaces/amazon.svg"
-              alt="Amazon"
-              className="h-8 md:h-10 w-auto bg-white/95 rounded-md p-2"
-              width={68}
-              height={22}
-            />
-            <img
-              src="/images/marketplaces/shopee.svg"
-              alt="Shopee"
-              className="h-8 md:h-10 w-auto bg-white/95 rounded-md p-2"
-              width={55}
-              height={18}
-            />
-          </div>
         </div>
       </div>
     </section>
