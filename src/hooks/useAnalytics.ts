@@ -23,7 +23,7 @@ const initGA = (measurementId: string) => {
         send_page_view: false, // We'll handle page views manually
       });
     }
-  } catch (error)_ {
+  } catch (error) {
     console.error('Failed to initialize Google Analytics', error);
   }
 };
