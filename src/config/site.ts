@@ -80,9 +80,9 @@ export const businessInfo: BusinessInfo = {
 
 // Contact Information
 export const contactInfo: ContactInfo = {
-  phone: '+55 (11) 97163-0441',
+  phone: '+55 (11) 91941-6730',
   email: 'contato@ekoncepto.com.br',
-  whatsapp: '5511971630441',
+  whatsapp: '5511919416730',
   address: 'São Paulo, SP - Brasil',
   workingHours: 'Segunda a Sexta, 9h às 18h',
 };
