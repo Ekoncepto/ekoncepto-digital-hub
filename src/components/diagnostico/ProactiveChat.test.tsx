@@ -138,18 +138,22 @@ describe('ProactiveChat — pós-formulário na /shopee', () => {
     await screen.findByText(/qual seu e-mail/i, {}, { timeout: 8000 });
     await user.click(screen.getByRole('button', { name: 'Pular' }));
 
-    // Fim do fluxo shopee: consultor entrará em contato. Janela generosa:
-    // após o último "Pular", a cadeia ack -> submit -> 3 mensagens soma
-    // ~4s, e a suíte em paralelo pode degradar o event loop do worker.
+    // Fim do fluxo shopee: urgência primeiro ("não quer esperar" + botão),
+    // promessa do consultor logo depois. Janela generosa: após o último
+    // "Pular", a cadeia ack -> submit -> 3 mensagens soma ~4s, e a suíte
+    // em paralelo pode degradar o event loop do worker.
     expect(
       await screen.findByText(/recebi suas respostas!/i, {}, { timeout: 20000 })
     ).toBeInTheDocument();
     expect(
-      await screen.findByText(/consultores vai analisar sua operação/i, {}, { timeout: 20000 })
+      await screen.findByText(/Não quer esperar\? Toque no botão abaixo/i, {}, { timeout: 20000 })
     ).toBeInTheDocument();
-    // O header muda quando a fase 'done' chega (após a 3ª mensagem).
     expect(
-      await screen.findByText('Consultor vai te chamar', {}, { timeout: 20000 })
+      await screen.findByText(/analisa sua operação e entra em contato/i, {}, { timeout: 20000 })
+    ).toBeInTheDocument();
+    // O header muda quando a fase 'done' chega.
+    expect(
+      await screen.findByText('Fale com um consultor', {}, { timeout: 20000 })
     ).toBeInTheDocument();
 
     // Sem o diagnóstico genérico do fluxo padrão.
@@ -158,7 +162,7 @@ describe('ProactiveChat — pós-formulário na /shopee', () => {
     // Botão de WhatsApp mantido como atalho, com link wa.me.
     const cta = await screen.findByRole(
       'link',
-      { name: /Quero o diagnóstico completo/ },
+      { name: /Falar com um consultor agora/ },
       { timeout: 20000 }
     );
     expect(cta).toHaveAttribute('href', expect.stringContaining('wa.me'));

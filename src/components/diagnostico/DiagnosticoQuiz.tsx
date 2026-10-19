@@ -474,9 +474,10 @@ function SuccessScreen({
 /**
  * Tela de sucesso do fluxo /shopee (leads com source shopee-*).
  *
- * Não exibe o mini-diagnóstico genérico: promete o contato do consultor
- * (que levará o diagnóstico completo) e mantém o botão de WhatsApp como
- * atalho pra quem não quer esperar pela ligação.
+ * Não exibe o mini-diagnóstico genérico. O CTA de WhatsApp vem PRIMEIRO
+ * e em destaque máximo ("Não quer esperar? Fale com um consultor agora")
+ * — quem quer, chama na hora. A promessa do contato do consultor fica
+ * logo abaixo como segurança, pra quem prefere esperar.
  */
 function SuccessScreenConsultant({
   whatsappUrl,
@@ -514,54 +515,59 @@ function SuccessScreenConsultant({
       className="max-w-2xl mx-auto"
     >
       {/* Cabeçalho */}
-      <div className="text-center mb-8">
+      <div className="text-center mb-6">
         <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mx-auto mb-6">
           <Check className="w-8 h-8" strokeWidth={3} />
         </div>
-        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3">
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
           {nome ? `Recebemos suas respostas, ${nome}!` : 'Recebemos suas respostas!'}
         </h2>
-        <p className="text-muted-foreground">
-          Um dos nossos consultores entrará em contato com você para apresentar o
-          diagnóstico completo da sua operação.
-        </p>
       </div>
 
-      {/* Próximos passos */}
-      <div className="rounded-xl border border-border bg-background divide-y divide-border mb-8">
-        {steps.map((step, idx) => (
-          <div key={step.titulo} className="flex gap-4 p-4">
-            <div className="shrink-0 w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-              <step.icon className="w-5 h-5" />
-            </div>
-            <div className="flex-1">
-              <p className="font-semibold text-sm sm:text-base">
-                <span className="text-muted-foreground mr-2">{idx + 1}.</span>
-                {step.titulo}
-              </p>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {step.descricao}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* CTA WhatsApp — atalho pra quem não quer esperar o contato */}
-      <div className="text-center border-t border-border pt-6">
-        <p className="text-muted-foreground mb-4">
-          Não quer esperar? Fale com um consultor agora — o resumo das suas
-          respostas já chega preenchido no WhatsApp.
+      {/* CTA WhatsApp — primeiro e em destaque máximo */}
+      <div className="rounded-2xl border-2 border-primary bg-primary/5 p-6 mb-8 text-center shadow-lg">
+        <h3 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">
+          Não quer esperar?
+        </h3>
+        <p className="text-muted-foreground mb-5">
+          Fale com um consultor agora — o resumo das suas respostas já chega
+          preenchido no WhatsApp.
         </p>
-        <Button asChild size="lg" variant="hero" className="w-full sm:w-auto h-14 px-8 text-base">
+        <Button asChild size="lg" variant="hero" className="w-full h-16 px-8 text-lg">
           <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-            <MessageCircle className="w-5 h-5 mr-2" />
-            Quero o diagnóstico completo
+            <MessageCircle className="w-6 h-6 mr-2" />
+            Falar com um consultor agora
           </a>
         </Button>
-        <p className="text-xs text-muted-foreground mt-4">
+        <p className="text-xs text-muted-foreground mt-3">
           Grátis · Sem compromisso · Resposta em minutos
         </p>
+      </div>
+
+      {/* Contato do consultor — segurança pra quem prefere esperar */}
+      <div>
+        <p className="text-sm text-muted-foreground text-center mb-3">
+          Prefere esperar? Um dos nossos consultores entrará em contato com você
+          para apresentar o diagnóstico completo:
+        </p>
+        <div className="rounded-xl border border-border bg-background divide-y divide-border">
+          {steps.map((step, idx) => (
+            <div key={step.titulo} className="flex gap-4 p-4">
+              <div className="shrink-0 w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                <step.icon className="w-5 h-5" />
+              </div>
+              <div className="flex-1">
+                <p className="font-semibold text-sm sm:text-base">
+                  <span className="text-muted-foreground mr-2">{idx + 1}.</span>
+                  {step.titulo}
+                </p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {step.descricao}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </motion.div>
   );

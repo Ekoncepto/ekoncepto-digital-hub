@@ -371,25 +371,26 @@ export default function ProactiveChat() {
 
     const nome = finalAnswers.nome?.trim();
 
-    // Fluxo /shopee: sem mini-diagnóstico no chat — informa que um consultor
-    // entrará em contato com o diagnóstico completo e deixa o WhatsApp como
-    // atalho pra quem prefere adiantar a conversa.
+    // Fluxo /shopee: sem mini-diagnóstico no chat. A urgência vem PRIMEIRO
+    // ("Não quer esperar? Fale agora") com o botão de WhatsApp logo em
+    // seguida; a promessa do contato do consultor chega depois, como
+    // segurança pra quem prefere esperar.
     if (isShopeePage) {
       pushMsg(
         'bot',
-        nome ? `${nome}, recebi suas respostas! 🙌` : 'Recebi suas respostas! 🙌'
+        nome ? `${nome}, recebi suas respostas! 🙌` : 'Recebemos suas respostas! 🙌'
       );
       setTimeout(() => {
         pushMsg(
           'bot',
-          'Um dos nossos consultores vai analisar sua operação e entrar em contato com você pelo WhatsApp com o diagnóstico completo. 📋'
+          'Não quer esperar? Toque no botão abaixo e fale com um consultor agora — suas respostas já chegam preenchidas 👇'
         );
+        setPhase('done');
         setTimeout(() => {
           pushMsg(
             'bot',
-            'Não quer esperar? Toque no botão abaixo e fale com um consultor agora 👇'
+            'E se preferir esperar, sem problema: um dos nossos consultores analisa sua operação e entra em contato com o diagnóstico completo. 📋'
           );
-          setPhase('done');
         }, TYPING_DELAY_MS * 2);
       }, TYPING_DELAY_MS * 2);
       return;
@@ -496,7 +497,7 @@ export default function ProactiveChat() {
                     ? isDisqualified
                       ? 'Guias pra começar'
                       : isShopeePage
-                        ? 'Consultor vai te chamar'
+                        ? 'Fale com um consultor'
                         : 'Diagnóstico pronto!'
                     : phase === 'submitting'
                       ? 'Preparando diagnóstico...'
@@ -555,7 +556,7 @@ export default function ProactiveChat() {
                   <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                     <MessageCircle className="w-4 h-4 mr-1" />
                     {isShopeePage
-                      ? 'Quero o diagnóstico completo'
+                      ? 'Falar com um consultor agora'
                       : 'Falar no WhatsApp'}
                   </a>
                 </Button>

@@ -85,10 +85,12 @@ describe('DiagnosticoQuiz — pós-formulário do fluxo /shopee', () => {
     await answerQuiz(user);
     await fillContactAndSubmit(user);
 
-    // Tela de sucesso do fluxo shopee: consultor entrará em contato.
+    // Tela de sucesso do fluxo shopee: CTA "fale agora" em destaque +
+    // promessa do consultor logo abaixo.
     expect(
       await screen.findByText('Recebemos suas respostas, Ana!', {}, FIND)
     ).toBeInTheDocument();
+    expect(screen.getByText('Não quer esperar?')).toBeInTheDocument();
     expect(
       screen.getByText(/entrará em contato com você/i)
     ).toBeInTheDocument();
@@ -96,8 +98,8 @@ describe('DiagnosticoQuiz — pós-formulário do fluxo /shopee', () => {
     // Sem o mini-diagnóstico genérico da tela padrão.
     expect(screen.queryByText(/aqui está seu diagnóstico/i)).not.toBeInTheDocument();
 
-    // Botão de WhatsApp mantido como atalho, com link wa.me personalizado.
-    const cta = screen.getByRole('link', { name: /Quero o diagnóstico completo/ });
+    // Botão de WhatsApp em primeiro plano, com link wa.me personalizado.
+    const cta = screen.getByRole('link', { name: /Falar com um consultor agora/ });
     expect(cta).toHaveAttribute('href', expect.stringContaining('wa.me'));
     // A mensagem pré-preenchida inclui o faturamento do lead (regressão:
     // era omitido quando marcava "Ainda não vendo (R$ 0)").
