@@ -54,10 +54,14 @@ export const HeroShopee = () => {
             </span>
           </h1>
 
-          {/* Authority sub — one line, with the big number + multi-channel scope. */}
+          {/* Authority sub — one line, with the big number + multi-channel scope.
+              whitespace-nowrap no valor: "+R$ 241M" tem espaço interno e o
+              browser quebrava entre "+R$" e "241M" em viewports estreitas. */}
           <p className="text-lg md:text-xl max-w-2xl mx-auto mb-10 text-white/95 font-medium">
-            O método que já moveu {socialProof.totalRevenue} em marketplaces — com expertise em
-            Mercado Livre, Amazon e Shopee para fazer suas vendas decolarem.
+            O método que já moveu{' '}
+            <span className="whitespace-nowrap">{socialProof.totalRevenue}</span> em
+            marketplaces — com expertise em Mercado Livre, Amazon e Shopee para fazer
+            suas vendas decolarem.
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-4">
@@ -87,7 +91,11 @@ export const HeroShopee = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto mb-8">
           {stats.map(stat => (
             <div key={stat.label} className="text-center">
-              <div className="text-4xl md:text-5xl font-black text-white mb-2">{stat.value}</div>
+              {/* nowrap: valor grande não pode quebrar no meio (ex. "+R$" e
+                  "241M" em linhas separadas) quando a coluna estreita. */}
+              <div className="text-4xl md:text-5xl font-black text-white mb-2 whitespace-nowrap">
+                {stat.value}
+              </div>
               <div className="text-base text-white/90">{stat.label}</div>
             </div>
           ))}
