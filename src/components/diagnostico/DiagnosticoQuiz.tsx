@@ -16,7 +16,7 @@
  */
 import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Check, MessageCircle, Sparkles, AlertCircle, TrendingUp, GraduationCap, BookOpen } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Clock, ClipboardCheck, MessageCircle, Sparkles, AlertCircle, TrendingUp, GraduationCap, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
@@ -27,7 +27,7 @@ import {
   QUIZ_VALUE_LABELS,
   type QuizQuestion,
 } from '@/config/diagnostico-quiz';
-import { buildDiagnosticInsight, type DiagnosticInsight } from '@/config/site';
+import { buildDiagnosticInsight, isShopeeLead, type DiagnosticInsight } from '@/config/site';
 import { useDiagnosticoLead } from './useDiagnosticoLead';
 import ContactForm from './ContactForm';
 
@@ -173,7 +173,14 @@ export default function DiagnosticoQuiz() {
   }
 
   if (phase === 'done') {
-    return <SuccessScreen whatsappUrl={whatsappUrl} answers={answers} />;
+    // Leads da /shopee: sem diagnóstico genérico — informa que um consultor
+    // entrará em contato e deixa o WhatsApp como atalho pro diagnóstico
+    // completo. Demais origens seguem com o mini-diagnóstico na tela.
+    return isShopeeLead(source) ? (
+      <SuccessScreenConsultant whatsappUrl={whatsappUrl} answers={answers} />
+    ) : (
+      <SuccessScreen whatsappUrl={whatsappUrl} answers={answers} />
+    );
   }
 
   const showContact = phase === 'contact' || phase === 'submitting';
@@ -449,6 +456,102 @@ function SuccessScreen({
         <p className="text-muted-foreground mb-4">
           Quer o diagnóstico completo com plano de ação? Fale com um especialista —
           o resumo já chega preenchido no WhatsApp.
+        </p>
+        <Button asChild size="lg" variant="hero" className="w-full sm:w-auto h-14 px-8 text-base">
+          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+            <MessageCircle className="w-5 h-5 mr-2" />
+            Quero o diagnóstico completo
+          </a>
+        </Button>
+        <p className="text-xs text-muted-foreground mt-4">
+          Grátis · Sem compromisso · Resposta em minutos
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
+/**
+ * Tela de sucesso do fluxo /shopee (leads com source shopee-*).
+ *
+ * Não exibe o mini-diagnóstico genérico: promete o contato do consultor
+ * (que levará o diagnóstico completo) e mantém o botão de WhatsApp como
+ * atalho pra quem não quer esperar pela ligação.
+ */
+function SuccessScreenConsultant({
+  whatsappUrl,
+  answers,
+}: {
+  whatsappUrl: string;
+  answers: Record<string, string>;
+}) {
+  const nome = answers.nome?.trim();
+
+  const steps = [
+    {
+      icon: Clock,
+      titulo: 'Analisamos suas respostas',
+      descricao: 'Nosso time revisa o perfil da sua operação com atenção.',
+    },
+    {
+      icon: MessageCircle,
+      titulo: 'Um consultor te chama no WhatsApp',
+      descricao:
+        'Entramos em contato pelo WhatsApp que você informou, em até 1 dia útil.',
+    },
+    {
+      icon: ClipboardCheck,
+      titulo: 'Você recebe o diagnóstico completo',
+      descricao: 'Plano de ação personalizado para a sua operação.',
+    },
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="max-w-2xl mx-auto"
+    >
+      {/* Cabeçalho */}
+      <div className="text-center mb-8">
+        <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mx-auto mb-6">
+          <Check className="w-8 h-8" strokeWidth={3} />
+        </div>
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3">
+          {nome ? `Recebemos suas respostas, ${nome}!` : 'Recebemos suas respostas!'}
+        </h2>
+        <p className="text-muted-foreground">
+          Um dos nossos consultores entrará em contato com você para apresentar o
+          diagnóstico completo da sua operação.
+        </p>
+      </div>
+
+      {/* Próximos passos */}
+      <div className="rounded-xl border border-border bg-background divide-y divide-border mb-8">
+        {steps.map((step, idx) => (
+          <div key={step.titulo} className="flex gap-4 p-4">
+            <div className="shrink-0 w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+              <step.icon className="w-5 h-5" />
+            </div>
+            <div className="flex-1">
+              <p className="font-semibold text-sm sm:text-base">
+                <span className="text-muted-foreground mr-2">{idx + 1}.</span>
+                {step.titulo}
+              </p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {step.descricao}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* CTA WhatsApp — atalho pra quem não quer esperar o contato */}
+      <div className="text-center border-t border-border pt-6">
+        <p className="text-muted-foreground mb-4">
+          Não quer esperar? Fale com um consultor agora — o resumo das suas
+          respostas já chega preenchido no WhatsApp.
         </p>
         <Button asChild size="lg" variant="hero" className="w-full sm:w-auto h-14 px-8 text-base">
           <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">

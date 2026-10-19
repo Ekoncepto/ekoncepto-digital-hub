@@ -74,3 +74,97 @@ describe('ProactiveChat — abrir/fechar/reabrir', () => {
     expect(saudacoes).toHaveLength(1);
   });
 });
+
+/**
+ * Regressão do fluxo /shopee: o popup NÃO entrega o mini-diagnóstico
+ * genérico após o formulário — informa que um consultor entrará em
+ * contato e mantém o botão de WhatsApp ("Quero o diagnóstico completo")
+ * como atalho. Fluxo conversacional completo com timers REAIS (fake
+ * timers double-fireiam os setTimeouts encadeados do chat) e timeouts
+ * generosos (a suíte roda arquivos em paralelo).
+ */
+describe('ProactiveChat — pós-formulário na /shopee', () => {
+  beforeEach(() => {
+    window.history.replaceState({}, '', '/shopee');
+    localStorage.clear();
+  });
+
+  afterEach(() => {
+    window.history.replaceState({}, '', ORIGINAL_PATH || '/');
+  });
+
+  it('informa que o consultor entrará em contato (sem diagnóstico genérico) + botão WhatsApp', async () => {
+    const user = userEvent.setup();
+    render(<ProactiveChat />);
+
+    // Abre pelo botão flutuante.
+    await user.click(screen.getByRole('button', { name: 'Falar com especialista' }));
+
+    // P1 — faturamento (single-choice).
+    await screen.findByText(/quanto sua empresa fatura por mês/i, {}, { timeout: 8000 });
+    await user.click(screen.getByRole('button', { name: /Até R\$ 10 mil\/mês/ }));
+
+    // P2 — marketplace (multi + Enviar).
+    await screen.findByText(/onde você vende hoje/i, {}, { timeout: 8000 });
+    await user.click(screen.getByRole('button', { name: 'Shopee' }));
+    await user.click(screen.getByRole('button', { name: 'Enviar' }));
+
+    // P3 — categoria.
+    await screen.findByText(/o que sua empresa vende/i, {}, { timeout: 8000 });
+    await user.click(screen.getByRole('button', { name: /Eletrônicos e tecnologia/ }));
+    await user.click(screen.getByRole('button', { name: 'Enviar' }));
+
+    // P4 — dor.
+    await screen.findByText(/qual a sua maior dor hoje/i, {}, { timeout: 8000 });
+    await user.click(screen.getByRole('button', { name: 'Vendo pouco' }));
+    await user.click(screen.getByRole('button', { name: 'Enviar' }));
+
+    // P5 — follow-up da dor "Vendo pouco".
+    await screen.findByText(/como estão suas visitas/i, {}, { timeout: 8000 });
+    await user.click(screen.getByRole('button', { name: /Recebo poucas visitas/ }));
+
+    // Contato: nome -> pula empresa -> whatsapp -> pula email.
+    await screen.findByText(/como você se chama/i, {}, { timeout: 8000 });
+    await user.type(screen.getByPlaceholderText('Como você se chama?'), 'Ana');
+    await user.click(screen.getByRole('button', { name: 'Enviar' }));
+
+    await screen.findByText(/nome da sua empresa ou loja/i, {}, { timeout: 8000 });
+    await user.click(screen.getByRole('button', { name: 'Pular' }));
+
+    await screen.findByText(/qual seu whatsapp/i, {}, { timeout: 8000 });
+    await user.type(screen.getByPlaceholderText('(11) 99999-9999'), '11999999999');
+    await user.click(screen.getByRole('button', { name: 'Enviar' }));
+
+    await screen.findByText(/qual seu e-mail/i, {}, { timeout: 8000 });
+    await user.click(screen.getByRole('button', { name: 'Pular' }));
+
+    // Fim do fluxo shopee: consultor entrará em contato. Janela generosa:
+    // após o último "Pular", a cadeia ack -> submit -> 3 mensagens soma
+    // ~4s, e a suíte em paralelo pode degradar o event loop do worker.
+    expect(
+      await screen.findByText(/recebi suas respostas!/i, {}, { timeout: 20000 })
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText(/consultores vai analisar sua operação/i, {}, { timeout: 20000 })
+    ).toBeInTheDocument();
+    // O header muda quando a fase 'done' chega (após a 3ª mensagem).
+    expect(
+      await screen.findByText('Consultor vai te chamar', {}, { timeout: 20000 })
+    ).toBeInTheDocument();
+
+    // Sem o diagnóstico genérico do fluxo padrão.
+    expect(screen.queryByText(/analisei suas respostas/i)).not.toBeInTheDocument();
+
+    // Botão de WhatsApp mantido como atalho, com link wa.me.
+    const cta = await screen.findByRole(
+      'link',
+      { name: /Quero o diagnóstico completo/ },
+      { timeout: 20000 }
+    );
+    expect(cta).toHaveAttribute('href', expect.stringContaining('wa.me'));
+    // A mensagem pré-preenchida inclui o faturamento do lead.
+    expect(decodeURIComponent(cta.getAttribute('href') ?? '')).toContain(
+      'Faturamento: Até R$ 10k/mês'
+    );
+  }, 60000);
+});

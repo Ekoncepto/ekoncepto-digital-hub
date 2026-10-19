@@ -129,6 +129,17 @@ export function diagnosticoLink(source: string = 'default'): string {
 }
 
 /**
+ * Lead originado da página /shopee (CTAs com source shopee-*).
+ *
+ * No pós-formulário desses leads NÃO exibimos o diagnóstico genérico: a
+ * tela de sucesso informa que um consultor entrará em contato, e o botão
+ * de WhatsApp fica como atalho pra quem quer o diagnóstico completo já.
+ */
+export function isShopeeLead(source: string): boolean {
+  return source.startsWith('shopee');
+}
+
+/**
  * Mensagens pré-definidas para o caso de o usuário NÃO completar o quiz
  * (ex: fecha a página, clica no botão de escape do chat, etc.). São usadas
  * pelo `whatsappDirectLink()` abaixo — o "plan B" que pula o diagnóstico.
@@ -257,8 +268,9 @@ export function buildDiagnosticMessage(
       contexto.push(`Vendo em: ${canais}`);
     }
   }
-  // Faturamento só entra na msg se a pessoa vende (evita "Faturamento: Ainda não vende")
-  if (faturamento && faturamento !== 'Ainda não vende') {
+  // Faturamento SEMPRE presente — é o principal termômetro do tamanho do
+  // lead na conversa com o consultor (inclusive "Ainda não vende").
+  if (faturamento) {
     contexto.push(`Faturamento: ${faturamento}`);
   }
   if (dores) contexto.push(`Dores: ${dores}`);

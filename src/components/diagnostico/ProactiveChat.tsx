@@ -115,12 +115,16 @@ export default function ProactiveChat() {
   const msgIdRef = useRef(0);
 
   // Suprime na /diagnostico (quiz em tela cheia já é o caminho).
-  // SSR-safe: useState(true) + useEffect no client.
+  // Na /shopee, o pós-formulário muda: sem diagnóstico genérico no chat —
+  // informa que um consultor entrará em contato (mesma promessa do quiz).
+  // SSR-safe: useState inicial + useEffect no client.
   const [isDiagnosticoPage, setIsDiagnosticoPage] = useState(true);
+  const [isShopeePage, setIsShopeePage] = useState(false);
 
   useEffect(() => {
     const path = window.location.pathname.replace(/\/$/, '');
     setIsDiagnosticoPage(path.endsWith('/diagnostico'));
+    setIsShopeePage(path.endsWith('/shopee'));
   }, []);
 
   // Abre sozinho depois de PROACTIVE_CHAT_DELAY_MS (uma vez só).
@@ -366,6 +370,31 @@ export default function ProactiveChat() {
     setWhatsappUrl(result.whatsappUrl);
 
     const nome = finalAnswers.nome?.trim();
+
+    // Fluxo /shopee: sem mini-diagnóstico no chat — informa que um consultor
+    // entrará em contato com o diagnóstico completo e deixa o WhatsApp como
+    // atalho pra quem prefere adiantar a conversa.
+    if (isShopeePage) {
+      pushMsg(
+        'bot',
+        nome ? `${nome}, recebi suas respostas! 🙌` : 'Recebi suas respostas! 🙌'
+      );
+      setTimeout(() => {
+        pushMsg(
+          'bot',
+          'Um dos nossos consultores vai analisar sua operação e entrar em contato com você pelo WhatsApp com o diagnóstico completo. 📋'
+        );
+        setTimeout(() => {
+          pushMsg(
+            'bot',
+            'Não quer esperar? Toque no botão abaixo e fale com um consultor agora 👇'
+          );
+          setPhase('done');
+        }, TYPING_DELAY_MS * 2);
+      }, TYPING_DELAY_MS * 2);
+      return;
+    }
+
     const insights = buildDiagnosticInsight(finalAnswers);
 
     // Mensagem de introdução ao diagnóstico.
@@ -466,7 +495,9 @@ export default function ProactiveChat() {
                   {phase === 'done'
                     ? isDisqualified
                       ? 'Guias pra começar'
-                      : 'Diagnóstico pronto!'
+                      : isShopeePage
+                        ? 'Consultor vai te chamar'
+                        : 'Diagnóstico pronto!'
                     : phase === 'submitting'
                       ? 'Preparando diagnóstico...'
                       : 'Online agora'}
@@ -523,7 +554,9 @@ export default function ProactiveChat() {
                 <Button asChild variant="hero" className="w-full" size="sm">
                   <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                     <MessageCircle className="w-4 h-4 mr-1" />
-                    Falar no WhatsApp
+                    {isShopeePage
+                      ? 'Quero o diagnóstico completo'
+                      : 'Falar no WhatsApp'}
                   </a>
                 </Button>
                 <p className="text-xs text-center text-muted-foreground px-2">
